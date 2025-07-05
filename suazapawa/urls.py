@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from web.views import HomeView, calendarioView
+from web.views import HomeView, calendarioView, TextoEscolarView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('calendario/', calendarioView.as_view(), name='calendario'),
+    path('TextoEscolar/', TextoEscolarView.as_view(), name='textoescolar'),
 
 ]
 

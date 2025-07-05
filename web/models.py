@@ -13,3 +13,12 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class Noticia(models.Model):
+    titulo = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    fecha = models.DateField()
+    hora = models.TimeField()
+
+    def __str__(self):
+        return self.titulo

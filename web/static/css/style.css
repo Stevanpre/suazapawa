@@ -89,6 +89,18 @@ body {
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
 }
+.card {
+  border-radius: 12px;
+}
+
+.card-body input,
+.card-body button {
+  font-size: 14px;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
 
 
 

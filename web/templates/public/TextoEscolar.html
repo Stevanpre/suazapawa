@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Noticias Escolares | Suazapawa{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="text-center text-primary fw-bold mb-4">📰 Noticias Escolares</h2>
+
+  <div class="row">
+    <!-- Sección de Noticias (Izquierda, grande) -->
+    <div class="col-md-9">
+      {% for noticia in noticias %}
+        <div class="mb-5 pb-4 border-bottom">
+          <!-- Título y fecha en la misma línea -->
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-1 fw-bold text-dark">{{ noticia.titulo }}</h5>
+            <small class="text-muted">{{ noticia.fecha|date:"d M Y" }} - {{ noticia.hora|time:"H:i" }}</small>
+          </div>
+          <!-- Descripción -->
+          <p class="text-secondary mt-2">{{ noticia.descripcion }}</p>
+        </div>
+      {% empty %}
+        <p class="text-muted">No hay noticias disponibles.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Sección lateral (Derecha, filtros) -->
+    <div class="col-md-3">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h6 class="card-title fw-bold text-primary">🔍 Buscar Noticias</h6>
+          <form method="get">
+            <div class="mb-3">
+              <label class="form-label">Por título</label>
+              <input type="text" name="q" class="form-control" placeholder="Ej. Día del estudiante">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Por fecha</label>
+              <input type="date" name="fecha" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-outline-primary w-100">Buscar</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="fw-bold text-primary">📅 Ordenar</h6>
+          <div class="d-grid gap-2">
+            <a href="?orden=reciente" class="btn btn-sm btn-outline-success">Más recientes</a>
+            <a href="?orden=antiguo" class="btn btn-sm btn-outline-secondary">Más antiguas</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
