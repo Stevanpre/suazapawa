@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>🚫 Acceso Bloqueado</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <style>
+        body {
+            background-color: #f8d7da;
+        }
+    </style>
+</head>
+<body>
+<div class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
+    <div class="card shadow p-4 border border-danger">
+        <h3 class="text-danger text-center">🚫 Acceso Bloqueado</h3>
+        <p class="text-center">
+            Has superado el número máximo de intentos de inicio de sesión.<br>
+            Por razones de seguridad, tu cuenta ha sido temporalmente bloqueada.
+        </p>
+        <p class="text-center text-muted">
+            Intenta nuevamente en unos minutos o contacta al administrador.
+        </p>
+        <div class="text-center">
+            <a href="{% url 'home' %}" class="btn btn-danger">Volver al inicio</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

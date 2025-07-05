@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -60,7 +61,16 @@ class UsuarioLoginView(LoginView):
     redirect_authenticated_user = True
     success_url = reverse_lazy('dashboard')
 
-def dashboard_view(request):
-    return render(request, 'admin/dashboard.html')
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'admin/dashboard.html'
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
+
+def vista_bloqueado(request):
+    return render(request, 'auth/bloqueado.html')
 
 

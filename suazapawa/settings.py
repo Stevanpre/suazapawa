@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'web.apps.WebConfig',
+    'axes',
 ]
 
 MIDDLEWARE = [
+    'axes.middleware.AxesMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -113,6 +115,25 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
+#---- SESION TEMPORTAL DJANGO ----
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_COOKIE_AGE = 1500 # 30 minutos
+
+SESSION_SAVE_EVERY_REQUEST = True
+
+#---- BACKENDS DE AUTENTICACION DJANGO + AXES ----
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+#---- OPCIONES DE SEGURIDAD ----
+AXES_FAILURE_LIMIT = 3                # Intentos antes del bloqueo
+AXES_COOLOFF_TIME = 5                # Tiempo de espera (en minutos)
+AXES_RESET_ON_SUCCESS = True         # Reinicia el contador si se loguea con éxito
+AXES_LOCK_OUT_AT_FAILURE = True      # Bloquea cuando se supera el límite
+AXES_LOCKOUT_TEMPLATE = 'auth/bloqueado.html'  # Vista personalizada al ser bloqueado
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
