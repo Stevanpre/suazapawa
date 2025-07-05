@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('calendario/', calendarioView.as_view(), name='calendario'),
-    path('TextoEscolar/', TextoEscolarView.as_view(), name='textoescolar'),
+    path('noticias/', TextoEscolarView.as_view(), name='textoescolar'),
 
 ]
 
