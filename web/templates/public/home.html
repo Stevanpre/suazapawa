@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio | Suazapawa{% endblock %}
+
+{% block content %}
+<div class="container py-sm-1">
+
+  <!-- 1. Imagen del colegio -->
+  <div class="text-center mb-5">
+    <img src="{% static 'img/portada-suaza.png' %}" alt="Imagen Colegio Suazapawa" class="img-fluid rounded shadow">
+  </div>
+
+  <!-- 2. Mensaje de bienvenida -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-primary">Bienvenidos al Centro Educativo Suazapawa</h1>
+    <p class="fs-5 text-muted">
+      Ubicados en Via Duitama-Nobsa Km 13, Nobsa, Boyacá. Formamos estudiantes con valores, conocimiento y visión de futuro.
+      Explora nuestra plataforma y descubre todo lo que hemos preparado para ti.
+    </p>
+  </div>
+
+  <!-- 3. Video institucional -->
+  <div class="ratio ratio-16x9 shadow-lg rounded overflow-hidden">
+    <!-- Link del video -->
+    <iframe src="{% static 'video/presentacion.mp4' %}" title="Video Institucional" allowfullscreen></iframe>
+  </div>
+
+</div>
+{% endblock %}

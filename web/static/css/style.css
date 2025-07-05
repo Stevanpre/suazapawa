@@ -1,0 +1,95 @@
+:root {
+  --azul-suazapawa: #1d4ed8;
+  --azul-hover: #3b82f6;
+  --rojo-elegante: #dc2626;
+  --cyan-suave: #0ea5e9;
+  --blanco: #ffffff;
+  --texto-gris: #1f2937;
+}
+
+body {
+  background-color: var(--blanco);
+  color: var(--texto-gris);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar {
+  background-color: var(--azul-suazapawa) !important;
+}
+
+.navbar .nav-link,
+.navbar .navbar-brand {
+  color: white !important;
+  transition: 0.3s;
+}
+
+.navbar .nav-link:hover {
+  color: var(--cyan-suave) !important;
+}
+
+.btn-primary {
+  background-color: var(--azul-suazapawa);
+  border-color: var(--azul-suazapawa);
+}
+
+.btn-primary:hover {
+  background-color: var(--azul-hover);
+  border-color: var(--azul-hover);
+}
+
+.btn-danger {
+  background-color: var(--rojo-elegante);
+  border-color: var(--rojo-elegante);
+}
+
+.alert-info {
+  background-color: var(--cyan-suave);
+  color: white;
+  border: none;
+}
+
+/* Centrar el navbar horizontalmente */
+.navbar .navbar-nav {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Estilo para dropdown */
+.dropdown-menu {
+  border-radius: 10px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.navbar .nav-link {
+  font-size: 14px;
+
+  color: white !important;
+}
+.navbar-nav .nav-link {
+  margin: 1rem 0;
+}
+
+.navbar-nav .nav-link {
+  transition: all 0.2s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--cyan-suave); /* O blanco más brillante */
+  transform: translateY(-1px);
+}
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+
+
+

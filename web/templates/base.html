@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Suazapawa | Plataforma Escolar{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap local -->
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+
+  <!-- FontAwesome local -->
+  <link rel="stylesheet" href="{% static 'plugins/font-awesome-5.11.1/css/all.css' %}">
+
+  <!-- DataTables CSS local -->
+  <link rel="stylesheet" href="{% static 'plugins/datatables/css/dataTables.bootstrap5.min.css' %}">
+
+<!-- Css Personalizado -->
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <!-- Espacio para estilos personalizados por página -->
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<!-- ======= NAVBAR ======= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+      <img src="{% static 'img/logo-suazapawa.jpg' %}" alt="Logo" width="40" height="40" class="me-2">
+      <strong>Suazapawa</strong>
+    </a>
+
+    <!-- Botón responsive -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Contenido del navbar -->
+    <div class="collapse navbar-collapse justify-content-center" id="navbarContenido">
+      <ul class="navbar-nav">
+
+        <!-- INICIO con dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Suazapawa
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">¿Quienes Somos?</a></li>
+            <li><a class="dropdown-item" href="#">Misión-Visión</a></li>
+               <li><a class="dropdown-item" href="#">Perfil Alumno</a></li>
+               <li><a class="dropdown-item" href="#">Perfil Docente</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Ubicacion</a></li>
+          </ul>
+        </li>
+
+        <!-- MÓDULO 2 normal -->
+        <li class="nav-item">
+          <a class="nav-link" href="http://classnet.com.co/suazapawa/">Web Académica</a>
+        </li>
+
+        <!-- MÓDULO 3 con dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            LMS Academico
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="https://www.preescolarsuaza.com/">Prejardín-Transición</a></li>
+              <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="https://www.primariasuaza.com/">Primero-Tercero</a></li>
+               <li><hr class="dropdown-divider"></li>
+               <li><a class="dropdown-item" href="https://www.websuazacademica.com/">Cuarto-Séptimo</a></li>
+              <li><hr class="dropdown-divider"></li>
+               <li><a class="dropdown-item" href="https://www.suazapawa891011.com/">Octavo-Once</a></li>
+          </ul>
+        </li>
+
+        <!-- MÓDULO 4 al 7 -->
+        <li class="nav-item"><a class="nav-link" href="{% url 'calendario' %}">Calendario Escolar</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Textos Escolares</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://temp-hawyqxozvkjiufzoqnrd.webadorsite.com/">Inspira</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Exalumnos</a></li>
+          <!-- FOTO VR 360° -->
+      </ul>
+    </div>
+
+    <!-- Botones login/dashboard a la derecha -->
+    <div class="d-flex ms-2">
+      {% if user.is_authenticated %}
+        <a class="btn btn-outline-light rounded-pill px-sm-1 me-1" href="#">🧭 Dashboard</a>
+        <form method="post" action="#">
+          {% csrf_token %}
+          <button class="btn btn-danger rounded-pill px-sm-3 me-1">🔒 Salir</button>
+        </form>
+      {% else %}
+        <a class="btn btn-success rounded-pill px-3" href="#">🔐 Ingresar</a>
+      {% endif %}
+    </div>
+
+  </div>
+</nav>
+
+
+<!-- ======= CONTENIDO PRINCIPAL ======= -->
+<main class="container py-5">
+  {% block content %}
+  <!-- Aquí se inyectará el contenido de cada página -->
+  {% endblock %}
+</main>
+
+<!-- ======= FOOTER ======= -->
+<footer class="bg-primary text-white text-center py-4 mt-5">
+  <div class="container">
+    <p class="mb-0">&copy; 2025 Suazapawa - Institución Educativa</p>
+    <small> Suazapawa | Desarrollado con ❤️ usando Django + Bootstrap</small>
+  </div>
+</footer>
+
+<!-- ======= SCRIPTS ======= -->
+<script src="{% static 'plugins/jquery/jquery.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/js/dataTables.bootstrap5.min.js' %}"></script>
+
+<!-- Espacio para scripts adicionales -->
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>
