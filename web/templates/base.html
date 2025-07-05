@@ -19,12 +19,13 @@
    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
   <!-- Espacio para estilos personalizados por página -->
-  {% block extra_css %}{% endblock %}
+  {% block extra_css %} {% endblock %}
 </head>
 <body>
 
 <!-- ======= NAVBAR ======= -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+
   <div class="container">
 
     <!-- Logo -->
@@ -104,6 +105,8 @@
 </nav>
 
 
+
+
 <!-- ======= CONTENIDO PRINCIPAL ======= -->
 <main class="container py-5">
   {% block content %}
@@ -122,8 +125,8 @@
 <!-- ======= SCRIPTS ======= -->
 <script src="{% static 'plugins/jquery/jquery.js' %}"></script>
 <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'plugins/datatables/js/dataTables.bootstrap5.min.js' %}"></script>
+<script src="{% static 'plugins/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/js/dataTables.bootstrap5.min.js' %}"></script>
 
 <!-- Espacio para scripts adicionales -->
 {% block extra_js %}{% endblock %}
