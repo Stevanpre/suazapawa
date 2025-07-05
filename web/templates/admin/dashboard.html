@@ -1,13 +1,50 @@
 {% extends 'base.html' %}
-{% block title %}Dashboard | Admin{% endblock %}
+{% block title %}Panel Administrativo | Suazapawa{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2 class="text-primary">Panel de Administración</h2>
-    <p class="lead">Bienvenido {{ user.username }} 👋</p>
-
-    <div class="alert alert-info">
-        Aquí podrás administrar contenido, noticias, eventos y más.
+<div class="container-fluid py-4">
+  <div class="row">
+    <!-- SIDEBAR IZQUIERDA -->
+    <div class="col-md-3 col-12 mb-4 mb-md-0">
+      <div class="list-group shadow-sm">
+        <a href="#" class="list-group-item list-group-item-action active" onclick="mostrarModulo('bienvenida')">
+          👋 Bienvenida
+        </a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('perfil')">
+          👤 Perfil
+        </a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('calendario')">
+          📅 Editar Calendario
+        </a>
+        <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('noticias')">
+          📰 Editar Noticias
+        </a>
+      </div>
     </div>
+
+    <!-- CONTENIDO DERECHA -->
+    <div class="col-md-9 col-12">
+      <div id="modulo-bienvenida">{% include 'admin/modulos/bienvenida.html' %}</div>
+      <div id="modulo-perfil" class="d-none">{% include 'admin/modulos/perfil.html' %}</div>
+      <div id="modulo-calendario" class="d-none">{% include 'admin/modulos/calendario.html' %}</div>
+      <div id="modulo-noticias" class="d-none">{% include 'admin/modulos/noticias.html' %}</div>
+    </div>
+  </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function mostrarModulo(modulo) {
+    // Oculta todos
+    document.querySelectorAll('[id^="modulo-"]').forEach(div => div.classList.add('d-none'));
+
+    // Muestra el seleccionado
+    document.getElementById(`modulo-${modulo}`).classList.remove('d-none');
+
+    // Opcional: cambiar clase activa en la sidebar
+    document.querySelectorAll('.list-group-item').forEach(item => item.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
 {% endblock %}

@@ -3,6 +3,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views.generic import ListView
+from pyexpat.errors import messages
+
 from .models import Evento
 from .models import Noticia
 from django.db.models import Q
@@ -10,6 +12,7 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 
 # Create your views here.

@@ -89,30 +89,30 @@
     </div>
 
     <!-- Botones login/dashboard a la derecha -->
-      {% if user.is_authenticated %}
-  <li class="nav-item">
-    <a class="btn btn-outline-success rounded-pill px-4 me-2" href="{% url 'dashboard' %}">
-      🧭 Dashboard
-    </a>
-  </li>
-  <li class="nav-item">
-    <form method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button class="btn btn-outline-danger rounded-pill px-4 ms-2">🔒 Cerrar Sesión</button>
-    </form>
-  </li>
-{% else %}
-  <li class="nav-item">
-    <a class="btn btn-outline-primary rounded-pill px-4 ms-2" href="{% url 'login' %}">
+       {% if user.is_authenticated %}
+        <!-- Botón Dashboard -->
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-success btn-sm me-2 rounded-pill px-3 py-1">
+          🧭 Dashboard
+        </a>
+        <!-- Botón Cerrar sesión -->
+        <form method="post" action="{% url 'logout' %}" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1">
+            🔒 Cerrar Sesión
+          </button>
+        </form>
+      {% endif %}
+  </div>
+
+   {% if not user.is_authenticated %}
+  <div class="login-tab-trigger">
+    <a href="{% url 'login' %}" class="btn btn-primary login-tab-btn">
       🔐 Iniciar Sesión
     </a>
-  </li>
+  </div>
 {% endif %}
 
-  </div>
 </nav>
-
-
 
 
 <!-- ======= CONTENIDO PRINCIPAL ======= -->
@@ -126,9 +126,10 @@
 <footer class="bg-primary text-white text-center py-4 mt-5">
   <div class="container">
     <p class="mb-0">&copy; 2025 Suazapawa - Institución Educativa</p>
-    <small> Suazapawa | Desarrollado con ❤️ usando Django + Bootstrap</small>
+    <small> Suazapawa | Desarrollador Por FlS</small>
   </div>
 </footer>
+
 
 <!-- ======= SCRIPTS ======= -->
 <script src="{% static 'plugins/jquery/jquery.js' %}"></script>
