@@ -83,23 +83,31 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'calendario' %}">Calendario Escolar</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'textoescolar' %}">Noticia Escolar</a></li>
         <li class="nav-item"><a class="nav-link" href="https://temp-hawyqxozvkjiufzoqnrd.webadorsite.com/">Inspira</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Exalumnos</a></li>
+          <! -- Exalumnos -->
           <!-- FOTO VR 360° -->
       </ul>
     </div>
 
     <!-- Botones login/dashboard a la derecha -->
-    <div class="d-flex ms-2">
       {% if user.is_authenticated %}
-        <a class="btn btn-outline-light rounded-pill px-sm-1 me-1" href="#">🧭 Dashboard</a>
-        <form method="post" action="#">
-          {% csrf_token %}
-          <button class="btn btn-danger rounded-pill px-sm-3 me-1">🔒 Salir</button>
-        </form>
-      {% else %}
-        <a class="btn btn-success rounded-pill px-3" href="#">🔐 Ingresar</a>
-      {% endif %}
-    </div>
+  <li class="nav-item">
+    <a class="btn btn-outline-success rounded-pill px-4 me-2" href="{% url 'dashboard' %}">
+      🧭 Dashboard
+    </a>
+  </li>
+  <li class="nav-item">
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button class="btn btn-outline-danger rounded-pill px-4 ms-2">🔒 Cerrar Sesión</button>
+    </form>
+  </li>
+{% else %}
+  <li class="nav-item">
+    <a class="btn btn-outline-primary rounded-pill px-4 ms-2" href="{% url 'login' %}">
+      🔐 Iniciar Sesión
+    </a>
+  </li>
+{% endif %}
 
   </div>
 </nav>

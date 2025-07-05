@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from web.views import HomeView, calendarioView, TextoEscolarView
+from web.views import HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, dashboard_view
+from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,6 +26,9 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('calendario/', calendarioView.as_view(), name='calendario'),
     path('noticias/', TextoEscolarView.as_view(), name='textoescolar'),
+    path('login/',UsuarioLoginView.as_view(), name='login'),
+    path('logout/',LogoutView.as_view(next_page='home'), name='logout'),
+    path('dashboard/', dashboard_view(), name='dashboard'),
 
 ]
 
