@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from web.views import HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, DashboardView, vista_bloqueado
+from web.views import HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, DashboardView, vista_bloqueado, actualizar_perfil
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -30,6 +30,7 @@ urlpatterns = [
     path('logout/',LogoutView.as_view(next_page='home'), name='logout'),
    path('dashboard/', DashboardView.as_view(), name='dashboard'),
    path('bloqueado/', vista_bloqueado, name='bloqueado'),
+    path('actualizar-perfil/', actualizar_perfil, name='actualizar_perfil'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

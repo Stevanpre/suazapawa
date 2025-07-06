@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Panel Administrativo | Suazapawa{% endblock %}
 
 {% block content %}
@@ -31,9 +32,11 @@
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 {% block extra_js %}
+
 <script>
   function mostrarModulo(modulo) {
     // Oculta todos
@@ -46,5 +49,6 @@
     document.querySelectorAll('.list-group-item').forEach(item => item.classList.remove('active'));
     event.target.classList.add('active');
   }
+
 </script>
 {% endblock %}

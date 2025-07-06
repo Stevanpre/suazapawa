@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">👤 Configuración de Perfil</h5>
+  </div>
+  <div class="card-body">
+    <form method="post" action="{% url 'actualizar_perfil' %}">
+      {% csrf_token %}
 
-</body>
-</html>
+      <!-- NOMBRE -->
+      <div class="mb-3">
+        <label for="first_name" class="form-label">Nombre</label>
+        <input type="text" class="form-control" name="first_name" id="first_name" value="{{ request.user.first_name }}">
+      </div>
+
+      <!-- USUARIO -->
+      <div class="mb-3">
+        <label for="username" class="form-label">Nombre de usuario</label>
+        <input type="text" class="form-control" name="username" id="username" value="{{ request.user.username }}">
+      </div>
+
+      <!-- CORREO -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo de recuperación</label>
+        <input type="email" class="form-control" name="email" id="email" value="{{ request.user.email }}">
+      </div>
+
+      <!-- CAMBIO DE CONTRASEÑA -->
+      <div class="mb-3">
+        <label class="form-label">Cambiar contraseña</label>
+        <input type="password" class="form-control" name="password1" placeholder="Nueva contraseña">
+        <input type="password" class="form-control mt-2" name="password2" placeholder="Confirmar contraseña">
+      </div>
+
+      <button type="submit" class="btn btn-success">Guardar cambios</button>
+    </form>
+  </div>
+</div>

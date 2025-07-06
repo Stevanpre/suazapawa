@@ -1,6 +1,6 @@
 
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
 from django.views.generic import ListView
 from pyexpat.errors import messages
@@ -13,6 +13,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 
 
 # Create your views here.
@@ -76,4 +77,28 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 def vista_bloqueado(request):
     return render(request, 'auth/bloqueado.html')
 
+@login_required
+def actualizar_perfil(request):
+    if request.method == 'POST':
+        user = request.user
+        user.first_name = request.POST.get('first_name')
+        user.username = request.POST.get('username')
+        user.email = request.POST.get('email')
 
+        pwd1 = request.POST.get('password1')
+        pwd2 = request.POST.get('password2')
+
+        if pwd1:
+            if pwd1 == pwd2:
+                user.set_password(pwd1)
+                user.save()
+                update_session_auth_hash(request, user)  # 🔐 Evita cerrar sesión
+                messages.success(request, 'Contraseña actualizada correctamente.')
+            else:
+                messages.error(request, "Las contraseñas no coinciden.")
+                return redirect('dashboard')
+        else:
+            user.save()
+            messages.success(request, 'Usuario actualizado correctamente.')
+
+        return redirect('dashboard')

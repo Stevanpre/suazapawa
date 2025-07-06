@@ -118,7 +118,7 @@
 <!-- ======= CONTENIDO PRINCIPAL ======= -->
 <main class="container py-5">
   {% block content %}
-  <!-- Aquí se inyectará el contenido de cada página -->
+
   {% endblock %}
 </main>
 
@@ -136,9 +136,31 @@
 <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'plugins/js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'plugins/js/dataTables.bootstrap5.min.js' %}"></script>
+<script src="{% static 'js/sweetalert2.min.js' %}"></script>
 
 <!-- Espacio para scripts adicionales -->
-{% block extra_js %}{% endblock %}
+{% block extra_js %}
+
+{% endblock %}
+
+<!-- MENSAJES ALERTA BONITOS -->
+
+{% if messages %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    {% for message in messages %}
+      Swal.fire({
+        icon: "{{ message.tags|default:'info' }}",
+        title: "{{ message|escapejs }}",
+        timer: 4000, // ⏰ MÁS TIEMPO AQUÍ
+        timerProgressBar: true,
+        showConfirmButton: true
+      });
+    {% endfor %}
+  });
+</script>
+{% endif %}
+
 
 </body>
 </html>
