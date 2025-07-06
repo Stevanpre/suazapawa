@@ -1,5 +1,6 @@
 from django import forms
 from .models import Evento
+from .models import Noticia
 
 class EventoForm(forms.ModelForm):
     class Meta:
@@ -20,3 +21,15 @@ class EventoForm(forms.ModelForm):
         if len(data) < 10:
             raise forms.ValidationError("La descripción corta debe tener al menos 10 caracteres.")
         return data
+
+class NoticiaForm(forms.ModelForm):
+    class Meta:
+        model = Noticia
+        fields = '__all__'
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'fecha': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'hora': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+        }
+
