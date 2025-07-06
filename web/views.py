@@ -64,10 +64,15 @@ class TextoEscolarView(ListView):
             queryset = queryset.order_by('-fecha', '-hora')
 
         return queryset
+
 class UsuarioLoginView(LoginView):
     template_name = 'auth/login.html'
     redirect_authenticated_user = True
     success_url = reverse_lazy('dashboard')
+
+    def form_invalid(self, form):
+        messages.error(self.request, "❌ Usuario o contraseña incorrectos.")
+        return super().form_invalid(form)
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'admin/dashboard.html'
