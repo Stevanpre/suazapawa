@@ -14,12 +14,14 @@
         <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('perfil')">
           👤 Perfil
         </a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('calendario')">
-          📅 Editar Calendario
-        </a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('noticias')">
-          📰 Editar Noticias
-        </a>
+        <a href="{% url 'editar_calendario' %}" class="list-group-item list-group-item-action">
+  📅 Editar Calendario
+</a>
+
+        <a href="{% url 'editar_noticias' %}" class="list-group-item list-group-item-action">
+  📅 Editar Noticias
+</a>
+
       </div>
     </div>
 
@@ -50,5 +52,12 @@
     event.target.classList.add('active');
   }
 
+</script>
+
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    mostrarModulo('bienvenida');
+  });
 </script>
 {% endblock %}

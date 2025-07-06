@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -49,12 +50,12 @@
             Suazapawa
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">¿Quienes Somos?</a></li>
-            <li><a class="dropdown-item" href="#">Misión-Visión</a></li>
-               <li><a class="dropdown-item" href="#">Perfil Alumno</a></li>
-               <li><a class="dropdown-item" href="#">Perfil Docente</a></li>
+            <li><a class="dropdown-item" href="{% url 'somos' %}">¿Quienes Somos?</a></li>
+            <li><a class="dropdown-item" href="{% url 'mision' %}">Misión-Visión</a></li>
+               <li><a class="dropdown-item" href="{% url 'alumno' %}">Perfil Alumno</a></li>
+               <li><a class="dropdown-item" href="{% url 'docente' %}">Perfil Docente</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Ubicacion</a></li>
+            <li><a class="dropdown-item" href="{% url 'ubicacion' %}">Ubicacion</a></li>
           </ul>
         </li>
 
@@ -91,13 +92,13 @@
     <!-- Botones login/dashboard a la derecha -->
        {% if user.is_authenticated %}
         <!-- Botón Dashboard -->
-        <a href="{% url 'dashboard' %}" class="btn btn-outline-success btn-sm me-2 rounded-pill px-3 py-1">
+        <a href="{% url 'dashboard' %}" class="btn btn-success btn-sm me-2 rounded-pill px-3 py-1">
           🧭 Dashboard
         </a>
         <!-- Botón Cerrar sesión -->
         <form method="post" action="{% url 'logout' %}" class="d-inline">
           {% csrf_token %}
-          <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1">
+          <button type="submit" class="btn btn-danger btn-sm rounded-pill px-3 py-1">
             🔒 Cerrar Sesión
           </button>
         </form>
@@ -160,6 +161,35 @@
   });
 </script>
 {% endif %}
+
+<!-- Confirmación con SweetAlert al eliminar -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const botonesEliminar = document.querySelectorAll('.btn-eliminar');
+
+    botonesEliminar.forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const url = this.dataset.url;
+
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "¡Esta acción no se puede deshacer!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = url;
+          }
+        });
+      });
+    });
+  });
+</script>
 
 
 </body>

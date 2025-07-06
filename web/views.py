@@ -14,6 +14,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from .forms import EventoForm, NoticiaForm
+from django.shortcuts import get_object_or_404
+
+
 
 
 # Create your views here.
@@ -77,6 +81,21 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 def vista_bloqueado(request):
     return render(request, 'auth/bloqueado.html')
 
+def somos(request):
+    return render(request, 'public/modulos/somos.html')
+
+def mision(request):
+    return render(request, 'public/modulos/mision-vision.html')
+
+def alumno(request):
+    return render(request, 'public/modulos/alumno.html')
+
+def docente(request):
+    return render(request, 'public/modulos/docente.html')
+
+def ubicacion(request):
+    return render(request, 'public/modulos/ubicacion.html')
+
 @login_required
 def actualizar_perfil(request):
     if request.method == 'POST':
@@ -102,3 +121,108 @@ def actualizar_perfil(request):
             messages.success(request, 'Usuario actualizado correctamente.')
 
         return redirect('dashboard')
+
+
+@login_required
+def editar_calendario(request):
+    eventos = Evento.objects.all().order_by('-fecha')
+    form = EventoForm()
+    return render(request, 'admin/modulos/calendario.html', {
+        'form': form,
+        'eventos': eventos
+    })
+
+
+@login_required
+def crear_evento(request):
+    if request.method == 'POST':
+        form = EventoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Evento creado exitosamente.")
+        else:
+            messages.error(request, "❌ Error al crear el evento. Verifica los datos.")
+    return redirect('dashboard')
+
+
+@login_required
+def actualizar_evento(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+
+    if request.method == 'POST':
+        form = EventoForm(request.POST, request.FILES, instance=evento)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Evento actualizado correctamente.")
+            return redirect('dashboard')
+        else:
+            messages.error(request, "❌ Hubo un error al actualizar el evento.")
+    else:
+        form = EventoForm(instance=evento)
+
+    eventos = Evento.objects.all().order_by('-fecha')
+    return render(request, 'admin/modulos/calendario.html', {
+        'form': form,
+        'eventos': eventos,
+        'modo_edicion': True,
+        'evento_id': evento.id
+    })
+
+@login_required
+def eliminar_evento(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+    evento.delete()
+    messages.success(request, "🗑 Evento eliminado correctamente.")
+    return redirect('dashboard')
+
+
+
+
+@login_required
+def editar_noticias(request):
+    noticias = Noticia.objects.all().order_by('-fecha')
+    form = NoticiaForm()
+    return render(request, 'admin/modulos/noticias.html', {
+        'form': form,
+        'noticias': noticias
+    })
+
+@login_required
+def crear_noticia(request):
+    if request.method == 'POST':
+        form = NoticiaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Noticia creada exitosamente.")
+        else:
+            messages.error(request, "❌ Error al crear la noticia. Verifica los datos.")
+    return redirect('dashboard')
+
+@login_required
+def actualizar_noticia(request, noticia_id):
+    noticia = get_object_or_404(Noticia, id=noticia_id)
+    if request.method == 'POST':
+        form = NoticiaForm(request.POST, instance=noticia)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Noticia actualizada correctamente.")
+            return redirect('dashboard')
+        else:
+            messages.error(request, "❌ Hubo un error al actualizar la noticia.")
+    else:
+        form = NoticiaForm(instance=noticia)
+
+    noticias = Noticia.objects.all().order_by('-fecha')
+    return render(request, 'admin/modulos/noticias.html', {
+        'form': form,
+        'noticias': noticias,
+        'modo_edicion': True,
+        'noticia_id': noticia.id
+    })
+
+@login_required
+def eliminar_noticia(request, noticia_id):
+    noticia = get_object_or_404(Noticia, id=noticia_id)
+    noticia.delete()
+    messages.success(request, "🗑 Noticia eliminada correctamente.")
+    return redirect('dashboard')

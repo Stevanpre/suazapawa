@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Misión y Visión | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold text-primary">🎓 Colegio Suazapawa</h2>
+    <p class="lead text-muted">Nuestra razón de ser y hacia dónde vamos</p>
+  </div>
+
+  <!-- Misión -->
+  <div class="row mb-5">
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+      <img src="{% static 'img/mision.png' %}" alt="Misión" class="img-fluid rounded shadow-sm w-75">
+    </div>
+    <div class="col-md-6">
+      <h3 class="text-success">🎯 Misión</h3>
+      <p class="fs-5 text-justify">
+        El Colegio Suazapawa tiene como misión brindar una educación integral y de calidad,
+        basada en valores humanos, éticos y ciudadanos. Promovemos el desarrollo académico, emocional,
+        artístico y social de nuestros estudiantes, formando líderes responsables, solidarios
+        y comprometidos con la transformación positiva de su comunidad y del entorno.
+      </p>
+    </div>
+  </div>
+
+  <!-- Visión -->
+  <div class="row flex-md-row-reverse">
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+      <img src="{% static 'img/vision.png' %}" alt="Visión" class="img-fluid rounded shadow-sm w-75">
+    </div>
+    <div class="col-md-6">
+      <h3 class="text-info">🌟 Visión</h3>
+      <p class="fs-5 text-justify">
+        Ser en el año 2030 una institución educativa reconocida por su excelencia académica,
+        su enfoque inclusivo e innovador, y por formar ciudadanos críticos, autónomos y comprometidos
+        con el desarrollo sostenible y la paz. En Suazapawa, cada estudiante es protagonista de su aprendizaje
+        y motor de cambio social.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

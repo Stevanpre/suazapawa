@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from web.views import HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, DashboardView, vista_bloqueado, actualizar_perfil
+from web.views import (HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, DashboardView, vista_bloqueado,
+                       actualizar_perfil, somos, mision, alumno, docente,ubicacion)
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +33,15 @@ urlpatterns = [
    path('dashboard/', DashboardView.as_view(), name='dashboard'),
    path('bloqueado/', vista_bloqueado, name='bloqueado'),
     path('actualizar-perfil/', actualizar_perfil, name='actualizar_perfil'),
+
+path('somos/',somos, name='somos' ),
+    path('mision/',mision, name='mision'),
+    path('alumno/', alumno, name='alumno'),
+    path('docente/', docente, name='docente'),
+    path('ubicacion/', ubicacion, name='ubicacion'),
+
+path('adminweb/', include('web.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
