@@ -1,10 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>gola</h1>
-</body>
-</html>
+<div class="bg-white border rounded p-4 shadow-sm">
+  <h4 class="fw-semibold mb-3">
+    👋 Bienvenido, {{ request.user.first_name|default:request.user.username }}
+  </h4>
+
+  <p class="text-muted mb-2">
+    Has iniciado sesión en el panel administrativo del sistema escolar <strong>Suazapawa</strong>.
+  </p>
+
+  <p class="text-muted mb-3">
+    Aquí puedes gestionar los <strong>eventos</strong> y <strong>noticias</strong> escolares de forma sencilla y rápida.
+  </p>
+
+  <div class="alert alert-light border-start border-4 border-primary small mb-3">
+    🔹 Usa el menú lateral para acceder a las secciones de edición. ⬅️
+  </div>
+
+    <div class="alert alert-success border-start border-4 border-primary small mb-3">
+     🔹 No olvides Guardar tus cambios. 💾
+  </div>
+
+      <div class="alert alert-danger border-start border-4 border-primary small mb-3">
+    🔹 No olvides Cerrar Sesión. ⬆️
+  </div>
+
+</div>
+

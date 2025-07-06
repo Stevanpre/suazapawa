@@ -125,7 +125,6 @@ def crear_evento(request):
             form.save()
             messages.success(request, "✅ Evento creado exitosamente.")
         else:
-            print(form.errors)  # 👈 Agrega esto temporalmente
             messages.error(request, "❌ Error al crear el evento. Verifica los datos.")
     return redirect('dashboard')
 
