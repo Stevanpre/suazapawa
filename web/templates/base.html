@@ -49,12 +49,12 @@
             Suazapawa
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">¿Quienes Somos?</a></li>
-            <li><a class="dropdown-item" href="#">Misión-Visión</a></li>
-               <li><a class="dropdown-item" href="#">Perfil Alumno</a></li>
-               <li><a class="dropdown-item" href="#">Perfil Docente</a></li>
+            <li><a class="dropdown-item" href="{% url 'somos' %}">¿Quienes Somos?</a></li>
+            <li><a class="dropdown-item" href="{% url 'mision' %}">Misión-Visión</a></li>
+               <li><a class="dropdown-item" href="{% url 'alumno' %}">Perfil Alumno</a></li>
+               <li><a class="dropdown-item" href="{% url 'docente' %}">Perfil Docente</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Ubicacion</a></li>
+            <li><a class="dropdown-item" href="{% url 'ubicacion' %}">Ubicacion</a></li>
           </ul>
         </li>
 

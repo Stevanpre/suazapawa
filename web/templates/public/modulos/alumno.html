@@ -1,10 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Perfil del Alumno | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold text-primary">👩‍🎓 Perfil del Alumno Suazapawa</h2>
+    <p class="lead text-muted">Formamos estudiantes con valores, identidad y propósito</p>
+  </div>
+
+  <!-- Descripción general -->
+  <div class="row mb-4">
+    <div class="col-md-12 text-center">
+      <p class="fs-5">
+        En Suazapawa creemos que cada estudiante es único y valioso. Nuestro enfoque pedagógico busca desarrollar no solo
+        habilidades académicas, sino también el carácter, la conciencia social, y el sentido de pertenencia a su comunidad.
+      </p>
+    </div>
+  </div>
+
+  <!-- Tipos de alumnos -->
+  <div class="row g-4">
+
+    <!-- Preescolar -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-success">🧒 Estudiante de Preescolar</h5>
+          <p class="card-text">
+            Es curioso, activo, con alta imaginación y en proceso de descubrir su entorno.
+            Se promueve el juego como herramienta educativa, el desarrollo motor, y la socialización inicial.
+            Se enfoca en fortalecer su autoestima, hábitos y autonomía básica.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Básica primaria -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-primary">📚 Estudiante de Primaria</h5>
+          <p class="card-text">
+            Es un alumno que empieza a desarrollar habilidades cognitivas, comunicativas y de pensamiento lógico.
+            Se destaca por su entusiasmo por aprender, la capacidad de trabajo en grupo, y la consolidación de valores
+            como el respeto, la honestidad y la responsabilidad.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Básica secundaria -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-warning">🧠 Estudiante de Secundaria</h5>
+          <p class="card-text">
+            Demuestra mayor autonomía y pensamiento crítico. Participa activamente en proyectos colaborativos y
+            de investigación. Se le fomenta el liderazgo, la empatía y el compromiso con su entorno. Empieza a
+            proyectarse vocacionalmente.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Media académica -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-danger">🎓 Estudiante de Media (10° y 11°)</h5>
+          <p class="card-text">
+            Se caracteriza por su pensamiento reflexivo, capacidad de análisis y toma de decisiones. Está en proceso de
+            definir su proyecto de vida, siendo autónomo, solidario y con proyección hacia la educación superior o
+            el emprendimiento. Se le brindan herramientas para ser ciudadano activo y transformador.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

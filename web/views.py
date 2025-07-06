@@ -81,7 +81,20 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 def vista_bloqueado(request):
     return render(request, 'auth/bloqueado.html')
 
+def somos(request):
+    return render(request, 'public/modulos/somos.html')
 
+def mision(request):
+    return render(request, 'public/modulos/mision-vision.html')
+
+def alumno(request):
+    return render(request, 'public/modulos/alumno.html')
+
+def docente(request):
+    return render(request, 'public/modulos/docente.html')
+
+def ubicacion(request):
+    return render(request, 'public/modulos/ubicacion.html')
 
 @login_required
 def actualizar_perfil(request):

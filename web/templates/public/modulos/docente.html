@@ -1,10 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Perfil del Docente | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold text-primary">👨‍🏫 Perfil del Docente Suazapawa</h2>
+    <p class="lead text-muted">Educadores con vocación, compromiso y liderazgo pedagógico</p>
+  </div>
+
+  <!-- Descripción general -->
+  <div class="row mb-4">
+    <div class="col-md-12 text-center">
+      <p class="fs-5">
+        En Suazapawa, el docente es más que un transmisor de conocimientos. Es guía, formador, acompañante
+        y ejemplo. Trabaja con pasión, empatía y ética, fomentando el pensamiento crítico, el respeto y la inclusión.
+      </p>
+    </div>
+  </div>
+
+  <!-- Cualidades -->
+  <div class="row g-4">
+
+    <!-- Vocación -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-success">❤️ Vocación y ética</h5>
+          <p class="card-text">
+            El docente Suazapawa ejerce con amor por su profesión. Actúa con responsabilidad, honestidad
+            y coherencia, siendo un referente para sus estudiantes y colegas.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Innovación -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-info">💡 Innovador y creativo</h5>
+          <p class="card-text">
+            Utiliza estrategias didácticas activas, herramientas tecnológicas y metodologías participativas
+            para hacer del aprendizaje una experiencia significativa.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compromiso institucional -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-warning">🏫 Comprometido con la comunidad</h5>
+          <p class="card-text">
+            Participa en proyectos escolares, eventos y actividades comunitarias. Promueve el trabajo en equipo,
+            el sentido de pertenencia y el respeto por la diversidad cultural.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formación continua -->
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="card-title text-danger">📘 Formación permanente</h5>
+          <p class="card-text">
+            Está en constante actualización pedagógica y disciplinar. Busca mejorar sus prácticas y fortalecer
+            su desarrollo profesional para impactar positivamente en sus estudiantes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
