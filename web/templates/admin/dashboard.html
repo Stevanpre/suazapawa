@@ -14,9 +14,10 @@
         <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('perfil')">
           👤 Perfil
         </a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('calendario')">
-          📅 Editar Calendario
-        </a>
+        <a href="{% url 'editar_calendario' %}" class="list-group-item list-group-item-action">
+  📅 Editar Calendario
+</a>
+
         <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('noticias')">
           📰 Editar Noticias
         </a>

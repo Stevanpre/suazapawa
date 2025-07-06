@@ -1,10 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block content %}
+<h3 class="mb-4">📅 Gestión de Eventos Escolares</h3>
+
+<!-- 🔹 FORMULARIO DE EVENTO -->
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-primary text-white">
+    Crear / Editar Evento
+  </div>
+  <div class="card-body">
+    <form method="POST" enctype="multipart/form-data"
+          action="{% if modo_edicion %}{% url 'actualizar_evento' evento_id %}{% else %}{% url 'crear_evento' %}{% endif %}">
+      {% csrf_token %}
+      <div class="row g-3">
+        <div class="col-md-6">{{ form.titulo.label_tag }}{{ form.titulo }}</div>
+        <div class="col-md-6">{{ form.lugar.label_tag }}{{ form.lugar }}</div>
+        <div class="col-md-6">{{ form.fecha.label_tag }}{{ form.fecha }}</div>
+        <div class="col-md-6">{{ form.hora.label_tag }}{{ form.hora }}</div>
+        <div class="col-md-12">{{ form.descripcion_corta.label_tag }}{{ form.descripcion_corta }}</div>
+        <div class="col-md-12">{{ form.descripcion_detallada.label_tag }}{{ form.descripcion_detallada }}</div>
+        <div class="col-md-12">{{ form.imagen.label_tag }}{{ form.imagen }}</div>
+      </div>
+      <div class="mt-4">
+        <button type="submit" class="btn {% if modo_edicion %}btn-warning{% else %}btn-success{% endif %}">
+          {% if modo_edicion %}✏️ Actualizar Evento{% else %}💾 Crear Evento{% endif %}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 🔹 EVENTOS EN ACORDEÓN -->
+<h4 class="mb-3">📋 Lista de Eventos</h4>
+<div class="accordion" id="acordeonEventos">
+  {% for evento in eventos %}
+    <div class="accordion-item mb-3 shadow-sm">
+      <h2 class="accordion-header" id="heading{{ evento.id }}">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse{{ evento.id }}" aria-expanded="false"
+                aria-controls="collapse{{ evento.id }}">
+          📌 {{ evento.titulo }} — {{ evento.descripcion_corta }}
+        </button>
+      </h2>
+      <div id="collapse{{ evento.id }}" class="accordion-collapse collapse"
+           aria-labelledby="heading{{ evento.id }}" data-bs-parent="#acordeonEventos">
+        <div class="accordion-body">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="img-fluid rounded shadow-sm">
+            </div>
+            <div class="col-md-8">
+              <p><strong>📅 Fecha:</strong> {{ evento.fecha }}</p>
+              <p><strong>⏰ Hora:</strong> {{ evento.hora }}</p>
+              <p><strong>📍 Lugar:</strong> {{ evento.lugar }}</p>
+              <p><strong>📝 Descripción larga:</strong></p>
+              <p>{{ evento.descripcion_detallada }}</p>
+
+              <div class="mt-3">
+                <a href="{% url 'actualizar_evento' evento.id %}" class="btn btn-warning btn-sm rounded-pill">
+                  ✏️ Editar
+                </a>
+                <a href="#" class="btn btn-danger btn-sm rounded-pill btn-eliminar"
+   data-url="{% url 'eliminar_evento' evento.id %}">
+  🗑 Eliminar
+</a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-muted">No hay eventos disponibles.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

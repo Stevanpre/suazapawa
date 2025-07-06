@@ -14,6 +14,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from .forms import EventoForm
+from django.shortcuts import get_object_or_404
+
 
 
 # Create your views here.
@@ -102,3 +105,57 @@ def actualizar_perfil(request):
             messages.success(request, 'Usuario actualizado correctamente.')
 
         return redirect('dashboard')
+
+
+@login_required
+def editar_calendario(request):
+    eventos = Evento.objects.all().order_by('-fecha')
+    form = EventoForm()
+    return render(request, 'admin/modulos/calendario.html', {
+        'form': form,
+        'eventos': eventos
+    })
+
+
+@login_required
+def crear_evento(request):
+    if request.method == 'POST':
+        form = EventoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Evento creado exitosamente.")
+        else:
+            print(form.errors)  # 👈 Agrega esto temporalmente
+            messages.error(request, "❌ Error al crear el evento. Verifica los datos.")
+    return redirect('dashboard')
+
+
+@login_required
+def actualizar_evento(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+
+    if request.method == 'POST':
+        form = EventoForm(request.POST, request.FILES, instance=evento)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Evento actualizado correctamente.")
+            return redirect('dashboard')
+        else:
+            messages.error(request, "❌ Hubo un error al actualizar el evento.")
+    else:
+        form = EventoForm(instance=evento)
+
+    eventos = Evento.objects.all().order_by('-fecha')
+    return render(request, 'admin/modulos/calendario.html', {
+        'form': form,
+        'eventos': eventos,
+        'modo_edicion': True,
+        'evento_id': evento.id
+    })
+
+@login_required
+def eliminar_evento(request, evento_id):
+    evento = get_object_or_404(Evento, id=evento_id)
+    evento.delete()
+    messages.success(request, "🗑 Evento eliminado correctamente.")
+    return redirect('dashboard')

@@ -20,6 +20,7 @@ from web.views import HomeView, calendarioView, TextoEscolarView, UsuarioLoginVi
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +32,8 @@ urlpatterns = [
    path('dashboard/', DashboardView.as_view(), name='dashboard'),
    path('bloqueado/', vista_bloqueado, name='bloqueado'),
     path('actualizar-perfil/', actualizar_perfil, name='actualizar_perfil'),
+path('adminweb/', include('web.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
