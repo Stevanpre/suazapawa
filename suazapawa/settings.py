@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'web.apps.WebConfig',
     'axes',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
