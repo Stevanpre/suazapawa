@@ -20,6 +20,16 @@ env/
 # -------------------------
 .env
 .env.*
+secrets.json
+
+# -------------------------
+# Claves y certificados
+# -------------------------
+*.key
+*.pem
+*.crt
+*.pfx
+*.p12
 
 # -------------------------
 # Django
@@ -30,7 +40,6 @@ media/
 *.pot
 *.pyc
 local_settings.py
-secrets.json
 
 # Archivos generados por collectstatic
 /static/
