@@ -9,27 +9,32 @@ __pycache__/
 db.sqlite3
 
 # -------------------------
-# Entornos virtuales (por si creas uno dentro del proyecto)
+# Entornos virtuales
 # -------------------------
 venv/
 env/
+.venv/
 
 # -------------------------
 # Variables de entorno
 # -------------------------
 .env
+.env.*
 
 # -------------------------
 # Django
 # -------------------------
 staticfiles/
 media/
-
-# Archivos generados por collectstatic
 *.log
 *.pot
 *.pyc
 local_settings.py
+secrets.json
+
+# Archivos generados por collectstatic
+/static/
+/media/
 
 # -------------------------
 # IDEs y editores
