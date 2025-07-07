@@ -111,8 +111,14 @@ AXES_RESET_ON_SUCCESS = True
 AXES_LOCK_OUT_AT_FAILURE = True
 AXES_LOCKOUT_TEMPLATE = 'auth/bloqueado.html'
 AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
-AXES_META_PRECEDENCE_ORDER = ['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR']
-AXES_PROXY_ORDER = 'left-most'
+
+# Nuevas configuraciones para IP detrás de proxies
+AXES_IPWARE_PROXY_COUNT = 1
+AXES_IPWARE_META_PRECEDENCE_ORDER = [
+    'HTTP_X_FORWARDED_FOR',
+    'REMOTE_ADDR',
+]
+
 
 # Seguridad adicional para producción
 if not DEBUG:
