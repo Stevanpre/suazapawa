@@ -131,7 +131,17 @@ AUTHENTICATION_BACKENDS = [
 
 #---- OPCIONES DE SEGURIDAD ----
 AXES_FAILURE_LIMIT = 3                # Intentos antes del bloqueo
-AXES_COOLOFF_TIME = 5                # Tiempo de espera (en minutos)
+
+# Tiempo de espera (en minutos)
+from datetime import timedelta
+AXES_COOLOFF_TIME = timedelta(minutes=5)
+
+#se bloquea por usuario, no por ip
+AXES_LOCKOUT_PARAMETERS = ['username']
+# Registrar los intentos fallidos en la base de datos (útil para auditoría)
+AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
+
+
 AXES_RESET_ON_SUCCESS = True         # Reinicia el contador si se loguea con éxito
 AXES_LOCK_OUT_AT_FAILURE = True      # Bloquea cuando se supera el límite
 AXES_LOCKOUT_TEMPLATE = 'auth/bloqueado.html'  # Vista personalizada al ser bloqueado
