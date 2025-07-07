@@ -1,0 +1,46 @@
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.sqlite3
+db.sqlite3
+
+# -------------------------
+# Entornos virtuales (por si creas uno dentro del proyecto)
+# -------------------------
+venv/
+env/
+
+# -------------------------
+# Variables de entorno
+# -------------------------
+.env
+
+# -------------------------
+# Django
+# -------------------------
+staticfiles/
+media/
+
+# Archivos generados por collectstatic
+*.log
+*.pot
+*.pyc
+local_settings.py
+
+# -------------------------
+# IDEs y editores
+# -------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -------------------------
+# Archivos del sistema operativo
+# -------------------------
+.DS_Store
+Thumbs.db
