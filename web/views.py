@@ -2,7 +2,7 @@
 
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView
 from pyexpat.errors import messages
 from .models import Evento
 from .models import Noticia
