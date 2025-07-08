@@ -4,29 +4,170 @@
 {% block title %}Inicio | Suazapawa{% endblock %}
 
 {% block content %}
-<div class="container py-sm-1">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<div class="container py-5">
+
+  <!-- HERO PRINCIPAL -->
+  <section class="text-center mb-5">
+    <img src="{% static 'img/portada-suaza.png' %}" alt="Imagen Colegio Suazapawa" class="img-fluid rounded shadow mb-4" style="max-height: 400px; object-fit: cover;">
+    <h1 class="display-5 fw-bold text-primary">Bienvenidos al Centro Educativo Suazapawa</h1>
+    <p class="lead text-muted">Educamos con valores, conocimiento y visión de futuro.</p>
+    <a href="#secciones" class="btn btn-primary btn-lg mt-3 rounded-pill px-4">Explora más ⬇️</a>
+  </section>
+
+  <!-- VIDEO INSTITUCIONAL -->
+  <section class="text-center mb-5">
+    <h2 class="h4 mb-3 text-success">🎥 Conócenos en 2 minutos</h2>
+    <div class="ratio ratio-16x9 mx-auto" style="max-width: 720px;">
+      <video src="{% static 'video/presentacion.mp4' %}" controls class="rounded shadow"></video>
+    </div>
+  </section>
+
+  <div id="secciones">
+
+    <!-- 1. NIVELES ACADÉMICOS -->
+    <section class="mb-5 text-center">
+      <h2 class="fw-bold text-primary mb-3">📚 Niveles Académicos</h2>
+      <p class="text-muted mb-4">Conoce las etapas educativas que ofrecemos en Suazapawa.</p>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-success">Preescolar</h5>
+              <p class="card-text">Aprendizaje lúdico para el desarrollo inicial.</p>
+              <a href="#" class="btn btn-outline-success rounded-pill">Más información</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-info">Primaria</h5>
+              <p class="card-text">Formación en valores y conocimiento fundamental.</p>
+              <a href="#" class="btn btn-outline-info rounded-pill">Más información</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-warning">Secundaria</h5>
+              <p class="card-text">Pensamiento crítico, liderazgo y tecnología.</p>
+              <a href="#" class="btn btn-outline-warning rounded-pill">Más información</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-danger">Media Técnica</h5>
+              <p class="card-text">Preparación para el mundo profesional y universitario.</p>
+              <a href="#" class="btn btn-outline-danger rounded-pill">Más información</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
 
+      <!-- 5. GALERÍA -->
+<!-- 5. GALERÍA -->
+<section class="mb-5 text-center">
+  <h2 class="fw-bold text-primary mb-3">📸 Galería de Momentos</h2>
+  <p class="text-muted">Revive nuestros mejores recuerdos institucionales.</p>
 
-  <!-- 1. Imagen del colegio -->
-  <div class="text-center mb-5">
-    <img src="{% static 'img/portada-suaza.png' %}" alt="Imagen Colegio Suazapawa" class="img-fluid rounded shadow">
+  <div id="carouselGaleria" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: 720px;">
+    <div class="carousel-inner">
+      {% for i in "123456"|make_list %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <img src="{% static 'img/galeria/ph' %}{{ i }}.jpg" class="d-block w-100 rounded shadow" alt="Imagen ph{{ i }}" style="max-height: 400px; object-fit: cover;">
+      </div>
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselGaleria" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselGaleria" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
+    <div class="carousel-indicators">
+      {% for i in "123456"|make_list %}
+      <button type="button" data-bs-target="#carouselGaleria" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Imagen {{ i }}"></button>
+      {% endfor %}
+    </div>
   </div>
 
-  <!-- 2. Mensaje de bienvenida -->
-  <div class="text-center mb-5">
-    <h1 class="fw-bold text-primary">Bienvenidos al Centro Educativo Suazapawa</h1>
-    <p class="fs-5 text-muted">
-      Ubicados en Via Duitama-Nobsa Km 13, Nobsa, Boyacá. Formamos estudiantes con valores, conocimiento y visión de futuro.
-      Explora nuestra plataforma y descubre todo lo que hemos preparado para ti.
-    </p>
-  </div>
+  <a href="#" class="btn btn-outline-primary rounded-pill mt-3">Ver galería completa</a>
+</section>
 
-  <!-- 3. Video institucional -->
-  <div class="ratio ratio-16x9 shadow-lg rounded overflow-hidden">
-    <!-- Link del video -->
-    <iframe src="{% static 'video/presentacion.mp4' %}" title="Video Institucional" allowfullscreen></iframe>
-  </div>
+
+
+
+    <!-- 2. EVENTOS DESTACADOS -->
+    <section class="mb-5 text-center">
+      <h2 class="fw-bold text-primary mb-3">📅 Eventos Destacados</h2>
+      <p class="text-muted">Participa en nuestras actividades más importantes del año.</p>
+      <div class="row g-4 justify-content-center">
+        {% for evento in eventos %}
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title text-success">{{ evento.titulo }}</h5>
+              <p class="card-text"><small class="text-muted">{{ evento.fecha }}</small></p>
+              <p class="card-text">{{ evento.descripcion|truncatewords:15 }}</p>
+              <a href="{% url 'calendario' %}" class="btn btn-outline-success rounded-pill">Ver detalles</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+
+    <!-- 3. NOTICIAS -->
+    <section class="mb-5 text-center">
+      <h2 class="fw-bold text-primary mb-3">📰 Noticias Recientes</h2>
+      <p class="text-muted">Entérate de las novedades del colegio y la comunidad educativa.</p>
+      <div class="row g-4 justify-content-center">
+        {% for noticia in noticias %}
+        <div class="col-md-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ noticia.titulo }}</h5>
+              <p class="card-text">{{ noticia.resumen|truncatewords:20 }}</p>
+              <a href="{% url 'textoescolar' %}" class="btn btn-outline-primary rounded-pill">Leer más</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+   <!-- 4. TESTIMONIOS -->
+    <section class="mb-5 text-center">
+      <h2 class="fw-bold text-primary mb-3">💬 Testimonios</h2>
+      <p class="text-muted">Conoce lo que opinan estudiantes y padres de nuestra comunidad.</p>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+          <blockquote class="blockquote p-4 bg-light rounded shadow-sm">
+            <p>“Gracias al colegio Suazapawa, mi hijo descubrió su pasión por la ciencia.”</p>
+            <footer class="blockquote-footer mt-2">Padre de familia</footer>
+          </blockquote>
+        </div>
+        <div class="col-md-6">
+          <blockquote class="blockquote p-4 bg-light rounded shadow-sm">
+            <p>“Aprendí a trabajar en equipo, respetar y confiar en mí mismo.”</p>
+            <footer class="blockquote-footer mt-2">Estudiante de grado 11°</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
 
 </div>
+
+
+<script src="{% static 'js/animaciones.js' %}"></script>
 {% endblock %}

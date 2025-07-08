@@ -106,7 +106,7 @@ AUTHENTICATION_BACKENDS = [
 # Configuración de django-axes
 AXES_FAILURE_LIMIT = 3
 AXES_COOLOFF_TIME = timedelta(minutes=5)
-AXES_LOCKOUT_PARAMETERS = ['username', 'ip_address']
+AXES_LOCKOUT_PARAMETERS = ['username']
 AXES_RESET_ON_SUCCESS = True
 AXES_LOCK_OUT_AT_FAILURE = True
 AXES_LOCKOUT_TEMPLATE = 'auth/bloqueado.html'

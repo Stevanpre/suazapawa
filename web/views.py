@@ -2,7 +2,7 @@
 
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
-from django.views.generic import ListView
+from django.views.generic import ListView,CreateView,UpdateView,DeleteView
 from pyexpat.errors import messages
 from .models import Evento
 from .models import Noticia
@@ -21,6 +21,12 @@ from django.shortcuts import get_object_or_404
 
 class HomeView(TemplateView):
     template_name = "public/home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['eventos'] = Evento.objects.order_by('-fecha')[:3]
+        context['noticias'] = Noticia.objects.order_by('-fecha')[:3]
+        return context
 
 class calendarioView(TemplateView):
     template_name = "public/calendario.html"
