@@ -2,9 +2,8 @@
 
 from django.shortcuts import render,redirect
 from django.views.generic import TemplateView
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from pyexpat.errors import messages
-
 from .models import Evento
 from .models import Noticia
 from django.db.models import Q
@@ -16,8 +15,6 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from .forms import EventoForm, NoticiaForm
 from django.shortcuts import get_object_or_404
-
-
 
 
 # Create your views here.
