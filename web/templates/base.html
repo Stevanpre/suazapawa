@@ -10,23 +10,25 @@
   <!-- Bootstrap local -->
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 
-  <!-- FontAwesome local -->
-  <link rel="stylesheet" href="{% static 'plugins/font-awesome-5.11.1/css/all.css' %}">
-
   <!-- DataTables CSS local -->
   <link rel="stylesheet" href="{% static 'plugins/datatables/css/dataTables.bootstrap5.min.css' %}">
 
-<!-- Css Personalizado -->
-   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome CDN (solo uno, actualizado) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Css Personalizado -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
   <!-- Espacio para estilos personalizados por página -->
-  {% block extra_css %} {% endblock %}
+  {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="min-vh-100 d-flex flex-column">
 
 <!-- ======= NAVBAR ======= -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top" aria-label="Barra de navegación principal">
   <div class="container">
 
     <!-- Logo -->
@@ -36,7 +38,7 @@
     </a>
 
     <!-- Botón responsive -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContenido" aria-controls="navbarContenido" aria-expanded="false" aria-label="Mostrar navegación">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -46,14 +48,14 @@
 
         <!-- INICIO con dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Suazapawa
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'somos' %}">¿Quienes Somos?</a></li>
             <li><a class="dropdown-item" href="{% url 'mision' %}">Misión-Visión</a></li>
-               <li><a class="dropdown-item" href="{% url 'alumno' %}">Perfil Alumno</a></li>
-               <li><a class="dropdown-item" href="{% url 'docente' %}">Perfil Docente</a></li>
+            <li><a class="dropdown-item" href="{% url 'alumno' %}">Perfil Alumno</a></li>
+            <li><a class="dropdown-item" href="{% url 'docente' %}">Perfil Docente</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{% url 'ubicacion' %}">Ubicacion</a></li>
           </ul>
@@ -66,17 +68,17 @@
 
         <!-- MÓDULO 3 con dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             LMS Academico
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="https://www.preescolarsuaza.com/">Prejardín-Transición</a></li>
-              <li><hr class="dropdown-divider"></li>
+            <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="https://www.primariasuaza.com/">Primero-Tercero</a></li>
-               <li><hr class="dropdown-divider"></li>
-               <li><a class="dropdown-item" href="https://www.websuazacademica.com/">Cuarto-Séptimo</a></li>
-              <li><hr class="dropdown-divider"></li>
-               <li><a class="dropdown-item" href="https://www.suazapawa891011.com/">Octavo-Once</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="https://www.websuazacademica.com/">Cuarto-Séptimo</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="https://www.suazapawa891011.com/">Octavo-Once</a></li>
           </ul>
         </li>
 
@@ -84,47 +86,43 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'calendario' %}">Calendario Escolar</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'textoescolar' %}">Noticia Escolar</a></li>
         <li class="nav-item"><a class="nav-link" href="https://temp-hawyqxozvkjiufzoqnrd.webadorsite.com/">Inspira</a></li>
-          <! -- Exalumnos -->
-          <!-- FOTO VR 360° -->
+        <!-- Exalumnos / FOTO VR 360° -->
       </ul>
     </div>
 
     <!-- Botones login/dashboard a la derecha -->
-       {% if user.is_authenticated %}
-        <!-- Botón Dashboard -->
-        <a href="{% url 'dashboard' %}" class="btn btn-success btn-sm me-2 rounded-pill px-3 py-1">
-          🧭 Dashboard
-        </a>
-        <!-- Botón Cerrar sesión -->
-        <form method="post" action="{% url 'logout' %}" class="d-inline">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-danger btn-sm rounded-pill px-3 py-1">
-            🔒 Cerrar Sesión
-          </button>
-        </form>
-      {% endif %}
+    {% if user.is_authenticated %}
+      <!-- Botón Dashboard -->
+      <a href="{% url 'dashboard' %}" class="btn btn-success btn-sm me-2 rounded-pill px-3 py-1" aria-label="Ir al Dashboard">
+        🧭 Dashboard
+      </a>
+      <!-- Botón Cerrar sesión -->
+      <form method="post" action="{% url 'logout' %}" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-sm rounded-pill px-3 py-1" aria-label="Cerrar sesión">
+          🔒 Cerrar Sesión
+        </button>
+      </form>
+    {% endif %}
   </div>
 
-   {% if not user.is_authenticated %}
-  <div class="login-tab-trigger">
-    <a href="{% url 'login' %}" class="btn btn-primary login-tab-btn">
-      🔐 Iniciar Sesión
-    </a>
-  </div>
-{% endif %}
-
+  {% if not user.is_authenticated %}
+    <div class="login-tab-trigger">
+      <a href="{% url 'login' %}" class="btn btn-primary login-tab-btn" aria-label="Iniciar sesión">
+        🔐 Iniciar Sesión
+      </a>
+    </div>
+  {% endif %}
 </nav>
 
-
 <!-- ======= CONTENIDO PRINCIPAL ======= -->
-<main class="container py-5">
+<main class="container py-5 flex-grow-1">
   {% block content %}
-
   {% endblock %}
 </main>
 
 <!-- ======= FOOTER ======= -->
-<footer class="bg-primary text-white py-3 mt-1">
+<footer class="bg-primary text-white py-3 mt-auto">
   <div class="container text-center">
     <h5 class="mb-2">📚 Centro Educativo Suazapawa</h5>
     <p class="mb-1">📍 Vía Duitama - Nobsa Km 13, Boyacá</p>
@@ -132,16 +130,14 @@
 
     <!-- Redes sociales -->
     <div class="mb-3">
-      <a href="https://www.facebook.com/suazapawafanpage/?locale=es_LA" target="_blank" class="text-white me-3 fs-5">📘</a>
-      <a href="https://www.instagram.com/suazapawa/?hl=es&source=omni_redirect" target="_blank" class="text-white me-3 fs-5">📸</a>
-      <a href="https://wa.me/573125551234" target="_blank" class="text-white fs-5">💬</a>
+      <a href="https://www.facebook.com/suazapawafanpage/?locale=es_LA" target="_blank" class="text-white me-3 fs-5" aria-label="Facebook">📘</a>
+      <a href="https://www.instagram.com/suazapawa/?hl=es&source=omni_redirect" target="_blank" class="text-white me-3 fs-5" aria-label="Instagram">📸</a>
+      <a href="https://wa.me/573125551234" target="_blank" class="text-white fs-5" aria-label="WhatsApp">💬</a>
     </div>
 
     <small>&copy; 2025 Suazapawa - Todos los derechos reservados | Desarrollado por FlS 💻</small>
   </div>
 </footer>
-
-
 
 <!-- ======= SCRIPTS ======= -->
 <script src="{% static 'plugins/jquery/jquery.js' %}"></script>
@@ -152,11 +148,9 @@
 
 <!-- Espacio para scripts adicionales -->
 {% block extra_js %}
-
 {% endblock %}
 
 <!-- MENSAJES ALERTA BONITOS -->
-
 {% if messages %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -164,7 +158,7 @@
       Swal.fire({
         icon: "{{ message.tags|default:'info' }}",
         title: "{{ message|escapejs }}",
-        timer: 4000, // ⏰ MÁS TIEMPO AQUÍ
+        timer: 4000,
         timerProgressBar: true,
         showConfirmButton: true
       });
@@ -177,12 +171,10 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const botonesEliminar = document.querySelectorAll('.btn-eliminar');
-
     botonesEliminar.forEach(btn => {
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         const url = this.dataset.url;
-
         Swal.fire({
           title: '¿Estás seguro?',
           text: "¡Esta acción no se puede deshacer!",
@@ -201,7 +193,6 @@
     });
   });
 </script>
-
 
 </body>
 </html>

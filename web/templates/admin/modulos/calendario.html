@@ -68,10 +68,9 @@
                   ✏️ Editar
                 </a>
                 <a href="#" class="btn btn-danger btn-sm rounded-pill btn-eliminar"
-   data-url="{% url 'eliminar_evento' evento.id %}">
-  🗑 Eliminar
-</a>
-
+                   data-url="{% url 'eliminar_evento' evento.id %}">
+                  🗑 Eliminar
+                </a>
               </div>
             </div>
           </div>
@@ -83,4 +82,95 @@
   {% endfor %}
 </div>
 
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Tarjeta del formulario */
+.card {
+  border-radius: 1.1rem;
+  box-shadow: 0 2px 12px rgba(120,200,220,0.10);
+  border: 1px solid #d0f4fd;
+  background: linear-gradient(120deg, #e0f7fa 60%, #fafdff 100%);
+  animation: fadeInCard 0.7s;
+}
+@keyframes fadeInCard {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.card-header {
+  border-radius: 1.1rem 1.1rem 0 0;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, #2b8ca7 70%, #b6eaff 100%) !important;
+  color: #fff !important;
+}
+
+/* Inputs del formulario */
+form .form-control, form textarea {
+  border-radius: 0.7rem;
+  border: 1.5px solid #d0f4fd;
+  background: #fafdff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-size: 1.08rem;
+  padding: 0.7rem 1rem;
+}
+form .form-control:focus, form textarea:focus {
+  border-color: #2b8ca7;
+  box-shadow: 0 0 0 2px #b6eaff33;
+}
+
+/* Botones */
+.btn-success, .btn-warning, .btn-danger {
+  border-radius: 0.7rem !important;
+  font-size: 1.05rem;
+  transition: background 0.18s, transform 0.18s;
+  box-shadow: 0 2px 8px rgba(120,200,220,0.10);
+}
+.btn-success:hover, .btn-warning:hover, .btn-danger:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.08);
+}
+
+/* Acordeón de eventos */
+.accordion-item {
+  border-radius: 1rem !important;
+  overflow: hidden;
+  border: 1px solid #d0f4fd !important;
+  background: #fafdff;
+  animation: fadeInCard 0.7s;
+}
+.accordion-button {
+  background: linear-gradient(90deg, #e0f7fa 80%, #b6eaff 100%);
+  font-weight: 500;
+  font-size: 1.08rem;
+  color: #2b8ca7;
+  border: none;
+  outline: none;
+  transition: background 0.2s;
+}
+.accordion-button:not(.collapsed) {
+  background: #b6eaff;
+  color: #1a5e72;
+}
+.accordion-body {
+  background: #fafdff;
+  border-top: 1px solid #d0f4fd;
+  font-size: 1.01rem;
+}
+
+/* Imagen de evento */
+.accordion-body img {
+  border-radius: 0.7rem;
+  border: 1.5px solid #d0f4fd;
+  box-shadow: 0 1px 6px rgba(120,200,220,0.12);
+}
+
+/* Títulos y subtítulos */
+h3, h4 {
+  color: #2b8ca7;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+</style>
 {% endblock %}

@@ -3,44 +3,70 @@
 
 {% block title %}Calendario Escolar | Suazapawa{% endblock %}
 
+{% block extra_css %}
+<style>
+  .card-evento {
+    transition: transform 0.18s, box-shadow 0.18s;
+  }
+  .card-evento:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  }
+  .badge-fecha {
+    background: linear-gradient(90deg, #38bdf8 0%, #6366f1 100%);
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    margin-bottom: 0.5em;
+    display: inline-block;
+  }
+  .btn-vermas {
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-vermas:focus {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container py-5">
-  <!-- Título principal -->
   <h2 class="text-center text-info fw-bold mb-4">📅 Calendario Escolar</h2>
-
   <div class="row">
-    {% for evento in eventos %}
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm border-0">
-          <!-- Imagen del evento -->
-          <img src="{{ evento.imagen.url }}" class="card-img-top img-fluid rounded-top" alt="{{ evento.titulo }}">
-
-          <div class="card-body d-flex flex-column">
-            <!-- Título y descripción -->
-            <h5 class="card-title">{{ evento.titulo }}</h5>
-            <p class="card-text text-muted">{{ evento.descripcion_corta }}</p>
-
-            <!-- Botón para ver más información -->
-            <button class="btn btn-outline-primary mt-auto" type="button" data-bs-toggle="collapse" data-bs-target="#evento{{ evento.id }}">
-              Ver más
-            </button>
-
-            <!-- Información adicional (oculta por defecto) -->
-            <div class="collapse mt-3" id="evento{{ evento.id }}">
-              <p><i class="fas fa-calendar-alt text-primary"></i> <strong>Fecha:</strong> {{ evento.fecha }}</p>
-              <p><i class="fas fa-clock text-primary"></i> <strong>Hora:</strong> {{ evento.hora }}</p>
-              <p><i class="fas fa-map-marker-alt text-primary"></i> <strong>Lugar:</strong> {{ evento.lugar }}</p>
-              <p>{{ evento.descripcion_detallada }}</p>
+    {% if eventos %}
+      {% for evento in eventos %}
+        <div class="col-md-4 mb-4">
+          <div class="card card-evento h-100 shadow-sm border-0">
+            <img src="{{ evento.imagen.url }}" class="card-img-top img-fluid rounded-top" alt="{{ evento.titulo }}">
+            <div class="card-body d-flex flex-column">
+              <span class="badge-fecha mb-2">
+                <i class="fas fa-calendar-alt me-1"></i> {{ evento.fecha }}
+              </span>
+              <h5 class="card-title">{{ evento.titulo }}</h5>
+              <p class="card-text text-muted">{{ evento.descripcion_corta }}</p>
+              <button class="btn btn-outline-primary btn-vermas mt-auto" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#evento{{ evento.id }}"
+                aria-expanded="false"
+                aria-controls="evento{{ evento.id }}">
+                <i class="fas fa-chevron-down me-1"></i> Ver más
+              </button>
+              <div class="collapse mt-3" id="evento{{ evento.id }}">
+                <p><i class="fas fa-clock text-primary"></i> <strong>Hora:</strong> {{ evento.hora }}</p>
+                <p><i class="fas fa-map-marker-alt text-primary"></i> <strong>Lugar:</strong> {{ evento.lugar }}</p>
+                <p>{{ evento.descripcion_detallada }}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    {% empty %}
-      <!-- Mensaje si no hay eventos -->
-      <div class="text-center">
+      {% endfor %}
+    {% else %}
+      <div class="col-12 text-center">
         <p class="text-muted">No hay eventos programados por ahora.</p>
       </div>
-    {% endfor %}
+    {% endif %}
   </div>
 </div>
 {% endblock %}

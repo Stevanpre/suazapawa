@@ -4,13 +4,14 @@
 {% block title %}Inicio | Suazapawa{% endblock %}
 
 {% block content %}
+<!-- Google Fonts y Font Awesome en base.html -->
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 
 <div class="container py-5">
 
-  <!-- HERO PRINCIPAL -->
+  <!-- HERO PRINCIPAL con efecto parallax -->
   <section class="text-center mb-5">
-    <img src="{% static 'img/portada-suaza.png' %}" alt="Imagen Colegio Suazapawa" class="img-fluid rounded shadow mb-4" style="max-height: 400px; object-fit: cover;">
+    <div class="hero-img mb-4"></div>
     <h1 class="display-5 fw-bold text-primary">Bienvenidos al Centro Educativo Suazapawa</h1>
     <p class="lead text-muted">Educamos con valores, conocimiento y visión de futuro.</p>
     <a href="#secciones" class="btn btn-primary btn-lg mt-3 rounded-pill px-4">Explora más ⬇️</a>
@@ -18,7 +19,7 @@
 
   <!-- VIDEO INSTITUCIONAL -->
   <section class="text-center mb-5">
-    <h2 class="h4 mb-3 text-success">🎥 Conócenos en 2 minutos</h2>
+    <h2 class="h4 mb-3 text-success"><i class="fas fa-video"></i> Conócenos en 2 minutos</h2>
     <div class="ratio ratio-16x9 mx-auto" style="max-width: 720px;">
       <video src="{% static 'video/presentacion.mp4' %}" controls class="rounded shadow"></video>
     </div>
@@ -28,13 +29,13 @@
 
     <!-- 1. NIVELES ACADÉMICOS -->
     <section class="mb-5 text-center">
-      <h2 class="fw-bold text-primary mb-3">📚 Niveles Académicos</h2>
+      <h2 class="fw-bold text-primary mb-3"><i class="fas fa-graduation-cap"></i> Niveles Académicos</h2>
       <p class="text-muted mb-4">Conoce las etapas educativas que ofrecemos en Suazapawa.</p>
       <div class="row g-4 justify-content-center">
         <div class="col-md-3">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
-              <h5 class="card-title text-success">Preescolar</h5>
+              <h5 class="card-title text-success"><i class="fas fa-child"></i> Preescolar</h5>
               <p class="card-text">Aprendizaje lúdico para el desarrollo inicial.</p>
               <a href="#" class="btn btn-outline-success rounded-pill">Más información</a>
             </div>
@@ -43,7 +44,7 @@
         <div class="col-md-3">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
-              <h5 class="card-title text-info">Primaria</h5>
+              <h5 class="card-title text-info"><i class="fas fa-book"></i> Primaria</h5>
               <p class="card-text">Formación en valores y conocimiento fundamental.</p>
               <a href="#" class="btn btn-outline-info rounded-pill">Más información</a>
             </div>
@@ -52,7 +53,7 @@
         <div class="col-md-3">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
-              <h5 class="card-title text-warning">Secundaria</h5>
+              <h5 class="card-title text-warning"><i class="fas fa-user-graduate"></i> Secundaria</h5>
               <p class="card-text">Pensamiento crítico, liderazgo y tecnología.</p>
               <a href="#" class="btn btn-outline-warning rounded-pill">Más información</a>
             </div>
@@ -61,7 +62,7 @@
         <div class="col-md-3">
           <div class="card h-100 shadow-sm">
             <div class="card-body">
-              <h5 class="card-title text-danger">Media Técnica</h5>
+              <h5 class="card-title text-danger"><i class="fas fa-briefcase"></i> Media Técnica</h5>
               <p class="card-text">Preparación para el mundo profesional y universitario.</p>
               <a href="#" class="btn btn-outline-danger rounded-pill">Más información</a>
             </div>
@@ -70,52 +71,45 @@
       </div>
     </section>
 
-
-      <!-- 5. GALERÍA -->
-<!-- 5. GALERÍA -->
-<section class="mb-5 text-center">
-  <h2 class="fw-bold text-primary mb-3">📸 Galería de Momentos</h2>
-  <p class="text-muted">Revive nuestros mejores recuerdos institucionales.</p>
-
-  <div id="carouselGaleria" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: 720px;">
-    <div class="carousel-inner">
-      {% for i in "123456"|make_list %}
-      <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img src="{% static 'img/galeria/ph' %}{{ i }}.jpg" class="d-block w-100 rounded shadow" alt="Imagen ph{{ i }}" style="max-height: 400px; object-fit: cover;">
+    <!-- 5. GALERÍA -->
+    <section class="mb-5 text-center">
+      <h2 class="fw-bold text-primary mb-3"><i class="fas fa-images"></i> Galería de Momentos</h2>
+      <p class="text-muted">Revive nuestros mejores recuerdos institucionales.</p>
+      <div id="carouselGaleria" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: 720px;">
+        <div class="carousel-inner">
+          {% for i in "123456"|make_list %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{% static 'img/galeria/ph' %}{{ i }}.jpg" class="d-block w-100 rounded shadow" alt="Imagen ph{{ i }}" style="max-height: 400px; object-fit: cover;">
+          </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselGaleria" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselGaleria" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+        <div class="carousel-indicators">
+          {% for i in "123456"|make_list %}
+          <button type="button" data-bs-target="#carouselGaleria" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Imagen {{ i }}"></button>
+          {% endfor %}
+        </div>
       </div>
-      {% endfor %}
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselGaleria" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Anterior</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselGaleria" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Siguiente</span>
-    </button>
-    <div class="carousel-indicators">
-      {% for i in "123456"|make_list %}
-      <button type="button" data-bs-target="#carouselGaleria" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Imagen {{ i }}"></button>
-      {% endfor %}
-    </div>
-  </div>
-
-  <a href="#" class="btn btn-outline-primary rounded-pill mt-3">Ver galería completa</a>
-</section>
-
-
-
+      <a href="#" class="btn btn-outline-primary rounded-pill mt-3">Ver galería completa</a>
+    </section>
 
     <!-- 2. EVENTOS DESTACADOS -->
     <section class="mb-5 text-center">
-      <h2 class="fw-bold text-primary mb-3">📅 Eventos Destacados</h2>
+      <h2 class="fw-bold text-primary mb-3"><i class="fas fa-calendar-alt"></i> Eventos Destacados</h2>
       <p class="text-muted">Participa en nuestras actividades más importantes del año.</p>
       <div class="row g-4 justify-content-center">
         {% for evento in eventos %}
         <div class="col-md-4">
           <div class="card h-100 border-0 shadow-sm">
             <div class="card-body">
-              <h5 class="card-title text-success">{{ evento.titulo }}</h5>
+              <h5 class="card-title text-success"><i class="fas fa-star"></i> {{ evento.titulo }}</h5>
               <p class="card-text"><small class="text-muted">{{ evento.fecha }}</small></p>
               <p class="card-text">{{ evento.descripcion|truncatewords:15 }}</p>
               <a href="{% url 'calendario' %}" class="btn btn-outline-success rounded-pill">Ver detalles</a>
@@ -126,17 +120,16 @@
       </div>
     </section>
 
-
     <!-- 3. NOTICIAS -->
     <section class="mb-5 text-center">
-      <h2 class="fw-bold text-primary mb-3">📰 Noticias Recientes</h2>
+      <h2 class="fw-bold text-primary mb-3"><i class="fas fa-newspaper"></i> Noticias Recientes</h2>
       <p class="text-muted">Entérate de las novedades del colegio y la comunidad educativa.</p>
       <div class="row g-4 justify-content-center">
         {% for noticia in noticias %}
         <div class="col-md-4">
           <div class="card h-100 border-0 shadow-sm">
             <div class="card-body">
-              <h5 class="card-title">{{ noticia.titulo }}</h5>
+              <h5 class="card-title"><i class="fas fa-bullhorn"></i> {{ noticia.titulo }}</h5>
               <p class="card-text">{{ noticia.resumen|truncatewords:20 }}</p>
               <a href="{% url 'textoescolar' %}" class="btn btn-outline-primary rounded-pill">Leer más</a>
             </div>
@@ -146,9 +139,9 @@
       </div>
     </section>
 
-   <!-- 4. TESTIMONIOS -->
+    <!-- 4. TESTIMONIOS -->
     <section class="mb-5 text-center">
-      <h2 class="fw-bold text-primary mb-3">💬 Testimonios</h2>
+      <h2 class="fw-bold text-primary mb-3"><i class="fas fa-comments"></i> Testimonios</h2>
       <p class="text-muted">Conoce lo que opinan estudiantes y padres de nuestra comunidad.</p>
       <div class="row g-4 justify-content-center">
         <div class="col-md-6">
@@ -166,8 +159,6 @@
       </div>
     </section>
 
+  </div>
 </div>
-
-
-<script src="{% static 'js/animaciones.js' %}"></script>
 {% endblock %}

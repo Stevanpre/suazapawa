@@ -1,0 +1,70 @@
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+}
+
+h1, h2, h3, .fw-bold {
+  letter-spacing: 1px;
+}
+
+.btn, .card, .blockquote {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover, .card:hover, .blockquote:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.card-title i {
+  margin-right: 8px;
+}
+
+.carousel-item img {
+  transition: transform 0.3s;
+}
+
+.carousel-item img:hover {
+  transform: scale(1.05);
+}
+
+section {
+  background: rgba(255,255,255,0.85);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+}
+
+.hero-img {
+  background: url('../img/portada-suaza.png') center/cover no-repeat;
+  min-height: 400px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  position: relative;
+  overflow: hidden;
+}
+.hero-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.18);
+}
+
+.blockquote {
+  border-left: 5px solid #6366f1;
+  background: #f1f5f9;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: #6366f1;
+}
+
+@media (max-width: 768px) {
+  .hero-img {
+    min-height: 220px;
+  }
+  section {
+    padding: 1rem 0.5rem;
+  }
+}

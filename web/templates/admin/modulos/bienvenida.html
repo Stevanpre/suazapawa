@@ -1,27 +1,55 @@
-<div class="bg-white border rounded p-4 shadow-sm">
-  <h4 class="fw-semibold mb-3">
-    👋 Bienvenido, {{ request.user.first_name|default:request.user.username }}
-  </h4>
+<!-- web/templates/admin/modulos/bienvenida.html -->
+<div class="bienvenida-card p-4 mb-4">
+  <div class="d-flex align-items-center mb-4">
+    <div class="bienvenida-avatar me-4">
+      <i class="fas fa-user-graduate"></i>
+    </div>
+    <h4 class="fw-semibold mb-0 text-primary">
+      ¡Bienvenido, {{ request.user.first_name|default:request.user.username }}!
+    </h4>
+  </div>
 
-  <p class="text-muted mb-2">
+  <p class="text-muted mb-3 fs-5">
     Has iniciado sesión en el panel administrativo del sistema escolar <strong>Suazapawa</strong>.
   </p>
-
-  <p class="text-muted mb-3">
+  <p class="text-muted mb-4 fs-6">
     Aquí puedes gestionar los <strong>eventos</strong> y <strong>noticias</strong> escolares de forma sencilla y rápida.
   </p>
 
-  <div class="alert alert-light border-start border-4 border-primary small mb-3">
-    🔹 Usa el menú lateral para acceder a las secciones de edición. ⬅️
+  <div class="alert alert-info d-flex align-items-center mb-3 py-3 px-4 small">
+    <i class="fas fa-bars me-3 text-primary"></i>
+    Usa el menú lateral para acceder a las secciones de edición.
   </div>
-
-    <div class="alert alert-success border-start border-4 border-primary small mb-3">
-     🔹 No olvides Guardar tus cambios. 💾
+  <div class="alert alert-success d-flex align-items-center mb-3 py-3 px-4 small">
+    <i class="fas fa-save me-3 text-success"></i>
+    No olvides <strong> guardar </strong> tus cambios.
   </div>
-
-      <div class="alert alert-danger border-start border-4 border-primary small mb-3">
-    🔹 No olvides Cerrar Sesión. ⬆️
+  <div class="alert alert-warning d-flex align-items-center mb-0 py-3 px-4 small">
+    <i class="fas fa-sign-out-alt me-3" style="color:#e74c3c;"></i>
+    Recuerda <strong style="color:#e74c3c;"> cerrar sesión </strong> al terminar.
   </div>
-
 </div>
 
+<style>
+.bienvenida-card {
+  background: linear-gradient(120deg, #e0f7fa 60%, #fafdff 100%);
+  border-radius: 1.1rem;
+  box-shadow: 0 2px 12px rgba(120,200,220,0.08);
+  border: 1px solid #d0f4fd;
+}
+.bienvenida-avatar {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #b6eaff 60%, #e0f7fa 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #2b8ca7;
+  box-shadow: 0 1px 6px rgba(120,200,220,0.10);
+}
+.bienvenida-card p {
+  line-height: 1.7;
+}
+</style>
