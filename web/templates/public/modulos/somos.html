@@ -4,20 +4,19 @@
 {% block title %}Sobre Nosotros | Colegio Suazapawa{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="container py-5" style="background:#fff;">
   <div class="text-center mb-5">
-    <h1 class="fw-bold text-primary">🏫 Colegio Suazapawa</h1>
-    <p class="text-muted fs-5">Formando líderes con valores, conocimiento y compromiso.</p>
+    <h1 class="fw-bold" style="color:#1a3c6c;">🏫 Colegio Suazapawa</h1>
+    <p class="fs-5" style="color:#d7263d;">Formando líderes con valores, conocimiento y compromiso.</p>
   </div>
 
   <div class="row g-5">
-
     <!-- Historia -->
     <div class="col-md-12">
-      <div class="card shadow-sm mt-4">
+      <div class="card shadow-sm mt-4 historia-card">
         <div class="card-body">
-          <h4 class="text-warning mb-3">📚 Nuestra Historia</h4>
-          <p>
+          <h4 class="mb-3" style="color:#d7263d;">📚 Nuestra Historia</h4>
+          <p style="color:#1a3c6c;">
             El Colegio Suazapawa fue fundado con el firme propósito de ofrecer educación de calidad en un ambiente
             inclusivo, familiar y motivador. Desde nuestros inicios, hemos crecido gracias al compromiso de docentes,
             familias y estudiantes, convirtiéndonos en una comunidad educativa que cree en el poder del conocimiento,
@@ -30,21 +29,58 @@
 
   <!-- Valores institucionales -->
   <div class="mt-5">
-    <h3 class="text-center mb-4">💡 Nuestros Valores</h3>
+    <h3 class="text-center mb-4" style="color:#1a3c6c;">💡 Nuestros Valores</h3>
     <div class="row text-center">
-      <div class="col-6 col-md-3">
-        <div class="border rounded p-3 shadow-sm">🤝 Respeto</div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="valor-card p-3" style="color:#1a3c6c;">🤝 Respeto</div>
       </div>
-      <div class="col-6 col-md-3">
-        <div class="border rounded p-3 shadow-sm">🧠 Responsabilidad</div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="valor-card p-3" style="color:#d7263d;">🧠 Responsabilidad</div>
       </div>
-      <div class="col-6 col-md-3 mt-3 mt-md-0">
-        <div class="border rounded p-3 shadow-sm">💬 Honestidad</div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="valor-card p-3" style="color:#1a3c6c;">💬 Honestidad</div>
       </div>
-      <div class="col-6 col-md-3 mt-3 mt-md-0">
-        <div class="border rounded p-3 shadow-sm">🌍 Compromiso</div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="valor-card p-3" style="color:#d7263d;">🌍 Compromiso</div>
       </div>
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+body {
+  background: #fff;
+}
+.card.historia-card {
+  border-radius: 1.1rem;
+  box-shadow: 0 2px 12px rgba(26,60,108,0.08);
+  border: 2px solid #e0f7fa;
+  background: linear-gradient(120deg, #fff 80%, #e0f7fa 100%);
+  animation: fadeInCard 0.7s;
+}
+@keyframes fadeInCard {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+h1, h3, h4 {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.valor-card {
+  border-radius: 0.9rem;
+  background: linear-gradient(100deg, #fff 70%, #e0f7fa 100%);
+  box-shadow: 0 1px 6px rgba(26,60,108,0.10);
+  font-size: 1.15rem;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid #e0f7fa;
+}
+.valor-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(215,38,61,0.12);
+  background: linear-gradient(100deg, #fff 60%, #fbeaec 100%);
+}
+</style>
 {% endblock %}

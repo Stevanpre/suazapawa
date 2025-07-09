@@ -23,7 +23,8 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
   <!-- Espacio para estilos personalizados por página -->
-  {% block extra_css %}{% endblock %}
+  {% block extra_css %}
+  {% endblock %}
 </head>
 <body class="min-vh-100 d-flex flex-column">
 
@@ -116,9 +117,12 @@
 </nav>
 
 <!-- ======= CONTENIDO PRINCIPAL ======= -->
+
 <main class="container py-5 flex-grow-1">
-  {% block content %}
-  {% endblock %}
+  <div class="main-content-anim">
+    {% block content %}
+    {% endblock %}
+  </div>
 </main>
 
 <!-- ======= FOOTER ======= -->

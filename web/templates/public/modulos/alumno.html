@@ -4,16 +4,16 @@
 {% block title %}Perfil del Alumno | Colegio Suazapawa{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="container py-5" style="background:#fff;">
   <div class="text-center mb-5">
-    <h2 class="fw-bold text-primary">👩‍🎓 Perfil del Alumno Suazapawa</h2>
-    <p class="lead text-muted">Formamos estudiantes con valores, identidad y propósito</p>
+    <h2 class="fw-bold" style="color:#1a3c6c;">👩‍🎓 Perfil del Alumno Suazapawa</h2>
+    <p class="lead" style="color:#d7263d;">Formamos estudiantes con valores, identidad y propósito</p>
   </div>
 
   <!-- Descripción general -->
   <div class="row mb-4">
     <div class="col-md-12 text-center">
-      <p class="fs-5">
+      <p class="fs-5" style="color:#1a3c6c;">
         En Suazapawa creemos que cada estudiante es único y valioso. Nuestro enfoque pedagógico busca desarrollar no solo
         habilidades académicas, sino también el carácter, la conciencia social, y el sentido de pertenencia a su comunidad.
       </p>
@@ -25,9 +25,9 @@
 
     <!-- Preescolar -->
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm border-0">
+      <div class="card perfil-card preescolar h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title text-success">🧒 Estudiante de Preescolar</h5>
+          <h5 class="card-title" style="color:#1a3c6c;">🧒 Estudiante de Preescolar</h5>
           <p class="card-text">
             Es curioso, activo, con alta imaginación y en proceso de descubrir su entorno.
             Se promueve el juego como herramienta educativa, el desarrollo motor, y la socialización inicial.
@@ -39,9 +39,9 @@
 
     <!-- Básica primaria -->
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm border-0">
+      <div class="card perfil-card primaria h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title text-primary">📚 Estudiante de Primaria</h5>
+          <h5 class="card-title" style="color:#d7263d;">📚 Estudiante de Primaria</h5>
           <p class="card-text">
             Es un alumno que empieza a desarrollar habilidades cognitivas, comunicativas y de pensamiento lógico.
             Se destaca por su entusiasmo por aprender, la capacidad de trabajo en grupo, y la consolidación de valores
@@ -53,9 +53,9 @@
 
     <!-- Básica secundaria -->
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm border-0">
+      <div class="card perfil-card secundaria h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title text-warning">🧠 Estudiante de Secundaria</h5>
+          <h5 class="card-title" style="color:#1a3c6c;">🧠 Estudiante de Secundaria</h5>
           <p class="card-text">
             Demuestra mayor autonomía y pensamiento crítico. Participa activamente en proyectos colaborativos y
             de investigación. Se le fomenta el liderazgo, la empatía y el compromiso con su entorno. Empieza a
@@ -67,9 +67,9 @@
 
     <!-- Media académica -->
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm border-0">
+      <div class="card perfil-card media h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title text-danger">🎓 Estudiante de Media (10° y 11°)</h5>
+          <h5 class="card-title" style="color:#d7263d;">🎓 Estudiante de Media (10° y 11°)</h5>
           <p class="card-text">
             Se caracteriza por su pensamiento reflexivo, capacidad de análisis y toma de decisiones. Está en proceso de
             definir su proyecto de vida, siendo autónomo, solidario y con proyección hacia la educación superior o
@@ -81,4 +81,46 @@
 
   </div>
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+body {
+  background: #fff;
+}
+.perfil-card {
+  border-radius: 1.1rem;
+  border: 2px solid #e0f7fa;
+  background: linear-gradient(120deg, #fff 80%, #e0f7fa 100%);
+  box-shadow: 0 2px 12px rgba(26,60,108,0.08);
+  transition: transform 0.18s, box-shadow 0.18s;
+  min-height: 100%;
+}
+.perfil-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px rgba(215,38,61,0.12);
+}
+.perfil-card .card-title {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.perfil-card.preescolar {
+  border-left: 6px solid #1a3c6c;
+}
+.perfil-card.primaria {
+  border-left: 6px solid #d7263d;
+}
+.perfil-card.secundaria {
+  border-left: 6px solid #1a3c6c;
+}
+.perfil-card.media {
+  border-left: 6px solid #d7263d;
+}
+@media (max-width: 767px) {
+  .perfil-card {
+    border-left-width: 4px;
+    border-radius: 0.8rem;
+  }
+}
+</style>
 {% endblock %}

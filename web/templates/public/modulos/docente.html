@@ -4,16 +4,16 @@
 {% block title %}Perfil del Docente | Colegio Suazapawa{% endblock %}
 
 {% block content %}
-<div class="container py-5">
+<div class="container py-5" style="background:#fff;">
   <div class="text-center mb-5">
-    <h2 class="fw-bold text-primary">👨‍🏫 Perfil del Docente Suazapawa</h2>
-    <p class="lead text-muted">Educadores con vocación, compromiso y liderazgo pedagógico</p>
+    <h2 class="fw-bold" style="color:#1a3c6c;">👨‍🏫 Perfil del Docente Suazapawa</h2>
+    <p class="lead" style="color:#d7263d;">Educadores con vocación, compromiso y liderazgo pedagógico</p>
   </div>
 
   <!-- Descripción general -->
   <div class="row mb-4">
     <div class="col-md-12 text-center">
-      <p class="fs-5">
+      <p class="fs-5" style="color:#1a3c6c;">
         En Suazapawa, el docente es más que un transmisor de conocimientos. Es guía, formador, acompañante
         y ejemplo. Trabaja con pasión, empatía y ética, fomentando el pensamiento crítico, el respeto y la inclusión.
       </p>
@@ -25,9 +25,9 @@
 
     <!-- Vocación -->
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm border-0">
+      <div class="card cualidad-card vocacion h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title text-success">❤️ Vocación y ética</h5>
+          <h5 class="card-title" style="color:#1a3c6c;">❤️ Vocación y ética</h5>
           <p class="card-text">
             El docente Suazapawa ejerce con amor por su profesión. Actúa con responsabilidad, honestidad
             y coherencia, siendo un referente para sus estudiantes y colegas.
@@ -38,9 +38,9 @@
 
     <!-- Innovación -->
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm border-0">
+      <div class="card cualidad-card innovacion h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title text-info">💡 Innovador y creativo</h5>
+          <h5 class="card-title" style="color:#d7263d;">💡 Innovador y creativo</h5>
           <p class="card-text">
             Utiliza estrategias didácticas activas, herramientas tecnológicas y metodologías participativas
             para hacer del aprendizaje una experiencia significativa.
@@ -51,9 +51,9 @@
 
     <!-- Compromiso institucional -->
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm border-0">
+      <div class="card cualidad-card compromiso h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title text-warning">🏫 Comprometido con la comunidad</h5>
+          <h5 class="card-title" style="color:#1a3c6c;">🏫 Comprometido con la comunidad</h5>
           <p class="card-text">
             Participa en proyectos escolares, eventos y actividades comunitarias. Promueve el trabajo en equipo,
             el sentido de pertenencia y el respeto por la diversidad cultural.
@@ -64,9 +64,9 @@
 
     <!-- Formación continua -->
     <div class="col-md-6">
-      <div class="card h-100 shadow-sm border-0">
+      <div class="card cualidad-card formacion h-100 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title text-danger">📘 Formación permanente</h5>
+          <h5 class="card-title" style="color:#d7263d;">📘 Formación permanente</h5>
           <p class="card-text">
             Está en constante actualización pedagógica y disciplinar. Busca mejorar sus prácticas y fortalecer
             su desarrollo profesional para impactar positivamente en sus estudiantes.
@@ -77,4 +77,46 @@
 
   </div>
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+body {
+  background: #fff;
+}
+.cualidad-card {
+  border-radius: 1.1rem;
+  border: 2px solid #e0f7fa;
+  background: linear-gradient(120deg, #fff 80%, #e0f7fa 100%);
+  box-shadow: 0 2px 12px rgba(26,60,108,0.08);
+  transition: transform 0.18s, box-shadow 0.18s;
+  min-height: 100%;
+}
+.cualidad-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px rgba(215,38,61,0.12);
+}
+.cualidad-card .card-title {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.cualidad-card.vocacion {
+  border-left: 6px solid #1a3c6c;
+}
+.cualidad-card.innovacion {
+  border-left: 6px solid #d7263d;
+}
+.cualidad-card.compromiso {
+  border-left: 6px solid #1a3c6c;
+}
+.cualidad-card.formacion {
+  border-left: 6px solid #d7263d;
+}
+@media (max-width: 767px) {
+  .cualidad-card {
+    border-left-width: 4px;
+    border-radius: 0.8rem;
+  }
+}
+</style>
 {% endblock %}
