@@ -33,11 +33,6 @@ body {
     transform: scaleY(1) translateY(0);
   }
 }
-
-.navbar {
-  background-color: var(--azul-suazapawa) !important;
-}
-
 .navbar .nav-link,
 .navbar .navbar-brand {
   color: white !important;
@@ -160,5 +155,26 @@ body {
 .animate-slide-up.show {
   opacity: 1;
   transform: none;
+}
+
+/* Navbar personalizado */
+.navbar-suazapawa {
+  background: linear-gradient(90deg, #1a3c6c 85%, #e0f7fa 100%) !important;
+  color: #fff !important;
+}
+.navbar-suazapawa .navbar-nav .nav-link,
+.navbar-suazapawa .navbar-brand {
+  color: #fff !important;
+}
+
+/* footer personalizado */
+
+.footer-suazapawa {
+  background: linear-gradient(90deg, #1a3c6c 90%, #e0f7fa 100%) !important;
+  color: #fff !important;
+}
+.footer-suazapawa a,
+.footer-suazapawa .text-white {
+  color: #fff !important;
 }
 

@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'clave-insegura-defecto')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # Hosts permitidos
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = []
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
