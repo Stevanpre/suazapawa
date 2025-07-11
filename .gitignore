@@ -62,3 +62,6 @@ static/video/
 # -------------------------
 .DS_Store
 Thumbs.db
+suazapawa/__pycache__/settings.cpython-313.pyc
+web/__pycache__/forms.cpython-313.pyc
+web/__pycache__/views.cpython-313.pyc
