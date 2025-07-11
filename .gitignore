@@ -34,18 +34,20 @@ secrets.json
 # -------------------------
 # Django
 # -------------------------
-staticfiles/
-media/
 *.log
 *.pot
 *.pyc
 local_settings.py
 
-# Archivos generados por collectstatic
-/static/
-/media/
-/static/video/
+# Archivos generados por collectstatic y media
+staticfiles/
+static/
+media/
+static/video/
 *.mp4
+*.mov
+*.avi
+*.mkv
 
 # -------------------------
 # IDEs y editores
