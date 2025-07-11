@@ -44,7 +44,7 @@ local_settings.py
 # Archivos generados por collectstatic
 /static/
 /media/
-/video/
+/static/video/
 *.mp4
 
 # -------------------------
