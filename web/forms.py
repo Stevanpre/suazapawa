@@ -18,7 +18,7 @@ class EventoForm(forms.ModelForm):
 
     def clean_descripcion_corta(self):
         data = self.cleaned_data['descripcion_corta']
-        if len(data) >=10:
+        if len(data) >10:
             raise forms.ValidationError("La descripción corta debe tener al menos 10 caracteres.")
         return data
 
