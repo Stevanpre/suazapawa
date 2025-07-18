@@ -1,20 +1,21 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-from datetime import timedelta
 
-# Cargar variables de entorno desde .env
+# Cargar variables desde archivo .env
 load_dotenv()
 
-# Base directory del proyecto
+# BASE_DIR del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Clave secreta y debug desde .env
-SECRET_KEY = os.getenv('SECRET_KEY', 'clave-insegura-defecto')
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+# Modo desarrollo
+DEBUG = True
 
-# Hosts permitidos
-ALLOWED_HOSTS = []
+# Clave secreta segura en entorno de desarrollo
+SECRET_KEY = os.getenv('SECRET_KEY', 'clave-insegura-desarrollo')
+
+# Hosts permitidos en entorno local
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
@@ -32,7 +33,6 @@ INSTALLED_APPS = [
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'axes.middleware.AxesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,7 +42,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# URLs y WSGI
+# URLS
 ROOT_URLCONF = 'suazapawa.urls'
 WSGI_APPLICATION = 'suazapawa.wsgi.application'
 
@@ -62,7 +62,7 @@ TEMPLATES = [
     },
 ]
 
-# Base de datos (SQLite para prototipo)
+# Base de datos SQLite
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -70,25 +70,16 @@ DATABASES = {
     }
 }
 
-# Validaciones de contraseña
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
+# Validación de contraseñas
+AUTH_PASSWORD_VALIDATORS = []
 
-# Archivos de medios
+# Archivos estáticos y media
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'web/static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Archivos estáticos
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'web/static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Configuración de login y sesión
+# Configuración de sesiones y login
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
@@ -104,6 +95,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Configuración de django-axes
+from datetime import timedelta
 AXES_FAILURE_LIMIT = 3
 AXES_COOLOFF_TIME = timedelta(minutes=5)
 AXES_LOCKOUT_PARAMETERS = ['username']
@@ -111,29 +103,12 @@ AXES_RESET_ON_SUCCESS = True
 AXES_LOCK_OUT_AT_FAILURE = True
 AXES_LOCKOUT_TEMPLATE = 'auth/bloqueado.html'
 AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
-
-# Nuevas configuraciones para IP detrás de proxies
 AXES_IPWARE_PROXY_COUNT = 1
-AXES_IPWARE_META_PRECEDENCE_ORDER = [
-    'HTTP_X_FORWARDED_FOR',
-    'REMOTE_ADDR',
-]
-
-
-# Seguridad adicional para producción
-if not DEBUG:
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 3600
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    X_FRAME_OPTIONS = 'DENY'
+AXES_IPWARE_META_PRECEDENCE_ORDER = ['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR']
 
 # Internacionalización
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'es-co'
+TIME_ZONE = 'America/Bogota'
 USE_I18N = True
 USE_TZ = True
 
