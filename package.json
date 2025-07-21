@@ -1,9 +1,17 @@
 {
   "scripts": {
-        "watch":"npx @tailwindcss/cli -i web/static/css/input.css -o web/static/css/tailwind.css --watch"
+    "watch": "npx @tailwindcss/cli -i web/static/css/input.css -o web/static/css/tailwind.css --watch"
   },
   "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/cli": "^4.1.11",
-    "tailwindcss": "^4.1.11"
+    "@tailwindcss/forms": "^0.5.10",
+    "daisyui": "^5.0.46",
+    "flowbite": "^3.1.2",
+    "tailwindcss": "^4.1.11",
+    "taos": "^1.0.5"
+  },
+  "devDependencies": {
+    "tailwindcss-animate": "^1.0.7"
   }
 }

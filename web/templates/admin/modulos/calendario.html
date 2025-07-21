@@ -3,82 +3,103 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h3 class="mb-0">📅 Gestión de Eventos Escolares</h3>
-  <a href="{% url 'dashboard' %}" class="btn btn-success btn-sm rounded-pill px-3 py-1">
+<!-- 🔙 Encabezado -->
+<div class="flex justify-between items-center mb-6">
+  <h3 class="text-2xl font-bold text-[#1a3c6c]">📅 Gestión de Eventos Escolares</h3>
+  <a href="{% url 'dashboard' %}" class="px-4 py-1 rounded-full bg-[#1a3c6c] text-white text-sm hover:bg-[#d7263d] transition">
     ⬅️ Volver
   </a>
 </div>
 
-<!-- 🔹 FORMULARIO DE EVENTO -->
-<div class="card shadow-sm mb-4">
-  <div class="card-header bg-primary text-white">
+<!-- 🔹 Formulario de Evento -->
+<div class="bg-gradient-to-br from-white to-cyan-50 border-2 border-cyan-100 rounded-2xl shadow-md p-6 mb-8 animate-fade-in">
+  <h4 class="text-white bg-gradient-to-r from-[#1a3c6c] to-cyan-100 px-6 py-3 rounded-t-2xl text-lg font-semibold tracking-wide mb-4">
     Crear / Editar Evento
-  </div>
-  <div class="card-body">
-    <form method="POST" enctype="multipart/form-data"
-          action="{% if modo_edicion %}{% url 'actualizar_evento' evento_id %}{% else %}{% url 'crear_evento' %}{% endif %}">
-      {% csrf_token %}
-      <div class="row g-3">
-        <div class="col-md-6">{{ form.titulo.label_tag }}{{ form.titulo }}</div>
-        <div class="col-md-6">{{ form.lugar.label_tag }}{{ form.lugar }}</div>
-        <div class="col-md-6">{{ form.fecha.label_tag }}{{ form.fecha }}</div>
-        <div class="col-md-6">{{ form.hora.label_tag }}{{ form.hora }}</div>
-        <div class="col-md-12">{{ form.descripcion_corta.label_tag }}{{ form.descripcion_corta }}</div>
-        <div class="col-md-12">{{ form.descripcion_detallada.label_tag }}{{ form.descripcion_detallada }}</div>
-        <div class="col-md-12">{{ form.imagen.label_tag }}{{ form.imagen }}</div>
+  </h4>
+
+  <form method="POST" enctype="multipart/form-data"
+        action="{% if modo_edicion %}{% url 'actualizar_evento' evento_id %}{% else %}{% url 'crear_evento' %}{% endif %}">
+    {% csrf_token %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        {{ form.titulo.label_tag }} {{ form.titulo }}
       </div>
-      <div class="mt-4">
-        <button type="submit" class="btn {% if modo_edicion %}btn-warning{% else %}btn-success{% endif %}">
-          {% if modo_edicion %}✏️ Actualizar Evento{% else %}💾 Crear Evento{% endif %}
-        </button>
+      <div>
+        {{ form.lugar.label_tag }} {{ form.lugar }}
       </div>
-    </form>
-  </div>
+      <div>
+        {{ form.fecha.label_tag }} {{ form.fecha }}
+      </div>
+      <div>
+        {{ form.hora.label_tag }} {{ form.hora }}
+      </div>
+      <div class="md:col-span-2">
+        {{ form.descripcion_corta.label_tag }} {{ form.descripcion_corta }}
+      </div>
+      <div class="md:col-span-2">
+        {{ form.descripcion_detallada.label_tag }} {{ form.descripcion_detallada }}
+      </div>
+      <div class="md:col-span-2">
+        {{ form.imagen.label_tag }} {{ form.imagen }}
+      </div>
+    </div>
+    <div class="mt-6">
+      <button type="submit"
+              class="px-5 py-2 rounded-xl shadow-md text-white font-medium transition
+              {% if modo_edicion %}bg-yellow-500 hover:bg-yellow-600{% else %}bg-green-600 hover:bg-green-700{% endif %}">
+        {% if modo_edicion %}✏️ Actualizar Evento{% else %}💾 Crear Evento{% endif %}
+      </button>
+    </div>
+  </form>
 </div>
 
-<!-- 🔹 EVENTOS EN ACORDEÓN -->
-<h4 class="mb-3">📋 Lista de Eventos</h4>
-<div class="accordion" id="acordeonEventos">
+<!-- 🔹 Lista de Eventos -->
+<h4 class="text-xl font-semibold text-[#1a3c6c] mb-4">📋 Lista de Eventos</h4>
+
+<div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-blue-100 text-blue-600" class="space-y-2">
   {% for evento in eventos %}
-    <div class="accordion-item mb-3 shadow-sm">
-      <h2 class="accordion-header" id="heading{{ evento.id }}">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse{{ evento.id }}" aria-expanded="false"
-                aria-controls="collapse{{ evento.id }}">
+    <div class="border border-gray-200 rounded-lg shadow-md animate-fade-in">
+      <h2 id="accordion-heading-{{ evento.id }}">
+        <button type="button"
+          class="flex items-center justify-between w-full px-5 py-3 font-medium text-left text-gray-900 bg-white border-b border-gray-200"
+          data-accordion-target="#accordion-body-{{ evento.id }}"
+          aria-expanded="false"
+          aria-controls="accordion-body-{{ evento.id }}">
           📌 {{ evento.titulo }} — {{ evento.descripcion_corta }}
+          <svg data-accordion-icon class="w-4 h-4 shrink-0 rotate-0 transition-transform duration-200" fill="currentColor"
+            viewBox="0 0 20 20">
+            <path fill-rule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.1 1.02l-4.25 4.65a.75.75 0 01-1.1 0L5.21 8.29a.75.75 0 01.02-1.08z"
+              clip-rule="evenodd"></path>
+          </svg>
         </button>
       </h2>
-      <div id="collapse{{ evento.id }}" class="accordion-collapse collapse"
-           aria-labelledby="heading{{ evento.id }}" data-bs-parent="#acordeonEventos">
-        <div class="accordion-body">
-          <div class="row">
-            <div class="col-md-4 mb-3">
-              <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="img-fluid rounded shadow-sm">
+      <div id="accordion-body-{{ evento.id }}" class="hidden" aria-labelledby="accordion-heading-{{ evento.id }}">
+        <div class="p-5 border-t border-gray-200 bg-gray-50">
+          <p class="text-gray-700"><strong>📅 Fecha:</strong> {{ evento.fecha }}</p>
+          <p class="text-gray-700"><strong>🕒 Hora:</strong> {{ evento.hora }}</p>
+          <p class="text-gray-700"><strong>📍 Lugar:</strong> {{ evento.lugar }}</p>
+          <p class="text-gray-700"><strong>📝 Descripción detallada:</strong> {{ evento.descripcion_detallada }}</p>
+          {% if evento.imagen %}
+            <div class="my-2">
+              <img src="{{ evento.imagen.url }}" alt="Imagen del evento {{ evento.titulo }}"
+                   class="max-w-full h-auto rounded shadow-md">
             </div>
-            <div class="col-md-8">
-              <p><strong>📅 Fecha:</strong> {{ evento.fecha }}</p>
-              <p><strong>⏰ Hora:</strong> {{ evento.hora }}</p>
-              <p><strong>📍 Lugar:</strong> {{ evento.lugar }}</p>
-              <p><strong>📝 Descripción larga:</strong></p>
-              <p>{{ evento.descripcion_detallada }}</p>
-
-              <div class="mt-3">
-                <a href="{% url 'actualizar_evento' evento.id %}" class="btn btn-warning btn-sm rounded-pill">
-                  ✏️ Editar
-                </a>
-                <a href="#" class="btn btn-danger btn-sm rounded-pill btn-eliminar"
-                   data-url="{% url 'eliminar_evento' evento.id %}">
-                  🗑 Eliminar
-                </a>
-              </div>
-            </div>
+          {% endif %}
+          <div class="mt-4 flex gap-4">
+            <a href="{% url 'actualizar_evento' evento.id %}" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition">
+              ✏️ Editar
+            </a>
+            <form method="post" action="{% url 'eliminar_evento' evento.id %}" onsubmit="return confirm('¿Estás seguro de eliminar este evento?');">
+              {% csrf_token %}
+              <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 transition">
+                🗑️ Eliminar
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
-  {% empty %}
-    <p class="text-muted">No hay eventos disponibles.</p>
   {% endfor %}
 </div>
 
@@ -86,101 +107,12 @@
 
 {% block extra_css %}
 <style>
-body {
-  background: #fff;
-}
-h3, h4 {
-  color: #1a3c6c;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-.card {
-  border-radius: 1.1rem;
-  border: 2px solid #e0f7fa;
-  background: linear-gradient(120deg, #fff 80%, #e0f7fa 100%);
-  box-shadow: 0 2px 12px rgba(26,60,108,0.08);
-  animation: fadeInCard 0.7s;
-}
-@keyframes fadeInCard {
-  from { opacity: 0; transform: translateY(30px);}
-  to { opacity: 1; transform: translateY(0);}
-}
-.card-header {
-  border-radius: 1.1rem 1.1rem 0 0;
-  font-size: 1.15rem;
-  letter-spacing: 0.5px;
-  background: linear-gradient(90deg, #1a3c6c 70%, #e0f7fa 100%) !important;
-  color: #fff !important;
-}
-form .form-control, form textarea {
-  border-radius: 0.7rem;
-  border: 1.5px solid #e0f7fa;
-  background: #fafdff;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  font-size: 1.08rem;
-  padding: 0.7rem 1rem;
-}
-form .form-control:focus, form textarea:focus {
-  border-color: #1a3c6c;
-  box-shadow: 0 0 0 2px #1a3c6c22;
-}
-.btn-success, .btn-warning, .btn-danger {
-  border-radius: 0.7rem !important;
-  font-size: 1.05rem;
-  transition: background 0.18s, transform 0.18s;
-  box-shadow: 0 2px 8px rgba(26,60,108,0.10);
-}
-.btn-success, .btn-warning {
-  background-color: #1a3c6c !important;
-  border-color: #1a3c6c !important;
-  color: #fff !important;
-}
-.btn-success:hover, .btn-warning:hover {
-  background-color: #d7263d !important;
-  border-color: #d7263d !important;
-}
-.btn-danger {
-  background-color: #d7263d !important;
-  border-color: #d7263d !important;
-  color: #fff !important;
-}
-.btn-danger:hover {
-  filter: brightness(1.08);
-}
-.accordion-item {
-  border-radius: 1rem !important;
-  overflow: hidden;
-  border: 2px solid #e0f7fa !important;
-  background: #fff;
-  animation: fadeInCard 0.7s;
-}
-.accordion-button {
-  background: linear-gradient(90deg, #e0f7fa 80%, #fff 100%);
-  font-weight: 500;
-  font-size: 1.08rem;
-  color: #1a3c6c;
-  border: none;
-  outline: none;
-  transition: background 0.2s;
-}
-.accordion-button:not(.collapsed) {
-  background: #e0f7fa;
-  color: #d7263d;
-}
-.accordion-body {
-  background: #fafdff;
-  border-top: 1px solid #e0f7fa;
-  font-size: 1.01rem;
-}
-.accordion-body img {
-  border-radius: 0.7rem;
-  border: 1.5px solid #e0f7fa;
-  box-shadow: 0 1px 6px rgba(26,60,108,0.12);
-}
-@media (max-width: 767px) {
-  .card, .accordion-item {
-    border-radius: 0.8rem;
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-}
+  .animate-fade-in {
+    animation: fade-in 0.7s ease-out both;
+  }
 </style>
 {% endblock %}

@@ -4,123 +4,53 @@
 {% block title %}Perfil del Alumno | Colegio Suazapawa{% endblock %}
 
 {% block content %}
-<div class="container py-5" style="background:#fff;">
-  <div class="text-center mb-5">
-    <h2 class="fw-bold" style="color:#1a3c6c;">👩‍🎓 Perfil del Alumno Suazapawa</h2>
-    <p class="lead" style="color:#d7263d;">Formamos estudiantes con valores, identidad y propósito</p>
+<div class="bg-white py-10 px-4 sm:px-8" data-taos-offset="200">
+  <div class="text-center mb-10" data-taos="fade-up">
+    <h2 class="text-3xl font-bold text-primary-900">👩‍🎓 Perfil del Alumno Suazapawa</h2>
+    <p class="text-lg text-red-600 mt-2">Formamos estudiantes con valores, identidad y propósito</p>
   </div>
 
   <!-- Descripción general -->
-  <div class="row mb-4">
-    <div class="col-md-12 text-center">
-      <p class="fs-5" style="color:#1a3c6c;">
-        En Suazapawa creemos que cada estudiante es único y valioso. Nuestro enfoque pedagógico busca desarrollar no solo
-        habilidades académicas, sino también el carácter, la conciencia social, y el sentido de pertenencia a su comunidad.
-      </p>
-    </div>
+  <div class="max-w-4xl mx-auto text-center mb-10" data-taos="fade-up">
+    <p class="text-blue-900 text-lg leading-relaxed">
+      En Suazapawa creemos que cada estudiante es único y valioso. Nuestro enfoque pedagógico busca desarrollar no solo
+      habilidades académicas, sino también el carácter, la conciencia social, y el sentido de pertenencia a su comunidad.
+    </p>
   </div>
 
-  <!-- Tipos de alumnos -->
-  <div class="row g-4">
-
+  <!-- Tarjetas de perfil -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-taos="fade-up">
     <!-- Preescolar -->
-    <div class="col-md-6">
-      <div class="card perfil-card preescolar h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title" style="color:#1a3c6c;">🧒 Estudiante de Preescolar</h5>
-          <p class="card-text">
-            Es curioso, activo, con alta imaginación y en proceso de descubrir su entorno.
-            Se promueve el juego como herramienta educativa, el desarrollo motor, y la socialización inicial.
-            Se enfoca en fortalecer su autoestima, hábitos y autonomía básica.
-          </p>
-        </div>
-      </div>
+    <div class="rounded-xl border-l-[6px] border-blue-900 bg-gradient-to-br from-white via-white to-blue-50 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl p-6">
+      <h3 class="text-blue-900 font-bold text-xl mb-2">🧒 Estudiante de Preescolar</h3>
+      <p class="text-gray-700">
+        Es curioso, activo, con alta imaginación y en proceso de descubrir su entorno. Se promueve el juego como herramienta educativa, el desarrollo motor, y la socialización inicial. Se enfoca en fortalecer su autoestima, hábitos y autonomía básica.
+      </p>
     </div>
 
-    <!-- Básica primaria -->
-    <div class="col-md-6">
-      <div class="card perfil-card primaria h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title" style="color:#d7263d;">📚 Estudiante de Primaria</h5>
-          <p class="card-text">
-            Es un alumno que empieza a desarrollar habilidades cognitivas, comunicativas y de pensamiento lógico.
-            Se destaca por su entusiasmo por aprender, la capacidad de trabajo en grupo, y la consolidación de valores
-            como el respeto, la honestidad y la responsabilidad.
-          </p>
-        </div>
-      </div>
+    <!-- Primaria -->
+    <div class="rounded-xl border-l-[6px] border-red-600 bg-gradient-to-br from-white via-white to-red-50 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl p-6">
+      <h3 class="text-red-600 font-bold text-xl mb-2">📚 Estudiante de Primaria</h3>
+      <p class="text-gray-700">
+        Es un alumno que empieza a desarrollar habilidades cognitivas, comunicativas y de pensamiento lógico. Se destaca por su entusiasmo por aprender, la capacidad de trabajo en grupo, y la consolidación de valores como el respeto, la honestidad y la responsabilidad.
+      </p>
     </div>
 
-    <!-- Básica secundaria -->
-    <div class="col-md-6">
-      <div class="card perfil-card secundaria h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title" style="color:#1a3c6c;">🧠 Estudiante de Secundaria</h5>
-          <p class="card-text">
-            Demuestra mayor autonomía y pensamiento crítico. Participa activamente en proyectos colaborativos y
-            de investigación. Se le fomenta el liderazgo, la empatía y el compromiso con su entorno. Empieza a
-            proyectarse vocacionalmente.
-          </p>
-        </div>
-      </div>
+    <!-- Secundaria -->
+    <div class="rounded-xl border-l-[6px] border-blue-900 bg-gradient-to-br from-white via-white to-blue-50 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl p-6">
+      <h3 class="text-blue-900 font-bold text-xl mb-2">🧠 Estudiante de Secundaria</h3>
+      <p class="text-gray-700">
+        Demuestra mayor autonomía y pensamiento crítico. Participa activamente en proyectos colaborativos y de investigación. Se le fomenta el liderazgo, la empatía y el compromiso con su entorno. Empieza a proyectarse vocacionalmente.
+      </p>
     </div>
 
     <!-- Media académica -->
-    <div class="col-md-6">
-      <div class="card perfil-card media h-100 shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title" style="color:#d7263d;">🎓 Estudiante de Media (10° y 11°)</h5>
-          <p class="card-text">
-            Se caracteriza por su pensamiento reflexivo, capacidad de análisis y toma de decisiones. Está en proceso de
-            definir su proyecto de vida, siendo autónomo, solidario y con proyección hacia la educación superior o
-            el emprendimiento. Se le brindan herramientas para ser ciudadano activo y transformador.
-          </p>
-        </div>
-      </div>
+    <div class="rounded-xl border-l-[6px] border-red-600 bg-gradient-to-br from-white via-white to-red-50 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl p-6">
+      <h3 class="text-red-600 font-bold text-xl mb-2">🎓 Estudiante de Media (10° y 11°)</h3>
+      <p class="text-gray-700">
+        Se caracteriza por su pensamiento reflexivo, capacidad de análisis y toma de decisiones. Está en proceso de definir su proyecto de vida, siendo autónomo, solidario y con proyección hacia la educación superior o el emprendimiento. Se le brindan herramientas para ser ciudadano activo y transformador.
+      </p>
     </div>
-
   </div>
 </div>
-{% endblock %}
-
-{% block extra_css %}
-<style>
-body {
-  background: #fff;
-}
-.perfil-card {
-  border-radius: 1.1rem;
-  border: 2px solid #e0f7fa;
-  background: linear-gradient(120deg, #fff 80%, #e0f7fa 100%);
-  box-shadow: 0 2px 12px rgba(26,60,108,0.08);
-  transition: transform 0.18s, box-shadow 0.18s;
-  min-height: 100%;
-}
-.perfil-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 4px 16px rgba(215,38,61,0.12);
-}
-.perfil-card .card-title {
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-.perfil-card.preescolar {
-  border-left: 6px solid #1a3c6c;
-}
-.perfil-card.primaria {
-  border-left: 6px solid #d7263d;
-}
-.perfil-card.secundaria {
-  border-left: 6px solid #1a3c6c;
-}
-.perfil-card.media {
-  border-left: 6px solid #d7263d;
-}
-@media (max-width: 767px) {
-  .perfil-card {
-    border-left-width: 4px;
-    border-radius: 0.8rem;
-  }
-}
-</style>
 {% endblock %}

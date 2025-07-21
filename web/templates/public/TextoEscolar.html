@@ -3,89 +3,68 @@
 
 {% block title %}Noticias Escolares | Suazapawa{% endblock %}
 
-{% block extra_css %}
-<style>
-  .noticia-card {
-    transition: transform 0.18s, box-shadow 0.18s;
-    border-radius: 1rem;
-    background: #fff;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-    padding: 1.5rem 1.2rem;
-    margin-bottom: 2rem;
-  }
-  .noticia-card:hover {
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-  }
-  .badge-fecha {
-    background: linear-gradient(90deg, #38bdf8 0%, #6366f1 100%);
-    color: #fff;
-    font-size: 0.95rem;
-    padding: 0.4em 1em;
-    border-radius: 1em;
-    margin-left: 0.5em;
-  }
-  .busqueda-card {
-    border-radius: 1rem;
-    background: #f8fafc;
-  }
-  @media (max-width: 768px) {
-    .noticia-card, .busqueda-card { padding: 1rem 0.7rem; }
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container py-5">
-  <h2 class="text-center text-primary fw-bold mb-4">📰 Noticias Escolares</h2>
-  <div class="row">
+<section class="min-h-screen px-4 py-8 lg:px-20">
+  <h2 class="text-3xl font-bold text-primary text-center mb-10 animate-in fade-in zoom-in duration-700">
+    📰 Noticias Escolares
+  </h2>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Noticias -->
-    <div class="col-md-9">
+    <div class="lg:col-span-3 space-y-6">
       {% for noticia in noticias %}
-        <div class="noticia-card" role="article" aria-label="Noticia escolar">
-          <div class="d-flex justify-content-between align-items-center mb-1">
-            <h5 class="fw-bold text-dark mb-0">{{ noticia.titulo }}</h5>
-            <span class="badge-fecha">
-              <i class="fas fa-calendar-alt me-1"></i>
+        <article
+          class="bg-white rounded-2xl shadow-md p-6 hover:scale-[1.015] hover:shadow-xl transition-all duration-300 animate-in fade-in slide-in-from-left-10"
+          aria-label="Noticia escolar"
+        >
+          <div class="flex justify-between items-center mb-2">
+            <h3 class="text-xl font-semibold text-gray-800">
+              {{ noticia.titulo }}
+            </h3>
+            <span class="bg-gradient-to-r from-sky-400 to-indigo-500 text-white text-sm px-4 py-1 rounded-full shadow-sm">
+              <i class="fas fa-calendar-alt mr-1"></i>
               {{ noticia.fecha|date:"d M Y" }} - {{ noticia.hora|time:"H:i" }}
             </span>
           </div>
-          <p class="text-secondary mt-2">{{ noticia.descripcion }}</p>
-        </div>
+          <p class="text-gray-600 leading-relaxed">{{ noticia.descripcion }}</p>
+        </article>
       {% empty %}
-        <p class="text-muted">No hay noticias disponibles.</p>
+        <p class="text-gray-500">No hay noticias disponibles.</p>
       {% endfor %}
     </div>
-    <!-- Filtros y búsqueda -->
-    <div class="col-md-3">
-      <div class="card busqueda-card shadow-sm mb-4">
-        <div class="card-body">
-          <h6 class="card-title fw-bold text-primary mb-3"><i class="fas fa-search"></i> Buscar Noticias</h6>
-          <form method="get">
-            <div class="mb-3">
-              <label class="form-label">Por título</label>
-              <input type="text" name="q" class="form-control" placeholder="Ej. Día del estudiante" aria-label="Buscar por título">
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Por fecha</label>
-              <input type="date" name="fecha" class="form-control" aria-label="Buscar por fecha">
-            </div>
-            <button type="submit" class="btn btn-outline-primary w-100">
-              <i class="fas fa-search"></i> Buscar
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h6 class="fw-bold text-primary mb-3"><i class="fas fa-sort"></i> Ordenar</h6>
-          <div class="d-grid gap-2">
-            <a href="?orden=reciente" class="btn btn-sm btn-outline-success" aria-label="Ordenar por más recientes">Más recientes</a>
-            <a href="?orden=antiguo" class="btn btn-sm btn-outline-secondary" aria-label="Ordenar por más antiguas">Más antiguas</a>
+
+    <!-- Filtro y búsqueda fija -->
+    <aside class="sticky top-24 h-fit animate-in fade-in slide-in-from-right-10">
+      <div class="bg-base-100 rounded-2xl shadow p-6 mb-6">
+        <h4 class="font-bold text-lg text-primary mb-4"><i class="fas fa-search"></i> Buscar Noticias</h4>
+        <form method="get" class="space-y-4">
+          <div>
+            <label class="label-text text-sm font-medium">Por título</label>
+            <input type="text" name="q" placeholder="Ej. Día del estudiante"
+              class="input input-bordered w-full" />
           </div>
+          <div>
+            <label class="label-text text-sm font-medium">Por fecha</label>
+            <input type="date" name="fecha" class="input input-bordered w-full" />
+          </div>
+          <button type="submit" class="btn btn-primary w-full">
+            <i class="fas fa-search mr-2"></i> Buscar
+          </button>
+        </form>
+      </div>
+
+      <div class="bg-base-100 rounded-2xl shadow p-6">
+        <h4 class="font-bold text-lg text-primary mb-4"><i class="fas fa-sort"></i> Ordenar</h4>
+        <div class="flex flex-col gap-2">
+          <a href="?orden=reciente" class="btn btn-outline-success btn-sm">
+            Más recientes
+          </a>
+          <a href="?orden=antiguo" class="btn btn-outline-secondary btn-sm">
+            Más antiguas
+          </a>
         </div>
       </div>
-    </div>
+    </aside>
   </div>
-</div>
+</section>
 {% endblock %}

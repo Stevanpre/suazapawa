@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from web.views import (HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, DashboardView, vista_bloqueado,
-                       actualizar_perfil, somos, mision, alumno, docente,ubicacion)
+                       actualizar_perfil, somos, mision, alumno, docente, ubicacion, pruebas)
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -25,6 +25,9 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('pruebas/', pruebas,name='pruebas'),
+
     path('', HomeView.as_view(), name='home'),
     path('calendario/', calendarioView.as_view(), name='calendario'),
     path('noticias/', TextoEscolarView.as_view(), name='textoescolar'),

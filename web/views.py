@@ -19,6 +19,9 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
+def pruebas(request):
+    return render(request, 'pruebas.html')
+
 class HomeView(TemplateView):
     template_name = "public/home.html"
 

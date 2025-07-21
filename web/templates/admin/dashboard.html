@@ -1,95 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Panel Administrativo | Suazapawa{% endblock %}
 
-{% block extra_css %}
-<style>
-  body {
-    background: #f4fcfe;
-  }
-  .sidebar-admin {
-    background: linear-gradient(135deg, #d0f4fd 60%, #b6eaff 60%);
-    border-radius: 1rem;
-    padding: 1.1rem 0.6rem;
-    min-height: 320px;
-    box-shadow: 0 2px 8px rgba(120,200,220,0.07);
-    position: sticky;
-    top: 10rem;
-    left: 80px;
-     height: calc(60vh - 4rem);
-    z-index: 10;
-  }
-  .sidebar-admin .list-group-item {
-    background: transparent;
-    color: #4a6b7b;
-    font-size: 1.05rem;
-    border: none;
-    border-radius: 0.6rem;
-    margin-bottom: 0.2rem;
-    transition: background 0.15s, color 0.15s, transform 0.15s;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    padding: 0.7rem 1rem
-  }
-  .sidebar-admin .list-group-item.active,
-  .sidebar-admin .list-group-item:hover {
-    background: #e6fafd;
-    color: #2b8ca7;
-    transform: translateX(2px) scale(1.01);
-    box-shadow: none;
-  }
-  .sidebar-admin .list-group-item i {
-    font-size: 1.1rem;
-    margin-right: 0.6em;
-  }
-  .admin-card {
-    background: #fafdff;
-    border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(120,200,220,0.06);
-    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
-    margin-bottom: 1.5rem;
-    animation: fadeIn 0.6s;
-    border: 1px solid #e0f7fa;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px);}
-    to { opacity: 1; transform: translateY(0);}
-  }
-  @media (max-width: 768px) {
-    .sidebar-admin { min-height: auto; margin-bottom: 1.2rem;}
-    .admin-card { padding: 1rem 0.5rem;}
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container-fluid py-4">
-  <div class="row">
+<div class="container mx-auto px-4 py-6">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
     <!-- SIDEBAR IZQUIERDA -->
-    <div class="col-md-3 col-12 mb-4 mb-md-0">
-      <div class="sidebar-admin">
-        <a href="#" class="list-group-item list-group-item-action active" onclick="mostrarModulo('bienvenida')" aria-label="Bienvenida">
-          <i class="fas fa-hand-sparkles"></i> Bienvenida
-        </a>
-        <a href="#" class="list-group-item list-group-item-action" onclick="mostrarModulo('perfil')" aria-label="Perfil">
-          <i class="fas fa-user-cog"></i> Perfil
-        </a>
-        <a href="{% url 'editar_calendario' %}" class="list-group-item list-group-item-action" aria-label="Editar Calendario">
-          <i class="fas fa-pen-to-square"></i> Editar Calendario
-        </a>
-        <a href="{% url 'editar_noticias' %}" class="list-group-item list-group-item-action" aria-label="Editar Noticias">
-          <i class="fas fa-pen-to-square"></i> Editar Noticias
-        </a>
+    <aside class="md:col-span-1">
+      <div class="bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-2xl p-4 sticky top-40 shadow-md h-fit" data-aos="fade-right">
+        <nav class="flex flex-col gap-2">
+          <a href="#" onclick="mostrarModulo('bienvenida')" class="transition-all duration-150 px-4 py-2 rounded-xl font-medium text-sky-900 hover:bg-cyan-100 active-link" aria-label="Bienvenida">
+            <i class="fas fa-hand-sparkles mr-2"></i> Bienvenida
+          </a>
+          <a href="#" onclick="mostrarModulo('perfil')" class="transition-all duration-150 px-4 py-2 rounded-xl font-medium text-sky-900 hover:bg-cyan-100" aria-label="Perfil">
+            <i class="fas fa-user-cog mr-2"></i> Perfil
+          </a>
+          <a href="{% url 'editar_calendario' %}" class="transition-all duration-150 px-4 py-2 rounded-xl font-medium text-sky-900 hover:bg-cyan-100" aria-label="Editar Calendario">
+            <i class="fas fa-pen-to-square mr-2"></i> Editar Calendario
+          </a>
+          <a href="{% url 'editar_noticias' %}" class="transition-all duration-150 px-4 py-2 rounded-xl font-medium text-sky-900 hover:bg-cyan-100" aria-label="Editar Noticias">
+            <i class="fas fa-pen-to-square mr-2"></i> Editar Noticias
+          </a>
+        </nav>
       </div>
-    </div>
+    </aside>
 
     <!-- CONTENIDO DERECHA -->
-    <div class="col-md-9 col-12">
-      <div id="modulo-bienvenida" class="admin-card">{% include 'admin/modulos/bienvenida.html' %}</div>
-      <div id="modulo-perfil" class="admin-card d-none">{% include 'admin/modulos/perfil.html' %}</div>
-      <div id="modulo-calendario" class="admin-card d-none">{% include 'admin/modulos/calendario.html' %}</div>
-      <div id="modulo-noticias" class="admin-card d-none">{% include 'admin/modulos/noticias.html' %}</div>
-    </div>
+    <main class="md:col-span-3 flex flex-col gap-6">
+      <div id="modulo-bienvenida" class="bg-white rounded-2xl shadow border border-cyan-100 p-6 animate-fade-in" data-aos="fade-up">
+        {% include 'admin/modulos/bienvenida.html' %}
+      </div>
+      <div id="modulo-perfil" class="bg-white rounded-2xl shadow border border-cyan-100 p-6 hidden animate-fade-in" data-aos="fade-up">
+        {% include 'admin/modulos/perfil.html' %}
+      </div>
+      <div id="modulo-calendario" class="bg-white rounded-2xl shadow border border-cyan-100 p-6 hidden animate-fade-in" data-aos="fade-up">
+        {% include 'admin/modulos/calendario.html' %}
+      </div>
+      <div id="modulo-noticias" class="bg-white rounded-2xl shadow border border-cyan-100 p-6 hidden animate-fade-in" data-aos="fade-up">
+        {% include 'admin/modulos/noticias.html' %}
+      </div>
+    </main>
   </div>
 </div>
 {% endblock %}
@@ -97,11 +49,14 @@
 {% block extra_js %}
 <script>
   function mostrarModulo(modulo) {
-    document.querySelectorAll('[id^="modulo-"]').forEach(div => div.classList.add('d-none'));
-    document.getElementById(`modulo-${modulo}`).classList.remove('d-none');
-    document.querySelectorAll('.sidebar-admin .list-group-item').forEach(item => item.classList.remove('active'));
-    event.target.classList.add('active');
+    document.querySelectorAll('[id^="modulo-"]').forEach(div => div.classList.add('hidden'));
+    document.getElementById(`modulo-${modulo}`).classList.remove('hidden');
+
+    const sidebarLinks = document.querySelectorAll('.sidebar-admin a, nav a');
+    sidebarLinks.forEach(link => link.classList.remove('bg-cyan-100', 'font-semibold'));
+    event.target.classList.add('bg-cyan-100', 'font-semibold');
   }
+
   document.addEventListener("DOMContentLoaded", function () {
     mostrarModulo('bienvenida');
   });
