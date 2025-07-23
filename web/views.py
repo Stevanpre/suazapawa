@@ -31,18 +31,43 @@ class HomeView(TemplateView):
         context['noticias'] = Noticia.objects.order_by('-fecha')[:3]
         return context
 
+class heroView(TemplateView):
+    template_name = "public/SecHome/hero.html"
+
+class nivelesView(TemplateView):
+    template_name = "public/SecHome/nivelesAca.html"
+
+class eventsView(TemplateView):
+    template_name = "public/SecHome/eventos.html"
+
+class experienciaView(TemplateView):
+    template_name = "public/SecHome/exp.html"
+
+class servicesView(TemplateView):
+    template_name = "public/SecHome/servicios.html"
+
+class galeriaView(TemplateView):
+    template_name = "public/SecHome/galeria.html"
+
+class noticesView(TemplateView):
+    template_name = "public/SecHome/noticias.html"
+
+class formularioView(TemplateView):
+    template_name = "public/SecHome/formulario.html"
+
+
 class calendarioView(TemplateView):
     template_name = "public/calendario.html"
 
 class calendarioView(ListView):
     model = Evento
-    template_name = "public/calendario.html"
+    template_name = "public/Nav/calendario.html"
     context_object_name = "eventos"
     ordering = ['fecha']
 
 class TextoEscolarView(ListView):
     model = Noticia
-    template_name = 'public/TextoEscolar.html'
+    template_name = 'public/Nav/TextoEscolar.html'
     context_object_name = 'noticias'
 
     def get_queryset(self):
@@ -93,19 +118,19 @@ def vista_bloqueado(request):
     return render(request, 'auth/bloqueado.html')
 
 def somos(request):
-    return render(request, 'public/modulos/somos.html')
+    return render(request, 'public/ModNav/somos.html')
 
 def mision(request):
-    return render(request, 'public/modulos/mision-vision.html')
+    return render(request, 'public/ModNav/mision-vision.html')
 
 def alumno(request):
-    return render(request, 'public/modulos/alumno.html')
+    return render(request, 'public/ModNav/alumno.html')
 
 def docente(request):
-    return render(request, 'public/modulos/docente.html')
+    return render(request, 'public/ModNav/docente.html')
 
 def ubicacion(request):
-    return render(request, 'public/modulos/ubicacion.html')
+    return render(request, 'public/ModNav/ubicacion.html')
 
 @login_required
 def actualizar_perfil(request):

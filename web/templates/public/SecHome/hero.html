@@ -1,0 +1,131 @@
+{% load static %}
+{% block extra_css %}
+<style>
+  .fade-in-start {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 2s ease-out, transform 2s ease-out;
+    will-change: opacity, transform;
+  }
+
+  .fade-in-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .carousel-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .carousel-bg img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+
+  .carousel-bg img.active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    mix-blend-mode: multiply;
+    z-index: 2;
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    color: #fff;
+  }
+
+  .glass-panel h2 {
+    color: #c7d2fe;
+  }
+
+  .glass-panel p {
+    color: #f3f4f6;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section id="hero-section" class="relative min-h-screen flex items-center justify-center px-6 lg:px-24 py-20 fade-in-start overflow-hidden">
+
+  <!-- Carrusel de fondo -->
+  <div class="carousel-bg">
+    <img src="{% static 'img/fondo1.webp' %}" alt="Fondo 1" class="active">
+    <img src="{% static 'img/fondo2.webp' %}" alt="Fondo 2">
+    <img src="{% static 'img/fondo3.webp' %}" alt="Fondo 3">
+    <div class="bg-overlay"></div>
+  </div>
+
+  <!-- CONTENIDO CENTRAL con glassmorphism -->
+  <div class="relative z-10 max-w-3xl text-center space-y-8 glass-panel">
+    <div class="space-y-4">
+      <h2 class="text-lg font-medium tracking-wide">¡Bienvenido a nuestra comunidad!</h2>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight bg-gradient-to-r from-blue-300 via-indigo-500 to-purple-600 bg-clip-text text-transparent animate-fade-in-down">
+  <span class="block">Institución Educativa</span>
+  <span class="block text-6xl sm:text-7xl lg:text-8xl text-transparent bg-gradient-to-r from-indigo-300 via-purple-400 to-pink-400 bg-clip-text drop-shadow-lg">Suazapawa</span>
+</h1>
+
+      <p class="text-lg">Un espacio donde la excelencia académica se une con los valores humanos para formar líderes del mañana.</p>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="flex flex-wrap justify-center gap-4 pt-4">
+      <a href="#conocenos"
+         class="px-6 py-3 rounded-full text-white font-medium bg-indigo-500 hover:bg-indigo-600 transition duration-300 shadow-lg hover:scale-105">
+        Conócenos
+      </a>
+      <a href="#admision"
+         class="px-6 py-3 rounded-full text-indigo-800 font-semibold bg-white/70 backdrop-blur-md border border-white/30 hover:bg-white/90 hover:scale-105 transition duration-500 shadow-lg">
+        <i class="fas fa-arrow-right mr-2"></i> Proceso de Admisión
+      </a>
+    </div>
+
+    <!-- VALORES CLAVE -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 text-left text-white">
+      <div class="flex items-center space-x-4"><i class="fas fa-users text-indigo-300 text-2xl"></i><p>Acompañamiento personalizado</p></div>
+      <div class="flex items-center space-x-4"><i class="fas fa-lightbulb text-purple-300 text-2xl"></i><p>Aprendizaje creativo</p></div>
+      <div class="flex items-center space-x-4"><i class="fas fa-globe-americas text-pink-300 text-2xl"></i><p>Proyección internacional</p></div>
+      <div class="flex items-center space-x-4"><i class="fas fa-heart text-red-300 text-2xl"></i><p>Valores y formación humana</p></div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Animación de fade-in
+  window.addEventListener("DOMContentLoaded", () => {
+    const hero = document.getElementById("hero-section");
+    setTimeout(() => {
+      hero.classList.add("fade-in-active");
+    }, 1000);
+  });
+
+  // Carrusel automático
+  const images = document.querySelectorAll(".carousel-bg img");
+  let index = 0;
+
+  setInterval(() => {
+    images[index].classList.remove("active");
+    index = (index + 1) % images.length;
+    images[index].classList.add("active");
+  }, 7000); // Cambia cada 7 segundos
+</script>
+{% endblock %}

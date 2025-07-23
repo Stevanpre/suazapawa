@@ -1,688 +1,82 @@
-
-{% extends 'base.html' %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Suazapawa | Experiencia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% block title %}Inicio | Centro Educativo Suazapawa{% endblock %}
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-{% block extra_css %}
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link href="https://unpkg.com/taos@1.0.5/dist/taos.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-  }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-  }
-  .animate-float { animation: float 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-  .animate-fadeInUp { animation: fadeInUp 0.8s ease-in-out; }
-  .animate-pulse-hover { transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-  .animate-pulse-hover:hover { animation: pulse 1s ease-in-out infinite; }
-  .hero-bg { background: linear-gradient(135deg, #1e3a8a 0%, #6d28d9 100%); }
-  .card-hover { transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-  .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); }
-  .btn-animated { transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-  .btn-animated:hover { transform: scale(1.05); }
-  [data-taos="fade-up"] { transition: all 0.7s ease-in-out; }
-  [data-taos="zoom-in"] { transition: all 0.7s ease-in-out; }
-  [data-taos="slide-right"] { transition: all 0.7s ease-in-out; }
-  [data-taos="slide-left"] { transition: all 0.7s ease-in-out; }
-</style>
-{% endblock %}
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-dP2TzSOFh0P+Mo/..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-{% block content %}
-<!-- HERO SECTION -->
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg">
-  <div class="absolute inset-0 opacity-20">
-    <div class="absolute top-20 left-20 w-32 h-32 bg-gray-100 rounded-full animate-float"></div>
-    <div class="absolute top-40 right-32 w-24 h-24 bg-yellow-100 rounded-full animate-float" style="animation-delay: 1s;"></div>
+  <!-- AOS CSS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+</head>
+<body class="bg-gradient-to-br from-indigo-900 via-blue-900 to-sky-800 text-white">
+
+<section class="py-24 relative overflow-hidden" id="experiencia">
+  <!-- Decoraciones flotantes -->
+  <div class="absolute inset-0 opacity-10 pointer-events-none z-0">
+    <div class="absolute top-10 left-10 w-40 h-40 bg-cyan-400 rounded-full animate-ping blur-2xl"></div>
+    <div class="absolute bottom-20 right-20 w-32 h-32 bg-indigo-300 rounded-full animate-pulse blur-2xl"></div>
   </div>
 
-  <div class="absolute inset-0 z-0">
-    <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-600 text-xl font-semibold">
-      Foto Portada Institucional
+  <div class="container mx-auto px-6 lg:px-16 relative z-10">
+    <!-- Título -->
+    <div class="text-center mb-20" data-aos="fade-up" data-aos-delay="0">
+      <h2 class="text-5xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-200 via-sky-300 to-indigo-400 bg-clip-text text-transparent">
+        35 Años de Excelencia Académica
+      </h2>
+      <p class="text-lg mt-4 text-blue-100 max-w-2xl mx-auto leading-relaxed">
+        Tres décadas y media construyendo un legado educativo con propósito, pasión y proyección internacional.
+      </p>
     </div>
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-900/60 to-purple-900/60"></div>
-  </div>
 
-  <div class="relative z-10 text-center text-white px-4 max-w-4xl mx-auto animate-fadeInUp">
-    <i class="fas fa-graduation-cap text-6xl mb-6"></i>
-    <h1 class="text-5xl md:text-7xl font-bold mb-6">
-      Centro Educativo
-      <span class="block text-yellow-200">Suazapawa</span>
-    </h1>
-    <p class="text-xl md:text-2xl mb-8 opacity-90">
-      Educamos con valores, conocimiento y visión de futuro
-    </p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-      <a href="#secciones" class="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-blue-900 font-bold py-3 px-8 rounded-full btn-animated animate-pulse-hover">
-        Explora más
-      </a>
-      <a href="#video" class="flex items-center gap-2 border-2 border-white text-white hover:bg-white hover:text-blue-900 font-bold py-3 px-8 rounded-full btn-animated animate-pulse-hover">
-        <i class="fas fa-play"></i> Ver Video
-      </a>
+    <!-- Estadísticas con animaciones escalonadas -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+      <div class="text-center p-6 bg-white/10 backdrop-blur rounded-2xl shadow-xl" data-aos="zoom-in" data-aos-delay="100">
+        <i class="fas fa-award text-cyan-300 text-5xl mb-4"></i>
+        <div class="text-4xl font-bold">35+</div>
+        <p class="text-blue-100 mt-2">Años de Trayectoria</p>
+      </div>
+      <div class="text-center p-6 bg-white/10 backdrop-blur rounded-2xl shadow-xl" data-aos="zoom-in" data-aos-delay="200">
+        <i class="fas fa-user-graduate text-indigo-300 text-5xl mb-4"></i>
+        <div class="text-4xl font-bold">1500+</div>
+        <p class="text-blue-100 mt-2">Estudiantes Graduados</p>
+      </div>
+      <div class="text-center p-6 bg-white/10 backdrop-blur rounded-2xl shadow-xl" data-aos="zoom-in" data-aos-delay="300">
+        <i class="fas fa-heart text-pink-300 text-5xl mb-4"></i>
+        <div class="text-4xl font-bold">99%</div>
+        <p class="text-blue-100 mt-2">Satisfacción Familiar</p>
+      </div>
+      <div class="text-center p-6 bg-white/10 backdrop-blur rounded-2xl shadow-xl" data-aos="zoom-in" data-aos-delay="400">
+        <i class="fas fa-university text-yellow-300 text-5xl mb-4"></i>
+        <div class="text-4xl font-bold">+95%</div>
+        <p class="text-blue-100 mt-2">Ingreso a la Universidad</p>
+      </div>
+    </div>
+
+    <!-- Imagen institucional con animación final -->
+    <div class="relative max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 group"
+         data-aos="fade-up" data-aos-delay="500">
+      <img src="{% static 'img/experiencia.jpg' %}" alt="Colegio Suazapawa - 35 años"
+           class="w-full h-auto object-cover object-center transition-transform duration-700 ease-in-out group-hover:scale-105">
+      <div class="absolute inset-0 bg-gradient-to-tr from-sky-900/20 to-transparent group-hover:backdrop-blur-sm transition-all duration-700 z-10"></div>
     </div>
   </div>
 </section>
 
-<!-- VIDEO SECTION -->
-<section id="video" class="py-20 bg-white">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-12" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <i class="fas fa-video text-4xl mb-4 text-blue-500"></i>
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Conócenos en 2 minutos</h2>
-      <p class="text-gray-600 text-lg">Descubre todo lo que hace especial a nuestra institución</p>
-    </div>
-
-    <div class="max-w-4xl mx-auto" data-taos-offset="300" data-taos-delay="200" data-taos="zoom-in">
-      <div class="relative bg-gray-300 rounded-2xl shadow-2xl overflow-hidden aspect-video group cursor-pointer">
-        <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-400 to-gray-500">
-          <div class="text-center">
-            <div class="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-              <i class="fas fa-play text-white text-3xl ml-1"></i>
-            </div>
-            <p class="text-white text-lg font-semibold">Video Institucional</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div id="secciones">
-
-<!-- NIVELES ACADÉMICOS -->
-<section class="py-20 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Niveles Académicos</h2>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Conoce las etapas educativas que ofrecemos en Suazapawa</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <!-- Preescolar -->
-      <div class="group" data-taos-offset="300" data-taos-delay="200" data-taos="zoom-in">
-        <div class="bg-white rounded-2xl p-8 shadow-lg card-hover border-t-4 border-blue-500 h-full">
-          <div class="w-16 h-16 text-blue-500 mx-auto mb-6 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-            <i class="fas fa-child text-6xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Preescolar</h3>
-          <p class="text-gray-600 text-center mb-6">Aprendizaje lúdico para el desarrollo inicial</p>
-          <button class="w-full py-2 px-4 border-2 border-blue-500 text-blue-500 hover:bg-blue-50 bg-transparent rounded-full transition-all duration-400 font-semibold animate-pulse-hover">
-            Más información
-          </button>
-        </div>
-      </div>
-      <!-- Primaria -->
-      <div class="group" data-taos-offset="300" data-taos-delay="300" data-taos="zoom-in">
-        <div class="bg-white rounded-2xl p-8 shadow-lg card-hover border-t-4 border-purple-500 h-full">
-          <div class="w-16 h-16 text-purple-500 mx-auto mb-6 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-            <i class="fas fa-book text-6xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Primaria</h3>
-          <p class="text-gray-600 text-center mb-6">Formación en valores y conocimiento fundamental</p>
-          <button class="w-full py-2 px-4 border-2 border-purple-500 text-purple-500 hover:bg-purple-50 bg-transparent rounded-full transition-all duration-400 font-semibold animate-pulse-hover">
-            Más información
-          </button>
-        </div>
-      </div>
-      <!-- Secundaria -->
-      <div class="group" data-taos-offset="300" data-taos-delay="400" data-taos="zoom-in">
-        <div class="bg-white rounded-2xl p-8 shadow-lg card-hover border-t-4 border-indigo-500 h-full">
-          <div class="w-16 h-16 text-indigo-500 mx-auto mb-6 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-            <i class="fas fa-user-graduate text-6xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Secundaria</h3>
-          <p class="text-gray-600 text-center mb-6">Pensamiento crítico, liderazgo y tecnología</p>
-          <button class="w-full py-2 px-4 border-2 border-indigo-500 text-indigo-500 hover:bg-indigo-50 bg-transparent rounded-full transition-all duration-400 font-semibold animate-pulse-hover">
-            Más información
-          </button>
-        </div>
-      </div>
-      <!-- Media Técnica -->
-      <div class="group" data-taos-offset="300" data-taos-delay="500" data-taos="zoom-in">
-        <div class="bg-white rounded-2xl p-8 shadow-lg card-hover border-t-4 border-pink-500 h-full">
-          <div class="w-16 h-16 text-pink-500 mx-auto mb-6 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-            <i class="fas fa-briefcase text-6xl"></i>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Media Técnica</h3>
-          <p class="text-gray-600 text-center mb-6">Preparación para el mundo profesional y universitario</p>
-          <button class="w-full py-2 px-4 border-2 border-pink-500 text-pink-500 hover:bg-pink-50 bg-transparent rounded-full transition-all duration-400 font-semibold animate-pulse-hover">
-            Más información
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EVENTOS DESTACADOS -->
-<section class="py-20 bg-white overflow-hidden">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <i class="fas fa-calendar-alt text-4xl mb-4 text-blue-500"></i>
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Eventos Destacados</h2>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Participa en nuestras actividades más importantes del año</p>
-    </div>
-
-    <div class="space-y-16">
-      <!-- Evento 1 -->
-      <div class="flex flex-col lg:flex-row items-center gap-12">
-        <div class="w-full lg:w-1/2" data-taos-offset="300" data-taos-delay="100" data-taos="slide-right">
-          <div class="bg-gray-300 rounded-2xl shadow-lg overflow-hidden aspect-video card-hover">
-            <div class="w-full h-full flex items-center justify-center text-gray-600 text-xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-              Foto Evento 1
-            </div>
-          </div>
-        </div>
-        <div class="w-full lg:w-1/2" data-taos-offset="300" data-taos-delay="200" data-taos="slide-left">
-          <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-lg card-hover">
-            <div class="flex items-center gap-2 mb-4">
-              <i class="fas fa-star text-yellow-400 text-xl"></i>
-              <h3 class="text-2xl font-bold text-gray-800">Feria de Ciencia</h3>
-            </div>
-            <div class="space-y-3 mb-6">
-              <div class="flex items-center gap-2 text-gray-600">
-                <i class="fas fa-calendar text-lg"></i>
-                <span>15 Oct 2025</span>
-              </div>
-            </div>
-            <p class="text-gray-700 mb-6 leading-relaxed">Exposición de proyectos científicos realizados por estudiantes</p>
-            <button class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-full btn-animated animate-pulse-hover">
-              Ver detalles
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- Evento 2 -->
-      <div class="flex flex-col lg:flex-row-reverse items-center gap-12">
-        <div class="w-full lg:w-1/2" data-taos-offset="300" data-taos-delay="100" data-taos="slide-left">
-          <div class="bg-gray-300 rounded-2xl shadow-lg overflow-hidden aspect-video card-hover">
-            <div class="w-full h-full flex items-center justify-center text-gray-600 text-xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-              Foto Evento 2
-            </div>
-          </div>
-        </div>
-        <div class="w-full lg:w-1/2" data-taos-offset="300" data-taos-delay="200" data-taos="slide-right">
-          <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-lg card-hover">
-            <div class="flex items-center gap-2 mb-4">
-              <i class="fas fa-star text-yellow-400 text-xl"></i>
-              <h3 class="text-2xl font-bold text-gray-800">Día Cultural</h3>
-            </div>
-            <div class="space-y-3 mb-6">
-              <div class="flex items-center gap-2 text-gray-600">
-                <i class="fas fa-calendar text-lg"></i>
-                <span>20 Nov 2025</span>
-              </div>
-            </div>
-            <p class="text-gray-700 mb-6 leading-relaxed">Celebración de la diversidad cultural con presentaciones</p>
-            <button class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-3 px-6 rounded-full btn-animated animate-pulse-hover">
-              Ver detalles
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCIA SECTION -->
-<section class="py-20 bg-gradient-to-br from-blue-900 to-purple-900 text-white relative overflow-hidden">
-  <div class="absolute inset-0 opacity-10">
-    <div class="absolute top-20 left-20 w-40 h-40 bg-gray-100 rounded-full animate-float"></div>
-    <div class="absolute bottom-20 right-20 w-32 h-32 bg-yellow-100 rounded-full animate-float" style="animation-delay: 2s;"></div>
-  </div>
-
-  <div class="container mx-auto px-4 relative z-10">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <h2 class="text-4xl font-bold mb-4">Nuestra Experiencia Educativa</h2>
-      <p class="text-xl opacity-90 max-w-3xl mx-auto">Más de dos décadas formando líderes del mañana</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-      <!-- Stat 1 -->
-      <div class="text-center group" data-taos-offset="300" data-taos-delay="200" data-taos="zoom-in">
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/20 transition-all duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55) transform hover:scale-105">
-          <i class="fas fa-award text-blue-400 text-4xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          <div class="text-3xl font-bold mb-2">25+</div>
-          <p class="text-white/80">Años de Experiencia</p>
-        </div>
-      </div>
-      <!-- Stat 2 -->
-      <div class="text-center group" data-taos-offset="300" data-taos-delay="300" data-taos="zoom-in">
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/20 transition-all duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55) transform hover:scale-105">
-          <i class="fas fa-users text-purple-400 text-4xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          <div class="text-3xl font-bold mb-2">1200+</div>
-          <p class="text-white/80">Estudiantes Graduados</p>
-        </div>
-      </div>
-      <!-- Stat 3 -->
-      <div class="text-center group" data-taos-offset="300" data-taos-delay="400" data-taos="zoom-in">
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/20 transition-all duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55) transform hover:scale-105">
-          <i class="fas fa-heart text-pink-400 text-4xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          <div class="text-3xl font-bold mb-2">98%</div>
-          <p class="text-white/80">Satisfacción Familiar</p>
-        </div>
-      </div>
-      <!-- Stat 4 -->
-      <div class="text-center group" data-taos-offset="300" data-taos-delay="500" data-taos="zoom-in">
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 hover:bg-white/20 transition-all duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55) transform hover:scale-105">
-          <i class="fas fa-bullseye text-yellow-400 text-4xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          <div class="text-3xl font-bold mb-2">95%</div>
-          <p class="text-white/80">Éxito Universitario</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="text-center" data-taos-offset="300" data-taos-delay="600" data-taos="fade-up">
-      <div class="bg-gray-300 rounded-2xl mx-auto max-w-4xl aspect-video shadow-2xl overflow-hidden">
-        <div class="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400">
-          Foto Experiencia Institucional
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SERVICIOS SECTION -->
-<section class="py-20 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Servicios Integrales</h2>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Servicios que garantizan el bienestar de nuestros estudiantes</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Transporte Escolar -->
-      <div class="group" data-taos-offset="300" data-taos-delay="200" data-taos="slide-right">
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-          <div class="bg-gradient-to-r from-blue-500 to-purple-500 p-6">
-            <i class="fas fa-bus text-4xl text-white mx-auto block group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Transporte Escolar</h3>
-            <p class="text-gray-600 mb-6 text-center">Servicio de transporte seguro y confiable</p>
-            <button class="w-full mt-6 py-3 px-6 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold rounded-full btn-animated animate-pulse-hover">
-              Más información
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- Enfermería -->
-      <div class="group" data-taos-offset="300" data-taos-delay="300" data-taos="slide-left">
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-          <div class="bg-gradient-to-r from-purple-500 to-indigo-500 p-6">
-            <i class="fas fa-heart text-4xl text-white mx-auto block group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Enfermería</h3>
-            <p class="text-gray-600 mb-6 text-center">Atención médica especializada 24 horas</p>
-            <button class="w-full mt-6 py-3 px-6 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-semibold rounded-full btn-animated animate-pulse-hover">
-              Más información
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- Restaurante Escolar -->
-      <div class="group" data-taos-offset="300" data-taos-delay="400" data-taos="slide-right">
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-          <div class="bg-gradient-to-r from-indigo-500 to-blue-500 p-6">
-            <i class="fas fa-utensils text-4xl text-white mx-auto block group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Restaurante Escolar</h3>
-            <p class="text-gray-600 mb-6 text-center">Alimentación balanceada y nutritiva</p>
-            <button class="w-full mt-6 py-3 px-6 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-semibold rounded-full btn-animated animate-pulse-hover">
-              Más información
-            </button>
-          </div>
-        </div>
-      </div>
-      <!-- Seguridad Integral -->
-      <div class="group" data-taos-offset="300" data-taos-delay="500" data-taos="slide-left">
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
-          <div class="bg-gradient-to-r from-pink-500 to-purple-500 p-6">
-            <i class="fas fa-shield-alt text-4xl text-white mx-auto block group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Seguridad Integral</h3>
-            <p class="text-gray-600 mb-6 text-center">Sistema de seguridad completo</p>
-            <button class="w-full mt-6 py-3 px-6 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-semibold rounded-full btn-animated animate-pulse-hover">
-              Más información
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- GALERÍA CARRUSEL -->
-<section class="py-20 bg-gradient-to-br from-purple-100 to-blue-100">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <i class="fas fa-images text-4xl mb-4 text-purple-500"></i>
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Galería de Momentos</h2>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Revive nuestros mejores recuerdos institucionales</p>
-    </div>
-
-    <div class="max-w-4xl mx-auto" data-taos-offset="300" data-taos-delay="200" data-taos="zoom-in">
-      <div id="gallery-carousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner rounded-2xl shadow-2xl overflow-hidden">
-          <div class="carousel-item active">
-            <div class="bg-gray-300 aspect-video relative group">
-              <div class="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-                Foto Galería 1
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="bg-gray-300 aspect-video relative group">
-              <div class="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-                Foto Galería 2
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="bg-gray-300 aspect-video relative group">
-              <div class="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-                Foto Galería 3
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="bg-gray-300 aspect-video relative group">
-              <div class="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-                Foto Galería 4
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="bg-gray-300 aspect-video relative group">
-              <div class="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-                Foto Galería 5
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="bg-gray-300 aspect-video relative group">
-              <div class="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-                Foto Galería 6
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button class="carousel-control-prev" type="button" data-bs-target="#gallery-carousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </button>
-
-        <button class="carousel-control-next" type="button" data-bs-target="#gallery-carousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </button>
-
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="0" class="active"></button>
-          <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="1"></button>
-          <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="2"></button>
-          <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="3"></button>
-          <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="4"></button>
-          <button type="button" data-bs-target="#gallery-carousel" data-bs-slide-to="5"></button>
-        </div>
-      </div>
-
-      <div class="text-center mt-8" data-taos-offset="300" data-taos-delay="400" data-taos="fade-up">
-        <button class="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-semibold py-3 px-8 rounded-full btn-animated animate-pulse-hover">
-          Ver galería completa
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- NOTICIAS -->
-<section class="py-20 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <i class="fas fa-newspaper text-4xl mb-4 text-blue-500"></i>
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Noticias Recientes</h2>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Entérate de las novedades del colegio</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Noticia 1 -->
-      <div class="group" data-taos-offset="300" data-taos-delay="200" data-taos="slide-up">
-        <article class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover h-full">
-          <div class="bg-gray-300 aspect-video relative overflow-hidden">
-            <div class="w-full h-full flex items-center justify-center text-gray-600 text-lg font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-              Foto Noticia 1
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-400">
-              Nuevo Laboratorio de Robótica
-            </h3>
-            <p class="text-gray-600 mb-4 leading-relaxed">Inauguramos nuestro laboratorio para fomentar la innovación</p>
-            <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
-              <div class="flex items-center gap-1">
-                <i class="fas fa-clock"></i>
-                <span>10 Jul 2025</span>
-              </div>
-            </div>
-            <a href="{% url 'textoescolar' %}" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-2 px-6 rounded-full btn-animated animate-pulse-hover inline-block">
-              Leer más
-            </a>
-          </div>
-        </article>
-      </div>
-      <!-- Noticia 2 -->
-      <div class="group" data-taos-offset="300" data-taos-delay="300" data-taos="slide-up">
-        <article class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover h-full">
-          <div class="bg-gray-300 aspect-video relative overflow-hidden">
-            <div class="w-full h-full flex items-center justify-center text-gray-600 text-lg font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-              Foto Noticia 2
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-400">
-              Concurso de Arte
-            </h3>
-            <p class="text-gray-600 mb-4 leading-relaxed">Estudiantes muestran su creatividad en exposición anual</p>
-            <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
-              <div class="flex items-center gap-1">
-                <i class="fas fa-clock"></i>
-                <span>05 Jun 2025</span>
-              </div>
-            </div>
-            <a href="{% url 'textoescolar' %}" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-2 px-6 rounded-full btn-animated animate-pulse-hover inline-block">
-              Leer más
-            </a>
-          </div>
-        </article>
-      </div>
-      <!-- Noticia 3 -->
-      <div class="group" data-taos-offset="300" data-taos-delay="400" data-taos="slide-up">
-        <article class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover h-full">
-          <div class="bg-gray-300 aspect-video relative overflow-hidden">
-            <div class="w-full h-full flex items-center justify-center text-gray-600 text-lg font-semibold bg-gradient-to-br from-gray-200 to-gray-400 group-hover:scale-105 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)">
-              Foto Noticia 3
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-400">
-              Graduación 2025
-            </h3>
-            <p class="text-gray-600 mb-4 leading-relaxed">Celebramos el éxito de nuestros estudiantes de grado 11</p>
-            <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
-              <div class="flex items-center gap-1">
-                <i class="fas fa-clock"></i>
-                <span>20 Dic 2025</span>
-              </div>
-            </div>
-            <a href="{% url 'textoescolar' %}" class="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-2 px-6 rounded-full btn-animated animate-pulse-hover inline-block">
-              Leer más
-            </a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIOS -->
-<section class="py-20 bg-white">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <i class="fas fa-comments text-4xl mb-4 text-blue-500"></i>
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">Testimonios</h2>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Lo que opinan estudiantes y padres de familia</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Testimonio 1 -->
-      <div class="group" data-taos-offset="300" data-taos-delay="200" data-taos="slide-right">
-        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-lg card-hover h-full">
-          <i class="fas fa-quote-left text-2xl text-blue-500 mb-4 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          <blockquote class="text-gray-700 text-lg leading-relaxed mb-6 italic">
-            "Gracias al colegio Suazapawa mi hijo descubrió su pasión por la ciencia"
-          </blockquote>
-          <footer class="border-t border-gray-200 pt-4">
-            <div class="font-semibold text-gray-800">María González</div>
-            <div class="text-sm text-gray-600">Madre de familia</div>
-          </footer>
-        </div>
-      </div>
-      <!-- Testimonio 2 -->
-      <div class="group" data-taos-offset="300" data-taos-delay="300" data-taos="slide-left">
-        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-lg card-hover h-full">
-          <i class="fas fa-quote-left text-2xl text-blue-500 mb-4 group-hover:scale-110 transition-transform duration-400 cubic-bezier(0.68, -0.55, 0.27, 1.55)"></i>
-          <blockquote class="text-gray-700 text-lg leading-relaxed mb-6 italic">
-            "Aprendí a trabajar en equipo respetar la diversidad y confiar en mí mismo"
-          </blockquote>
-          <footer class="border-t border-gray-200 pt-4">
-            <div class="font-semibold text-gray-800">Carlos Ramírez</div>
-            <div class="text-sm text-gray-600">Estudiante grado 11°</div>
-          </footer>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FORMULARIO DE INSCRIPCIÓN -->
-<section class="py-20 bg-gradient-to-br from-blue-900 to-purple-900 text-white">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos-delay="100" data-taos="fade-up">
-      <i class="fas fa-user-plus text-4xl mb-4 text-yellow-400"></i>
-      <h2 class="text-4xl font-bold mb-4">Formulario de Inscripción</h2>
-      <p class="text-xl opacity-90 max-w-2xl mx-auto">¡Únete a la familia Suazapawa!</p>
-    </div>
-
-    <div class="flex flex-col lg:flex-row gap-12 items-center">
-      <div class="w-full lg:w-1/2" data-taos-offset="300" data-taos-delay="200" data-taos="slide-right">
-        <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 shadow-2xl">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-semibold mb-2">
-                <i class="fas fa-user mr-2"></i>Nombre del Estudiante
-              </label>
-              <input type="text" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400 animate-pulse-hover" placeholder="Nombre completo" />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold mb-2">
-                <i class="fas fa-envelope mr-2"></i>Correo Electrónico
-              </label>
-              <input type="email" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400 animate-pulse-hover" placeholder="correo@ejemplo.com" />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold mb-2">
-                <i class="fas fa-phone mr-2"></i>Teléfono
-              </label>
-              <input type="tel" class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-yellow-400 animate-pulse-hover" placeholder="310 123 4567" />
-            </div>
-            <div>
-              <label class="block text-sm font-semibold mb-2">
-                <i class="fas fa-calendar mr-2"></i>Grado
-              </label>
-              <select class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 animate-pulse-hover">
-                <option value="">Selecciona un grado</option>
-                <option value="preescolar">Preescolar</option>
-                <option value="primaria">Primaria</option>
-                <option value="secundaria">Secundaria</option>
-                <option value="media">Media Técnica</option>
-              </select>
-            </div>
-          </div>
-          <button class="w-full mt-8 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-blue-900 font-bold py-4 px-6 rounded-lg btn-animated animate-pulse-hover">
-            Enviar Solicitud
-          </button>
-        </div>
-      </div>
-
-      <div class="w-full lg:w-1/2" data-taos-offset="300" data-taos-delay="300" data-taos="slide-left">
-        <div class="bg-gray-300 rounded-2xl aspect-square shadow-2xl overflow-hidden mb-8">
-          <div class="w-full h-full flex items-center justify-center text-gray-600 text-2xl font-semibold bg-gradient-to-br from-gray-200 to-gray-400">
-            Foto Proceso Inscripción
-          </div>
-        </div>
-        <div class="space-y-6">
-          <h3 class="text-2xl font-bold text-yellow-400">Proceso de Admisión</h3>
-          <ul class="space-y-4">
-            <li class="flex items-center gap-3">
-              <div class="w-8 h-8 bg-yellow-400 text-blue-900 rounded-full flex items-center justify-center font-bold">1</div>
-              <span>Completar formulario</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <div class="w-8 h-8 bg-yellow-400 text-blue-900 rounded-full flex items-center justify-center font-bold">2</div>
-              <span>Entrevista académica</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <div class="w-8 h-8 bg-yellow-400 text-blue-900 rounded-full flex items-center justify-center font-bold">3</div>
-              <span>Evaluación diagnóstica</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <div class="w-8 h-8 bg-yellow-400 text-blue-900 rounded-full flex items-center justify-center font-bold">4</div>
-              <span>Confirmación de cupo</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script src="https://unpkg.com/taos@1.0.5/dist/taos.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize TAOS
-  if (typeof TAOS !== 'undefined') {
-    TAOS.init();
-  }
-
-  // Smooth scrolling
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
+  AOS.init({
+    duration: 900,
+    once: true,
+    easing: 'ease-in-out',
   });
-});
 </script>
-{% endblock %}
-```
+</body>
+</html>

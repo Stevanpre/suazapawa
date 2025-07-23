@@ -1,0 +1,125 @@
+<!-- EVENTOS DESTACADOS -->
+<!-- Font Awesome CDN (si no lo tienes cargado ya) -->
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+
+<!-- Sección de Eventos Destacados -->
+<section id="eventos" class="py-24 bg-white overflow-hidden relative">
+  <div class="container mx-auto px-4">
+
+    <!-- Encabezado -->
+    <div class="text-center mb-20" data-taos-offset="200" data-taos="fade-up">
+      <i class="fas fa-calendar-alt text-5xl mb-4 text-blue-600 animate-bounce"></i>
+      <h2 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 text-transparent bg-clip-text mb-4 animate-fade-in-down">
+        Galería de Eventos Suazapawa
+      </h2>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto animate-fade-in-up">
+        Participa en nuestras actividades más importantes del año y revive los mejores momentos.
+      </p>
+    </div>
+
+    <!-- Lista de eventos -->
+    <div class="space-y-20">
+
+      <!-- Evento 1 -->
+      <div class="flex flex-col lg:flex-row items-center gap-10 group">
+        <!-- Imagen -->
+        <div class="w-full lg:w-1/2" data-taos="slide-right" data-taos-delay="100">
+          <div class="rounded-3xl overflow-hidden shadow-2xl transform transition duration-500 group-hover:scale-105 hover:rotate-1">
+            <div class="bg-gradient-to-br from-gray-100 to-gray-300 flex items-center justify-center aspect-video text-gray-700 text-2xl font-bold">
+              Foto Evento 1
+            </div>
+          </div>
+        </div>
+
+        <!-- Texto -->
+        <div class="w-full lg:w-1/2 bg-gradient-to-br from-blue-50 to-purple-100 p-8 rounded-3xl shadow-lg" data-taos="slide-left" data-taos-delay="200">
+          <div class="flex items-center gap-3 mb-4 text-blue-700">
+            <i class="fas fa-star text-yellow-400 text-xl"></i>
+            <h3 class="text-3xl font-semibold">Feria de Ciencia</h3>
+          </div>
+          <div class="text-gray-600 mb-3 flex items-center gap-2">
+            <i class="fas fa-calendar-alt"></i> <span>15 Oct 2025</span>
+          </div>
+          <p class="text-gray-700 leading-relaxed mb-6">Exposición de proyectos científicos realizados por estudiantes con enfoque investigativo e innovador.</p>
+          <button class="relative z-10 inline-block px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition duration-300 animate-btn-bounce">
+            Ver detalles
+          </button>
+        </div>
+      </div>
+
+    <!-- Evento 2 -->
+      <div class="flex flex-col lg:flex-row items-center gap-10 group">
+        <!-- Imagen -->
+        <div class="w-full lg:w-1/2" data-taos="slide-right" data-taos-delay="100">
+          <div class="rounded-3xl overflow-hidden shadow-2xl transform transition duration-500 group-hover:scale-105 hover:rotate-1">
+            <div class="bg-gradient-to-br from-gray-100 to-gray-300 flex items-center justify-center aspect-video text-gray-700 text-2xl font-bold">
+              Foto Evento 2
+            </div>
+          </div>
+        </div>
+
+        <!-- Texto -->
+        <div class="w-full lg:w-1/2 bg-gradient-to-br from-blue-50 to-purple-100 p-8 rounded-3xl shadow-lg" data-taos="slide-left" data-taos-delay="200">
+          <div class="flex items-center gap-3 mb-4 text-blue-700">
+            <i class="fas fa-star text-yellow-400 text-xl"></i>
+            <h3 class="text-3xl font-semibold">Feria de Ciencia</h3>
+          </div>
+          <div class="text-gray-600 mb-3 flex items-center gap-2">
+            <i class="fas fa-calendar-alt"></i> <span>15 Oct 2025</span>
+          </div>
+          <p class="text-gray-700 leading-relaxed mb-6">Exposición de proyectos científicos realizados por estudiantes con enfoque investigativo e innovador.</p>
+          <button class="relative z-10 inline-block px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition duration-300 animate-btn-bounce">
+            Ver detalles
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Animaciones personalizadas -->
+<style>
+  @keyframes btn-bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  .animate-btn-bounce {
+    animation: btn-bounce 2s infinite;
+  }
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 1.2s ease-out both;
+  }
+
+  @keyframes fade-in-down {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-down {
+    animation: fade-in-down 1.2s ease-out both;
+  }
+</style>
