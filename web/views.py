@@ -22,6 +22,12 @@ from django.shortcuts import get_object_or_404
 def pruebas(request):
     return render(request, 'pruebas.html')
 
+class navbarView(TemplateView):
+    template_name = "public/includes/navbar.html"
+
+class footerView(TemplateView):
+    template_name = "public/includes/navbar.html"
+
 class HomeView(TemplateView):
     template_name = "public/home.html"
 
@@ -58,6 +64,7 @@ class formularioView(TemplateView):
 
 class calendarioView(TemplateView):
     template_name = "public/calendario.html"
+
 
 class calendarioView(ListView):
     model = Evento

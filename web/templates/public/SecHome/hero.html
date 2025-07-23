@@ -1,4 +1,5 @@
 {% load static %}
+
 {% block extra_css %}
 <style>
   .fade-in-start {
@@ -44,78 +45,78 @@
   }
 
   .glass-panel {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 1rem;
     padding: 2rem;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    color: #fff;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    color: #1e293b;
   }
 
   .glass-panel h2 {
-    color: #c7d2fe;
+    color: #1e3a8a;
   }
 
   .glass-panel p {
-    color: #f3f4f6;
+    color: #1f2937;
+  }
+
+  .highlighted-title {
+    background: linear-gradient(to right, #1e3a8a, #4f46e5, #0ea5e9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<section id="hero-section" class="relative min-h-screen flex items-center justify-center px-6 lg:px-24 py-20 fade-in-start overflow-hidden">
+<section id="hero-section" class="relative min-h-screen fade-in-start overflow-hidden flex items-center justify-center">
 
-  <!-- Carrusel de fondo -->
+  <!-- Imagen de fondo tipo carrusel -->
   <div class="carousel-bg">
-    <img src="{% static 'img/fondo1.webp' %}" alt="Fondo 1" class="active">
-    <img src="{% static 'img/fondo2.webp' %}" alt="Fondo 2">
-    <img src="{% static 'img/fondo3.webp' %}" alt="Fondo 3">
+    <img src="{% static 'img/fondo1Ex.JPG' %}" class="active" alt="Fondo 1">
+    <img src="{% static 'img/fondo2Ex.JPG' %}" alt="Fondo 2">
+    <img src="{% static 'img/fondo3Ex.JPG' %}" alt="Fondo 3">
     <div class="bg-overlay"></div>
   </div>
 
-  <!-- CONTENIDO CENTRAL con glassmorphism -->
-  <div class="relative z-10 max-w-3xl text-center space-y-8 glass-panel">
-    <div class="space-y-4">
-      <h2 class="text-lg font-medium tracking-wide">¡Bienvenido a nuestra comunidad!</h2>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight bg-gradient-to-r from-blue-300 via-indigo-500 to-purple-600 bg-clip-text text-transparent animate-fade-in-down">
-  <span class="block">Institución Educativa</span>
-  <span class="block text-6xl sm:text-7xl lg:text-8xl text-transparent bg-gradient-to-r from-indigo-300 via-purple-400 to-pink-400 bg-clip-text drop-shadow-lg">Suazapawa</span>
-</h1>
+  <!-- Contenido sobre la imagen de fondo -->
+  <div class="relative z-10 w-full max-w-6xl mx-auto px-6 py-16 lg:py-32">
+    <div class="glass-panel max-w-3xl lg:max-w-2xl space-y-8 text-center lg:text-left">
+      <h2 class="text-lg font-semibold tracking-wide">¡Bienvenido a nuestra comunidad!</h2>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+        <span class="block text-gray-800">Institución Educativa</span>
+        <span class="block text-6xl sm:text-7xl lg:text-8xl highlighted-title">Suazapawa</span>
+      </h1>
+      <p class="text-lg text-gray-800">Formamos líderes con valores, excelencia académica y compromiso social.</p>
 
-      <p class="text-lg">Un espacio donde la excelencia académica se une con los valores humanos para formar líderes del mañana.</p>
-    </div>
-
-    <!-- BOTONES -->
-    <div class="flex flex-wrap justify-center gap-4 pt-4">
-      <a href="#conocenos"
-         class="px-6 py-3 rounded-full text-white font-medium bg-indigo-500 hover:bg-indigo-600 transition duration-300 shadow-lg hover:scale-105">
-        Conócenos
-      </a>
-      <a href="#admision"
-         class="px-6 py-3 rounded-full text-indigo-800 font-semibold bg-white/70 backdrop-blur-md border border-white/30 hover:bg-white/90 hover:scale-105 transition duration-500 shadow-lg">
-        <i class="fas fa-arrow-right mr-2"></i> Proceso de Admisión
-      </a>
-    </div>
-
-    <!-- VALORES CLAVE -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 text-left text-white">
-      <div class="flex items-center space-x-4"><i class="fas fa-users text-indigo-300 text-2xl"></i><p>Acompañamiento personalizado</p></div>
-      <div class="flex items-center space-x-4"><i class="fas fa-lightbulb text-purple-300 text-2xl"></i><p>Aprendizaje creativo</p></div>
-      <div class="flex items-center space-x-4"><i class="fas fa-globe-americas text-pink-300 text-2xl"></i><p>Proyección internacional</p></div>
-      <div class="flex items-center space-x-4"><i class="fas fa-heart text-red-300 text-2xl"></i><p>Valores y formación humana</p></div>
+      <!-- Botones -->
+      <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-2">
+        <a href="#conocenos"
+           class="px-6 py-3 rounded-full text-white font-medium bg-indigo-600 hover:bg-indigo-700 transition duration-300 shadow-lg hover:scale-105">
+          Conócenos
+        </a>
+        <a href="#admision"
+           class="px-6 py-3 rounded-full text-indigo-800 font-semibold bg-white/80 backdrop-blur-md border border-white/30 hover:bg-white hover:scale-105 transition duration-500 shadow-lg">
+          <i class="fas fa-arrow-right mr-2"></i> Proceso de Admisión
+        </a>
+      </div>
     </div>
   </div>
+
 </section>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-  // Animación de fade-in
+  // Fade-in
   window.addEventListener("DOMContentLoaded", () => {
     const hero = document.getElementById("hero-section");
     setTimeout(() => {
       hero.classList.add("fade-in-active");
-    }, 1000);
+    }, 800);
   });
 
   // Carrusel automático
@@ -126,6 +127,6 @@
     images[index].classList.remove("active");
     index = (index + 1) % images.length;
     images[index].classList.add("active");
-  }, 7000); // Cambia cada 7 segundos
+  }, 7000);
 </script>
 {% endblock %}

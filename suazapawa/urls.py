@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path
 from web.views import (HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, DashboardView, vista_bloqueado,
                        actualizar_perfil, somos, mision, alumno, docente, ubicacion, pruebas, heroView, nivelesView,
-                       eventsView, experienciaView, servicesView, galeriaView, noticesView, formularioView)
+                       eventsView, experienciaView, servicesView, galeriaView, noticesView, formularioView, navbarView,
+                       footerView)
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -31,7 +32,10 @@ urlpatterns = [
 
     path('', HomeView.as_view(), name='home'),
 
- path('hero/',heroView.as_view(), name='hero'),
+    path('navbar/',navbarView.as_view(), name='navbar'),
+    path('footer/', footerView.as_view(), name='footer'),
+
+    path('hero/',heroView.as_view(), name='hero'),
 path('niveles/',nivelesView.as_view(), name='niveles'),
 path('events/',eventsView.as_view(), name='events'),
 path('experen/',experienciaView.as_view(), name='experiencia'),
