@@ -1,57 +1,37 @@
-<!-- NOTICIAS -->
-<section class="py-24 bg-gradient-to-b from-[#f0f4ff] via-[#e0ecfa] to-[#d0e4f7]">
-  <div class="container mx-auto px-6">
-    <div class="text-center mb-16" data-taos-offset="300" data-taos="fade-up">
-      <h2 class="text-4xl font-extrabold text-blue-800 mb-4 tracking-wide">📰 Noticias Recientes</h2>
-      <p class="text-lg text-gray-700 max-w-xl mx-auto">Explora las novedades más importantes del colegio</p>
-    </div>
+{# templates/public/SecHome/noticias.html #}
+<section class="py-12 ">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-6">Últimas Noticias</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-      <!-- Noticia 1 -->
-      <div class="bg-white rounded-2xl shadow-xl p-8 transform transition duration-500 hover:-translate-y-1 hover:shadow-2xl group"
-           data-taos-offset="300" data-taos-delay="200" data-taos="fade-up">
-        <h3 class="text-xl font-bold text-blue-700 group-hover:text-purple-600 transition duration-300 mb-3">
-          🔬 Nuevo Laboratorio de Robótica
-        </h3>
-        <p class="text-gray-600 leading-relaxed mb-4">
-          Se ha inaugurado un espacio moderno donde nuestros estudiantes podrán experimentar, construir y programar sus propios robots.
-        </p>
-        <div class="text-sm text-gray-500 flex items-center gap-2">
-          <i class="fas fa-clock text-blue-500"></i>
-          10 Jul 2025
-        </div>
+    {% if noticias %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for noticia in noticias %}
+          <div class="bg-gray-50 rounded-2xl shadow flex flex-col overflow-hidden">
+            {% if noticia.imagen %}
+              <img
+                src="{{ noticia.imagen.url }}"
+                alt="{{ noticia.titulo }}"
+                class="h-40 w-full object-cover"
+              >
+            {% endif %}
+            <div class="p-4 flex-1 flex flex-col">
+              <h3 class="text-xl font-semibold mb-1">{{ noticia.titulo }}</h3>
+              <p class="text-sm text-gray-500 mb-2">
+                {{ noticia.fecha|date:"d M Y" }}
+              </p>
+              <p class="text-gray-700 flex-1">
+                {{ noticia.descripcion_corta }}
+              </p>
+              <div class="mt-4 text-right text-xs text-gray-400">
+                <!-- Puedes incluir autor u otro meta si lo tienes -->
+                <!-- Ejemplo: Autor: {{ noticia.autor }} -->
+              </div>
+            </div>
+          </div>
+        {% endfor %}
       </div>
-
-      <!-- Noticia 2 -->
-      <div class="bg-white rounded-2xl shadow-xl p-8 transform transition duration-500 hover:-translate-y-1 hover:shadow-2xl group"
-           data-taos-offset="300" data-taos-delay="300" data-taos="fade-up">
-        <h3 class="text-xl font-bold text-green-700 group-hover:text-teal-600 transition duration-300 mb-3">
-          🎨 Concurso de Arte Escolar
-        </h3>
-        <p class="text-gray-600 leading-relaxed mb-4">
-          Los estudiantes compartieron sus obras en una exposición inspiradora que reflejó su creatividad, diversidad y expresión artística.
-        </p>
-        <div class="text-sm text-gray-500 flex items-center gap-2">
-          <i class="fas fa-clock text-green-500"></i>
-          05 Jun 2025
-        </div>
-      </div>
-
-      <!-- Noticia 3 -->
-      <div class="bg-white rounded-2xl shadow-xl p-8 transform transition duration-500 hover:-translate-y-1 hover:shadow-2xl group"
-           data-taos-offset="300" data-taos-delay="400" data-taos="fade-up">
-        <h3 class="text-xl font-bold text-pink-700 group-hover:text-red-500 transition duration-300 mb-3">
-          🎓 Graduación 2025
-        </h3>
-        <p class="text-gray-600 leading-relaxed mb-4">
-          Celebramos con orgullo a nuestros estudiantes de grado 11 que concluyen una etapa con compromiso y excelencia.
-        </p>
-        <div class="text-sm text-gray-500 flex items-center gap-2">
-          <i class="fas fa-clock text-pink-500"></i>
-          20 Dic 2025
-        </div>
-      </div>
-    </div>
+    {% else %}
+      <p class="text-gray-500">No hay noticias disponibles.</p>
+    {% endif %}
   </div>
 </section>

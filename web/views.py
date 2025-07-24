@@ -24,41 +24,16 @@ class footerView(TemplateView):
     template_name = "public/includes/footer.html"
 
 class HomeView(TemplateView):
-    template_name = "public/home.html"
-
-class heroView(TemplateView):
-    template_name = "public/SecHome/hero.html"
-
-class nivelesView(TemplateView):
-    template_name = "public/SecHome/nivelesAca.html"
-
-class eventsView(TemplateView):
-    template_name = "public/SecHome/eventos.html"
+    template_name = 'public/home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['eventos'] = Evento.objects.order_by('-fecha')[:5]
-        return context
-
-class experienciaView(TemplateView):
-    template_name = "public/SecHome/exp.html"
-
-class servicesView(TemplateView):
-    template_name = "public/SecHome/servicios.html"
-
-class galeriaView(TemplateView):
-    template_name = "public/SecHome/galeria.html"
-
-class formularioView(TemplateView):
-    template_name = "public/SecHome/formulario.html"
-
-class NoticesView(TemplateView):
-    template_name = "public/SecHome/noticias.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        # Eventos ya existía
+        context['eventos'] = Evento.objects.order_by('-fecha')[:3]
+        # Añadimos las 3 noticias más recientes
         context['noticias'] = Noticia.objects.order_by('-fecha')[:3]
         return context
+
 
 # --------------------
 # 📅 Calendario y Noticias

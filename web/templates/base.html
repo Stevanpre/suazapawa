@@ -6,42 +6,34 @@
   <title>{% block title %}Suazapawa | Plataforma Escolar{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- ✅ TAILWIND CSS COMPILADO -->
+  <!-- Tailwind CSS compilado -->
   <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
 
-  <!-- ✅ FLOWBITE CSS -->
-  <link href="https://unpkg.com/flowbite@2.2.1/dist/flowbite.min.css" rel="stylesheet" />
+  <!-- Flowbite -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/3.1.2/flowbite.min.css" rel="stylesheet"> <!-- v3.1.2 :contentReference[oaicite:1]{index=1} -->
 
-  <!-- ✅ DAISYUI (ya lo cargas en tu Tailwind CLI, no es necesario inline si ya está incluido en `tailwind.config.js`) -->
+  <!-- AOS (Animate On Scroll) versión estable más reciente -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"> <!-- v2.3.4 :contentReference[oaicite:2]{index=2} -->
 
-  <!-- ✅ FONT AWESOME -->
-  <script src="https://kit.fontawesome.com/xxx.js" crossorigin="anonymous"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-  <!-- ✅ AOS (Animate on Scroll) -->
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-  <!-- ✅ ESTILOS GLOBALES -->
-  <link href="{% static 'css/global.css' %}" rel="stylesheet">
-
-  <!-- ✅ CSS adicional por vista -->
   {% block extra_css %}{% endblock %}
 </head>
-
-<body class="text-gray-800 flex flex-col min-h-screen">
-
-  <!-- ✅ NAVBAR separado -->
+<body class=" flex flex-col min-h-screen">
   {% include 'public/includes/navbar.html' %}
-
-  <!-- ✅ CONTENIDO PRINCIPAL -->
   <main class="flex-1">
     {% block content %}{% endblock %}
   </main>
-
-  <!-- ✅ FOOTER separado -->
   {% include 'public/includes/footer.html' %}
 
-  <!-- ✅ AOS JS -->
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <!-- Scripts al final del body -->
+
+  <!-- Flowbite JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/3.1.2/flowbite.min.js"></script>
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script>
     AOS.init({
       once: true,
@@ -49,7 +41,11 @@
       easing: 'ease-in-out'
     });
   </script>
-  <!-- ✅ Scripts adicionales por vista -->
+
+  <!-- Vanilla-Tilt -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script> <!-- v1.8.1 :contentReference[oaicite:4]{index=4} -->
+
+
   {% block extra_js %}{% endblock %}
 </body>
 </html>

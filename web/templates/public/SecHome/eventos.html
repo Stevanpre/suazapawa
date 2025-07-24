@@ -1,87 +1,52 @@
-{% load static %}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-/>
+{% comment %} templates/public/SecHome/eventos.html {% endcomment %}
+<section class="py-12 bg-gradient-to-b from-sky-50 to-sky-100" data-aos="fade-up" data-aos-duration="1200">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-4xl font-extrabold text-white mb-12 text-center" data-aos="fade-down" data-aos-duration="1000">
+      Eventos Destacados
+    </h2>
 
-<section class="relative py-20 bg-gradient-to-b from-sky-50 via-white to-purple-50 text-gray-800">
-  <!-- Animaciones decorativas -->
-  <div class="absolute inset-0 opacity-20 pointer-events-none z-0">
-    <div class="absolute top-10 left-10 w-40 h-40 bg-sky-400 rounded-full animate-ping blur-2xl"></div>
-    <div class="absolute bottom-20 right-20 w-32 h-32 bg-purple-300 rounded-full animate-pulse blur-2xl"></div>
-  </div>
-
-  <div class="relative z-10 container mx-auto px-4">
-    <div class="text-center mb-12" data-taos-offset="200" data-taos="fade-up">
-      <h2 class="text-4xl font-extrabold text-sky-900 mb-4">📅 Próximos Eventos Escolares</h2>
-      <p class="text-lg text-sky-600">Mantente al tanto de lo que sucede en nuestra institución</p>
-    </div>
-
-    <!-- Carrusel -->
-    <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
+    {% if eventos %}
+      <div class="space-y-12">
         {% for evento in eventos %}
-        <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow-xl border border-sky-100 overflow-hidden">
+          <div class="flex flex-col md:flex-row {% if forloop.counter == 2 %}md:flex-row-reverse{% endif %} bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300" data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+
             {% if evento.imagen %}
-              <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="w-full h-56 object-cover">
-            {% else %}
-              <img src="{% static 'img/placeholder-evento.jpg' %}" alt="Evento sin imagen" class="w-full h-56 object-cover">
-            {% endif %}
-            <div class="p-6 flex flex-col justify-between h-60">
-              <div>
-                <h3 class="text-xl font-bold text-purple-700 mb-2">{{ evento.titulo }}</h3>
-                <p class="text-gray-600 text-sm line-clamp-3">{{ evento.descripcion|truncatechars:120 }}</p>
+              <div class="md:w-1/2 relative group">
+                <img
+                  src="{{ evento.imagen.url }}"
+                  alt="{{ evento.titulo }}"
+                  class="h-64 md:h-full w-full object-cover group-hover:opacity-90 transition-opacity duration-300"
+                >
+                <div class="absolute inset-0  bg-opacity-25 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              <div class="flex justify-between items-center mt-4">
-                <span class="bg-sky-100 text-sky-700 text-xs px-3 py-1 rounded-full">
-                  {{ evento.fecha|date:"d M Y" }}
+            {% endif %}
+
+            <div class="p-6 md:w-1/2 flex flex-col justify-between">
+              <div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2" data-aos="fade-right" data-aos-duration="800">
+                  {{ evento.titulo }}
+                </h3>
+                <p class="text-sm text-gray-500 mb-3">
+                  <i class="fas fa-calendar-alt mr-2"></i>{{ evento.fecha|date:"d M Y" }}
+                </p>
+                <p class="text-gray-700 mb-4" data-aos="fade-left" data-aos-duration="800">
+                  {{ evento.descripcion_corta }}
+                </p>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-gray-400 uppercase tracking-wide">
+                  <i class="fas fa-map-marker-alt mr-1"></i>{{ evento.lugar }}
                 </span>
-                <a href="{% url 'calendario' %}" class="text-sm text-purple-500 hover:underline font-semibold">Ver más</a>
+                <a href="#" class="inline-block text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-full px-4 py-2 transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
+                  Ver detalles
+                </a>
               </div>
             </div>
           </div>
-        </div>
-        {% empty %}
-          <p class="text-center text-gray-500 col-span-3">No hay eventos registrados por el momento.</p>
         {% endfor %}
       </div>
-
-      <!-- Controles -->
-      <div class="swiper-pagination mt-4"></div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-    </div>
+    {% else %}
+      <p class="text-center text-gray-500" data-aos="fade-in" data-aos-duration="800">No hay eventos disponibles.</p>
+    {% endif %}
   </div>
 </section>
-
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-  const swiper = new Swiper(".mySwiper", {
-    slidesPerView: 1,
-    spaceBetween: 20,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    breakpoints: {
-      640: {
-        slidesPerView: 1,
-      },
-      768: {
-        slidesPerView: 2,
-      },
-      1024: {
-        slidesPerView: 3,
-      },
-    },
-  });
-</script>

@@ -4,98 +4,62 @@
 {% block title %}🌐 Dashboard Ejecutivo | Suazapawa{% endblock %}
 
 {% block extra_css %}
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+<link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+<link href="https://unpkg.com/taos@1.0.5/dist/taos.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-<div class="flex h-screen overflow-hidden bg-gray-50">
+<div class="flex h-screen overflow-hidden">
 
-  <!-- SIDEBAR VERTICAL -->
-  <aside
-    class="flex flex-col justify-between items-center w-64 bg-white shadow-lg py-8"
-    data-aos="fade-right"
-  >
-    <!-- Logo / Título -->
+  <!-- SIDEBAR -->
+<aside class="w-64 bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-500 shadow-lg py-8 px-4 z-10 text-black" data-aos="fade-right">
     <div class="flex flex-col items-center">
-      <img
-        src="{% static 'img/logo-suazapawa.jpg' %}"
-        alt="Suazapawa"
-        class="w-20 h-20 mb-4"
-      />
+      <img src="{% static 'img/logo-suazapawa.jpg' %}" alt="Suazapawa" class="w-20 h-20 mb-4" />
       <h2 class="text-xl font-bold text-gray-800">Suazapawa</h2>
     </div>
 
-    <!-- Navegación -->
-    <nav class="flex flex-col space-y-4 w-full sidebar-admin">
-      <button
-        onclick="showModule('bienvenida')"
-        class="w-full text-left px-6 py-3 rounded-lg text-gray-700 hover:bg-cyan-100 transition-colors"
-      >
+    <nav class="mt-10 flex flex-col space-y-4 sidebar-admin">
+      <button onclick="showModule('bienvenida')" class="w-full text-left px-4 py-3 rounded-lg ">
         <i class="fas fa-hand-sparkles mr-2"></i> Bienvenida
       </button>
-      <button
-        onclick="showModule('perfil')"
-        class="w-full text-left px-6 py-3 rounded-lg text-gray-700 hover:bg-cyan-100 transition-colors"
-      >
+      <button onclick="showModule('perfil')" class="w-full text-left px-4 py-3 rounded-lg ">
         <i class="fas fa-user-cog mr-2"></i> Perfil
       </button>
-      <button
-        onclick="showModule('calendario')"
-        class="w-full text-left px-6 py-3 rounded-lg text-gray-700 hover:bg-cyan-100 transition-colors"
-      >
-        <i class="fas fa-pen-to-square mr-2"></i> Editar Calendario
+      <button onclick="showModule('calendario')" class="w-full text-left px-4 py-3 rounded-lg ">
+        <i class="fas fa-calendar-alt mr-2"></i> Editar Calendario
       </button>
-      <button
-        onclick="showModule('noticias')"
-        class="w-full text-left px-6 py-3 rounded-lg text-gray-700 hover:bg-cyan-100 transition-colors"
-      >
-        <i class="fas fa-pen-to-square mr-2"></i> Editar Noticias
+      <button onclick="showModule('noticias')" class="w-full text-left px-4 py-3 rounded-lg ">
+        <i class="fas fa-newspaper mr-2"></i> Editar Noticias
       </button>
     </nav>
-
-    <!-- Espacio inferior (puedes agregar logout o links extra) -->
-    <div class="mt-8">&nbsp;</div>
   </aside>
 
   <!-- CONTENEDOR PRINCIPAL -->
-  <main class="flex-1 overflow-y-auto p-8">
+  <main class="flex-1 overflow-y-auto">
+
     <!-- Módulo: Bienvenida -->
-    <div
-      id="module-bienvenida"
-      class="module-panel bg-white shadow-lg rounded-2xl p-6 mb-6"
-      data-aos="fade-up"
-    >
+    <div id="module-bienvenida" class="module-panel" data-aos="fade-up">
       {% include 'admin/modulos/bienvenida.html' %}
     </div>
 
     <!-- Módulo: Perfil -->
-    <div
-      id="module-perfil"
-      class="module-panel bg-white shadow-lg rounded-2xl p-6 mb-6 hidden"
-      data-aos="fade-up"
-    >
+    <div id="module-perfil" class="module-panel hidden" data-aos="fade-up">
       {% include 'admin/modulos/perfil.html' %}
     </div>
 
     <!-- Módulo: Calendario -->
-    <div
-      id="module-calendario"
-      class="module-panel bg-white shadow-lg rounded-2xl p-6 mb-6 hidden"
-      data-aos="fade-up"
-    >
+    <div id="module-calendario" class="module-panel hidden" data-aos="fade-up">
       {% include 'admin/modulos/calendario.html' %}
     </div>
 
     <!-- Módulo: Noticias -->
-    <div
-      id="module-noticias"
-      class="module-panel bg-white shadow-lg rounded-2xl p-6 mb-6 hidden"
-      data-aos="fade-up"
-    >
+    <div id="module-noticias" class="module-panel hidden" data-aos="fade-up">
       {% include 'admin/modulos/noticias.html' %}
     </div>
-  </main>
 
+  </main>
 </div>
 {% endblock %}
 
@@ -103,16 +67,14 @@
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
   <script>
-    // Inicializa AOS
     AOS.init({ once: true, duration: 600 });
 
-    // Muestra un único módulo a la vez
     function showModule(mod) {
       document.querySelectorAll('.module-panel').forEach(el => el.classList.add('hidden'));
-      document.getElementById(`module-${mod}`).classList.remove('hidden');
+      const target = document.getElementById(`module-${mod}`);
+      if (target) target.classList.remove('hidden');
     }
 
-    // 🔥 Inserta esto justo aquí para manejar el parámetro `show`
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       const mod = params.get('show') || 'bienvenida';
@@ -120,4 +82,3 @@
     });
   </script>
 {% endblock %}
-

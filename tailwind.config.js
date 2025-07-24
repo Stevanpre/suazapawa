@@ -5,19 +5,17 @@
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // Enable dark mode via a utility class on <html> (e.g., <html class="dark">)
-  darkMode: 'class',
-  // Paths to all of your template and script files
+  darkMode: 'class', // Activa el modo oscuro con la clase "dark"
   content: [
-    './web/templates/**/*.{html,js,ts}',
-    './web/static/**/*.{html,js,ts}',
-    'node_modules/flowbite/**/*.{js,ts}',
+    './**/*.{html,js,ts}',                      // Todos los archivos en cualquier carpeta
+    './web/templates/**/*.{html,js,ts}',        // Archivos dentro de Django templates
+    './web/static/**/*.{html,js,ts,css}',       // Archivos estáticos
+    'node_modules/flowbite/**/*.{js,ts}',       // Flowbite
     'node_modules/@themesberg/flowbite/**/*.{js,ts}',
     'node_modules/taos/**/*.{js,ts}'
   ],
   theme: {
     extend: {
-      // Custom keyframes for animations
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
@@ -52,7 +50,6 @@ module.exports = {
           '50%': { borderColor: 'yellow' }
         }
       },
-      // Associate keyframes with animation utilities
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-in-left': 'slideInLeft 0.6s ease-out',
@@ -65,7 +62,6 @@ module.exports = {
       }
     }
   },
-  // Third-party plugins
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
@@ -75,14 +71,13 @@ module.exports = {
     require('taos/plugin'),
     require('tailwindcss-animate')
   ],
-  // DaisyUI configuration and custom theme
   daisyui: {
     themes: [
       {
         suazapawa: {
-          primary: '#6366f1',    // Indigo
-          secondary: '#38bdf8',  // Sky
-          accent: '#f472b6',     // Pink
+          primary: '#6366f1',
+          secondary: '#38bdf8',
+          accent: '#f472b6',
           neutral: '#3d4451',
           'base-100': '#ffffff',
           info: '#3abff8',
