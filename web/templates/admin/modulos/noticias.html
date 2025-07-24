@@ -1,78 +1,68 @@
-{% extends 'base.html' %}
 {% load static %}
-
-{% block content %}
+{# admin/modulos/noticias.html #}
 <div class="container mx-auto px-4 py-6 space-y-8">
 
   <!-- TÍTULO + BOTÓN VOLVER -->
   <div class="flex justify-between items-center">
     <h3 class="text-2xl font-semibold text-sky-700">📰 Gestión de Noticias Escolares</h3>
-    <a href="{% url 'dashboard' %}" class="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full px-4 py-1 text-sm shadow transition-all duration-150">
+    <a href="{% url 'dashboard' %}" class="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full px-4 py-1 text-sm shadow transition-all">
       ⬅️ Volver
     </a>
   </div>
 
   <!-- FORMULARIO DE NOTICIA -->
-  <div class="bg-gradient-to-br from-cyan-100 to-cyan-50 border border-cyan-200 rounded-2xl shadow-md" data-aos="fade-up">
+  <div class="bg-gradient-to-br from-cyan-100 to-cyan-50 border border-cyan-200 rounded-2xl shadow-md">
     <div class="rounded-t-2xl px-6 py-3 text-white text-lg font-semibold bg-gradient-to-r from-sky-700 to-cyan-400">
-      Crear / Editar Noticia
+      {% if modo_edicion_noticia %}Editar Noticia{% else %}Crear Nueva Noticia{% endif %}
     </div>
     <div class="px-6 py-4">
-      <form method="POST" action="{% if modo_edicion %}{% url 'actualizar_noticia' noticia_id %}{% else %}{% url 'crear_noticia' %}{% endif %}" class="space-y-4">
+      <form method="POST"
+            action="{% if modo_edicion_noticia %}{% url 'actualizar_noticia' noticia_id %}{% else %}{% url 'crear_noticia' %}{% endif %}"
+            class="space-y-4">
         {% csrf_token %}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>{{ form.titulo.label_tag }}{{ form.titulo }}</div>
-          <div>{{ form.fecha.label_tag }}{{ form.fecha }}</div>
-          <div>{{ form.hora.label_tag }}{{ form.hora }}</div>
-          <div class="md:col-span-2">{{ form.descripcion.label_tag }}{{ form.descripcion }}</div>
+          <div>{{ noticia_form.titulo.label_tag }}{{ noticia_form.titulo }}</div>
+          <div>{{ noticia_form.fecha.label_tag }}{{ noticia_form.fecha }}</div>
+          <div>{{ noticia_form.hora.label_tag }}{{ noticia_form.hora }}</div>
+          <div class="md:col-span-2">{{ noticia_form.descripcion.label_tag }}{{ noticia_form.descripcion }}</div>
         </div>
-        <div class="mt-4">
+        <div class="mt-4 flex items-center gap-4">
           <button type="submit"
-            class="px-4 py-2 rounded-xl shadow text-white font-medium transition transform hover:scale-105
-            {% if modo_edicion %} bg-yellow-500 hover:bg-yellow-600 {% else %} bg-emerald-500 hover:bg-emerald-600 {% endif %}">
-            {% if modo_edicion %}✏️ Actualizar Noticia{% else %}💾 Crear Noticia{% endif %}
+                  class="px-4 py-2 rounded-xl shadow text-white font-medium transition hover:scale-105
+                  {% if modo_edicion_noticia %} bg-yellow-500 hover:bg-yellow-600 {% else %} bg-emerald-500 hover:bg-emerald-600 {% endif %}">
+            {% if modo_edicion_noticia %}✏️ Actualizar Noticia{% else %}💾 Crear Noticia{% endif %}
           </button>
+          {% if modo_edicion_noticia %}
+            <a href="{% url 'dashboard' %}" class="text-gray-500 underline">Cancelar edición</a>
+          {% endif %}
         </div>
       </form>
     </div>
   </div>
 
-  <!-- LISTA DE NOTICIAS EN ACORDEÓN -->
-  <div data-aos="fade-up">
+  <!-- LISTA DE NOTICIAS -->
+  <div>
     <h4 class="text-xl font-semibold text-sky-700 mb-4">📋 Lista de Noticias</h4>
-
-    <div id="acordeonNoticias" data-accordion="collapse" data-active-classes="bg-cyan-100 text-sky-900"
-         class="space-y-3">
+    <div class="space-y-3">
       {% for noticia in noticias %}
-        <div class="border border-cyan-200 rounded-xl shadow-md bg-white" data-aos="fade-up">
-          <h2>
-            <button type="button"
-              class="flex items-center justify-between w-full px-5 py-3 font-medium text-sky-800 rounded-t-xl bg-cyan-100 transition-all"
-              data-accordion-target="#body-{{ noticia.id }}" aria-expanded="false"
-              aria-controls="body-{{ noticia.id }}">
-              📰 {{ noticia.titulo }}
-              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
-          </h2>
-          <div id="body-{{ noticia.id }}" class="hidden px-5 py-4 border-t border-cyan-200">
+        <div class="border border-cyan-200 rounded-xl shadow-md bg-white">
+          <div class="px-5 py-4">
+            <p class="font-semibold text-sky-800">📰 {{ noticia.titulo }}</p>
             <p><strong>📅 Fecha:</strong> {{ noticia.fecha }}</p>
             <p><strong>⏰ Hora:</strong> {{ noticia.hora }}</p>
             <p class="mt-2"><strong>📝 Descripción:</strong></p>
             <p>{{ noticia.descripcion }}</p>
-
             <div class="flex gap-3 mt-4">
-              <a href="{% url 'actualizar_noticia' noticia.id %}"
-                 class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-1 rounded-full text-sm shadow transition">
-                ✏️ Editar
-              </a>
-              <a href="#" data-url="{% url 'eliminar_noticia' noticia.id %}"
-                 class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-full text-sm shadow transition btn-eliminar">
-                🗑 Eliminar
-              </a>
+                <a href="{% url 'dashboard' %}?edit_noticia={{ noticia.id }}&show=noticias"
+   class="bg-yellow-400 hover:bg-yellow-500 text-white px-4 py-1 rounded-full text-sm shadow transition">
+  ✏️ Editar
+</a>
+              <form method="POST" action="{% url 'eliminar_noticia' noticia.id %}" onsubmit="return confirm('¿Eliminar esta noticia?')">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-full text-sm shadow">
+                  🗑 Eliminar
+                </button>
+              </form>
             </div>
           </div>
         </div>
@@ -83,4 +73,3 @@
   </div>
 
 </div>
-{% endblock %}

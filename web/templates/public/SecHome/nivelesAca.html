@@ -1,50 +1,69 @@
+{% load static %}
 <!-- NIVELES ACADÉMICOS -->
-<section id="niveles" class="bg-gradient-to-br from-pink-50 to-blue-50 py-16 relative z-10">
-  <div class="text-center mb-12">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-pink-500 animate__animated animate__fadeInDown animate__slow">
+<section id="niveles" class="relative overflow-hidden py-24 bg-gradient-to-br from-pink-50 via-white to-blue-50 text-gray-800">
+  <!-- Decoraciones SVG flotantes -->
+  <div class="absolute top-0 left-0 w-72 h-72 bg-pink-200 rounded-full opacity-20 blur-3xl animate-pulse -z-10"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-200 rounded-full opacity-30 blur-2xl animate-ping -z-10"></div>
+
+  <!-- Encabezado -->
+  <div class="text-center mb-20" data-aos="fade-down" data-aos-duration="1500">
+    <h2 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500">
       Niveles Académicos
     </h2>
-    <p class="text-gray-600 mt-2 animate__animated animate__fadeIn animate__delay-1s">
-      Explora nuestros niveles educativos
+    <p class="text-gray-600 mt-4 text-lg max-w-xl mx-auto">
+      Descubre las etapas de formación que acompañan a nuestros estudiantes desde sus primeros pasos hasta la educación secundaria.
     </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-6 max-w-7xl mx-auto">
+  <!-- Tarjetas -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 px-6 max-w-7xl mx-auto">
 
-    <!-- TARJETA: Preescolar -->
-    <div class="card-tilt bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 ease-in-out transform hover:scale-[1.02]"
-         data-taos="fade-up scale" data-taos-delay="100">
-      <div class="flex items-center gap-4 mb-4 group">
-        <i class="fas fa-child text-pink-400 text-4xl group-hover:rotate-6 group-hover:scale-110 transition-all duration-500"></i>
-        <h3 class="text-xl font-semibold text-pink-600">Preescolar</h3>
+    <!-- Preescolar -->
+    <div
+      class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-700 hover:scale-[1.03]"
+      data-aos="fade-up"
+      data-aos-delay="100"
+      data-aos-duration="1200"
+    >
+      <img src="{% static 'img/preescolar.webp' %}" alt="Preescolar" class="w-full h-56 object-cover">
+      <div class="p-6 text-center space-y-3">
+        <h3 class="text-2xl font-bold text-pink-600">Preescolar</h3>
+        <p class="text-gray-600">
+          Fomentamos la creatividad, los valores y el aprendizaje a través del juego, el arte y la exploración emocional.
+        </p>
       </div>
-      <p class="text-gray-600">
-        En esta etapa fomentamos la creatividad, los valores y el aprendizaje lúdico.
-      </p>
     </div>
 
-    <!-- TARJETA: Primaria -->
-    <div class="card-tilt bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 ease-in-out transform hover:scale-[1.02]"
-         data-taos="fade-up scale" data-taos-delay="200">
-      <div class="flex items-center gap-4 mb-4 group">
-        <i class="fas fa-book-open text-purple-400 text-4xl group-hover:rotate-6 group-hover:scale-110 transition-all duration-500"></i>
-        <h3 class="text-xl font-semibold text-purple-600">Primaria</h3>
+    <!-- Primaria -->
+    <div
+      class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-700 hover:scale-[1.03]"
+      data-aos="fade-up"
+      data-aos-delay="400"
+      data-aos-duration="1200"
+    >
+      <img src="{% static 'img/primaria.webp' %}" alt="Primaria" class="w-full h-56 object-cover">
+      <div class="p-6 text-center space-y-3">
+        <h3 class="text-2xl font-bold text-purple-600">Primaria</h3>
+        <p class="text-gray-600">
+          Se fortalecen las bases del conocimiento, el trabajo en equipo, y el desarrollo personal en un ambiente positivo.
+        </p>
       </div>
-      <p class="text-gray-600">
-        Enfocada en el desarrollo académico, social y personal de cada estudiante.
-      </p>
     </div>
 
-    <!-- TARJETA: Secundaria -->
-    <div class="card-tilt bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 ease-in-out transform hover:scale-[1.02]"
-         data-taos="fade-up scale" data-taos-delay="300">
-      <div class="flex items-center gap-4 mb-4 group">
-        <i class="fas fa-user-graduate text-blue-400 text-4xl group-hover:rotate-6 group-hover:scale-110 transition-all duration-500"></i>
-        <h3 class="text-xl font-semibold text-blue-600">Secundaria</h3>
+    <!-- Secundaria -->
+    <div
+      class="bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-700 hover:scale-[1.03]"
+      data-aos="fade-up"
+      data-aos-delay="700"
+      data-aos-duration="1200"
+    >
+      <img src="{% static 'img/fondo1.jpg' %}" alt="Secundaria" class="w-full h-56 object-cover">
+      <div class="p-6 text-center space-y-3">
+        <h3 class="text-2xl font-bold text-blue-600">Secundaria</h3>
+        <p class="text-gray-600">
+          Desarrollamos pensamiento crítico, autonomía, responsabilidad y visión de futuro para enfrentar nuevos desafíos.
+        </p>
       </div>
-      <p class="text-gray-600">
-        Potenciamos habilidades para la vida, el pensamiento crítico y la autonomía.
-      </p>
     </div>
 
   </div>

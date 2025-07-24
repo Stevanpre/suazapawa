@@ -1,23 +1,18 @@
-
-
-from django.shortcuts import render,redirect
-from django.views.generic import TemplateView
-from django.views.generic import ListView,CreateView,UpdateView,DeleteView
-from pyexpat.errors import messages
-from .models import Evento
-from .models import Noticia
-from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
+from django.urls import reverse_lazy
+from django.contrib import messages
+from .models import Evento, Noticia
 from .forms import EventoForm, NoticiaForm
-from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
-
-# Create your views here.
+# --------------------
+# 📦 Páginas públicas
+# --------------------
 
 def pruebas(request):
     return render(request, 'pruebas.html')
@@ -26,16 +21,10 @@ class navbarView(TemplateView):
     template_name = "public/includes/navbar.html"
 
 class footerView(TemplateView):
-    template_name = "public/includes/navbar.html"
+    template_name = "public/includes/footer.html"
 
 class HomeView(TemplateView):
     template_name = "public/home.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['eventos'] = Evento.objects.order_by('-fecha')[:3]
-        context['noticias'] = Noticia.objects.order_by('-fecha')[:3]
-        return context
 
 class heroView(TemplateView):
     template_name = "public/SecHome/hero.html"
@@ -46,6 +35,11 @@ class nivelesView(TemplateView):
 class eventsView(TemplateView):
     template_name = "public/SecHome/eventos.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['eventos'] = Evento.objects.order_by('-fecha')[:5]
+        return context
+
 class experienciaView(TemplateView):
     template_name = "public/SecHome/exp.html"
 
@@ -55,16 +49,20 @@ class servicesView(TemplateView):
 class galeriaView(TemplateView):
     template_name = "public/SecHome/galeria.html"
 
-class noticesView(TemplateView):
-    template_name = "public/SecHome/noticias.html"
-
 class formularioView(TemplateView):
     template_name = "public/SecHome/formulario.html"
 
+class NoticesView(TemplateView):
+    template_name = "public/SecHome/noticias.html"
 
-class calendarioView(TemplateView):
-    template_name = "public/calendario.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['noticias'] = Noticia.objects.order_by('-fecha')[:3]
+        return context
 
+# --------------------
+# 📅 Calendario y Noticias
+# --------------------
 
 class calendarioView(ListView):
     model = Evento
@@ -79,21 +77,15 @@ class TextoEscolarView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-
-        #--- FILTRO POR BUSQUEDA ---
-
         query = self.request.GET.get('q')
+        fecha = self.request.GET.get('fecha')
+        orden = self.request.GET.get('orden')
+
         if query:
             queryset = queryset.filter(titulo__icontains=query)
-
-        #--- FILTRO POR FECHA ---
-        fecha = self.request.GET.get('fecha')
         if fecha:
             queryset = queryset.filter(fecha=fecha)
 
-        #--- ORDENAMIENTO ---
-
-        orden = self.request.GET.get('orden')
         if orden == 'reciente':
             queryset = queryset.order_by('-fecha', '-hora')
         elif orden == 'antiguo':
@@ -102,6 +94,10 @@ class TextoEscolarView(ListView):
             queryset = queryset.order_by('-fecha', '-hora')
 
         return queryset
+
+# --------------------
+# 🔐 Login & Dashboard
+# --------------------
 
 class UsuarioLoginView(LoginView):
     template_name = 'auth/login.html'
@@ -112,6 +108,23 @@ class UsuarioLoginView(LoginView):
         messages.error(self.request, "❌ Usuario o contraseña incorrectos.")
         return super().form_invalid(form)
 
+def vista_bloqueado(request):
+    return render(request, 'auth/bloqueado.html')
+
+# --------------------
+# 📌 Vistas institucionales
+# --------------------
+
+def somos(request): return render(request, 'public/ModNav/somos.html')
+def mision(request): return render(request, 'public/ModNav/mision-vision.html')
+def alumno(request): return render(request, 'public/ModNav/alumno.html')
+def docente(request): return render(request, 'public/ModNav/docente.html')
+def ubicacion(request): return render(request, 'public/ModNav/ubicacion.html')
+
+# --------------------
+# 🧭 Vista Principal del Panel Administrativo
+# --------------------
+
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'admin/dashboard.html'
     login_url = 'login'
@@ -119,25 +132,44 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        # 📅 Eventos
+        eventos = Evento.objects.all().order_by('-fecha')
+        context['eventos'] = eventos
+
+        evento_id = self.request.GET.get('edit')
+        if evento_id:
+            evento = get_object_or_404(Evento, id=evento_id)
+            context['form'] = EventoForm(instance=evento)
+            context['modo_edicion'] = True
+            context['evento_id'] = evento.id
+        else:
+            context['form'] = EventoForm()
+
+        # 📰 Noticias
+        noticias = Noticia.objects.all().order_by('-fecha')
+        context['noticias'] = noticias
+
+        noticia_id = self.request.GET.get('edit_noticia')
+        if noticia_id:
+            noticia = get_object_or_404(Noticia, id=noticia_id)
+            context['noticia_form'] = NoticiaForm(instance=noticia)
+            context['modo_edicion_noticia'] = True
+            context['noticia_id'] = noticia.id
+        else:
+            context['noticia_form'] = NoticiaForm()
+
+        # 📊 Métricas
+        context['num_eventos'] = eventos.count()
+        context['num_noticias'] = noticias.count()
+        context['ingresos_usuario'] = 42
+
         return context
 
-def vista_bloqueado(request):
-    return render(request, 'auth/bloqueado.html')
 
-def somos(request):
-    return render(request, 'public/ModNav/somos.html')
 
-def mision(request):
-    return render(request, 'public/ModNav/mision-vision.html')
-
-def alumno(request):
-    return render(request, 'public/ModNav/alumno.html')
-
-def docente(request):
-    return render(request, 'public/ModNav/docente.html')
-
-def ubicacion(request):
-    return render(request, 'public/ModNav/ubicacion.html')
+# --------------------
+# 👤 Actualización de Perfil de Usuario
+# --------------------
 
 @login_required
 def actualizar_perfil(request):
@@ -154,27 +186,20 @@ def actualizar_perfil(request):
             if pwd1 == pwd2:
                 user.set_password(pwd1)
                 user.save()
-                update_session_auth_hash(request, user)  # 🔐 Evita cerrar sesión
-                messages.success(request, 'Contraseña actualizada correctamente.')
+                update_session_auth_hash(request, user)
+                messages.success(request, '✅ Contraseña actualizada correctamente.')
             else:
-                messages.error(request, "Las contraseñas no coinciden.")
+                messages.error(request, "❌ Las contraseñas no coinciden.")
                 return redirect('dashboard')
         else:
             user.save()
-            messages.success(request, 'Usuario actualizado correctamente.')
+            messages.success(request, '✅ Perfil actualizado correctamente.')
 
-        return redirect('dashboard')
+    return redirect('dashboard')
 
-
-@login_required
-def editar_calendario(request):
-    eventos = Evento.objects.all().order_by('-fecha')
-    form = EventoForm()
-    return render(request, 'admin/modulos/calendario.html', {
-        'form': form,
-        'eventos': eventos
-    })
-
+# --------------------
+# 📆 CRUD de Eventos
+# --------------------
 
 @login_required
 def crear_evento(request):
@@ -184,9 +209,8 @@ def crear_evento(request):
             form.save()
             messages.success(request, "✅ Evento creado exitosamente.")
         else:
-            messages.error(request, "❌ Error al crear el evento. Verifica los datos.")
+            messages.error(request, "❌ Error al crear el evento.")
     return redirect('dashboard')
-
 
 @login_required
 def actualizar_evento(request, evento_id):
@@ -197,19 +221,10 @@ def actualizar_evento(request, evento_id):
         if form.is_valid():
             form.save()
             messages.success(request, "✅ Evento actualizado correctamente.")
-            return redirect('dashboard')
         else:
-            messages.error(request, "❌ Hubo un error al actualizar el evento.")
-    else:
-        form = EventoForm(instance=evento)
+            messages.error(request, "❌ Error al actualizar el evento.")
 
-    eventos = Evento.objects.all().order_by('-fecha')
-    return render(request, 'admin/modulos/calendario.html', {
-        'form': form,
-        'eventos': eventos,
-        'modo_edicion': True,
-        'evento_id': evento.id
-    })
+    return redirect('dashboard')
 
 @login_required
 def eliminar_evento(request, evento_id):
@@ -218,17 +233,9 @@ def eliminar_evento(request, evento_id):
     messages.success(request, "🗑 Evento eliminado correctamente.")
     return redirect('dashboard')
 
-
-
-
-@login_required
-def editar_noticias(request):
-    noticias = Noticia.objects.all().order_by('-fecha')
-    form = NoticiaForm()
-    return render(request, 'admin/modulos/noticias.html', {
-        'form': form,
-        'noticias': noticias
-    })
+# --------------------
+# 📰 CRUD de Noticias
+# --------------------
 
 @login_required
 def crear_noticia(request):
@@ -238,30 +245,22 @@ def crear_noticia(request):
             form.save()
             messages.success(request, "✅ Noticia creada exitosamente.")
         else:
-            messages.error(request, "❌ Error al crear la noticia. Verifica los datos.")
+            messages.error(request, "❌ Error al crear la noticia.")
     return redirect('dashboard')
 
 @login_required
 def actualizar_noticia(request, noticia_id):
     noticia = get_object_or_404(Noticia, id=noticia_id)
+
     if request.method == 'POST':
         form = NoticiaForm(request.POST, instance=noticia)
         if form.is_valid():
             form.save()
             messages.success(request, "✅ Noticia actualizada correctamente.")
-            return redirect('dashboard')
         else:
-            messages.error(request, "❌ Hubo un error al actualizar la noticia.")
-    else:
-        form = NoticiaForm(instance=noticia)
+            messages.error(request, "❌ Error al actualizar la noticia.")
 
-    noticias = Noticia.objects.all().order_by('-fecha')
-    return render(request, 'admin/modulos/noticias.html', {
-        'form': form,
-        'noticias': noticias,
-        'modo_edicion': True,
-        'noticia_id': noticia.id
-    })
+    return redirect('dashboard')
 
 @login_required
 def eliminar_noticia(request, noticia_id):

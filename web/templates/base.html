@@ -49,60 +49,6 @@
       easing: 'ease-in-out'
     });
   </script>
-
-  <!-- ✅ SweetAlert2 (mensajes Django) -->
-  {% if messages %}
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      {% for message in messages %}
-      Swal.fire({
-        icon: "{{ message.tags|default:'info' }}",
-        title: "{{ message|escapejs }}",
-        timer: 4000,
-        timerProgressBar: true,
-        showConfirmButton: true,
-        confirmButtonColor: '#667eea',
-        background: '#ffffff',
-        customClass: {
-          popup: 'animate-fade-in'
-        }
-      });
-      {% endfor %}
-    });
-  </script>
-  {% endif %}
-
-  <!-- ✅ Confirmación para eliminar -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const botonesEliminar = document.querySelectorAll('.btn-eliminar');
-      botonesEliminar.forEach(btn => {
-        btn.addEventListener('click', function (e) {
-          e.preventDefault();
-          const url = this.dataset.url;
-          Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡Esta acción no se puede deshacer!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ef4444',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar',
-            background: '#ffffff',
-            customClass: {
-              popup: 'animate-fade-in'
-            }
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = url;
-            }
-          });
-        });
-      });
-    });
-  </script>
-
   <!-- ✅ Scripts adicionales por vista -->
   {% block extra_js %}{% endblock %}
 </body>

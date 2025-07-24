@@ -1,64 +1,123 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Panel Administrativo | Suazapawa{% endblock %}
+{% block title %}🌐 Dashboard Ejecutivo | Suazapawa{% endblock %}
+
+{% block extra_css %}
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-6">
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="flex h-screen overflow-hidden bg-gray-50">
 
-    <!-- SIDEBAR IZQUIERDA -->
-    <aside class="md:col-span-1">
-      <div class="bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-2xl p-4 sticky top-40 shadow-md h-fit" data-aos="fade-right">
-        <nav class="flex flex-col gap-2">
-          <a href="#" onclick="mostrarModulo('bienvenida')" class="transition-all duration-150 px-4 py-2 rounded-xl font-medium text-sky-900 hover:bg-cyan-100 active-link" aria-label="Bienvenida">
-            <i class="fas fa-hand-sparkles mr-2"></i> Bienvenida
-          </a>
-          <a href="#" onclick="mostrarModulo('perfil')" class="transition-all duration-150 px-4 py-2 rounded-xl font-medium text-sky-900 hover:bg-cyan-100" aria-label="Perfil">
-            <i class="fas fa-user-cog mr-2"></i> Perfil
-          </a>
-          <a href="{% url 'editar_calendario' %}" class="transition-all duration-150 px-4 py-2 rounded-xl font-medium text-sky-900 hover:bg-cyan-100" aria-label="Editar Calendario">
-            <i class="fas fa-pen-to-square mr-2"></i> Editar Calendario
-          </a>
-          <a href="{% url 'editar_noticias' %}" class="transition-all duration-150 px-4 py-2 rounded-xl font-medium text-sky-900 hover:bg-cyan-100" aria-label="Editar Noticias">
-            <i class="fas fa-pen-to-square mr-2"></i> Editar Noticias
-          </a>
-        </nav>
-      </div>
-    </aside>
+  <!-- SIDEBAR VERTICAL -->
+  <aside
+    class="flex flex-col justify-between items-center w-64 bg-white shadow-lg py-8"
+    data-aos="fade-right"
+  >
+    <!-- Logo / Título -->
+    <div class="flex flex-col items-center">
+      <img
+        src="{% static 'img/logo-suazapawa.jpg' %}"
+        alt="Suazapawa"
+        class="w-20 h-20 mb-4"
+      />
+      <h2 class="text-xl font-bold text-gray-800">Suazapawa</h2>
+    </div>
 
-    <!-- CONTENIDO DERECHA -->
-    <main class="md:col-span-3 flex flex-col gap-6">
-      <div id="modulo-bienvenida" class="bg-white rounded-2xl shadow border border-cyan-100 p-6 animate-fade-in" data-aos="fade-up">
-        {% include 'admin/modulos/bienvenida.html' %}
-      </div>
-      <div id="modulo-perfil" class="bg-white rounded-2xl shadow border border-cyan-100 p-6 hidden animate-fade-in" data-aos="fade-up">
-        {% include 'admin/modulos/perfil.html' %}
-      </div>
-      <div id="modulo-calendario" class="bg-white rounded-2xl shadow border border-cyan-100 p-6 hidden animate-fade-in" data-aos="fade-up">
-        {% include 'admin/modulos/calendario.html' %}
-      </div>
-      <div id="modulo-noticias" class="bg-white rounded-2xl shadow border border-cyan-100 p-6 hidden animate-fade-in" data-aos="fade-up">
-        {% include 'admin/modulos/noticias.html' %}
-      </div>
-    </main>
-  </div>
+    <!-- Navegación -->
+    <nav class="flex flex-col space-y-4 w-full sidebar-admin">
+      <button
+        onclick="showModule('bienvenida')"
+        class="w-full text-left px-6 py-3 rounded-lg text-gray-700 hover:bg-cyan-100 transition-colors"
+      >
+        <i class="fas fa-hand-sparkles mr-2"></i> Bienvenida
+      </button>
+      <button
+        onclick="showModule('perfil')"
+        class="w-full text-left px-6 py-3 rounded-lg text-gray-700 hover:bg-cyan-100 transition-colors"
+      >
+        <i class="fas fa-user-cog mr-2"></i> Perfil
+      </button>
+      <button
+        onclick="showModule('calendario')"
+        class="w-full text-left px-6 py-3 rounded-lg text-gray-700 hover:bg-cyan-100 transition-colors"
+      >
+        <i class="fas fa-pen-to-square mr-2"></i> Editar Calendario
+      </button>
+      <button
+        onclick="showModule('noticias')"
+        class="w-full text-left px-6 py-3 rounded-lg text-gray-700 hover:bg-cyan-100 transition-colors"
+      >
+        <i class="fas fa-pen-to-square mr-2"></i> Editar Noticias
+      </button>
+    </nav>
+
+    <!-- Espacio inferior (puedes agregar logout o links extra) -->
+    <div class="mt-8">&nbsp;</div>
+  </aside>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="flex-1 overflow-y-auto p-8">
+    <!-- Módulo: Bienvenida -->
+    <div
+      id="module-bienvenida"
+      class="module-panel bg-white shadow-lg rounded-2xl p-6 mb-6"
+      data-aos="fade-up"
+    >
+      {% include 'admin/modulos/bienvenida.html' %}
+    </div>
+
+    <!-- Módulo: Perfil -->
+    <div
+      id="module-perfil"
+      class="module-panel bg-white shadow-lg rounded-2xl p-6 mb-6 hidden"
+      data-aos="fade-up"
+    >
+      {% include 'admin/modulos/perfil.html' %}
+    </div>
+
+    <!-- Módulo: Calendario -->
+    <div
+      id="module-calendario"
+      class="module-panel bg-white shadow-lg rounded-2xl p-6 mb-6 hidden"
+      data-aos="fade-up"
+    >
+      {% include 'admin/modulos/calendario.html' %}
+    </div>
+
+    <!-- Módulo: Noticias -->
+    <div
+      id="module-noticias"
+      class="module-panel bg-white shadow-lg rounded-2xl p-6 mb-6 hidden"
+      data-aos="fade-up"
+    >
+      {% include 'admin/modulos/noticias.html' %}
+    </div>
+  </main>
+
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script>
-  function mostrarModulo(modulo) {
-    document.querySelectorAll('[id^="modulo-"]').forEach(div => div.classList.add('hidden'));
-    document.getElementById(`modulo-${modulo}`).classList.remove('hidden');
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+  <script>
+    // Inicializa AOS
+    AOS.init({ once: true, duration: 600 });
 
-    const sidebarLinks = document.querySelectorAll('.sidebar-admin a, nav a');
-    sidebarLinks.forEach(link => link.classList.remove('bg-cyan-100', 'font-semibold'));
-    event.target.classList.add('bg-cyan-100', 'font-semibold');
-  }
+    // Muestra un único módulo a la vez
+    function showModule(mod) {
+      document.querySelectorAll('.module-panel').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`module-${mod}`).classList.remove('hidden');
+    }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    mostrarModulo('bienvenida');
-  });
-</script>
+    // 🔥 Inserta esto justo aquí para manejar el parámetro `show`
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const mod = params.get('show') || 'bienvenida';
+      showModule(mod);
+    });
+  </script>
 {% endblock %}
+

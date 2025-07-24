@@ -1,47 +1,178 @@
-<div class="bg-gradient-to-br from-cyan-100 via-white to-cyan-50 border border-cyan-200 rounded-2xl shadow-lg max-w-md mx-auto p-6 animate-fade-in" data-aos="fade-up">
-  <div class="flex items-center gap-4 mb-6">
-    <div class="w-14 h-14 bg-gradient-to-tr from-cyan-300 to-cyan-100 rounded-full flex items-center justify-center text-3xl text-cyan-800 shadow">
-      <i class="fas fa-user-cog"></i>
+{% load static %}
+
+{% block extra_css %}
+<!-- Flowbite + DaisyUI + AOS + FontAwesome -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.0.0/dist/full.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+  .swal2-confirm, .swal2-cancel {
+    background-color: #0284c7 !important; /* sky-600 */
+    color: white !important;
+    border-radius: 0.5rem !important;
+    padding: 0.5rem 1.2rem !important;
+    font-weight: 600;
+  }
+
+  .password-rules {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .password-rules span {
+    display: block;
+    color: #555;
+  }
+
+  .password-rules span.valid {
+    color: #16a34a; /* green-600 */
+    font-weight: bold;
+  }
+
+  .password-rules span.invalid {
+    color: #dc2626; /* red-600 */
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-cyan-100 via-white to-cyan-50 flex items-center justify-center px-4 py-12">
+  <div class="bg-white max-w-md w-full rounded-2xl shadow-xl p-8 animate-fade-in" data-aos="zoom-in">
+    <div class="flex items-center gap-4 mb-6">
+      <div class="w-14 h-14 bg-gradient-to-tr from-cyan-400 to-cyan-200 rounded-full flex items-center justify-center text-3xl text-cyan-800 shadow">
+        <i class="fas fa-user-cog"></i>
+      </div>
+      <h4 class="text-xl font-bold text-sky-700">Configuración de Perfil</h4>
     </div>
-    <h4 class="text-xl font-semibold text-sky-700 mb-0">Configuración de Perfil</h4>
+
+    <form id="perfilForm" method="post" action="{% url 'actualizar_perfil' %}" class="space-y-5">
+      {% csrf_token %}
+
+      <!-- Nombre -->
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text font-semibold text-sky-800">
+            <i class="fas fa-user mr-2"></i>Nombre
+          </span>
+        </div>
+        <input name="first_name" id="first_name" value="{{ request.user.first_name }}" type="text"
+          class="input input-bordered w-full" required />
+      </label>
+
+      <!-- Usuario -->
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text font-semibold text-sky-800">
+            <i class="fas fa-id-badge mr-2"></i>Nombre de usuario
+          </span>
+        </div>
+        <input name="username" id="username" value="{{ request.user.username }}" type="text"
+          class="input input-bordered w-full" required />
+      </label>
+
+      <!-- Correo -->
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text font-semibold text-sky-800">
+            <i class="fas fa-envelope mr-2"></i>Correo de recuperación
+          </span>
+        </div>
+        <input name="email" id="email" value="{{ request.user.email }}" type="email"
+          class="input input-bordered w-full" required />
+      </label>
+
+      <!-- Cambiar contraseña -->
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text font-semibold text-sky-800">
+            <i class="fas fa-lock mr-2"></i>Cambiar contraseña (opcional)
+          </span>
+        </div>
+        <input name="password1" id="password1" type="password" placeholder="Nueva contraseña"
+          class="input input-bordered w-full mb-2" minlength="6" />
+        <input name="password2" id="password2" type="password" placeholder="Confirmar contraseña"
+          class="input input-bordered w-full" minlength="6" />
+
+        <!-- Reglas de contraseña -->
+        <div id="passwordRules" class="password-rules mt-2 px-1">
+          <span id="length" class="invalid">• Mínimo 6 caracteres</span>
+          <span id="uppercase" class="invalid">• Al menos una letra mayúscula</span>
+          <span id="lowercase" class="invalid">• Al menos una letra minúscula</span>
+          <span id="number" class="invalid">• Al menos un número</span>
+          <span id="symbol" class="invalid">• Opcional: símbolo especial (* . # " ! ?)</span>
+        </div>
+      </label>
+
+      <!-- Botón Guardar -->
+      <button type="button" onclick="confirmarActualizacion()"
+        class="btn w-full bg-sky-600 hover:bg-sky-700 text-white text-lg font-semibold rounded-xl shadow-md transition-transform hover:scale-105">
+        <i class="fas fa-save mr-2"></i>Guardar cambios
+      </button>
+    </form>
   </div>
-
-  <form method="post" action="{% url 'actualizar_perfil' %}" class="space-y-5">
-    {% csrf_token %}
-
-    <!-- NOMBRE -->
-    <div>
-      <label for="first_name" class="block font-semibold mb-1 text-sky-800">Nombre</label>
-      <input type="text" name="first_name" id="first_name" value="{{ request.user.first_name }}"
-        class="w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition" />
-    </div>
-
-    <!-- USUARIO -->
-    <div>
-      <label for="username" class="block font-semibold mb-1 text-sky-800">Nombre de usuario</label>
-      <input type="text" name="username" id="username" value="{{ request.user.username }}"
-        class="w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition" />
-    </div>
-
-    <!-- CORREO -->
-    <div>
-      <label for="email" class="block font-semibold mb-1 text-sky-800">Correo de recuperación</label>
-      <input type="email" name="email" id="email" value="{{ request.user.email }}"
-        class="w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition" />
-    </div>
-
-    <!-- CAMBIO DE CONTRASEÑA -->
-    <div>
-      <label class="block font-semibold mb-1 text-sky-800">Cambiar contraseña</label>
-      <input type="password" name="password1" placeholder="Nueva contraseña"
-        class="w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 mb-2 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition" />
-      <input type="password" name="password2" placeholder="Confirmar contraseña"
-        class="w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition" />
-    </div>
-
-    <button type="submit"
-      class="mt-2 w-full bg-emerald-500 hover:bg-sky-600 text-white text-lg font-semibold py-2.5 rounded-xl transition-transform hover:scale-105 shadow-md">
-      <i class="fas fa-save mr-2"></i> Guardar cambios
-    </button>
-  </form>
 </div>
+
+<!-- SweetAlert Mensajes -->
+{% if messages %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    {% for message in messages %}
+      Swal.fire({
+        title: "{{ message.tags|capfirst }}",
+        text: "{{ message }}",
+        icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% else %}info{% endif %}",
+        confirmButtonText: 'Aceptar'
+      });
+    {% endfor %}
+  });
+</script>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<!-- AOS + Flowbite + SweetAlert -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init();</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"></script>
+
+<script>
+  function confirmarActualizacion() {
+    Swal.fire({
+      title: '¿Guardar cambios?',
+      text: "Se actualizará tu perfil.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, actualizar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("perfilForm").submit();
+      }
+    });
+  }
+
+  // Validaciones dinámicas para contraseña segura
+  document.addEventListener('DOMContentLoaded', () => {
+    const passwordInput = document.getElementById('password1');
+    const rules = {
+      length: document.getElementById('length'),
+      uppercase: document.getElementById('uppercase'),
+      lowercase: document.getElementById('lowercase'),
+      number: document.getElementById('number'),
+      symbol: document.getElementById('symbol')
+    };
+
+    passwordInput?.addEventListener('input', () => {
+      const val = passwordInput.value;
+      rules.length.className = val.length >= 6 ? 'valid' : 'invalid';
+      rules.uppercase.className = /[A-Z]/.test(val) ? 'valid' : 'invalid';
+      rules.lowercase.className = /[a-z]/.test(val) ? 'valid' : 'invalid';
+      rules.number.className = /\d/.test(val) ? 'valid' : 'invalid';
+      rules.symbol.className = /[*.#"!?]/.test(val) ? 'valid' : 'invalid';
+    });
+  });
+</script>
+{% endblock %}

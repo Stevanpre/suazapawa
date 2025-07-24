@@ -1,33 +1,67 @@
+{% load static %}
 <!-- web/templates/admin/modulos/bienvenida.html -->
-<div class="p-6 mb-6 rounded-xl shadow-md bg-gradient-to-br from-blue-100 via-cyan-50 to-white border border-cyan-100">
-  <div class="flex items-center mb-5">
-    <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-sky-200 to-cyan-100 flex items-center justify-center text-3xl text-cyan-800 shadow-sm mr-4">
-      <i class="fas fa-user-graduate"></i>
+
+<section class="min-h-screen w-full bg-gradient-to-br from-rose-100 via-white to-sky-100 py-10 px-4 md:px-10">
+  <div class="max-w-6xl mx-auto space-y-12">
+
+    <!-- Encabezado de bienvenida -->
+    <div data-aos="fade-up" data-aos-delay="100" class="bg-white rounded-3xl shadow-xl p-8 flex items-center space-x-6">
+      <div class="w-16 h-16 bg-gradient-to-tr from-rose-500 to-pink-400 text-white text-3xl rounded-full flex items-center justify-center shadow-md">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <div>
+        <h1 class="text-3xl font-extrabold text-sky-800">
+          ¡Hola, {{ request.user.first_name|default:request.user.username }}!
+        </h1>
+        <p class="text-gray-700 mt-1">Bienvenido al <strong>Panel Administrativo</strong> de <span class="text-cyan-700 font-semibold">Suazapawa</span>.</p>
+      </div>
     </div>
-    <h4 class="text-xl font-semibold text-sky-700">
-      ¡Bienvenido, {{ request.user.first_name|default:request.user.username }}!
-    </h4>
-  </div>
 
-  <p class="text-gray-600 text-lg mb-3">
-    Has iniciado sesión en el panel administrativo del sistema escolar <strong class="text-sky-800">Suazapawa</strong>.
-  </p>
-  <p class="text-gray-500 text-sm mb-5">
-    Aquí puedes gestionar los <strong>eventos</strong> y <strong>noticias</strong> escolares de forma sencilla y rápida.
-  </p>
+    <!-- Indicadores -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+      <div class="bg-white rounded-2xl p-6 shadow-md border-l-4 border-blue-300">
+        <div class="flex items-center space-x-4">
+          <i class="fas fa-calendar-alt text-blue-500 text-2xl"></i>
+          <div>
+            <h3 class="text-blue-700 font-semibold">Eventos creados</h3>
+            <p class="text-2xl font-bold">{{ num_eventos }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-md border-l-4 border-pink-300">
+        <div class="flex items-center space-x-4">
+          <i class="fas fa-newspaper text-pink-500 text-2xl"></i>
+          <div>
+            <h3 class="text-pink-700 font-semibold">Noticias publicadas</h3>
+            <p class="text-2xl font-bold">{{ num_noticias }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow-md border-l-4 border-emerald-300">
+        <div class="flex items-center space-x-4">
+          <i class="fas fa-sign-in-alt text-emerald-500 text-2xl"></i>
+          <div>
+            <h3 class="text-emerald-700 font-semibold">Ingresos al sistema</h3>
+            <p class="text-2xl font-bold">{{ ingresos_usuario }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div class="flex items-center bg-blue-50 border border-blue-200 text-blue-800 text-sm rounded-lg p-4 mb-3 shadow-sm">
-    <i class="fas fa-bars mr-3 text-blue-500 text-base"></i>
-    Usa el menú lateral para acceder a las secciones de edición.
+    <!-- Consejos -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="300">
+      <div class="flex items-center bg-blue-100 rounded-xl px-4 py-3 text-blue-800 shadow">
+        <i class="fas fa-bars mr-3 text-xl"></i>
+        Usa el <strong class="ml-1">menú lateral</strong> para navegar.
+      </div>
+      <div class="flex items-center bg-green-100 rounded-xl px-4 py-3 text-green-800 shadow">
+        <i class="fas fa-save mr-3 text-xl"></i>
+        No olvides <strong class="ml-1">guardar</strong> tus cambios.
+      </div>
+      <div class="flex items-center bg-red-100 rounded-xl px-4 py-3 text-red-800 shadow">
+        <i class="fas fa-sign-out-alt mr-3 text-xl"></i>
+        Recuerda <strong class="ml-1">cerrar sesión</strong>.
+      </div>
+    </div>
   </div>
-
-  <div class="flex items-center bg-green-50 border border-green-200 text-green-800 text-sm rounded-lg p-4 mb-3 shadow-sm">
-    <i class="fas fa-save mr-3 text-green-500 text-base"></i>
-    No olvides <strong class="ml-1">guardar</strong> tus cambios.
-  </div>
-
-  <div class="flex items-center bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg p-4 mb-0 shadow-sm">
-    <i class="fas fa-sign-out-alt mr-3 text-red-500 text-base"></i>
-    Recuerda <strong class="ml-1 text-red-600">cerrar sesión</strong> al terminar.
-  </div>
-</div>
+</section>

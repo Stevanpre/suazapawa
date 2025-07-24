@@ -1,125 +1,87 @@
-<!-- EVENTOS DESTACADOS -->
-<!-- Font Awesome CDN (si no lo tienes cargado ya) -->
-<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+{% load static %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
 
-<!-- Sección de Eventos Destacados -->
-<section id="eventos" class="py-24 bg-white overflow-hidden relative">
-  <div class="container mx-auto px-4">
+<section class="relative py-20 bg-gradient-to-b from-sky-50 via-white to-purple-50 text-gray-800">
+  <!-- Animaciones decorativas -->
+  <div class="absolute inset-0 opacity-20 pointer-events-none z-0">
+    <div class="absolute top-10 left-10 w-40 h-40 bg-sky-400 rounded-full animate-ping blur-2xl"></div>
+    <div class="absolute bottom-20 right-20 w-32 h-32 bg-purple-300 rounded-full animate-pulse blur-2xl"></div>
+  </div>
 
-    <!-- Encabezado -->
-    <div class="text-center mb-20" data-taos-offset="200" data-taos="fade-up">
-      <i class="fas fa-calendar-alt text-5xl mb-4 text-blue-600 animate-bounce"></i>
-      <h2 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 text-transparent bg-clip-text mb-4 animate-fade-in-down">
-        Galería de Eventos Suazapawa
-      </h2>
-      <p class="text-gray-600 text-lg max-w-2xl mx-auto animate-fade-in-up">
-        Participa en nuestras actividades más importantes del año y revive los mejores momentos.
-      </p>
+  <div class="relative z-10 container mx-auto px-4">
+    <div class="text-center mb-12" data-taos-offset="200" data-taos="fade-up">
+      <h2 class="text-4xl font-extrabold text-sky-900 mb-4">📅 Próximos Eventos Escolares</h2>
+      <p class="text-lg text-sky-600">Mantente al tanto de lo que sucede en nuestra institución</p>
     </div>
 
-    <!-- Lista de eventos -->
-    <div class="space-y-20">
-
-      <!-- Evento 1 -->
-      <div class="flex flex-col lg:flex-row items-center gap-10 group">
-        <!-- Imagen -->
-        <div class="w-full lg:w-1/2" data-taos="slide-right" data-taos-delay="100">
-          <div class="rounded-3xl overflow-hidden shadow-2xl transform transition duration-500 group-hover:scale-105 hover:rotate-1">
-            <div class="bg-gradient-to-br from-gray-100 to-gray-300 flex items-center justify-center aspect-video text-gray-700 text-2xl font-bold">
-              Foto Evento 1
+    <!-- Carrusel -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        {% for evento in eventos %}
+        <div class="swiper-slide">
+          <div class="bg-white rounded-2xl shadow-xl border border-sky-100 overflow-hidden">
+            {% if evento.imagen %}
+              <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="w-full h-56 object-cover">
+            {% else %}
+              <img src="{% static 'img/placeholder-evento.jpg' %}" alt="Evento sin imagen" class="w-full h-56 object-cover">
+            {% endif %}
+            <div class="p-6 flex flex-col justify-between h-60">
+              <div>
+                <h3 class="text-xl font-bold text-purple-700 mb-2">{{ evento.titulo }}</h3>
+                <p class="text-gray-600 text-sm line-clamp-3">{{ evento.descripcion|truncatechars:120 }}</p>
+              </div>
+              <div class="flex justify-between items-center mt-4">
+                <span class="bg-sky-100 text-sky-700 text-xs px-3 py-1 rounded-full">
+                  {{ evento.fecha|date:"d M Y" }}
+                </span>
+                <a href="{% url 'calendario' %}" class="text-sm text-purple-500 hover:underline font-semibold">Ver más</a>
+              </div>
             </div>
           </div>
         </div>
-
-        <!-- Texto -->
-        <div class="w-full lg:w-1/2 bg-gradient-to-br from-blue-50 to-purple-100 p-8 rounded-3xl shadow-lg" data-taos="slide-left" data-taos-delay="200">
-          <div class="flex items-center gap-3 mb-4 text-blue-700">
-            <i class="fas fa-star text-yellow-400 text-xl"></i>
-            <h3 class="text-3xl font-semibold">Feria de Ciencia</h3>
-          </div>
-          <div class="text-gray-600 mb-3 flex items-center gap-2">
-            <i class="fas fa-calendar-alt"></i> <span>15 Oct 2025</span>
-          </div>
-          <p class="text-gray-700 leading-relaxed mb-6">Exposición de proyectos científicos realizados por estudiantes con enfoque investigativo e innovador.</p>
-          <button class="relative z-10 inline-block px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition duration-300 animate-btn-bounce">
-            Ver detalles
-          </button>
-        </div>
+        {% empty %}
+          <p class="text-center text-gray-500 col-span-3">No hay eventos registrados por el momento.</p>
+        {% endfor %}
       </div>
 
-    <!-- Evento 2 -->
-      <div class="flex flex-col lg:flex-row items-center gap-10 group">
-        <!-- Imagen -->
-        <div class="w-full lg:w-1/2" data-taos="slide-right" data-taos-delay="100">
-          <div class="rounded-3xl overflow-hidden shadow-2xl transform transition duration-500 group-hover:scale-105 hover:rotate-1">
-            <div class="bg-gradient-to-br from-gray-100 to-gray-300 flex items-center justify-center aspect-video text-gray-700 text-2xl font-bold">
-              Foto Evento 2
-            </div>
-          </div>
-        </div>
-
-        <!-- Texto -->
-        <div class="w-full lg:w-1/2 bg-gradient-to-br from-blue-50 to-purple-100 p-8 rounded-3xl shadow-lg" data-taos="slide-left" data-taos-delay="200">
-          <div class="flex items-center gap-3 mb-4 text-blue-700">
-            <i class="fas fa-star text-yellow-400 text-xl"></i>
-            <h3 class="text-3xl font-semibold">Feria de Ciencia</h3>
-          </div>
-          <div class="text-gray-600 mb-3 flex items-center gap-2">
-            <i class="fas fa-calendar-alt"></i> <span>15 Oct 2025</span>
-          </div>
-          <p class="text-gray-700 leading-relaxed mb-6">Exposición de proyectos científicos realizados por estudiantes con enfoque investigativo e innovador.</p>
-          <button class="relative z-10 inline-block px-6 py-3 rounded-full font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition duration-300 animate-btn-bounce">
-            Ver detalles
-          </button>
-        </div>
-      </div>
-
+      <!-- Controles -->
+      <div class="swiper-pagination mt-4"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
   </div>
 </section>
 
-<!-- Animaciones personalizadas -->
-<style>
-  @keyframes btn-bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-6px);
-    }
-  }
-
-  .animate-btn-bounce {
-    animation: btn-bounce 2s infinite;
-  }
-
-  @keyframes fade-in-up {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 1.2s ease-out both;
-  }
-
-  @keyframes fade-in-down {
-    0% {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-down {
-    animation: fade-in-down 1.2s ease-out both;
-  }
-</style>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  const swiper = new Swiper(".mySwiper", {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: true,
+    autoplay: {
+      delay: 5000,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 1,
+      },
+      768: {
+        slidesPerView: 2,
+      },
+      1024: {
+        slidesPerView: 3,
+      },
+    },
+  });
+</script>

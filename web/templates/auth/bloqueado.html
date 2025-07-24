@@ -1,31 +1,26 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>🚫 Acceso Bloqueado</title>
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-    <style>
-        body {
-            background-color: #f8d7da;
-        }
-    </style>
-</head>
-<body>
-<div class="container d-flex align-items-center justify-content-center" style="height: 100vh;">
-    <div class="card shadow p-4 border border-danger">
-        <h3 class="text-danger text-center">🚫 Acceso Bloqueado</h3>
-        <p class="text-center">
-            Has superado el número máximo de intentos de inicio de sesión.<br>
-            Por razones de seguridad, tu cuenta ha sido temporalmente bloqueada.
-        </p>
-        <p class="text-center text-muted">
-            Intenta nuevamente en unos minutos o contacta al administrador.
-        </p>
-        <div class="text-center">
-            <a href="{% url 'home' %}" class="btn btn-danger">Volver al inicio</a>
-        </div>
-    </div>
-</div>
-</body>
-</html>
+
+{% block title %}🚫 Acceso Bloqueado{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-tr from-red-50 via-red-100 to-red-200 px-6 py-10">
+  <div class="max-w-md w-full bg-white/70 backdrop-blur-xl border border-red-400 rounded-2xl shadow-2xl p-8 text-center animate-fade-in">
+    <div class="text-red-600 text-5xl mb-4 animate-pulse">⛔</div>
+    <h1 class="text-2xl font-bold text-red-700 mb-3">Acceso Bloqueado</h1>
+
+    <p class="text-sm text-gray-800 mb-2">
+      Superaste el número máximo de intentos de inicio de sesión.
+    </p>
+    <p class="text-xs text-gray-600 mb-6">
+      Por seguridad, tu cuenta ha sido bloqueada temporalmente.
+      Puedes intentar más tarde o contactar al administrador.
+    </p>
+
+    <a href="{% url 'home' %}" class="inline-block w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition duration-300">
+      🔙 Volver al inicio
+    </a>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,42 +1,56 @@
 from django import forms
 from .models import Evento, Noticia
+import datetime
+
+# Clases reutilizables (Tailwind + DaisyUI + accesibilidad)
+input_css = 'input input-bordered w-full text-sky-900 bg-white border-cyan-200 focus:ring-2 focus:ring-sky-300 transition'
+textarea_css = 'textarea textarea-bordered w-full text-sky-900 bg-white border-cyan-200 focus:ring-2 focus:ring-sky-300 transition'
 
 class EventoForm(forms.ModelForm):
     class Meta:
         model = Evento
         fields = '__all__'
         widgets = {
+            'titulo': forms.TextInput(attrs={
+                'class': input_css,
+                'placeholder': 'Título del evento',
+                'required': True,
+                'maxlength': 100,
+                'aria-label': 'Título del evento'
+            }),
             'fecha': forms.DateInput(attrs={
                 'type': 'date',
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
+                'min': datetime.date.today().isoformat(),
+                'class': input_css,
+                'required': True,
+                'id': 'id_fecha',
+                'aria-label': 'Fecha del evento'
             }),
             'hora': forms.TimeInput(attrs={
                 'type': 'time',
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
-            }),
-            'titulo': forms.TextInput(attrs={
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
-            }),
-            'descripcion_corta': forms.TextInput(attrs={
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
-            }),
-            'descripcion_detallada': forms.Textarea(attrs={
-                'rows': 3,
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
+                'class': input_css,
+                'required': True,
+                'aria-label': 'Hora del evento'
             }),
             'lugar': forms.TextInput(attrs={
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
+                'class': input_css,
+                'placeholder': 'Lugar del evento',
+                'required': True,
+                'aria-label': 'Lugar del evento'
             }),
-            'imagen': forms.ClearableFileInput(attrs={
-                'class': 'block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-cyan-100 file:text-sky-700 hover:file:bg-cyan-200 transition'
+            'descripcion_corta': forms.TextInput(attrs={
+                'class': input_css,
+                'placeholder': 'Descripción corta',
+                'maxlength': 120,
+                'aria-label': 'Descripción corta'
+            }),
+            'descripcion_detallada': forms.Textarea(attrs={
+                'class': textarea_css,
+                'rows': 5,
+                'placeholder': 'Describe los detalles del evento...',
+                'aria-label': 'Descripción detallada del evento'
             }),
         }
-
-    def clean_descripcion_corta(self):
-        data = self.cleaned_data['descripcion_corta']
-        if len(data) > 10:
-            raise forms.ValidationError("La descripción corta debe tener al menos 10 caracteres.")
-        return data
 
 
 class NoticiaForm(forms.ModelForm):
@@ -45,18 +59,30 @@ class NoticiaForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'titulo': forms.TextInput(attrs={
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
+                'class': input_css,
+                'placeholder': 'Título de la noticia',
+                'required': True,
+                'maxlength': 100,
+                'aria-label': 'Título de la noticia'
             }),
             'descripcion': forms.Textarea(attrs={
+                'class': textarea_css,
                 'rows': 4,
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
+                'placeholder': 'Contenido de la noticia...',
+                'required': True,
+                'aria-label': 'Descripción de la noticia'
             }),
-            'fecha': forms.DateInput(attrs={
+            'fecha': forms.DateInput(format='%Y-%m-%d', attrs={
                 'type': 'date',
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
+                'class': input_css,
+                'required': True,
+                'min': datetime.date.today().isoformat(),
+                'aria-label': 'Fecha de la noticia'
             }),
-            'hora': forms.TimeInput(attrs={
+            'hora': forms.TimeInput(format='%H:%M', attrs={
                 'type': 'time',
-                'class': 'w-full rounded-xl border border-cyan-200 bg-white px-4 py-2.5 text-base text-sky-900 shadow-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition'
+                'class': input_css,
+                'required': True,
+                'aria-label': 'Hora de la noticia'
             }),
         }
