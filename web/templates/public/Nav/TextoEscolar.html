@@ -4,10 +4,34 @@
 {% block title %}Noticias Escolares | Suazapawa{% endblock %}
 
 {% block content %}
-<section class="min-h-screen px-4 py-8 lg:px-20">
+<section class="min-h-screen px-4 pt-6 lg:px-20 relative">
   <h2 class="text-3xl font-bold text-primary text-center mb-10 animate-in fade-in zoom-in duration-700">
     📰 Noticias Escolares
   </h2>
+
+  <!-- Botón flotante de búsqueda -->
+  <button id="btnBuscarFlotante" class="fixed bottom-6 right-6 z-50 btn btn-primary shadow-lg hidden animate-bounce">
+    <i class="fas fa-search"></i>
+  </button>
+
+  <!-- Modal de búsqueda -->
+  <div id="modalBusqueda" class="fixed inset-0 z-50 hidden items-center justify-center backdrop-blur-sm">
+    <div class="relative bg-white/30 backdrop-blur-md border border-white/40 shadow-lg rounded-2xl p-6 w-11/12 max-w-md">
+      <h3 class="text-xl font-semibold text-center text-primary mb-4">🔍 Buscar por Título</h3>
+      <form method="get" class="space-y-4">
+        <input type="text" name="q" placeholder="Ej. Día del estudiante"
+          class="input input-bordered w-full" required />
+        <div class="flex justify-end gap-3">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search mr-2"></i>Buscar
+          </button>
+          <button type="button" id="cerrarModal" class="btn btn-outline">
+            Cerrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Noticias -->
@@ -34,7 +58,7 @@
     </div>
 
     <!-- Filtro y búsqueda fija -->
-    <aside class="sticky top-24 h-fit animate-in fade-in slide-in-from-right-10">
+    <aside class="sticky top-20 h-fit animate-in fade-in slide-in-from-right-10">
       <div class="bg-base-100 rounded-2xl shadow p-6 mb-6">
         <h4 class="font-bold text-lg text-primary mb-4"><i class="fas fa-search"></i> Buscar Noticias</h4>
         <form method="get" class="space-y-4">
@@ -57,14 +81,42 @@
         <h4 class="font-bold text-lg text-primary mb-4"><i class="fas fa-sort"></i> Ordenar</h4>
         <div class="flex flex-col gap-2">
           <a href="?orden=reciente" class="btn btn-outline-success btn-sm">
-            Más recientes
+              Más antiguas
+
           </a>
           <a href="?orden=antiguo" class="btn btn-outline-secondary btn-sm">
-            Más antiguas
+            Más recientes
           </a>
         </div>
       </div>
     </aside>
   </div>
 </section>
+
+<script>
+  // Mostrar botón flotante al hacer scroll
+  const btnFlotante = document.getElementById('btnBuscarFlotante');
+  const modal = document.getElementById('modalBusqueda');
+  const cerrarModal = document.getElementById('cerrarModal');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+      btnFlotante.classList.remove('hidden');
+    } else {
+      btnFlotante.classList.add('hidden');
+    }
+  });
+
+  // Mostrar modal al presionar el botón flotante
+  btnFlotante.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  });
+
+  // Cerrar modal
+  cerrarModal.addEventListener('click', () => {
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+  });
+</script>
 {% endblock %}
