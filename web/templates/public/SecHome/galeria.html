@@ -1,49 +1,42 @@
-<!-- GALERÍA CARRUSEL -->
-<section id="galeria" class="py-20">
-  <!-- Título mejorado -->
-    <h2 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 mb-12 text-center" data-aos="fade-down" data-aos-duration="1000">
-Galería Suazapawa
-</h2>
+{% load static %}
+<!-- GALERÍA AOS -->
+<section id="galeria" class="py-20 bg-gradient-to-b from-blue-200 to-white">
+  <!-- Título llamativo -->
+  <h2 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 mb-12 text-center" data-aos="fade-down" data-aos-duration="1000">
+    Galería Suazapawa
+  </h2>
 
+  <!-- Rejilla tipo Masonry -->
+  <div class="max-w-7xl mx-auto px-4 columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
 
-  <!-- Rejilla tipo Masonry con animaciones al scroll -->
-  <div class="container mx-auto px-4 columns-1 sm:columns-2 lg:columns-3 gap-4">
-
-    <!-- Ejemplo individual con TAOS animación -->
-    <div class="mb-6 break-inside" data-taos-offset="250" data-taos="fade-up">
-      <div class="bg-gray-300 rounded-xl shadow-xl aspect-[3/4] flex items-center justify-center text-gray-600 font-semibold p-8 transition-transform hover:scale-105">
-        Foto 1
-      </div>
+    <!-- Imagen 1 -->
+    <div class="break-inside-avoid rounded-xl overflow-hidden shadow-xl" data-aos="zoom-in-up" data-aos-delay="100">
+      <img src="{% static 'img/gale1.webp' %}" alt="Galería 1" class="w-full h-auto transition-transform hover:scale-105 duration-300">
     </div>
 
-    <div class="mb-6 break-inside" data-taos-offset="250" data-taos="fade-up" data-taos-delay="100">
-      <div class="bg-gray-300 rounded-xl shadow-xl aspect-[3/4] flex items-center justify-center text-gray-600 font-semibold p-6 transition-transform hover:scale-105">
-        Foto 2
-      </div>
+    <!-- Imagen 2 -->
+    <div class="break-inside-avoid rounded-xl overflow-hidden shadow-xl" data-aos="zoom-in-up" data-aos-delay="200">
+      <img src="{% static 'img/gale2.webp' %}" alt="Galería 2" class="w-full h-auto transition-transform hover:scale-105 duration-300">
     </div>
 
-    <div class="mb-6 break-inside" data-taos-offset="250" data-taos="fade-up" data-taos-delay="200">
-      <div class="bg-gray-300 rounded-xl shadow-xl aspect-[4/3] flex items-center justify-center text-gray-600 font-semibold p-6 transition-transform hover:scale-105">
-        Foto 3
-      </div>
+    <!-- Imagen 3 -->
+    <div class="break-inside-avoid rounded-xl overflow-hidden shadow-xl" data-aos="zoom-in-up" data-aos-delay="300">
+      <img src="{% static 'img/gale3.webp' %}" alt="Galería 3" class="w-full h-auto transition-transform hover:scale-105 duration-300">
     </div>
 
-    <div class="mb-6 break-inside" data-taos-offset="250" data-taos="fade-up" data-taos-delay="300">
-      <div class="bg-gray-300 rounded-xl shadow-xl aspect-square flex items-center justify-center text-gray-600 font-semibold p-6 transition-transform hover:scale-105">
-        Foto 4
-      </div>
+    <!-- Imagen 4 -->
+    <div class="break-inside-avoid rounded-xl overflow-hidden shadow-xl" data-aos="zoom-in-up" data-aos-delay="400">
+      <img src="{% static 'img/gale4.webp' %}" alt="Galería 4" class="w-full h-auto transition-transform hover:scale-105 duration-300">
     </div>
 
-    <div class="mb-6 break-inside" data-taos-offset="250" data-taos="fade-up" data-taos-delay="400">
-      <div class="bg-gray-300 rounded-xl shadow-xl aspect-[3/4] flex items-center justify-center text-gray-600 font-semibold p-6 transition-transform hover:scale-105">
-        Foto 5
-      </div>
+    <!-- Imagen 5 -->
+    <div class="break-inside-avoid rounded-xl overflow-hidden shadow-xl" data-aos="zoom-in-up" data-aos-delay="500">
+      <img src="{% static 'img/gale5.webp' %}" alt="Galería 5" class="w-full h-auto transition-transform hover:scale-105 duration-300">
     </div>
 
-    <div class="mb-6 break-inside" data-taos-offset="250" data-taos="fade-up" data-taos-delay="500">
-      <div class="bg-gray-300 rounded-xl shadow-xl aspect-[4/3] flex items-center justify-center text-gray-600 font-semibold p-6 transition-transform hover:scale-105">
-        Foto 6
-      </div>
+    <!-- Imagen 6 -->
+    <div class="break-inside-avoid rounded-xl overflow-hidden shadow-xl" data-aos="zoom-in-up" data-aos-delay="600">
+      <img src="{% static 'img/gale6.webp' %}" alt="Galería 6" class="w-full h-auto transition-transform hover:scale-105 duration-300">
     </div>
 
   </div>

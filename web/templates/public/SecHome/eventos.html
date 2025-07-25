@@ -1,16 +1,14 @@
 {% comment %} templates/public/SecHome/eventos.html {% endcomment %}
 <section class="py-12 bg-gradient-to-b from-sky-50 to-sky-100" data-aos="fade-up" data-aos-duration="1200">
   <div class="max-w-6xl mx-auto px-4">
-   <h2 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 mb-12 text-center" data-aos="fade-down" data-aos-duration="1000">
-  Eventos Destacados
-</h2>
-
+    <h2 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 mb-12 text-center" data-aos="fade-down" data-aos-duration="1000">
+      Eventos Destacados
+    </h2>
 
     {% if eventos %}
       <div class="space-y-12">
         {% for evento in eventos %}
           <div class="flex flex-col md:flex-row {% if forloop.counter == 2 %}md:flex-row-reverse{% endif %} bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300" data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="{{ forloop.counter0|add:1 }}00">
-
             {% if evento.imagen %}
               <div class="md:w-1/2 relative group">
                 <img
@@ -18,7 +16,7 @@
                   alt="{{ evento.titulo }}"
                   class="h-64 md:h-full w-full object-cover group-hover:opacity-90 transition-opacity duration-300"
                 >
-                <div class="absolute inset-0  bg-opacity-25 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute inset-0 bg-opacity-25 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
             {% endif %}
 
@@ -34,18 +32,21 @@
                   {{ evento.descripcion_corta }}
                 </p>
               </div>
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-gray-400 uppercase tracking-wide">
-                  <i class="fas fa-map-marker-alt mr-1"></i>{{ evento.lugar }}
-                </span>
-                <a href="#" class="inline-block text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-full px-4 py-2 transition-colors duration-300" data-aos="fade-up" data-aos-duration="800">
-                  Ver detalles
-                </a>
-              </div>
+              <span class="text-xs text-gray-400 uppercase tracking-wide mt-2">
+                <i class="fas fa-map-marker-alt mr-1"></i>{{ evento.lugar }}
+              </span>
             </div>
           </div>
         {% endfor %}
       </div>
+
+      <!-- Botón general "Ver más eventos" -->
+      <div class="mt-12 text-center" data-aos="fade-up" data-aos-delay="700">
+        <a href="{% url 'calendario' %}" class="inline-block px-6 py-3 bg-gradient-to-r from-sky-500 to-pink-500 text-white font-semibold rounded-2xl shadow-lg hover:opacity-90 transition">
+          Ver más eventos
+        </a>
+      </div>
+
     {% else %}
       <p class="text-center text-gray-500" data-aos="fade-in" data-aos-duration="800">No hay eventos disponibles.</p>
     {% endif %}

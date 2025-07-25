@@ -31,7 +31,7 @@ class HomeView(TemplateView):
         # Eventos ya existía
         context['eventos'] = Evento.objects.order_by('-fecha')[:3]
         # Añadimos las 3 noticias más recientes
-        context['noticias'] = Noticia.objects.order_by('-fecha')[:3]
+        context['noticias'] = Noticia.objects.order_by('-fecha')[:6]
         return context
 
 

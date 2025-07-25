@@ -1,40 +1,45 @@
-{# templates/public/SecHome/noticias.html #}
-<section class="py-12 ">
-  <div class="max-w-6xl mx-auto px-4">
-  <h2 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 mb-12 text-center" data-aos="fade-down" data-aos-duration="1000">
- Últimas Noticias
-</h2>
-
+<section class="py-20 bg-gradient-to-b from-white via-indigo-50 to-purple-100">
+  <div class="max-w-7xl mx-auto px-4">
+    <!-- Título -->
+    <h2 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-sky-500 mb-16 text-center" data-aos="fade-down" data-aos-duration="1000">
+      📰 Últimas Noticias
+    </h2>
 
     {% if noticias %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Grid de Noticias -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {% for noticia in noticias %}
-          <div class="bg-gray-50 rounded-2xl shadow flex flex-col overflow-hidden">
+          <div class="bg-white rounded-3xl shadow-xl overflow-hidden transition-transform duration-300 hover:scale-[1.02]" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
             {% if noticia.imagen %}
-              <img
-                src="{{ noticia.imagen.url }}"
-                alt="{{ noticia.titulo }}"
-                class="h-40 w-full object-cover"
-              >
+              <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="h-48 w-full object-cover">
             {% endif %}
-            <div class="p-4 flex-1 flex flex-col">
-              <h3 class="text-xl font-semibold mb-1">{{ noticia.titulo }}</h3>
-              <p class="text-sm text-gray-500 mb-2">
-                {{ noticia.fecha|date:"d M Y" }}
-              </p>
-              <p class="text-gray-700 flex-1">
-                {{ noticia.descripcion_corta }}
-              </p>
-              <div class="mt-4 text-right text-xs text-gray-400">
-                <!-- Puedes incluir autor u otro meta si lo tienes -->
-                <!-- Ejemplo: Autor: {{ noticia.autor }} -->
+            <div class="p-6 flex flex-col h-full">
+              <h3 class="text-2xl font-bold text-sky-700 mb-1">{{ noticia.titulo }}</h3>
+              <p class="text-sm text-gray-500 mb-3">{{ noticia.fecha|date:"d M Y" }}</p>
+
+              <!-- Línea separadora -->
+              <hr class="border-t border-indigo-200 my-3">
+
+              <!-- Descripción + fade -->
+              <div class="relative flex-1 mb-4 overflow-hidden">
+                <p class="text-gray-800 text-base leading-relaxed max-h-24 overflow-hidden">
+                  {{ noticia.descripcion }}
+                </p>
+                <div class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
               </div>
             </div>
           </div>
         {% endfor %}
       </div>
+
+      <!-- Botón General -->
+      <div class="mt-12 text-center" data-aos="fade-up" data-aos-delay="700">
+        <a href="{% url 'textoescolar' %}" class="inline-block px-6 py-3 bg-gradient-to-r from-sky-500 to-pink-500 text-white font-semibold rounded-2xl shadow-lg hover:opacity-90 transition">
+          Ver más noticias
+        </a>
+      </div>
     {% else %}
-      <p class="text-gray-500">No hay noticias disponibles.</p>
+      <p class="text-center text-gray-500 mt-10">No hay noticias disponibles.</p>
     {% endif %}
   </div>
 </section>
