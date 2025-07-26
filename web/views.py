@@ -10,6 +10,18 @@ from .models import Evento, Noticia
 from .forms import EventoForm, NoticiaForm, ContactoForm
 from django.core.mail import send_mail
 from django.views.generic  import FormView
+from django.conf import settings
+import os
+from django.views.decorators.csrf import csrf_exempt
+from email.parser import Parser
+from email.policy import default
+import re
+
+import datetime
+
+
+
+
 
 
 from django.db.models import Q
@@ -50,7 +62,7 @@ class HomeView(FormView):
             ),
             # usa DEFAULT_FROM_EMAIL
             from_email=None,
-            recipient_list=['stevanpre1@gmail.com'],
+            recipient_list=['prueba@gmail.com'],
             fail_silently=False,
         )
         messages.success(self.request, "¡Gracias por escribirnos! Te responderemos pronto.")
@@ -175,10 +187,68 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         # 📊 Métricas
         context['num_eventos'] = eventos.count()
         context['num_noticias'] = noticias.count()
-        context['ingresos_usuario'] = 42
+        context['ingresos_usuario'] = 80  # Ejemplo estático
 
+        # 📬 Correos desde carpeta local "sent_emails"
+        correo_dir = os.path.join(settings.BASE_DIR, 'sent_emails')
+        correos = []
+
+        if os.path.exists(correo_dir):
+            archivos = sorted(
+                os.listdir(correo_dir),
+                key=lambda x: os.path.getmtime(os.path.join(correo_dir, x)),
+                reverse=True
+            )
+
+            def extraer(patron, texto, flags=0):
+                match = re.search(patron, texto, flags | re.IGNORECASE)
+                return match.group(1).strip() if match else ''
+
+            for nombre_archivo in archivos:
+                if nombre_archivo.endswith('.log'):
+                    ruta = os.path.join(correo_dir, nombre_archivo)
+                    with open(ruta, encoding='utf-8') as f:
+                        raw = f.read()
+
+                    try:
+                        email_message = Parser(policy=default).parsestr(raw)
+
+                        if email_message.is_multipart():
+                            body_part = email_message.get_body(preferencelist=('plain',))
+                            body = body_part.get_content() if body_part else ''
+                        else:
+                            body = email_message.get_payload()
+
+                        if not isinstance(body, str):
+                            body = str(body)
+
+                        datos_limpios = {
+                            'asunto': email_message.get('Subject', ''),
+                            'de': email_message.get('From', ''),
+                            'para': email_message.get('To', ''),
+                            'fecha': email_message.get('Date', ''),
+                            'nombre': extraer(r"Nombre:\s*(.*)", body),
+                            'email': extraer(r"Email:\s*(.*)", body),
+                            'telefono': extraer(r"Tel[eé]fono:\s*(.*)", body),
+                            'mensaje': extraer(r"Mensaje:\s*([\s\S]*)", body),
+                        }
+
+                        correos.append({
+                            'nombre': nombre_archivo,
+                            'contenido': datos_limpios,
+                        })
+
+                    except Exception as e:
+                        correos.append({
+                            'nombre': nombre_archivo,
+                            'contenido': {
+                                'asunto': '[Error al leer]',
+                                'mensaje': f'No se pudo procesar el archivo: {e}'
+                            }
+                        })
+
+        context['correos'] = correos
         return context
-
 
 
 # --------------------
@@ -283,3 +353,24 @@ def eliminar_noticia(request, noticia_id):
     messages.success(request, "🗑 Noticia eliminada correctamente.")
     return redirect('dashboard')
 
+
+@csrf_exempt
+@login_required
+def eliminar_correo(request):
+    if request.method == 'POST':
+        archivo = request.POST.get('archivo')
+
+        # Seguridad básica para evitar eliminar cualquier archivo arbitrario
+        if not archivo.endswith('.log'):
+            messages.error(request, "El archivo no es válido.")
+            return redirect('dashboard')
+
+        ruta = os.path.join(settings.BASE_DIR, 'sent_emails', archivo)  # Ajusta si usas otra carpeta
+
+        if os.path.exists(ruta):
+            os.remove(ruta)
+            messages.success(request, f"Correo '{archivo}' eliminado exitosamente.")
+        else:
+            messages.error(request, "El archivo no existe.")
+
+    return redirect('dashboard')
