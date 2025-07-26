@@ -1,125 +1,166 @@
+{# admin/modulos/eventos.html #}
 {% load static %}
+{% load form_filters %}
 
 {% block extra_css %}
-  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-borderless@5/borderless.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <section class="py-6 px-4 lg:px-8">
-  <!-- 📋 Título -->
-  <div class="flex items-center justify-between mb-6">
-    <h2 class="text-3xl font-bold text-sky-700">
-      {% if modo_edicion %}Editar Evento{% else %}Crear Evento{% endif %}
+  <div class="max-w-4xl mx-auto" data-aos="fade-up">
+
+    <h2 class="text-3xl font-bold text-sky-700 mb-6">
+      🗓️ Gestión de Eventos
     </h2>
-    {% if modo_edicion %}
-      <a href="{% url 'dashboard' %}?show=calendario"
-         class="btn btn-outline btn-sm text-sm">
-        Cancelar edición
-      </a>
+
+    <!-- 📄 Formulario -->
+<form method="POST" enctype="multipart/form-data"
+      action="{% if modo_edicion %}{% url 'actualizar_evento' evento_id %}{% else %}{% url 'crear_evento' %}{% endif %}"
+      class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 bg-gradient-to-br from-sky-50 via-white to-cyan-100 p-6 rounded-2xl shadow-lg border border-sky-100">
+
+  {% csrf_token %}
+
+  {% if form.non_field_errors %}
+    <div class="col-span-2 alert alert-error text-sm">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
+
+  <!-- Título -->
+  <div class="form-control">
+    <label class="label font-semibold text-sky-700">Título *</label>
+    {{ form.titulo|add_class:"input input-bordered w-full" }}
+    {% if form.titulo.errors %}
+      <span class="text-sm text-red-600 mt-1">{{ form.titulo.errors.0 }}</span>
     {% endif %}
   </div>
 
-  <!-- 📝 Formulario -->
-  <form method="POST" enctype="multipart/form-data"
-        action="{% if modo_edicion %}{% url 'actualizar_evento' evento_id %}{% else %}{% url 'crear_evento' %}{% endif %}"
-        class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-    {% csrf_token %}
-    <div class="form-control">
-      <label class="label"><span class="label-text">Título</span></label>
-      {{ form.titulo }}
-    </div>
-    <div class="form-control">
-      <label class="label"><span class="label-text">Lugar</span></label>
-      {{ form.lugar }}
-    </div>
-    <div class="form-control">
-      <label class="label"><span class="label-text">Fecha</span></label>
-      {{ form.fecha }}
-    </div>
-    <div class="form-control">
-      <label class="label"><span class="label-text">Hora</span></label>
-      {{ form.hora }}
-    </div>
-    <div class="form-control md:col-span-2">
-      <label class="label"><span class="label-text">Descripción corta</span></label>
-      {{ form.descripcion_corta }}
-    </div>
-    <div class="form-control md:col-span-2">
-      <label class="label"><span class="label-text">Descripción detallada</span></label>
-      {{ form.descripcion_detallada }}
-    </div>
-    <div class="form-control md:col-span-2">
-      <label class="label"><span class="label-text">Imagen del evento</span></label>
-      {{ form.imagen }}
-      <img id="preview" class="mt-2 hidden rounded-lg shadow-md w-40" />
-    </div>
-    <div class="form-control md:col-span-2">
-      <button type="submit"
-              class="btn btn-primary w-full md:w-auto">
-        {% if modo_edicion %}💾 Guardar cambios{% else %}📥 Crear Evento{% endif %}
-      </button>
-    </div>
-  </form>
+  <!-- Lugar -->
+  <div class="form-control">
+    <label class="label font-semibold text-sky-700">Lugar *</label>
+    {{ form.lugar|add_class:"input input-bordered w-full" }}
+    {% if form.lugar.errors %}
+      <span class="text-sm text-red-600 mt-1">{{ form.lugar.errors.0 }}</span>
+    {% endif %}
+  </div>
 
-  <!-- 📅 Lista de eventos -->
-  <div>
-    <h3 class="text-2xl font-bold text-sky-700 mb-4">Eventos Registrados</h3>
-    {% if eventos %}
-      <div class="space-y-3">
+  <!-- Fecha -->
+  <div class="form-control">
+    <label class="label font-semibold text-sky-700">Fecha *</label>
+    {{ form.fecha|add_class:"input input-bordered w-full" }}
+    {% if form.fecha.errors %}
+      <span class="text-sm text-red-600 mt-1">{{ form.fecha.errors.0 }}</span>
+    {% endif %}
+  </div>
+
+  <!-- Hora -->
+  <div class="form-control">
+    <label class="label font-semibold text-sky-700">Hora *</label>
+    {{ form.hora|add_class:"input input-bordered w-full" }}
+    {% if form.hora.errors %}
+      <span class="text-sm text-red-600 mt-1">{{ form.hora.errors.0 }}</span>
+    {% endif %}
+  </div>
+
+  <!-- Descripción corta -->
+  <div class="form-control md:col-span-2">
+    <label class="label font-semibold text-sky-700">Descripción corta *</label>
+    {{ form.descripcion_corta|add_class:"textarea textarea-bordered w-full" }}
+    {% if form.descripcion_corta.errors %}
+      <span class="text-sm text-red-600 mt-1">{{ form.descripcion_corta.errors.0 }}</span>
+    {% endif %}
+  </div>
+
+  <!-- Descripción detallada -->
+  <div class="form-control md:col-span-2">
+    <label class="label font-semibold text-sky-700">Descripción detallada *</label>
+    {{ form.descripcion_detallada|add_class:"textarea textarea-bordered w-full" }}
+    {% if form.descripcion_detallada.errors %}
+      <span class="text-sm text-red-600 mt-1">{{ form.descripcion_detallada.errors.0 }}</span>
+    {% endif %}
+  </div>
+
+  <!-- Imagen -->
+  <div class="form-control md:col-span-2">
+    <label class="label font-semibold text-sky-700">Imagen del evento</label>
+    {{ form.imagen|add_class:"file-input file-input-bordered w-full" }}
+    {% if form.imagen.errors %}
+      <span class="text-sm text-red-600 mt-1">{{ form.imagen.errors.0 }}</span>
+    {% endif %}
+    <img id="preview" class="mt-2 hidden rounded-lg shadow-md w-40" alt="Preview" />
+  </div>
+
+  <!-- Botones -->
+  <div class="form-control md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
+    <button type="submit"
+            class="btn btn-success text-white px-6 font-semibold hover:scale-105 duration-150">
+      {% if modo_edicion %}💾 Guardar cambios{% else %}📥 Crear Evento{% endif %}
+    </button>
+
+    {% if modo_edicion %}
+      <a href="{% url 'dashboard' %}?show=calendario"
+         class="btn btn-outline btn-error border border-red-300 hover:bg-red-50 text-red-600 font-medium px-6">
+        ❌ Cancelar edición
+      </a>
+    {% endif %}
+  </div>
+</form>
+
+    <!-- 📋 Lista de eventos -->
+    <div data-aos="fade-up" data-aos-delay="200">
+      <h3 class="text-2xl font-bold text-sky-700 mb-4">📋 Eventos Registrados</h3>
+      <div class="space-y-4">
         {% for evento in eventos %}
-          <div class="collapse collapse-arrow bg-base-100 border border-slate-200 rounded-xl">
-            <input type="checkbox" name="evento-{{ evento.id }}" />
-            <div class="collapse-title text-lg font-semibold text-sky-800">
-              {{ evento.titulo }} — {{ evento.fecha }}
-            </div>
-            <div class="collapse-content space-y-3 text-gray-700">
+          <div class="border border-cyan-200 rounded-2xl shadow-sm bg-white">
+            <div class="px-5 py-4 space-y-2">
+              <p class="font-semibold text-sky-800">🗓️ {{ evento.titulo }} — {{ evento.fecha }}</p>
               <p><strong>📍 Lugar:</strong> {{ evento.lugar }}</p>
               <p><strong>🕑 Hora:</strong> {{ evento.hora }}</p>
-              <p><strong>📝 Descripción corta:</strong> {{ evento.descripcion_corta }}</p>
-              <p><strong>📝 Descripción detallada:</strong> {{ evento.descripcion_detallada }}</p>
+              <p><strong>📝 Corta:</strong> {{ evento.descripcion_corta }}</p>
+              <p><strong>📝 Detallada:</strong> {{ evento.descripcion_detallada }}</p>
               {% if evento.imagen %}
-                <img src="{{ evento.imagen.url }}" alt="Imagen del evento"
+                <img src="{{ evento.imagen.url }}"
+                     alt="Imagen del evento"
                      class="w-40 rounded-lg shadow-md" />
               {% endif %}
-              <div class="flex gap-3 pt-2">
+
+              <div class="mt-4 flex flex-wrap gap-2">
                 <a href="{% url 'dashboard' %}?edit={{ evento.id }}&show=calendario"
-                   class="btn btn-sm btn-outline btn-info">✏️ Editar</a>
-                <form method="POST" action="{% url 'eliminar_evento' evento.id %}" class="form-eliminar">
+                   class="btn btn-sm btn-outline btn-info flex-1 md:flex-none hover:bg-info/10">
+                  ✏️ Editar
+                </a>
+                <form method="POST"
+                      action="{% url 'eliminar_evento' evento.id %}"
+                      class="flex-1 md:flex-none"
+                      onsubmit="return confirm('¿Eliminar este evento? Esta acción no se puede deshacer.')">
                   {% csrf_token %}
-                  <button type="submit" class="btn btn-sm btn-outline btn-error">🗑 Eliminar</button>
+                  <button type="submit"
+                          class="btn btn-sm btn-outline btn-error w-full hover:bg-error/10">
+                    🗑 Eliminar
+                  </button>
                 </form>
               </div>
             </div>
           </div>
+        {% empty %}
+          <p class="text-slate-500">No hay eventos registrados todavía.</p>
         {% endfor %}
       </div>
-    {% else %}
-      <div class="alert alert-info">🕊 No hay eventos registrados todavía.</div>
-    {% endif %}
+    </div>
+
   </div>
 </section>
 {% endblock %}
 
 {% block extra_js %}
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init({ once: true, duration: 600 });
 
-    function showModule(mod) {
-      document.querySelectorAll('.module-panel').forEach(el => el.classList.add('hidden'));
-      document.getElementById(`module-${mod}`)?.classList.remove('hidden');
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const mod = params.get('show') || 'bienvenida';
-      showModule(mod);
-
-      // Previsualización de imagen
-      document.getElementById('id_imagen')?.addEventListener('change', function(e) {
+      document.getElementById('id_imagen')?.addEventListener('change', e => {
         const file = e.target.files[0];
         const preview = document.getElementById('preview');
         if (file) {
@@ -129,42 +170,6 @@
           preview.classList.add('hidden');
         }
       });
-
-      // Confirmación de eliminación con SweetAlert2
-      document.querySelectorAll('.form-eliminar').forEach(form => {
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          Swal.fire({
-            title: '¿Eliminar este evento?',
-            text: 'Esta acción no se puede deshacer.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#e02424',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-          }).then(result => {
-            if (result.isConfirmed) {
-              form.submit();
-            }
-          });
-        });
-      });
-
-      // Toasts para mensajes flash
-      {% if messages %}
-        {% for message in messages %}
-          Swal.fire({
-            toast: true,
-            position: 'top-end',
-            icon: '{% if message.tags == "success" %}success{% elif message.tags == "error" %}error{% else %}info{% endif %}',
-            title: '{{ message }}',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true
-          });
-        {% endfor %}
-      {% endif %}
     });
   </script>
 {% endblock %}
