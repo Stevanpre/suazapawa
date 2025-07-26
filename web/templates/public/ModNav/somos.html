@@ -3,84 +3,176 @@
 
 {% block title %}Sobre Nosotros | Colegio Suazapawa{% endblock %}
 
-{% block content %}
-<div class="container py-5" style="background:#fff;">
-  <div class="text-center mb-5">
-    <h1 class="fw-bold" style="color:#1a3c6c;">🏫 Colegio Suazapawa</h1>
-    <p class="fs-5" style="color:#d7263d;">Formando líderes con valores, conocimiento y compromiso.</p>
-  </div>
-
-  <div class="row g-5">
-    <!-- Historia -->
-    <div class="col-md-12">
-      <div class="card shadow-sm mt-4 historia-card">
-        <div class="card-body">
-          <h4 class="mb-3" style="color:#d7263d;">📚 Nuestra Historia</h4>
-          <p style="color:#1a3c6c;">
-            El Colegio Suazapawa fue fundado con el firme propósito de ofrecer educación de calidad en un ambiente
-            inclusivo, familiar y motivador. Desde nuestros inicios, hemos crecido gracias al compromiso de docentes,
-            familias y estudiantes, convirtiéndonos en una comunidad educativa que cree en el poder del conocimiento,
-            la cultura y el trabajo en equipo.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Valores institucionales -->
-  <div class="mt-5">
-    <h3 class="text-center mb-4" style="color:#1a3c6c;">💡 Nuestros Valores</h3>
-    <div class="row text-center">
-      <div class="col-6 col-md-3 mb-3">
-        <div class="valor-card p-3" style="color:#1a3c6c;">🤝 Respeto</div>
-      </div>
-      <div class="col-6 col-md-3 mb-3">
-        <div class="valor-card p-3" style="color:#d7263d;">🧠 Responsabilidad</div>
-      </div>
-      <div class="col-6 col-md-3 mb-3">
-        <div class="valor-card p-3" style="color:#1a3c6c;">💬 Honestidad</div>
-      </div>
-      <div class="col-6 col-md-3 mb-3">
-        <div class="valor-card p-3" style="color:#d7263d;">🌍 Compromiso</div>
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock %}
-
 {% block extra_css %}
 <style>
-body {
-  background: #fff;
-}
-.card.historia-card {
-  border-radius: 1.1rem;
-  box-shadow: 0 2px 12px rgba(26,60,108,0.08);
-  border: 2px solid #e0f7fa;
-  background: linear-gradient(120deg, #fff 80%, #e0f7fa 100%);
-  animation: fadeInCard 0.7s;
-}
-@keyframes fadeInCard {
-  from { opacity: 0; transform: translateY(30px);}
-  to { opacity: 1; transform: translateY(0);}
-}
-h1, h3, h4 {
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-.valor-card {
-  border-radius: 0.9rem;
-  background: linear-gradient(100deg, #fff 70%, #e0f7fa 100%);
-  box-shadow: 0 1px 6px rgba(26,60,108,0.10);
-  font-size: 1.15rem;
-  font-weight: 500;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 2px solid #e0f7fa;
-}
-.valor-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(215,38,61,0.12);
-  background: linear-gradient(100deg, #fff 60%, #fbeaec 100%);
-}
+  .about-section {
+    background: linear-gradient(to bottom, #0284c7, #f0f9ff);
+    padding: 3rem 1rem;
+  }
+
+  .intro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 3rem auto;
+  }
+
+  @media (min-width: 1024px) {
+    .intro-container {
+      flex-direction: row;
+      align-items: stretch;
+    }
+  }
+
+  .intro-text {
+    flex: 1;
+    color: #1a3c6c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .intro-text h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1e3a8a;
+  }
+
+  .intro-text .years {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #d7263d;
+  }
+
+  .intro-img {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .intro-img img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    object-fit: cover;
+  }
+
+  .story {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+
+  .valor-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+
+  .valor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .valor-card-icon {
+    font-size: 2rem;
+    color: #0284c7;
+    margin-bottom: 0.5rem;
+  }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 3rem auto;
+  }
+
+  @media (min-width: 768px) {
+    .testimonial-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .testimonial {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  }
 </style>
+{% endblock %}
+
+{% block content %}
+<section class="about-section">
+
+  <!-- Intro en 2 columnas -->
+  <div class="intro-container" data-aos="fade-up">
+    <!-- Texto izquierda -->
+    <div class="intro-text">
+      <h1>🏫 Colegio Suazapawa</h1>
+      <p class="years">+35 años</p>
+      <p>
+        Comprometidos con la formación integral de nuestros estudiantes. Brindamos educación con valores, ciencia y compromiso humano.
+      </p>
+    </div>
+
+    <!-- Imagen derecha -->
+    <div class="intro-img">
+      <img src="{% static 'img/fondo1Ex.JPG' %}" alt="Imagen institucional del colegio">
+    </div>
+  </div>
+
+  <!-- Nuestra Historia -->
+  <div class="story" data-aos="fade-up" data-aos-delay="150">
+    <h4 style="color:#d7263d;">📚 Nuestra Historia</h4>
+    <p style="color:#1a3c6c;">
+      Desde su fundación, Suazapawa ha crecido gracias al compromiso de docentes, familias y estudiantes,
+      fomentando una educación integral centrada en el respeto, la excelencia académica y el desarrollo humano.
+    </p>
+  </div>
+
+  <!-- Nuestros Valores -->
+  <h3 class="text-center text-xl md:text-2xl font-bold mb-4" style="color:#1a3c6c;" data-aos="fade-up" data-aos-delay="200">💡 Nuestros Valores</h3>
+  <div class="values-grid" data-aos="fade-up" data-aos-delay="250">
+    <div class="valor-card"><div class="valor-card-icon">🤝</div><p>Respeto</p></div>
+    <div class="valor-card"><div class="valor-card-icon">🧠</div><p>Responsabilidad</p></div>
+    <div class="valor-card"><div class="valor-card-icon">💬</div><p>Honestidad</p></div>
+    <div class="valor-card"><div class="valor-card-icon">🌍</div><p>Compromiso</p></div>
+  </div>
+
+  <!-- Testimonios -->
+  <div class="testimonial-grid" data-aos="fade-up" data-aos-delay="300">
+    <div class="testimonial">
+      <p>"Suazapawa ha transformado mi relación con el aprendizaje. Los docentes inspiran y motivan a diario."</p>
+      <footer class="mt-2 text-right text-sm font-semibold text-cyan-700">– Estudiante Anónimo</footer>
+    </div>
+    <div class="testimonial">
+      <p>"La comunidad educativa fortalece a cada estudiante día a día. Es un segundo hogar."</p>
+      <footer class="mt-2 text-right text-sm font-semibold text-cyan-700">– Padre de Familia</footer>
+    </div>
+  </div>
+
+</section>
 {% endblock %}

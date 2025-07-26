@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Restaurante Escolar | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<section class="bg-gradient-to-b from-sky-50 to-white py-16 px-4" data-aos="fade-up">
+  <div class="max-w-4xl mx-auto space-y-12 text-center">
+
+    <!-- Imagen destacada con efecto focal -->
+    <div class="relative overflow-hidden rounded-2xl shadow-xl" data-aos="zoom-in">
+      <img src="{% static 'img/navsec/restaurante1.JPG' %}" alt="Restaurante escolar Suazapawa"
+           class="w-full object-cover object-center h-96 md:h-[500px] transition-transform duration-700 hover:scale-105">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+      <h2 class="absolute bottom-6 left-6 text-3xl md:text-4xl font-bold text-white drop-shadow-lg">
+        🍽️ Restaurante Escolar Suazapawa
+      </h2>
+    </div>
+
+    <!-- Texto descriptivo -->
+    <div data-aos="fade-up" data-aos-delay="100">
+      <h3 class="text-2xl font-semibold text-sky-900 mb-4">Comida sana, ambiente acogedor</h3>
+      <p class="text-gray-700 leading-relaxed mb-6">
+        Nuestro restaurante escolar ofrece menús balanceados, preparados bajo estrictas medidas de higiene y seguridad alimentaria,
+        con supervisión nutricional, porciones adecuadas y atención personalizada.
+      </p>
+    </div>
+
+    <!-- Beneficios en lista -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-aos="fade-up" data-aos-delay="200">
+      <div class="space-y-4">
+        <h4 class="text-xl font-bold text-sky-800"><i class="fas fa-seedling mr-2"></i> Nutrición equilibrada</h4>
+        <p class="text-gray-600">
+          Menús elaborados con apoyo nutricional y adaptados al PAE, priorizando frutas, granos integrales y productos locales frescos.
+        </p>
+      </div>
+      <div class="space-y-4">
+        <h4 class="text-xl font-bold text-sky-800"><i class="fas fa-shield-alt mr-2"></i> Higiene y seguridad</h4>
+        <p class="text-gray-600">
+          Preparado por personal capacitado, control de temperatura, prevención de contaminación cruzada y estándares de limpieza visual estrictos.
+        </p>
+      </div>
+      <div class="space-y-4">
+        <h4 class="text-xl font-bold text-sky-800"><i class="fas fa-users mr-2"></i> Experiencia agradable</h4>
+        <p class="text-gray-600">
+          El espacio está pensado para ser confortable y seguro, con iluminación natural, muebles acogedores y flujo eficiente durante los almuerzos.
+        </p>
+      </div>
+      <div class="space-y-4">
+        <h4 class="text-xl font-bold text-sky-800"><i class="fas fa-recycle mr-2"></i> Sustentabilidad</h4>
+        <p class="text-gray-600">
+          Implementamos prácticas de desperdicio cero, educación sobre desecho responsable, reciclaje y reducción de residuos alimentarios.
+        </p>
+      </div>
+    </div>
+
+    <!-- Llamado a acción -->
+    <div data-aos="fade-up" data-aos-delay="300">
+      <a href="#" class="inline-block bg-sky-900 text-white px-6 py-3 rounded-full font-medium hover:bg-sky-700 transition-colors duration-300">
+        📋 Ver menú semanal
+      </a>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

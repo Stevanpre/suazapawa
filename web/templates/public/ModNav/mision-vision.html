@@ -4,92 +4,56 @@
 {% block title %}Misión y Visión | Colegio Suazapawa{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-  <div class="text-center mb-5">
-    <h2 class="fw-bold" style="color:#1a3c6c;">🎓 Colegio Suazapawa</h2>
-    <p class="lead text-muted">Nuestra razón de ser y hacia dónde vamos</p>
-  </div>
+<section class="py-12 px-4 bg-gradient-to-b from-white via-sky-50 to-white">
+  <div class="max-w-6xl mx-auto space-y-16">
 
-  <!-- Misión -->
-  <div class="row mb-5 align-items-center">
-    <div class="col-md-4 d-flex align-items-center justify-content-center">
-      <div class="img-card shadow-sm p-2 bg-white rounded-4">
-        <img src="{% static 'img/mision.png' %}" alt="Misión" class="img-fluid rounded-4" style="border:3px solid #e0f7fa;">
-      </div>
+    <!-- Título general -->
+    <div class="text-center" data-aos="fade-up">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-sky-800 mb-4">🎓 Colegio Suazapawa</h2>
+      <p class="text-lg text-sky-700">Nuestra razón de ser y hacia dónde vamos</p>
     </div>
-    <div class="col-md-7 offset-md-1">
-      <div class="card mision-card shadow-sm border-0 mb-3">
-        <div class="card-body">
-          <h3 class="fw-bold mb-3" style="color:#d7263d;">🎯 Misión</h3>
-          <p class="fs-5 text-justify mb-0">
-            El Colegio Suazapawa tiene como misión brindar una educación integral y de calidad,
-            basada en valores humanos, éticos y ciudadanos. Promovemos el desarrollo académico, emocional,
-            artístico y social de nuestros estudiantes, formando líderes responsables, solidarios
-            y comprometidos con la transformación positiva de su comunidad y del entorno.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Visión -->
-  <div class="row align-items-center flex-md-row-reverse">
-    <div class="col-md-4 d-flex align-items-center justify-content-center">
-      <div class="img-card shadow-sm p-2 bg-white rounded-4">
-        <img src="{% static 'img/vision.png' %}" alt="Visión" class="img-fluid rounded-4" style="border:3px solid #e0f7fa;">
+    <!-- Misión -->
+    <div class="grid md:grid-cols-2 gap-8 items-center" data-aos="fade-up" data-aos-delay="100">
+      <div class="bg-white rounded-2xl shadow-lg border-l-8 border-red-500 p-6 md:p-8">
+        <h3 class="text-2xl font-bold text-red-600 mb-4">🎯 Misión</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          El Colegio Suazapawa tiene como misión brindar una educación integral y de calidad,
+          basada en valores humanos, éticos y ciudadanos. Promovemos el desarrollo académico,
+          emocional, artístico y social de nuestros estudiantes, formando líderes responsables,
+          solidarios y comprometidos con la transformación positiva de su comunidad y del entorno.
+        </p>
+      </div>
+      <div class="flex justify-center">
+        <img src="{% static 'img/mision.png' %}" alt="Misión" class="w-full max-w-md rounded-2xl shadow-lg border-4 border-cyan-100">
       </div>
     </div>
-    <div class="col-md-7 offset-md-1">
-      <div class="card vision-card shadow-sm border-0 mb-3">
-        <div class="card-body">
-          <h3 class="fw-bold mb-3" style="color:#1a3c6c;">🌟 Visión</h3>
-          <p class="fs-5 text-justify mb-0">
-            Ser en el año 2030 una institución educativa reconocida por su excelencia académica,
-            su enfoque inclusivo e innovador, y por formar ciudadanos críticos, autónomos y comprometidos
-            con el desarrollo sostenible y la paz. En Suazapawa, cada estudiante es protagonista de su aprendizaje
-            y motor de cambio social.
-          </p>
-        </div>
+
+    <!-- Visión -->
+    <div class="grid md:grid-cols-2 gap-8 items-center md:flex-row-reverse" data-aos="fade-up" data-aos-delay="200">
+      <div class="bg-white rounded-2xl shadow-lg border-l-8 border-sky-800 p-6 md:p-8">
+        <h3 class="text-2xl font-bold text-sky-800 mb-4">🌟 Visión</h3>
+        <p class="text-gray-700 text-lg leading-relaxed">
+          Ser en el año 2030 una institución educativa reconocida por su excelencia académica,
+          su enfoque inclusivo e innovador, y por formar ciudadanos críticos, autónomos y comprometidos
+          con el desarrollo sostenible y la paz. En Suazapawa, cada estudiante es protagonista de su aprendizaje
+          y motor de cambio social.
+        </p>
+      </div>
+      <div class="flex justify-center">
+        <img src="{% static 'img/vision.png' %}" alt="Visión" class="w-full max-w-md rounded-2xl shadow-lg border-4 border-cyan-100">
       </div>
     </div>
+
   </div>
-</div>
+</section>
 {% endblock %}
 
 {% block extra_css %}
 <style>
-body {
-  background: #fff;
-}
-.card.mision-card {
-  background: linear-gradient(120deg, #fff 80%, #fbeaec 100%);
-  border-left: 6px solid #d7263d;
-  border-radius: 1.1rem;
-}
-.card.vision-card {
-  background: linear-gradient(120deg, #fff 80%, #e0f7fa 100%);
-  border-left: 6px solid #1a3c6c;
-  border-radius: 1.1rem;
-}
-.img-card {
-  border: 2.5px solid #e0f7fa;
-  border-radius: 1.2rem;
-  background: #fff;
-  transition: box-shadow 0.2s;
-}
-.img-card:hover {
-  box-shadow: 0 4px 16px rgba(120,200,220,0.18);
-}
-h2, h3 {
-  letter-spacing: 0.5px;
-}
-@media (max-width: 767px) {
-  .card.mision-card, .card.vision-card {
-    border-left-width: 4px;
-    border-radius: 0.8rem;
-  }
-  .img-card {
-    border-radius: 0.8rem;
+@media (max-width: 768px) {
+  .text-justify {
+    text-align: left !important;
   }
 }
 </style>

@@ -70,6 +70,25 @@ class TextoEscolarView(ListView):
 
         return queryset
 
+
+    #----------
+    #  Bienestar Estudiantil
+    #----------
+
+class transporteView(TemplateView):
+    template_name = 'public/bienestar/Transporte.html'
+
+class restauranteView(TemplateView):
+    template_name = 'public/bienestar/restaurante.html'
+
+class enfermeriaView(TemplateView):
+    template_name = 'public/bienestar/enfermeria.html'
+
+class seguridadView(TemplateView):
+    template_name = 'public/bienestar/seguridad.html'
+
+
+
 # --------------------
 # 🔐 Login & Dashboard
 # --------------------

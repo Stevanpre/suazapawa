@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from web.views import (HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, DashboardView, vista_bloqueado,
                        actualizar_perfil, somos, mision, alumno, docente, ubicacion, pruebas, navbarView,
-                       footerView)
+                       footerView, transporteView, restauranteView, enfermeriaView, seguridadView)
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -32,6 +32,10 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('footer/', footerView.as_view(), name='footer'),
 
+    path('transporte/', transporteView.as_view(), name='transporte'),
+    path('restaurante/', restauranteView.as_view(), name='restaurante'),
+    path('enfermeria/', enfermeriaView.as_view(), name='enfermeria'),
+    path('seguridad/',seguridadView.as_view(), name='seguridad'),
 
     path('calendario/', calendarioView.as_view(), name='calendario'),
     path('noticias/', TextoEscolarView.as_view(), name='textoescolar'),

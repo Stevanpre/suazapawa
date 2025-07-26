@@ -5,8 +5,10 @@
   </button>
 
   <div data-dropdown class="absolute left-0 mt-2 w-48 bg-white rounded-xl shadow-lg hidden z-50">
-    <a href="#" class="block px-4 py-2 text-gray-700 hover:text-sky-600">Salud</a>
-    <a href="#" class="block px-4 py-2 text-gray-700 hover:text-sky-600">Deportes</a>
-    <a href="#" class="block px-4 py-2 text-gray-700 hover:text-sky-600">Cultura</a>
+    <a href="{% url 'transporte' %}" class="block px-4 py-2 text-gray-700 hover:text-sky-600">Transporte</a>
+    <a href="{% url 'restaurante' %}" class="block px-4 py-2 text-gray-700 hover:text-sky-600">Restaurante</a>
+    <a href="{% url 'enfermeria' %}" class="block px-4 py-2 text-gray-700 hover:text-sky-600">Enfermeria</a>
+      <a href="{% url 'seguridad' %}" class="block px-4 py-2 text-gray-700 hover:text-sky-600">Seguridad</a>
+
   </div>
 </div>

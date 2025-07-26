@@ -1,56 +1,168 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Perfil del Alumno | Colegio Suazapawa{% endblock %}
+{% block title %}🌟 Perfil del Alumno | Colegio Suazapawa{% endblock %}
+
+{% block extra_css %}
+<style>
+  .perfil-section {
+    background: linear-gradient(to bottom, #0284c7, #f0f9ff); /* sky-600 to sky-50 */
+    padding: 4rem 1rem;
+  }
+
+  .perfil-title {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: #0c4a6e; /* sky-900 */
+  }
+
+  .perfil-subtitle {
+    color: #dc2626; /* red-600 */
+    font-size: 1.25rem;
+    margin-top: 0.75rem;
+    font-weight: 500;
+  }
+
+  .perfil-description {
+    color: #075985; /* sky-800 */
+    font-size: 1.1rem;
+    max-width: 750px;
+    margin: 0 auto 2.5rem auto;
+    line-height: 1.75;
+    text-align: center;
+  }
+
+  .perfil-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 6px solid;
+  }
+
+  .perfil-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
+  }
+
+  .perfil-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+  }
+
+  .perfil-card-content {
+    padding: 2rem;
+  }
+
+  .perfil-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .perfil-card-text {
+    color: #334155; /* slate-700 */
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  /* Bordes de color */
+  .perfil-pre { border-color: #0284c7; }        /* sky-600 */
+  .perfil-primaria { border-color: #dc2626; }   /* red-600 */
+  .perfil-secundaria { border-color: #0ea5e9; } /* sky-500 */
+  .perfil-media { border-color: #be123c; }      /* rose-700 */
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .perfil-title {
+      font-size: 2rem;
+    }
+
+    .perfil-subtitle {
+      font-size: 1rem;
+    }
+
+    .perfil-description {
+      font-size: 1rem;
+      padding: 0 1rem;
+    }
+
+    .perfil-card-content {
+      padding: 1.25rem;
+    }
+
+    .perfil-card img {
+      height: 200px;
+    }
+  }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="bg-white py-10 px-4 sm:px-8" data-taos-offset="200">
-  <div class="text-center mb-10" data-taos="fade-up">
-    <h2 class="text-3xl font-bold text-primary-900">👩‍🎓 Perfil del Alumno Suazapawa</h2>
-    <p class="text-lg text-red-600 mt-2">Formamos estudiantes con valores, identidad y propósito</p>
+<section class="perfil-section">
+
+  <!-- Título -->
+  <div class="text-center mb-12" data-aos="fade-up">
+    <h2 class="perfil-title">🎒 Perfil del Estudiante Suazapawa</h2>
+    <p class="perfil-subtitle">Formamos líderes con valores, identidad y propósito</p>
   </div>
 
-  <!-- Descripción general -->
-  <div class="max-w-4xl mx-auto text-center mb-10" data-taos="fade-up">
-    <p class="text-blue-900 text-lg leading-relaxed">
-      En Suazapawa creemos que cada estudiante es único y valioso. Nuestro enfoque pedagógico busca desarrollar no solo
-      habilidades académicas, sino también el carácter, la conciencia social, y el sentido de pertenencia a su comunidad.
-    </p>
-  </div>
+  <!-- Descripción -->
+  <p class="perfil-description" data-aos="fade-up" data-aos-delay="100">
+    En el Colegio Suazapawa promovemos la formación integral de nuestros estudiantes, desarrollando en ellos competencias cognitivas, éticas, sociales y emocionales que les permitan destacarse en su entorno con autonomía, respeto y liderazgo.
+  </p>
 
-  <!-- Tarjetas de perfil -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-taos="fade-up">
+  <!-- Grid de Perfiles -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto mt-8">
+
     <!-- Preescolar -->
-    <div class="rounded-xl border-l-[6px] border-blue-900 bg-gradient-to-br from-white via-white to-blue-50 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl p-6">
-      <h3 class="text-blue-900 font-bold text-xl mb-2">🧒 Estudiante de Preescolar</h3>
-      <p class="text-gray-700">
-        Es curioso, activo, con alta imaginación y en proceso de descubrir su entorno. Se promueve el juego como herramienta educativa, el desarrollo motor, y la socialización inicial. Se enfoca en fortalecer su autoestima, hábitos y autonomía básica.
-      </p>
+    <div class="perfil-card perfil-pre" data-aos="fade-up" data-aos-delay="150">
+      <img src="{% static 'img/preescolar.webp' %}" alt="Estudiante Preescolar">
+      <div class="perfil-card-content">
+        <h3 class="perfil-card-title text-sky-700">🧸 Etapa Preescolar</h3>
+        <p class="perfil-card-text">
+          Espontáneo, curioso y explorador. Fomentamos el juego, la expresión artística, la motricidad y la convivencia. Se construyen las bases del respeto y la autonomía con afecto.
+        </p>
+      </div>
     </div>
 
     <!-- Primaria -->
-    <div class="rounded-xl border-l-[6px] border-red-600 bg-gradient-to-br from-white via-white to-red-50 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl p-6">
-      <h3 class="text-red-600 font-bold text-xl mb-2">📚 Estudiante de Primaria</h3>
-      <p class="text-gray-700">
-        Es un alumno que empieza a desarrollar habilidades cognitivas, comunicativas y de pensamiento lógico. Se destaca por su entusiasmo por aprender, la capacidad de trabajo en grupo, y la consolidación de valores como el respeto, la honestidad y la responsabilidad.
-      </p>
+    <div class="perfil-card perfil-primaria" data-aos="fade-up" data-aos-delay="200">
+      <img src="{% static 'img/primaria.webp' %}" alt="Estudiante Primaria">
+      <div class="perfil-card-content">
+        <h3 class="perfil-card-title text-red-600">📘 Etapa Primaria</h3>
+        <p class="perfil-card-text">
+          Desarrolla habilidades cognitivas, comunicativas y éticas. Se fortalece el pensamiento lógico, el trabajo en equipo y los valores institucionales.
+        </p>
+      </div>
     </div>
 
     <!-- Secundaria -->
-    <div class="rounded-xl border-l-[6px] border-blue-900 bg-gradient-to-br from-white via-white to-blue-50 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl p-6">
-      <h3 class="text-blue-900 font-bold text-xl mb-2">🧠 Estudiante de Secundaria</h3>
-      <p class="text-gray-700">
-        Demuestra mayor autonomía y pensamiento crítico. Participa activamente en proyectos colaborativos y de investigación. Se le fomenta el liderazgo, la empatía y el compromiso con su entorno. Empieza a proyectarse vocacionalmente.
-      </p>
+    <div class="perfil-card perfil-secundaria" data-aos="fade-up" data-aos-delay="250">
+      <img src="{% static 'img/fondo1.jpg' %}" alt="Estudiante Secundaria">
+      <div class="perfil-card-content">
+        <h3 class="perfil-card-title text-sky-800">🧠 Etapa Secundaria</h3>
+        <p class="perfil-card-text">
+          Promovemos pensamiento crítico, liderazgo y responsabilidad. El estudiante participa activamente en proyectos y afianza su identidad personal.
+        </p>
+      </div>
     </div>
 
-    <!-- Media académica -->
-    <div class="rounded-xl border-l-[6px] border-red-600 bg-gradient-to-br from-white via-white to-red-50 shadow-md transition-transform duration-200 hover:scale-[1.03] hover:shadow-xl p-6">
-      <h3 class="text-red-600 font-bold text-xl mb-2">🎓 Estudiante de Media (10° y 11°)</h3>
-      <p class="text-gray-700">
-        Se caracteriza por su pensamiento reflexivo, capacidad de análisis y toma de decisiones. Está en proceso de definir su proyecto de vida, siendo autónomo, solidario y con proyección hacia la educación superior o el emprendimiento. Se le brindan herramientas para ser ciudadano activo y transformador.
-      </p>
+    <!-- Media Académica -->
+    <div class="perfil-card perfil-media" data-aos="fade-up" data-aos-delay="300">
+      <img src="{% static 'img/galeria/gale1.webp' %}" alt="Media Académica">
+      <div class="perfil-card-content">
+        <h3 class="perfil-card-title text-rose-700">🎓 Media Académica</h3>
+        <p class="perfil-card-text">
+          Se consolida el proyecto de vida. Se brindan herramientas para tomar decisiones vocacionales, desarrollar liderazgo y prepararse para la universidad o el emprendimiento.
+        </p>
+      </div>
     </div>
+
   </div>
-</div>
+</section>
 {% endblock %}

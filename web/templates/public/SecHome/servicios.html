@@ -14,72 +14,90 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
 
       <!-- Card -->
-      <div class="group bg-white/70 backdrop-blur-xl border border-sky-100 rounded-3xl p-8 shadow-lg transition transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
-           data-aos="fade-up" data-aos-delay="100">
-        <div class="flex items-center gap-4 mb-4">
-          <div class="p-4 bg-blue-100 text-blue-600 rounded-full shadow-md group-hover:animate-bounce">
-            <i class="fas fa-bus fa-lg"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800">Transporte Escolar</h3>
-        </div>
-        <p class="text-slate-600 mb-4">
-          Rutas seguras y monitoreadas, adaptadas a los diferentes sectores de la ciudad.
-        </p>
-        <span class="inline-block text-sm text-blue-600 font-medium hover:underline cursor-pointer">
-          Ver más detalles →
-        </span>
+    <a href="{% url 'transporte' %}" class="block no-underline">
+  <div class="group bg-white/70 backdrop-blur-xl border border-sky-100 rounded-3xl p-8 shadow-lg
+              transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
+       data-aos="fade-up" data-aos-delay="100">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="p-4 bg-blue-100 text-blue-600 rounded-full shadow-md group-hover:animate-bounce">
+        <i class="fas fa-bus fa-lg"></i>
       </div>
+      <h3 class="text-xl font-semibold text-gray-800">Transporte Escolar</h3>
+    </div>
+    <p class="text-slate-600 mb-4">
+      Rutas seguras y monitoreadas, adaptadas a los diferentes sectores de la ciudad.
+    </p>
+    <span class="inline-block text-sm text-blue-600 font-medium hover:underline">
+      Ver más detalles →
+    </span>
+  </div>
+</a>
+
 
       <!-- Card -->
-      <div class="group bg-white/70 backdrop-blur-xl border border-green-100 rounded-3xl p-8 shadow-lg transition transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
-           data-aos="fade-up" data-aos-delay="200">
-        <div class="flex items-center gap-4 mb-4">
-          <div class="p-4 bg-green-100 text-green-600 rounded-full shadow-md group-hover:animate-pulse">
-            <i class="fas fa-heartbeat fa-lg"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800">Enfermería Escolar</h3>
-        </div>
-        <p class="text-slate-600 mb-4">
-          Atención médica primaria, primeros auxilios y seguimiento continuo a la salud de los estudiantes.
-        </p>
-        <span class="inline-block text-sm text-green-600 font-medium hover:underline cursor-pointer">
-          Ver más detalles →
-        </span>
+
+      <a href="{% url 'enfermeria' %}" class="block no-underline">
+  <div class="group bg-white/70 backdrop-blur-xl border border-green-100 rounded-3xl p-8 shadow-lg
+              transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
+       data-aos="fade-up" data-aos-delay="200">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="p-4 bg-green-100 text-green-600 rounded-full shadow-md group-hover:animate-pulse">
+        <i class="fas fa-heartbeat fa-lg"></i>
       </div>
+      <h3 class="text-xl font-semibold text-gray-800">Enfermería Escolar</h3>
+    </div>
+    <p class="text-slate-600 mb-4">
+      Atención médica primaria, primeros auxilios y seguimiento continuo a la salud de los estudiantes.
+    </p>
+    <span class="inline-block text-sm text-green-600 font-medium hover:underline">
+      Ver más detalles →
+    </span>
+  </div>
+</a>
+
 
       <!-- Card -->
-      <div class="group bg-white/70 backdrop-blur-xl border border-orange-100 rounded-3xl p-8 shadow-lg transition transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
-           data-aos="fade-up" data-aos-delay="300">
-        <div class="flex items-center gap-4 mb-4">
-          <div class="p-4 bg-orange-100 text-orange-600 rounded-full shadow-md group-hover:animate-pulse">
-            <i class="fas fa-utensils fa-lg"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800">Restaurante Escolar</h3>
-        </div>
-        <p class="text-slate-600 mb-4">
-          Alimentación nutritiva y balanceada, con menús diarios planificados por profesionales.
-        </p>
-        <span class="inline-block text-sm text-orange-600 font-medium hover:underline cursor-pointer">
-          Ver más detalles →
-        </span>
+     <a href="{% url 'restaurante' %}" class="block no-underline">
+  <div class="group bg-white/70 backdrop-blur-xl border border-orange-100
+              rounded-3xl p-8 shadow-lg transition-transform duration-300
+              hover:-translate-y-2 hover:scale-[1.02]"
+       data-aos="fade-up" data-aos-delay="300">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="p-4 bg-orange-100 text-orange-600 rounded-full shadow-md
+                  group-hover:animate-pulse">
+        <i class="fas fa-utensils fa-lg"></i>
       </div>
+      <h3 class="text-xl font-semibold text-gray-800">Restaurante Escolar</h3>
+    </div>
+    <p class="text-slate-600 mb-4">
+      Alimentación nutritiva y balanceada, con menús diarios planificados por profesionales.
+    </p>
+    <span class="inline-block text-sm text-orange-600 font-medium hover:underline">
+      Ver más detalles →
+    </span>
+  </div>
+</a>
+
 
       <!-- Card -->
-      <div class="group bg-white/70 backdrop-blur-xl border border-red-100 rounded-3xl p-8 shadow-lg transition transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
-           data-aos="fade-up" data-aos-delay="400">
-        <div class="flex items-center gap-4 mb-4">
-          <div class="p-4 bg-red-100 text-red-600 rounded-full shadow-md group-hover:animate-bounce">
-            <i class="fas fa-shield-alt fa-lg"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800">Seguridad Integral</h3>
-        </div>
-        <p class="text-slate-600 mb-4">
-          Vigilancia 24/7, control de acceso, y protocolos de emergencia activos en todo momento.
-        </p>
-        <span class="inline-block text-sm text-red-600 font-medium hover:underline cursor-pointer">
-          Ver más detalles →
-        </span>
+      <a href="{% url 'seguridad'%}" class="block no-underline">
+  <div class="group bg-white/70 backdrop-blur-xl border border-red-100 rounded-3xl p-8 shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
+       data-aos="fade-up" data-aos-delay="400">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="p-4 bg-red-100 text-red-600 rounded-full shadow-md group-hover:animate-bounce">
+        <i class="fas fa-shield-alt fa-lg"></i>
       </div>
+      <h3 class="text-xl font-semibold text-gray-800">Seguridad Integral</h3>
+    </div>
+    <p class="text-slate-600 mb-4">
+      Vigilancia 24/7, control de acceso, y protocolos de emergencia activos en todo momento.
+    </p>
+    <span class="inline-block text-sm text-red-600 font-medium hover:underline">
+      Ver más detalles →
+    </span>
+  </div>
+</a>
+
 
     </div>
   </div>
