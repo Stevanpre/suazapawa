@@ -1,5 +1,5 @@
 from django import forms
-from .models import Evento, Noticia
+from .models import Evento, Noticia, Contacto
 import datetime
 import bleach
 
@@ -123,3 +123,50 @@ class NoticiaForm(forms.ModelForm):
             attributes={'a': ['href', 'title']},
             strip=True
         ).strip()
+
+class ContactoForm(forms.ModelForm):
+    class Meta:
+        model = Contacto
+        fields = ['nombre', 'apellido', 'email', 'telefono', 'mensaje']
+        widgets = {
+            'nombre':   forms.TextInput(attrs={
+                            'class': input_css,
+                            'placeholder': 'Tu nombre',
+                            'required': True,
+                            'maxlength': 50
+                        }),
+            'apellido': forms.TextInput(attrs={
+                            'class': input_css,
+                            'placeholder': 'Tu apellido',
+                            'required': True,
+                            'maxlength': 50
+                        }),
+            'email':    forms.EmailInput(attrs={
+                            'class': input_css,
+                            'placeholder': 'tu@correo.com',
+                            'required': True
+                        }),
+            'telefono': forms.TextInput(attrs={
+                            'class': input_css,
+                            'placeholder': '+57 300 0000000',
+                            'required': True,
+                            'pattern': r'^\+?[0-9 ]{7,20}$',
+                            'title': 'Sólo números y espacios, opcional +'
+                        }),
+            'mensaje':  forms.Textarea(attrs={
+                            'class': textarea_css,
+                            'placeholder': 'Tu mensaje...',
+                            'required': True,
+                            'rows': 4
+                        }),
+        }
+
+    # Limpiamos para evitar XSS/inyecciones
+    def clean_nombre(self):
+        return bleach.clean(self.cleaned_data['nombre'], tags=[], strip=True).strip()
+
+    def clean_apellido(self):
+        return bleach.clean(self.cleaned_data['apellido'], tags=[], strip=True).strip()
+
+    def clean_mensaje(self):
+        return bleach.clean(self.cleaned_data['mensaje'], tags=[], strip=True).strip()

@@ -106,6 +106,14 @@ AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
 AXES_IPWARE_PROXY_COUNT = 1
 AXES_IPWARE_META_PRECEDENCE_ORDER = ['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR']
 
+# Backend que graba cada email en un fichero
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'    # Carpeta donde se guardan los archivos
+
+# Para que desde send_mail() use DEFAULT_FROM_EMAIL automáticamente
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+
+
 # Internacionalización
 LANGUAGE_CODE = 'es-co'
 TIME_ZONE = 'America/Bogota'

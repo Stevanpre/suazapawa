@@ -10,10 +10,10 @@
   <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
 
   <!-- Flowbite -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/3.1.2/flowbite.min.css" rel="stylesheet"> <!-- v3.1.2 :contentReference[oaicite:1]{index=1} -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/3.1.2/flowbite.min.css" rel="stylesheet">
 
   <!-- AOS (Animate On Scroll) versión estable más reciente -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"> <!-- v2.3.4 :contentReference[oaicite:2]{index=2} -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -22,9 +22,22 @@
 </head>
 <body class="flex flex-col min-h-screen bg-sky-100 text-sky-900" data-theme="light">
   {% include 'public/includes/navbar.html' %}
+
+  {# Django Messages #}
+  {% if messages %}
+    <div class="fixed top-4 right-4 space-y-2 z-50">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} shadow-lg">
+          <span>{{ message }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
   <main class="flex-1">
     {% block content %}{% endblock %}
   </main>
+
   {% include 'public/includes/footer.html' %}
 
   <!-- Scripts al final del body -->
@@ -43,8 +56,7 @@
   </script>
 
   <!-- Vanilla-Tilt -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script> <!-- v1.8.1 :contentReference[oaicite:4]{index=4} -->
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 
   {% block extra_js %}{% endblock %}
 </body>

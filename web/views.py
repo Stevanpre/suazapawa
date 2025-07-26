@@ -7,7 +7,11 @@ from django.contrib.auth import update_session_auth_hash
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Evento, Noticia
-from .forms import EventoForm, NoticiaForm
+from .forms import EventoForm, NoticiaForm, ContactoForm
+from django.core.mail import send_mail
+from django.views.generic  import FormView
+
+
 from django.db.models import Q
 
 # --------------------
@@ -23,18 +27,34 @@ class navbarView(TemplateView):
 class footerView(TemplateView):
     template_name = "public/includes/footer.html"
 
-class HomeView(TemplateView):
+class HomeView(FormView):
     template_name = 'public/home.html'
+    form_class    = ContactoForm
+    success_url   = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Eventos ya existía
-        context['eventos'] = Evento.objects.order_by('-fecha')[:3]
-        # Añadimos las 3 noticias más recientes
-        context['noticias'] = Noticia.objects.order_by('-fecha')[:6]
-        return context
+        ctx = super().get_context_data(**kwargs)
+        ctx['eventos']  = Evento.objects.order_by('-fecha')[:3]
+        ctx['noticias'] = Noticia.objects.order_by('-fecha')[:6]
+        return ctx
 
-
+    def form_valid(self, form):
+        contacto = form.save()
+        send_mail(
+            subject=f"Nuevo mensaje de {contacto.nombre} {contacto.apellido}",
+            message=(
+                f"Nombre:  {contacto.nombre} {contacto.apellido}\n"
+                f"Email:   {contacto.email}\n"
+                f"Teléfono:{contacto.telefono}\n\n"
+                f"Mensaje:\n{contacto.mensaje}"
+            ),
+            # usa DEFAULT_FROM_EMAIL
+            from_email=None,
+            recipient_list=['stevanpre1@gmail.com'],
+            fail_silently=False,
+        )
+        messages.success(self.request, "¡Gracias por escribirnos! Te responderemos pronto.")
+        return super().form_valid(form)
 # --------------------
 # 📅 Calendario y Noticias
 # --------------------
@@ -262,3 +282,4 @@ def eliminar_noticia(request, noticia_id):
     noticia.delete()
     messages.success(request, "🗑 Noticia eliminada correctamente.")
     return redirect('dashboard')
+

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 # Create your models here.
 
 class Evento(models.Model):
@@ -33,3 +33,14 @@ class Noticia(models.Model):
 
     def __str__(self):
         return self.titulo
+
+class Contacto(models.Model):
+    nombre      = models.CharField(max_length=50)
+    apellido    = models.CharField(max_length=50)
+    email       = models.EmailField()
+    telefono    = models.CharField(max_length=20)
+    mensaje     = models.TextField()
+    creado_en   = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido} — {self.email}"
