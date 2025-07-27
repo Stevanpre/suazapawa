@@ -5,80 +5,158 @@
 
 {% block extra_css %}
 <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
-<link href="https://unpkg.com/taos@1.0.5/dist/taos.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<style>
+  .sidebar {
+    background: linear-gradient(180deg, #0583cc 0%, #bdebfa 100%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    width: 12rem;
+    padding: 1.5rem;
+    flex-shrink: 0;
+  }
+  .logo {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    margin-bottom: 1.5rem;
+  }
+  .nav {
+    text-align: center;
+  }
+  .nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #000;
+    border-radius: 0.5rem;
+    transition: background 0.3s ease;
+  }
+  .nav-link:hover {
+    background: rgba(255,255,255,0.3);
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 40;
+    display: none;
+  }
+  .overlay.visible {
+    display: block;
+    opacity: 1;
+  }
+  .menu-btn {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+  }
+  .lock-scroll {
+    overflow: hidden;
+  }
+  @media (max-width: 767px) {
+    .sidebar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      height: 100%;
+      z-index: 50;
+    }
+    .sidebar.open {
+      transform: translateX(0);
+    }
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="flex h-screen overflow-hidden">
+<div id="overlay" class="overlay"></div>
 
-  <!-- SIDEBAR -->
-<aside class="w-64 bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-500 shadow-lg py-8 px-4 z-10 text-black" data-aos="fade-right">
-    <div class="flex flex-col items-center">
-      <img src="{% static 'img/logo-suazapawa.jpg' %}" alt="Suazapawa" class="w-20 h-20 mb-4" />
-      <h2 class="text-xl font-bold text-gray-800">Suazapawa</h2>
+<div class="flex flex-col min-h-screen">
+  <div class="flex flex-col md:flex-row flex-1">
+    <aside id="sidebar" class="sidebar">
+      <img src="{% static 'img/logo-suazapawa.jpg' %}" alt="Suazapawa" class="logo">
+      <nav class="nav">
+        <a href="#" data-show="bienvenida" class="nav-link">Bienvenida</a>
+        <a href="#" data-show="perfil" class="nav-link">Perfil</a>
+        <a href="#" data-show="calendario" class="nav-link">Calendario</a>
+        <a href="#" data-show="noticias" class="nav-link">Noticias</a>
+      </nav>
+    </aside>
+
+    <div class="flex-1">
+      <!-- Botón menú móvil -->
+      <div class="md:hidden fixed top-24 left-2 z-50">
+        <button id="menu-toggle" class="menu-btn" aria-label="Abrir menú" tabindex="0">
+          <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <main class="p-4 md:p-6 overflow-y-auto" data-aos="fade-up">
+        <section id="module-bienvenida" class="module-panel">
+          {% include 'admin/modulos/bienvenida.html' %}
+        </section>
+        <section id="module-perfil" class="module-panel hidden">
+          {% include 'admin/modulos/perfil.html' %}
+        </section>
+        <section id="module-calendario" class="module-panel hidden">
+          {% include 'admin/modulos/calendario.html' %}
+        </section>
+        <section id="module-noticias" class="module-panel hidden">
+          {% include 'admin/modulos/noticias.html' %}
+        </section>
+      </main>
     </div>
-
-    <nav class="mt-10 flex flex-col space-y-4 sidebar-admin">
-      <button onclick="showModule('bienvenida')" class="w-full text-left px-4 py-3 rounded-lg ">
-        <i class="fas fa-hand-sparkles mr-2"></i> Bienvenida
-      </button>
-      <button onclick="showModule('perfil')" class="w-full text-left px-4 py-3 rounded-lg ">
-        <i class="fas fa-user-cog mr-2"></i> Perfil
-      </button>
-      <button onclick="showModule('calendario')" class="w-full text-left px-4 py-3 rounded-lg ">
-        <i class="fas fa-calendar-alt mr-2"></i> Editar Calendario
-      </button>
-      <button onclick="showModule('noticias')" class="w-full text-left px-4 py-3 rounded-lg ">
-        <i class="fas fa-newspaper mr-2"></i> Editar Noticias
-      </button>
-    </nav>
-  </aside>
-
-  <!-- CONTENEDOR PRINCIPAL -->
-  <main class="flex-1 overflow-y-auto">
-
-    <!-- Módulo: Bienvenida -->
-    <div id="module-bienvenida" class="module-panel" data-aos="fade-up">
-      {% include 'admin/modulos/bienvenida.html' %}
-    </div>
-
-    <!-- Módulo: Perfil -->
-    <div id="module-perfil" class="module-panel hidden" data-aos="fade-up">
-      {% include 'admin/modulos/perfil.html' %}
-    </div>
-
-    <!-- Módulo: Calendario -->
-    <div id="module-calendario" class="module-panel hidden" data-aos="fade-up">
-      {% include 'admin/modulos/calendario.html' %}
-    </div>
-
-    <!-- Módulo: Noticias -->
-    <div id="module-noticias" class="module-panel hidden" data-aos="fade-up">
-      {% include 'admin/modulos/noticias.html' %}
-    </div>
-
-  </main>
+  </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-  <script>
-    AOS.init({ once: true, duration: 600 });
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+<script>
+  AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
 
-    function showModule(mod) {
-      document.querySelectorAll('.module-panel').forEach(el => el.classList.add('hidden'));
-      const target = document.getElementById(`module-${mod}`);
-      if (target) target.classList.remove('hidden');
-    }
+  document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const toggle = document.getElementById('menu-toggle');
+    const panels = document.querySelectorAll('.module-panel');
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const params = new URLSearchParams(window.location.search);
-      const mod = params.get('show') || 'bienvenida';
-      showModule(mod);
+    toggle?.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('visible');
+      document.body.classList.toggle('lock-scroll');
     });
-  </script>
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('visible');
+      document.body.classList.remove('lock-scroll');
+    });
+
+    document.querySelectorAll('a[data-show]').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const key = link.getAttribute('data-show');
+        panels.forEach(p => p.classList.add('hidden'));
+        document.getElementById('module-' + key).classList.remove('hidden');
+
+        if (window.innerWidth < 768) {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('visible');
+          document.body.classList.remove('lock-scroll');
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}
