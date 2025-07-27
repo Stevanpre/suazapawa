@@ -119,6 +119,15 @@ class enfermeriaView(TemplateView):
 class seguridadView(TemplateView):
     template_name = 'public/bienestar/seguridad.html'
 
+#------------
+# contacto
+#------------
+class admisionesView(TemplateView):
+    template_name = 'public/contacto/admision.html'
+class trabajaView(TemplateView):
+    template_name = 'public/contacto/trabaja.html'
+class contactoView(TemplateView):
+    template_name = 'public/contacto/nosotros.html'
 
 
 # --------------------

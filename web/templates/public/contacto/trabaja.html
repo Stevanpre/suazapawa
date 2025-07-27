@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="bg-gradient-to-tr from-emerald-50 to-white py-16 px-4">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-4xl font-extrabold text-center text-emerald-700 mb-12">💼 Trabaja con Nosotros</h2>
+
+    <div class="grid md:grid-cols-2 gap-8 items-center mb-10">
+      <img src="{% static 'img/maestro1.webp' %}" class="rounded-2xl shadow-xl" alt="Ambiente laboral" />
+      <div class="space-y-4 text-gray-700 text-lg">
+        <p>
+          Únete a nuestro equipo educativo de excelencia. Ofrecemos oportunidades de crecimiento, formación constante y un ambiente colaborativo.
+        </p>
+        <ul class="list-disc ml-6 space-y-2">
+          <li>Salarios competitivos y beneficios sociales</li>
+          <li>Capacitación continua</li>
+          <li>Ambiente escolar cálido y profesional</li>
+          <li>Acceso a recursos innovadores</li>
+        </ul>
+      </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="bg-white rounded-3xl p-8 shadow-xl space-y-6">
+      {% csrf_token %}
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label class="block mb-1 text-sm font-medium text-emerald-700">Nombre completo *</label>
+          <input type="text" name="nombre" required class="input input-bordered w-full" />
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium text-emerald-700">Correo electrónico *</label>
+          <input type="email" name="email" required class="input input-bordered w-full" />
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium text-emerald-700">Área de interés *</label>
+          <select name="area" required class="select select-bordered w-full">
+            <option value="">Seleccione una opción</option>
+            <option>Docencia</option>
+            <option>Administración</option>
+            <option>Psicología / Orientación</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div>
+          <label class="block mb-1 text-sm font-medium text-emerald-700">Teléfono de contacto *</label>
+          <input type="tel" name="telefono" required class="input input-bordered w-full" />
+        </div>
+        <div class="md:col-span-2">
+          <label class="block mb-1 text-sm font-medium text-emerald-700">Experiencia y motivación *</label>
+          <textarea name="motivacion" rows="5" required class="textarea textarea-bordered w-full"></textarea>
+        </div>
+        <div class="md:col-span-2">
+          <label class="block mb-1 text-sm font-medium text-emerald-700">Adjuntar hoja de vida (PDF) *</label>
+          <input type="file" name="cv" accept=".pdf" required class="file-input file-input-bordered w-full" />
+        </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-success px-10 py-3 text-white font-semibold hover:scale-105 transition">
+          Enviar postulación
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
