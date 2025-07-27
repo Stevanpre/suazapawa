@@ -58,6 +58,19 @@
     });
   </script>
 
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+      setTimeout(() => {
+        alert.classList.add('opacity-0', 'transition-opacity', 'duration-1000');
+        setTimeout(() => alert.remove(), 1000); // eliminarlo del DOM después
+      }, 3000); // ⏱️ 3 segundos antes de empezar a desaparecer
+    });
+  });
+</script>
+
+
   <!-- Vanilla-Tilt -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 

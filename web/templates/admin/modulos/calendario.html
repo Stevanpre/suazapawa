@@ -11,9 +11,17 @@
 <section class="py-6 px-4 lg:px-8">
   <div class="max-w-4xl mx-auto" data-aos="fade-up">
 
-    <h2 class="text-3xl font-bold text-sky-700 mb-6">
-      🗓️ Gestión de Eventos
-    </h2>
+   <div class="flex justify-between items-center mb-6">
+  <h2 class="text-3xl font-bold text-sky-700">
+    🗓️ Gestión de Eventos
+  </h2>
+  <a href="{% url 'dashboard' %}"
+     aria-label="Volver al dashboard"
+     class="btn btn-sm btn-ghost btn-outline flex items-center gap-2 text-emerald-600 hover:bg-emerald-100 focus:ring-2 focus:ring-emerald-300 transition">
+    <span class="text-lg">⬅️</span>
+    <span class="text-sm font-medium">Volver</span>
+  </a>
+</div>
 
     <!-- 📄 Formulario -->
 <form method="POST" enctype="multipart/form-data"
@@ -94,19 +102,23 @@
 
   <!-- Botones -->
   <div class="form-control md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
-    <button type="submit"
-            class="btn btn-success text-white px-6 font-semibold hover:scale-105 duration-150">
-      {% if modo_edicion %}💾 Guardar cambios{% else %}📥 Crear Evento{% endif %}
-    </button>
+  <button type="submit"
+          aria-label="{% if modo_edicion %}Guardar cambios{% else %}Crear evento{% endif %}"
+          class="btn btn-success w-full sm:w-auto text-white px-6 font-semibold hover:scale-105 duration-150">
+    {% if modo_edicion %}💾 Guardar cambios{% else %}📥 Crear Evento{% endif %}
+  </button>
 
-    {% if modo_edicion %}
-      <a href="{% url 'dashboard' %}?show=calendario"
-         class="btn btn-outline btn-error border border-red-300 hover:bg-red-50 text-red-600 font-medium px-6">
-        ❌ Cancelar edición
-      </a>
-    {% endif %}
+  {% if modo_edicion %}
+   <a href="#"
+   id="cancelar-edicion"
+   data-url="{% url 'dashboard' %}?show=calendario"
+   class="btn btn-outline w-full sm:w-auto btn-error border border-red-300 hover:bg-red-50 text-red-600 font-medium px-6">
+  ❌ Cancelar edición
+</a>
 
-  </div>
+  {% endif %}
+</div>
+
 </form>
 
     <!-- 📋 Lista de eventos -->
@@ -135,9 +147,9 @@
                 </a>
 
                 <form method="POST"
-                      action="{% url 'eliminar_evento' evento.id %}"
-                      class="flex-1 md:flex-none"
-                      onsubmit="return confirm('¿Eliminar este evento? Esta acción no se puede deshacer.')">
+      action="{% url 'eliminar_evento' evento.id %}"
+      class="form-eliminar-evento flex-1 md:flex-none">
+
                   {% csrf_token %}
                   <button type="submit"
                           class="btn btn-sm btn-outline btn-error w-full hover:bg-error/10">
@@ -160,7 +172,6 @@
 {% endblock %}
 
 {% block extra_js %}
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
     AOS.init({ once: true, duration: 600 });
 
@@ -177,4 +188,64 @@
       });
     });
   </script>
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Imagen preview
+    document.getElementById('id_imagen')?.addEventListener('change', e => {
+      const file = e.target.files[0];
+      const preview = document.getElementById('preview');
+      if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.classList.remove('hidden');
+      } else {
+        preview.classList.add('hidden');
+      }
+    });
+
+    // Confirmación al cancelar edición
+    const cancelarBtn = document.getElementById('cancelar-edicion');
+    if (cancelarBtn) {
+      cancelarBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        Swal.fire({
+          title: '¿Cancelar edición?',
+          text: "Se perderán los cambios no guardados.",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Sí, cancelar',
+          cancelButtonText: 'No'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = cancelarBtn.dataset.url;
+          }
+        });
+      });
+    }
+  });
+</script>
+    <script>
+  document.querySelectorAll('.form-eliminar-evento').forEach(form => {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      Swal.fire({
+        title: '¿Eliminar este evento?',
+        text: "Esta acción no se puede deshacer.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit();
+        }
+      });
+    });
+  });
+</script>
+
+
 {% endblock %}
