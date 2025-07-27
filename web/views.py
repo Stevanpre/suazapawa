@@ -122,7 +122,7 @@ class seguridadView(TemplateView):
 
 
 # --------------------
-# 🔐 Login & Dashboard
+# 🔐 Login
 # --------------------
 
 class UsuarioLoginView(LoginView):

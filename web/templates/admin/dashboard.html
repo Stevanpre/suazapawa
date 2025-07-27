@@ -130,6 +130,16 @@
     const overlay = document.getElementById('overlay');
     const toggle = document.getElementById('menu-toggle');
     const panels = document.querySelectorAll('.module-panel');
+    const params = new URLSearchParams(window.location.search);
+    const target = params.get("show");
+    if (target) {
+      panels.forEach(p => p.classList.add("hidden"));
+      const activePanel = document.getElementById("module-" + target);
+      if (activePanel) {
+      activePanel.classList.remove("hidden");
+  }
+}
+
 
     toggle?.addEventListener('click', () => {
       sidebar.classList.toggle('open');
