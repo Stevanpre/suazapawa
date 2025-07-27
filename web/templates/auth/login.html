@@ -3,10 +3,6 @@
 
 {% block title %}Iniciar Sesión{% endblock %}
 
-{% block extra_css %}
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-{% endblock %}
-
 {% block content %}
 <section class="relative w-full min-h-screen bg-cover bg-center" style="background-image: url('{% static 'img/fondo3Ex.JPG' %}');">
   <!-- Overlay -->
@@ -19,10 +15,9 @@
       <h1 class="text-5xl font-bold mb-4 animate-fade-in-slow">Bienvenido<br>nuevamente</h1>
       <p class="text-lg mb-6 leading-relaxed">Por favor inicia sesión con tus credenciales administrativas para continuar.</p>
       <div class="flex space-x-4">
-        <a href="#"><i class="fab fa-facebook-f text-white hover:text-sky-300 transition"></i></a>
-        <a href="#"><i class="fab fa-twitter text-white hover:text-sky-300 transition"></i></a>
-        <a href="#"><i class="fab fa-instagram text-white hover:text-sky-300 transition"></i></a>
-        <a href="#"><i class="fab fa-youtube text-white hover:text-sky-300 transition"></i></a>
+        <a href="https://www.facebook.com/suazapawafanpage/?locale=es_LA"><i class="fab fa-facebook-f text-white hover:text-sky-300 transition"></i></a>
+        <a href="https://www.instagram.com/suazapawa/?hl=es&source=omni_redirect"><i class="fab fa-instagram text-white hover:text-sky-300 transition"></i></a>
+        <a href="https://www.youtube.com/@institucioneducativasuazap1230"><i class="fab fa-youtube text-white hover:text-sky-300 transition"></i></a>
       </div>
     </div>
 
@@ -56,7 +51,4 @@
 </section>
 {% endblock %}
 
-{% block extra_js %}
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init();</script>
-{% endblock %}
+

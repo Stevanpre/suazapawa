@@ -1,58 +1,79 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}📘 Proceso de Admisión | Suazapawa{% endblock %}
+
+
 {% block content %}
-<section class="bg-gradient-to-br from-blue-50 to-white py-16 px-4">
+<section class="bg-gradient-to-br from-blue-50 to-white py-16 px-6">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-4xl font-extrabold text-center text-sky-700 mb-12">
+
+    <!-- Título -->
+    <h2 class="text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 mb-4"
+        data-aos="fade-up" data-aos-duration="800">
       📘 Proceso de Admisión
     </h2>
 
-    <div class="grid md:grid-cols-3 gap-6 mb-12">
-      <img src="{% static 'img/formulario.jpg' %}" class="rounded-2xl shadow-xl" alt="Paso 1" />
-    </div>
-
-    <p class="text-lg text-center text-gray-700 mb-8 max-w-3xl mx-auto">
+    <!-- Descripción -->
+    <p class="text-lg text-center text-gray-700 max-w-3xl mx-auto mb-12"
+       data-aos="fade-up" data-aos-delay="150" data-aos-duration="800">
       Nuestro proceso de admisión está diseñado para identificar estudiantes con alto potencial académico, compromiso social y sólidos valores. Completa el formulario para iniciar tu camino con nosotros.
     </p>
 
-    <form method="POST" class="bg-white p-8 rounded-3xl shadow-xl space-y-6" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="grid md:grid-cols-2 gap-6">
-        <div>
-          <label for="nombre" class="block mb-1 text-sm font-semibold text-sky-700">👤 Nombre completo *</label>
-          <input type="text" id="nombre" name="nombre" required class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" placeholder="Ej: María Gómez" />
-        </div>
-        <div>
-          <label for="email" class="block mb-1 text-sm font-semibold text-sky-700">📧 Correo electrónico *</label>
-          <input type="email" id="email" name="email" required class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" placeholder="Ej: maria@email.com" />
-        </div>
-        <div>
-          <label for="telefono" class="block mb-1 text-sm font-semibold text-sky-700">📞 Teléfono *</label>
-          <input type="tel" id="telefono" name="telefono" required class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" placeholder="Ej: 3001234567" />
-        </div>
-        <div>
-          <label for="grado" class="block mb-1 text-sm font-semibold text-sky-700">🎓 Grado al que aspira *</label>
-          <select id="grado" name="grado" required class="select select-bordered w-full focus:ring-2 focus:ring-sky-400">
-            <option value="">Seleccione un grado</option>
-            <option>Preescolar</option>
-            <option>Primaria</option>
-            <option>Secundaria</option>
-            <option>Media</option>
-          </select>
-        </div>
-        <div class="md:col-span-2">
-          <label for="motivo" class="block mb-1 text-sm font-semibold text-sky-700">✍️ Motivo de la solicitud *</label>
-          <textarea id="motivo" name="motivo" rows="5" required class="textarea textarea-bordered w-full focus:ring-2 focus:ring-sky-400" placeholder="Cuéntanos por qué deseas ingresar a nuestra institución..."></textarea>
+    <!-- Contenedor general -->
+    <div class="grid md:grid-cols-2 gap-10 items-start">
+
+      <!-- Imagen -->
+      <div class="space-y-6" data-aos="zoom-in-right" data-aos-delay="200" data-aos-duration="1000">
+        <img src="{% static 'img/formulario.jpg' %}" alt="Formulario de admisión" class="rounded-3xl shadow-xl border border-blue-100">
+        <div class="bg-white p-6 rounded-xl shadow border border-blue-100 space-y-3">
+          <!-- Puedes agregar detalles extra aquí si deseas -->
         </div>
       </div>
 
-      <div class="text-center pt-4">
-        <button type="submit" class="btn bg-sky-600 text-white px-8 py-3 rounded-xl hover:bg-sky-700 transition duration-200 hover:scale-105">
-          📩 Enviar solicitud
-        </button>
-      </div>
-    </form>
+      <!-- Formulario -->
+      <form method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-3xl shadow-xl border border-blue-100 space-y-6"
+            data-aos="fade-left" data-aos-delay="300" data-aos-duration="1000">
+        {% csrf_token %}
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label for="nombre" class="block mb-1 text-sm font-semibold text-sky-700">👤 Nombre completo *</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ej: María Gómez" class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" />
+          </div>
+          <div>
+            <label for="email" class="block mb-1 text-sm font-semibold text-sky-700">📧 Correo electrónico *</label>
+            <input type="email" id="email" name="email" required placeholder="Ej: maria@email.com" class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" />
+          </div>
+          <div>
+            <label for="telefono" class="block mb-1 text-sm font-semibold text-sky-700">📞 Teléfono *</label>
+            <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 3001234567" class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" />
+          </div>
+          <div>
+            <label for="grado" class="block mb-1 text-sm font-semibold text-sky-700">🎓 Grado al que aspira *</label>
+            <select id="grado" name="grado" required class="select select-bordered w-full focus:ring-2 focus:ring-sky-400">
+              <option value="">Seleccione un grado</option>
+              <option>Preescolar</option>
+              <option>Primaria</option>
+              <option>Secundaria</option>
+              <option>Media</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="motivo" class="block mb-1 text-sm font-semibold text-sky-700">✍️ Motivo de la solicitud *</label>
+          <textarea id="motivo" name="motivo" rows="5" required class="textarea textarea-bordered w-full focus:ring-2 focus:ring-sky-400" placeholder="Cuéntanos por qué deseas ingresar a nuestra institución..."></textarea>
+        </div>
+
+        <div class="text-center pt-4">
+          <button type="submit" class="btn bg-sky-600 text-white px-10 py-3 rounded-xl hover:bg-sky-700 hover:scale-105 transition">
+            📩 Enviar solicitud
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 {% endblock %}
+
+

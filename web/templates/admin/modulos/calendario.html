@@ -1,125 +1,174 @@
-{# admin/modulos/eventos.html #}
 {% load static %}
 {% load form_filters %}
 
 {% block extra_css %}
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    /* Modal full‐screen overlay */
+    dialog.modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 1rem;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+    dialog.modal::backdrop {
+      background: transparent;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
 <section class="py-6 px-4 lg:px-8">
   <div class="max-w-4xl mx-auto" data-aos="fade-up">
 
-   <div class="flex justify-between items-center mb-6">
-  <h2 class="text-3xl font-bold text-sky-700">
-    🗓️ Gestión de Eventos
-  </h2>
-  <a href="{% url 'dashboard' %}"
-     aria-label="Volver al dashboard"
-     class="btn btn-sm btn-ghost btn-outline flex items-center gap-2 text-emerald-600 hover:bg-emerald-100 focus:ring-2 focus:ring-emerald-300 transition">
-    <span class="text-lg">⬅️</span>
-    <span class="text-sm font-medium">Volver</span>
-  </a>
-</div>
-
-    <!-- 📄 Formulario -->
-<form method="POST" enctype="multipart/form-data"
-      action="{% if modo_edicion %}{% url 'actualizar_evento' evento_id %}{% else %}{% url 'crear_evento' %}{% endif %}"
-      class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 bg-gradient-to-br from-sky-50 via-white to-cyan-100 p-6 rounded-2xl shadow-lg border border-sky-100">
-
-  {% csrf_token %}
-
-  {% if form.non_field_errors %}
-    <div class="col-span-2 alert alert-error text-sm">
-      {{ form.non_field_errors }}
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold text-sky-700">
+        🗓️ Gestión de Eventos
+      </h2>
+      <a href="{% url 'dashboard' %}"
+         aria-label="Volver al dashboard"
+         class="btn btn-sm btn-ghost btn-outline flex items-center gap-2 text-emerald-600 hover:bg-emerald-100 focus:ring-2 focus:ring-emerald-300 transition">
+        <span class="text-lg">⬅️</span>
+        <span class="text-sm font-medium">Volver</span>
+      </a>
     </div>
-  {% endif %}
 
-  <!-- Título -->
-  <div class="form-control">
-    <label class="label font-semibold text-sky-700">Título *</label>
-    {{ form.titulo|add_class:"input input-bordered w-full" }}
-    {% if form.titulo.errors %}
-      <span class="text-sm text-red-600 mt-1">{{ form.titulo.errors.0 }}</span>
-    {% endif %}
-  </div>
+    <!-- 📄 Formulario de creación/edición -->
+    <form
+      method="POST"
+      enctype="multipart/form-data"
+      id="evento-form"
+      action="{% if modo_edicion %}{% url 'actualizar_evento' evento_id %}{% else %}{% url 'crear_evento' %}{% endif %}"
+      class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 bg-gradient-to-br from-sky-50 via-white to-cyan-100 p-6 rounded-2xl shadow-lg border border-sky-100"
+    >
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="col-span-2 alert alert-error text-sm">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
 
-  <!-- Lugar -->
-  <div class="form-control">
-    <label class="label font-semibold text-sky-700">Lugar *</label>
-    {{ form.lugar|add_class:"input input-bordered w-full" }}
-    {% if form.lugar.errors %}
-      <span class="text-sm text-red-600 mt-1">{{ form.lugar.errors.0 }}</span>
-    {% endif %}
-  </div>
+      <!-- Título -->
+      <div class="form-control">
+        <label class="label font-semibold text-sky-700">Título *</label>
+        {{ form.titulo|add_class:"input input-bordered w-full" }}
+        {% if form.titulo.errors %}
+          <span class="text-sm text-red-600 mt-1">{{ form.titulo.errors.0 }}</span>
+        {% endif %}
+      </div>
 
-  <!-- Fecha -->
-  <div class="form-control">
-    <label class="label font-semibold text-sky-700">Fecha *</label>
-    {{ form.fecha|add_class:"input input-bordered w-full" }}
-    {% if form.fecha.errors %}
-      <span class="text-sm text-red-600 mt-1">{{ form.fecha.errors.0 }}</span>
-    {% endif %}
-  </div>
+      <!-- Lugar -->
+      <div class="form-control">
+        <label class="label font-semibold text-sky-700">Lugar *</label>
+        {{ form.lugar|add_class:"input input-bordered w-full" }}
+        {% if form.lugar.errors %}
+          <span class="text-sm text-red-600 mt-1">{{ form.lugar.errors.0 }}</span>
+        {% endif %}
+      </div>
 
-  <!-- Hora -->
-  <div class="form-control">
-    <label class="label font-semibold text-sky-700">Hora *</label>
-    {{ form.hora|add_class:"input input-bordered w-full" }}
-    {% if form.hora.errors %}
-      <span class="text-sm text-red-600 mt-1">{{ form.hora.errors.0 }}</span>
-    {% endif %}
-  </div>
+      <!-- Fecha -->
+      <div class="form-control">
+        <label class="label font-semibold text-sky-700">Fecha *</label>
+        {{ form.fecha|add_class:"input input-bordered w-full" }}
+        {% if form.fecha.errors %}
+          <span class="text-sm text-red-600 mt-1">{{ form.fecha.errors.0 }}</span>
+        {% endif %}
+      </div>
 
-  <!-- Descripción corta -->
-  <div class="form-control md:col-span-2">
-    <label class="label font-semibold text-sky-700">Descripción corta *</label>
-    {{ form.descripcion_corta|add_class:"textarea textarea-bordered w-full" }}
-    {% if form.descripcion_corta.errors %}
-      <span class="text-sm text-red-600 mt-1">{{ form.descripcion_corta.errors.0 }}</span>
-    {% endif %}
-  </div>
+      <!-- Hora -->
+      <div class="form-control">
+        <label class="label font-semibold text-sky-700">Hora *</label>
+        {{ form.hora|add_class:"input input-bordered w-full" }}
+        {% if form.hora.errors %}
+          <span class="text-sm text-red-600 mt-1">{{ form.hora.errors.0 }}</span>
+        {% endif %}
+      </div>
 
-  <!-- Descripción detallada -->
-  <div class="form-control md:col-span-2">
-    <label class="label font-semibold text-sky-700">Descripción detallada *</label>
-    {{ form.descripcion_detallada|add_class:"textarea textarea-bordered w-full" }}
-    {% if form.descripcion_detallada.errors %}
-      <span class="text-sm text-red-600 mt-1">{{ form.descripcion_detallada.errors.0 }}</span>
-    {% endif %}
-  </div>
+      <!-- Descripción corta -->
+      <div class="form-control md:col-span-2">
+        <label class="label font-semibold text-sky-700">Descripción corta *</label>
+        {{ form.descripcion_corta|add_class:"textarea textarea-bordered w-full" }}
+        {% if form.descripcion_corta.errors %}
+          <span class="text-sm text-red-600 mt-1">{{ form.descripcion_corta.errors.0 }}</span>
+        {% endif %}
+      </div>
 
-  <!-- Imagen -->
-  <div class="form-control md:col-span-2">
-    <label class="label font-semibold text-sky-700">Imagen del evento</label>
-    {{ form.imagen|add_class:"file-input file-input-bordered w-full" }}
-    {% if form.imagen.errors %}
-      <span class="text-sm text-red-600 mt-1">{{ form.imagen.errors.0 }}</span>
-    {% endif %}
-    <img id="preview" class="mt-2 hidden rounded-lg shadow-md w-40" alt="Preview" />
-  </div>
+      <!-- Descripción detallada -->
+      <div class="form-control md:col-span-2">
+        <label class="label font-semibold text-sky-700">Descripción detallada *</label>
+        {{ form.descripcion_detallada|add_class:"textarea textarea-bordered w-full" }}
+        {% if form.descripcion_detallada.errors %}
+          <span class="text-sm text-red-600 mt-1">{{ form.descripcion_detallada.errors.0 }}</span>
+        {% endif %}
+      </div>
 
-  <!-- Botones -->
-  <div class="form-control md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
-  <button type="submit"
+      <!-- Imagen -->
+      <div class="form-control md:col-span-2">
+        <label class="label font-semibold text-sky-700">Imagen del evento</label>
+        {{ form.imagen|add_class:"file-input file-input-bordered w-full" }}
+        {% if form.imagen.errors %}
+          <span class="text-sm text-red-600 mt-1">{{ form.imagen.errors.0 }}</span>
+        {% endif %}
+        <img id="preview" class="mt-2 hidden rounded-lg shadow-md w-40" alt="Preview" />
+      </div>
+
+      <!-- Botones -->
+      <div class="form-control md:col-span-2 flex flex-wrap items-center gap-4 mt-2">
+        <button
+          type="submit"
+          id="submit-btn"
           aria-label="{% if modo_edicion %}Guardar cambios{% else %}Crear evento{% endif %}"
-          class="btn btn-success w-full sm:w-auto text-white px-6 font-semibold hover:scale-105 duration-150">
-    {% if modo_edicion %}💾 Guardar cambios{% else %}📥 Crear Evento{% endif %}
-  </button>
+          class="btn btn-success w-full sm:w-auto text-white px-6 font-semibold hover:scale-105 duration-150"
+        >
+          {% if modo_edicion %}💾 Guardar cambios{% else %}📥 Crear Evento{% endif %}
+        </button>
 
-  {% if modo_edicion %}
-   <a href="#"
-   id="cancelar-edicion"
-   data-url="{% url 'dashboard' %}?show=calendario"
-   class="btn btn-outline w-full sm:w-auto btn-error border border-red-300 hover:bg-red-50 text-red-600 font-medium px-6">
-  ❌ Cancelar edición
-</a>
+        <a
+          href="#"
+          id="cancelar-edicion"
+          data-url="{% url 'dashboard' %}?show=calendario"
+          class="btn btn-outline w-full sm:w-auto btn-error border border-red-300 hover:bg-red-50 text-red-600 font-medium px-6 {% if not modo_edicion %}hidden{% endif %}"
+        >
+          ❌ Cancelar edición
+        </a>
+      </div>
+    </form>
 
-  {% endif %}
-</div>
+    <!-- 🔘 Bola de búsqueda (sticky + AOS) -->
+    <div class="sticky top-6 z-50 flex justify-end" data-aos="fade-down">
+      <button
+        id="btn-buscar"
+        class="btn btn-primary p-4 rounded-full shadow-lg hover:scale-110 transition"
+        title="Buscar evento"
+      >
+        🔎
+      </button>
+    </div>
 
-</form>
+    <!-- 🔎 Modal de búsqueda -->
+    <dialog id="modal-busqueda" class="modal" data-aos="fade-up">
+      <div class="modal-box">
+        <h3 class="font-bold text-lg text-sky-700 mb-2">
+          🔎 Buscar evento por nombre
+        </h3>
+        <input
+          type="text"
+          id="busqueda-input"
+          placeholder="Escribe el nombre del evento..."
+          class="input input-bordered w-full mb-4"
+        />
+        <div id="resultados-busqueda" class="space-y-2 max-h-60 overflow-y-auto"></div>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn btn-outline">Cerrar</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
 
     <!-- 📋 Lista de eventos -->
     <div data-aos="fade-up" data-aos-delay="200">
@@ -128,31 +177,38 @@
         {% for evento in eventos %}
           <div class="border border-cyan-200 rounded-2xl shadow-sm bg-white">
             <div class="px-5 py-4 space-y-2">
-              <p class="font-semibold text-sky-800">🗓️ {{ evento.titulo }} — {{ evento.fecha }}</p>
+              <p class="font-semibold text-sky-800">
+                🗓️ {{ evento.titulo }} — {{ evento.fecha }}
+              </p>
               <p><strong>📍 Lugar:</strong> {{ evento.lugar }}</p>
               <p><strong>🕑 Hora:</strong> {{ evento.hora }}</p>
               <p><strong>📝 Corta:</strong> {{ evento.descripcion_corta }}</p>
               <p><strong>📝 Detallada:</strong> {{ evento.descripcion_detallada }}</p>
               {% if evento.imagen %}
-                <img src="{{ evento.imagen.url }}"
-                     alt="Imagen del evento"
-                     class="w-40 rounded-lg shadow-md" />
+                <img
+                  src="{{ evento.imagen.url }}"
+                  alt="Imagen del evento"
+                  class="w-40 rounded-lg shadow-md"
+                />
               {% endif %}
 
               <div class="mt-4 flex flex-wrap gap-2">
-
-                <a href="{% url 'dashboard' %}?edit={{ evento.id }}&show=calendario"
-                   class="btn btn-sm btn-outline btn-info flex-1 md:flex-none hover:bg-info/10">
+                <a
+                  href="{% url 'dashboard' %}?edit={{ evento.id }}&show=calendario"
+                  class="btn btn-sm btn-outline btn-info flex-1 md:flex-none hover:bg-info/10"
+                >
                   ✏️ Editar
                 </a>
-
-                <form method="POST"
-      action="{% url 'eliminar_evento' evento.id %}"
-      class="form-eliminar-evento flex-1 md:flex-none">
-
+                <form
+                  method="POST"
+                  action="{% url 'eliminar_evento' evento.id %}"
+                  class="form-eliminar-evento flex-1 md:flex-none"
+                >
                   {% csrf_token %}
-                  <button type="submit"
-                          class="btn btn-sm btn-outline btn-error w-full hover:bg-error/10">
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-outline btn-error w-full hover:bg-error/10"
+                  >
                     🗑 Eliminar
                   </button>
                 </form>
@@ -166,16 +222,16 @@
     </div>
 
   </div>
-
 </section>
-
 {% endblock %}
+
 
 {% block extra_js %}
   <script>
     AOS.init({ once: true, duration: 600 });
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Vista previa de imagen
       document.getElementById('id_imagen')?.addEventListener('change', e => {
         const file = e.target.files[0];
         const preview = document.getElementById('preview');
@@ -186,26 +242,9 @@
           preview.classList.add('hidden');
         }
       });
-    });
-  </script>
-    <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Imagen preview
-    document.getElementById('id_imagen')?.addEventListener('change', e => {
-      const file = e.target.files[0];
-      const preview = document.getElementById('preview');
-      if (file) {
-        preview.src = URL.createObjectURL(file);
-        preview.classList.remove('hidden');
-      } else {
-        preview.classList.add('hidden');
-      }
-    });
 
-    // Confirmación al cancelar edición
-    const cancelarBtn = document.getElementById('cancelar-edicion');
-    if (cancelarBtn) {
-      cancelarBtn.addEventListener('click', function (e) {
+      // Confirmación de cancelar edición
+      document.getElementById('cancelar-edicion')?.addEventListener('click', e => {
         e.preventDefault();
         Swal.fire({
           title: '¿Cancelar edición?',
@@ -216,36 +255,99 @@
           cancelButtonColor: '#3085d6',
           confirmButtonText: 'Sí, cancelar',
           cancelButtonText: 'No'
-        }).then((result) => {
+        }).then(result => {
           if (result.isConfirmed) {
-            window.location.href = cancelarBtn.dataset.url;
+            window.location.href = e.currentTarget.dataset.url;
           }
         });
       });
-    }
-  });
-</script>
-    <script>
-  document.querySelectorAll('.form-eliminar-evento').forEach(form => {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      Swal.fire({
-        title: '¿Eliminar este evento?',
-        text: "Esta acción no se puede deshacer.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          form.submit();
-        }
+
+      // Confirmación de eliminación
+      document.querySelectorAll('.form-eliminar-evento').forEach(form => {
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+          Swal.fire({
+            title: '¿Eliminar este evento?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+          }).then(result => {
+            if (result.isConfirmed) form.submit();
+          });
+        });
+      });
+
+      // Datos para búsqueda y edición
+      const eventosData = [{% for evento in eventos %}
+        {
+          id: {{ evento.id }},
+          titulo: "{{ evento.titulo|escapejs }}",
+          lugar: "{{ evento.lugar|escapejs }}",
+          fecha: "{{ evento.fecha }}",
+          hora: "{{ evento.hora }}",
+          descripcion_corta: "{{ evento.descripcion_corta|escapejs }}",
+          descripcion_detallada: "{{ evento.descripcion_detallada|escapejs }}",
+          imagen_url: "{% if evento.imagen %}{{ evento.imagen.url }}{% endif %}",
+          updateUrl: "{% url 'actualizar_evento' evento.id %}"
+        }{% if not forloop.last %},{% endif %}{% endfor %}
+      ];
+
+      // Abrir modal desde sticky button
+      document.getElementById('btn-buscar')?.addEventListener('click', () => {
+        document.getElementById('modal-busqueda').showModal();
+      });
+
+      // Filtrar resultados y cargar edición
+      const input = document.getElementById('busqueda-input');
+      const resultados = document.getElementById('resultados-busqueda');
+
+      input?.addEventListener('input', () => {
+        resultados.innerHTML = '';
+        const term = input.value.toLowerCase();
+
+        eventosData
+          .filter(e => e.titulo.toLowerCase().includes(term))
+          .forEach(e => {
+            const div = document.createElement('div');
+            div.className = 'p-3 border border-sky-200 rounded-lg bg-sky-50 cursor-pointer hover:bg-sky-100';
+            div.innerHTML = `
+              <strong>🗓️ ${e.titulo}</strong><br>
+              📍 ${e.lugar} — 🕑 ${e.hora} — 📅 ${e.fecha}
+            `;
+            div.addEventListener('click', () => {
+              const form = document.getElementById('evento-form');
+              document.getElementById('id_titulo').value = e.titulo;
+              document.getElementById('id_lugar').value = e.lugar;
+              document.getElementById('id_fecha').value = e.fecha;
+              document.getElementById('id_hora').value = e.hora;
+              document.getElementById('id_descripcion_corta').value = e.descripcion_corta;
+              document.getElementById('id_descripcion_detallada').value = e.descripcion_detallada;
+
+              const preview = document.getElementById('preview');
+              if (e.imagen_url) {
+                preview.src = e.imagen_url;
+                preview.classList.remove('hidden');
+              } else {
+                preview.classList.add('hidden');
+              }
+
+              form.action = e.updateUrl;
+              const submitBtn = document.getElementById('submit-btn');
+              submitBtn.textContent = '💾 Guardar cambios';
+              submitBtn.setAttribute('aria-label', 'Guardar cambios');
+              document.getElementById('cancelar-edicion').classList.remove('hidden');
+
+              document.getElementById('modal-busqueda').close();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            resultados.appendChild(div);
+          });
       });
     });
-  });
-</script>
-
-
+  </script>
 {% endblock %}
