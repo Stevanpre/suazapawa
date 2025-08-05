@@ -1,13 +1,13 @@
 <section class="py-12 bg-gradient-to-b from-sky-50 to-sky-100" data-aos="fade-up" data-aos-duration="1200">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-5xl font-extrabold text-transparent bg-clip-text bg-red mb-12 text-center" data-aos="fade-down" data-aos-duration="1000">
+    <h2 class="text-5xl font-extrabold  bg-clip-text text-red-500 mb-12 text-center" data-aos="fade-down" data-aos-duration="1000">
       Eventos Destacados
     </h2>
 
     {% if eventos %}
       <div class="space-y-12">
         {% for evento in eventos %}
-          <div class="flex flex-col md:flex-row {% if forloop.counter == 2 %}md:flex-row-reverse{% endif %} bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300" data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+          <div class="flex flex-col md:flex-row {% if forloop.counter == 2 %}md:flex-row-reverse{% endif %} bg-gray-100  rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300" data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="{{ forloop.counter0|add:1 }}00">
             {% if evento.imagen %}
               <div class="md:w-1/2 relative group">
                 <img
@@ -21,17 +21,17 @@
 
             <div class="p-6 md:w-1/2 flex flex-col justify-between">
               <div>
-                <h3 class="text-2xl font-semibold text-gray-900 mb-2" data-aos="fade-right" data-aos-duration="800">
+                <h3 class="text-2xl font-semibold text-blue-600 mb-2" data-aos="fade-right" data-aos-duration="800">
                   {{ evento.titulo }}
                 </h3>
-                <p class="text-sm text-gray-500 mb-3">
+                <p class="text-sm text-red-500 mb-3">
                   <i class="fas fa-calendar-alt mr-2"></i>{{ evento.fecha|date:"d M Y" }}
                 </p>
-                <p class="text-gray-700 mb-4" data-aos="fade-left" data-aos-duration="800">
+                <p class="text-black mb-4" data-aos="fade-left" data-aos-duration="800">
                   {{ evento.descripcion_corta }}
                 </p>
               </div>
-              <span class="text-xs text-gray-400 uppercase tracking-wide mt-2">
+              <span class="text-xs text-blue-600 uppercase tracking-wide mt-4">
                 <i class="fas fa-map-marker-alt mr-1"></i>{{ evento.lugar }}
               </span>
             </div>

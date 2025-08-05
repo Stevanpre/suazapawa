@@ -1,9 +1,11 @@
 {% load static %}
 {% block extra_css %}
 <style>
-  .navbar-gradient {
-    background: linear-gradient(135deg, #002efd 0%, #008eba 100%);
-  }
+.navbar-gradient {
+    background: linear-gradient(135deg, #000000, #0352ca); /* sky-700 to sky-100 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
 
   .animate-expand {
     animation: expand 1.2s ease-out forwards;
@@ -61,11 +63,15 @@
     transition: max-height 0.4s ease, opacity 0.4s ease;
     overflow: hidden;
   }
+
+  .hide-navbar {
+    transform: translateY(-100%);
+  }
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 {% endblock %}
 
-<nav class="sticky top-0 z-50 transition-all duration-300">
+<nav id="navbar" class="sticky top-0 z-50 transition-transform duration-300 ease-in-out">
   <div class="w-full px-6 sm:px-8 lg:px-10 navbar-gradient shadow-lg animate-expand">
     <div class="flex justify-between items-center h-20 flex-wrap">
 
@@ -112,7 +118,7 @@
       const content = drop.querySelector('[data-dropdown]');
       let isClickOpen = false;
 
-      // Hover (solo en escritorio)
+      // Hover (escritorio)
       drop.addEventListener('mouseenter', () => {
         if (window.innerWidth >= 1024 && !isClickOpen) {
           content.classList.add('active');
@@ -125,7 +131,7 @@
         }
       });
 
-      // Click toggle (funciona en móvil y escritorio)
+      // Click toggle
       button.addEventListener('click', (e) => {
         e.preventDefault();
         isClickOpen = !isClickOpen;
@@ -141,7 +147,7 @@
       });
     });
 
-    // 🍔 Hamburguesa
+    // Hamburguesa
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const hamburgerIcon = document.getElementById('hamburger-icon');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -150,6 +156,18 @@
       mobileMenu.classList.toggle('hidden');
       hamburgerIcon.classList.toggle('fa-bars');
       hamburgerIcon.classList.toggle('fa-xmark');
+    });
+
+    // Mostrar/ocultar navbar según scroll
+    let lastScrollTop = 0;
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+
+
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
     });
   });
 </script>

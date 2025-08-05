@@ -55,15 +55,15 @@
   }
 
   .glass-panel h2 {
-    color: #1e3a8a;
+    color: #000000;
   }
 
   .glass-panel p {
-    color: #1f2937;
+    color: #000000;
   }
 
   .highlighted-title {
-    background: linear-gradient(to right, #1e3a8a, #4f46e5, #0ea5e9);
+    background: linear-gradient(to right, #ff0000);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
@@ -87,7 +87,7 @@
     <div class="glass-panel max-w-3xl lg:max-w-2xl space-y-8 text-center lg:text-left">
       <h2 class="text-lg font-semibold tracking-wide">¡Bienvenido a nuestra comunidad!</h2>
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
-        <span class="block text-gray-800">Institución Educativa</span>
+        <span class="block text-black">Institución Educativa</span>
         <span class="block text-6xl sm:text-7xl lg:text-8xl highlighted-title">Suazapawa</span>
       </h1>
       <p class="text-lg text-gray-800">Formamos líderes con valores, excelencia académica y compromiso social.</p>
@@ -95,11 +95,11 @@
       <!-- Botones -->
       <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-2">
         <a href="#conocenos"
-           class="px-6 py-3 rounded-full text-white font-medium bg-indigo-600 hover:bg-indigo-700 transition duration-300 shadow-lg hover:scale-105">
+           class="px-6 py-3 rounded-full text-white font-medium bg-blue-600 hover:bg-indigo-700 transition duration-300 shadow-lg hover:scale-105">
           Conócenos
         </a>
         <a href="{% url 'admision' %}"
-           class="px-6 py-3 rounded-full text-indigo-800 font-semibold bg-white/80 backdrop-blur-md border border-white/30 hover:bg-white hover:scale-105 transition duration-500 shadow-lg">
+           class="px-6 py-3 rounded-full text-black font-semibold bg-white/80 backdrop-blur-md border border-white/30 hover:bg-white hover:scale-105 transition duration-500 shadow-lg">
           <i class="fas fa-arrow-right mr-2"></i> Proceso de Admisión
         </a>
       </div>
