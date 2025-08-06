@@ -1,7 +1,7 @@
 {
-  "scripts": {
-    "watch": "npx @tailwindcss/cli -i web/static/css/input.css -o web/static/css/tailwind.css --watch"
-  },
+"scripts": {
+  "build": "npx tailwindcss -i web/static/css/input.css -o web/static/css/tailwind.css --minify"
+},
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/cli": "^4.1.11",

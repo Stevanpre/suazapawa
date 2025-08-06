@@ -44,15 +44,16 @@
     z-index: 2;
   }
 
-  .glass-panel {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    color: #1e293b;
-  }
+.glass-panel {
+  background: rgba(255, 255, 255, 0.08); /* más transparente */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* borde suave */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* sombra sutil */
+}
+
 
   .glass-panel h2 {
     color: #000000;
@@ -84,11 +85,13 @@
 
   <!-- Contenido sobre la imagen de fondo -->
   <div class="relative z-10 w-full max-w-6xl mx-auto px-6 py-16 lg:py-32">
-    <div class="glass-panel max-w-3xl lg:max-w-2xl space-y-8 text-center lg:text-left">
+<div class="max-w-3xl lg:max-w-2xl space-y-8 text-center lg:text-left
+            bg-white/50 backdrop-blur-2xl rounded-xl p-8 border border-white/30 shadow-xl">
+
       <h2 class="text-lg font-semibold tracking-wide">¡Bienvenido a nuestra comunidad!</h2>
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
         <span class="block text-black">Institución Educativa</span>
-        <span class="block text-6xl sm:text-7xl lg:text-8xl highlighted-title">Suazapawa</span>
+<span class="md:text-4xl md:text-4xl md:text-3xl lg:text-5xl xl:text-6xl text-red-600">Suazapawa</span>
       </h1>
       <p class="text-lg text-gray-800">Formamos líderes con valores, excelencia académica y compromiso social.</p>
 
