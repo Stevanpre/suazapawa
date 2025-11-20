@@ -11,7 +11,7 @@
   <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between px-10 py-20 h-full max-w-7xl mx-auto">
 
     <!-- Texto de bienvenida -->
-    <div class="text-white max-w-xl" data-aos="fade-right" data-aos-duration="2000">
+    <div class="text-white text-3xl" data-aos="fade-right" data-aos-duration="2000">
       <h1 class="text-5xl font-bold mb-4 animate-fade-in-slow">Bienvenido<br>nuevamente</h1>
       <p class="text-lg mb-6 leading-relaxed">Por favor inicia sesión con tus credenciales administrativas para continuar.</p>
       <div class="flex space-x-4">
@@ -23,27 +23,24 @@
 
     <!-- Formulario de inicio de sesión -->
     <div class="bg-white/80 backdrop-blur-lg p-10 rounded-3xl shadow-xl w-full max-w-md animate-fade-in-slow" data-aos="fade-left" data-aos-duration="2000">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Iniciar Sesión</h2>
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">INICIAR SESIÓN</h2>
       <form method="POST">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="mb-4">
-          <label for="username" class="block text-sm font-semibold mb-1">Usuario</label>
-          <input type="text" id="username" name="username" class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+          <label for="username" class="block text-sm font-semibold mb-1">Usuario:</label>
+          <input type="text" id="username" name="username" placeholder="Ejemplo: usuario" class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
         </div>
         <div class="mb-4">
-          <label for="password" class="block text-sm font-semibold mb-1">Contraseña</label>
-          <input type="password" id="password" name="password" class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
+          <label for="password" class="block text-sm font-semibold mb-1">Contraseña:</label>
+          <input type="password" id="password" name="password" placeholder="Ejemplo: Contraseña" class="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-400" required>
         </div>
         <div class="flex items-center justify-between mb-4">
-          <label class="flex items-center text-sm">
-            <input type="checkbox" class="mr-2"> Recuérdame
-          </label>
-          <a href="#" class="text-sm text-indigo-600 hover:underline">¿Olvidaste tu contraseña?</a>
+          <a href="#" class="text-sm text-blue-900 hover:underline">¿Olvidaste tu contraseña?</a>
         </div>
         <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg transition duration-300">Ingresar</button>
       </form>
-      <p class="text-xs text-center text-gray-600 mt-4">
+      <p class="text-xs text-center text-black mt-4">
         Al hacer clic en "Ingresar" aceptas nuestros <a href="#" class="underline">Términos de Servicio</a> y <a href="#" class="underline">Política de Privacidad</a>.
       </p>
     </div>
