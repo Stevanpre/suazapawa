@@ -13,14 +13,14 @@
     <link rel="icon" href="{% static 'img/logo-suazapawa.jpg' %}" />
 
   <!-- Flowbite -->
-  <link href="{% static 'js/flowbite/dist/flowbite.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/flowbite/dist/flowbite.min.css' %}" rel="stylesheet">
 
 
   <!-- AOS (Animate On Scroll)-->
-  <link href="{% static 'js/aos/dist/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/dist/aos.css' %}" rel="stylesheet">
 
   <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="{% static 'vendor/fontawesome/css/all.min.css' %} " rel="stylesheet">
 
   {% block extra_css %}{% endblock %}
 </head>
@@ -49,17 +49,17 @@
   <!-- Scripts al final del body -->
 
   <!-- Flowbite JS -->
-  <script src="{% static 'js/flowbite/dist/flowbite.min.js' %}"></script>
+  <script src="{% static 'vendor/flowbite/dist/flowbite.min.js' %}"></script>
   
   <!-- Alpine.js -->
 
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="{% static 'vendor/alpinejs/cdn.min.js' %}" defer></script>
   
   <!-- AOS JS -->
-  <script src="{% static 'js/aos/dist/aos.js' %}"></script>
+  <script src="{% static 'vendor/aos/dist/aos.js' %}"></script>
   
   <script>
-    AOS.init({
+      AOS.init({
       once: true,
       duration: 800,
       easing: 'ease-in-out'
@@ -80,7 +80,7 @@
 
 
   <!-- Vanilla-Tilt -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  <script src="{% static 'vendor/vanilla-tilt/vanilla-tilt.min.js' %}"></script>
 
   {% block extra_js %}{% endblock %}
 </body>
