@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}📘 Proceso de Admisión | Suazapawa{% endblock %}
+{% block title %} Proceso de Admisión | Suazapawa{% endblock %}
 
 {% block content %}
 
@@ -10,11 +10,11 @@
 
     <!-- Título -->
     <h2 class="text-5xl font-extrabold text-center text-blue-900 mb-8">
-      👨‍💻 Proceso de Admisión
+      👨‍💻PROCESO DE ADMISIÓN
     </h2>
 
     <!-- Descripción -->
-    <p class="text-2xl text-justify text-black mb-12">
+    <p class="text-xl text-justify text-black mb-12">
       Da el primer paso en tu proceso de admisión con una experiencia guiada, transparente y pensada para tu comodidad.
       Completa la información solicitada y nuestro equipo te acompañará en cada etapa del camino.
     </p>
@@ -23,22 +23,22 @@
     <div class="text-center mb-10">
       <button
         onclick="document.getElementById('modalImagen').classList.remove('hidden')"
-        class="px-6 py-3 rounded-2xl bg-blue-700 text-white font-semibold shadow hover:bg-blue-800 transition">
+        class="px-6 py-3 rounded-2xl bg-blue-900 text-white font-semibold shadow hover:bg-blue-800 transition">
         📘 Ver paso a paso
       </button>
     </div>
 
     <!-- Tarjeta de información -->
-    <div class="bg-white p-6 rounded-3xl shadow-xl border border-blue-100 space-y-4 mb-12">
-      <h3 class="text-xl font-semibold text-blue-900 text-center">¿Por qué elegirnos?</h3>
-      <p class="text-gray-600 text-center">
+    <div class="bg-white p-6 rounded-3xl shadow-xl border border-red-900 space-y-4 mb-12">
+      <h3 class="text-2xl font-semibold text-blue-900 text-center">¿Por qué elegirnos?</h3>
+      <p class="text-black text-xl text-justify">
         Formación integral, excelencia académica, valores sólidos y acompañamiento constante.
       </p>
     </div>
 
     <!-- Formulario -->
     <form method="POST" enctype="multipart/form-data"
-          class="bg-white p-10 rounded-3xl shadow-2xl border border-blue-100 space-y-7">
+          class="bg-white p-10 rounded-3xl shadow-2xl border border-red-800 space-y-7">
 
       {% csrf_token %}
 
@@ -49,19 +49,19 @@
       <div class="grid md:grid-cols-2 gap-6">
         <div class="space-y-1">
           <label class="font-semibold text-blue-900">Nombre completo *</label>
-          <input type="text" name="nombre" required placeholder="Ej: María Gómez"
+          <input type="text" name="nombre" required placeholder="Ejemplo: María Gómez"
                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition bg-white"/>
         </div>
 
         <div class="space-y-1">
           <label class="font-semibold text-blue-900">Correo electrónico *</label>
-          <input type="email" name="email" required placeholder="Ej: maria@email.com"
+          <input type="email" name="email" required placeholder="Ejemplo: maria@email.com"
                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition"/>
         </div>
 
         <div class="space-y-1">
           <label class="font-semibold text-blue-900">Teléfono *</label>
-          <input type="tel" name="telefono" required placeholder="Ej: 3001234567"
+          <input type="tel" name="telefono" required placeholder="Ejemplo: 3001234567"
                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition"/>
         </div>
 
@@ -81,15 +81,20 @@
       <div class="space-y-1">
         <label class="font-semibold text-blue-900">Motivo de la solicitud *</label>
         <textarea name="motivo" rows="5" required placeholder="Cuéntanos por qué deseas ingresar..."
-                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 resize-none"></textarea>
+                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 resize-none mb-10"></textarea>
       </div>
 
-      <div class="text-center pt-2">
-        <button type="submit"
-                class="bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold text-lg px-10 py-3 rounded-2xl shadow-md hover:scale-105 transition">
-          📩 Enviar solicitud
-        </button>
-      </div>
+      <!-- Botón -->
+          <div class="text-center">
+          <button type="submit"
+class="bg-blue-900 text-white font-semibold text-lg px-8 py-3 rounded-2xl
+       shadow-md hover:bg-blue-800 hover:shadow-lg
+       hover:scale-[1.03] active:scale-[0.98]
+       transition-all duration-300">
+            📨 Enviar mensaje
+          </button>
+        </div>
+
     </form>
   </div>
 </section>
@@ -117,7 +122,6 @@
             ✕
           </button>
       </div>
-
   </div>
 </div>
 
