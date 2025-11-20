@@ -1,172 +1,88 @@
-{% extends 'base.html' %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Panel Administrativo | Suazapawa{% endblock %}</title>
+  <link href="{% static 'css/tailwind.css' %}" rel="stylesheet" />
+  <link href="{% static 'vendor/fontawesome/css/all.min.css' %}" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" rel="stylesheet" />
+  {% block extra_head %}{% endblock %}
+  <style>
+    @keyframes fadeIn {from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+    .animate-fade-in {animation: fadeIn .5s ease-out;}
+    /* Scrollbar minimal */
+    ::-webkit-scrollbar {width: 8px; height:8px;}
+    ::-webkit-scrollbar-track {background:#f1f5f9;}
+    ::-webkit-scrollbar-thumb {background:#94a3b8; border-radius:6px;}
+    ::-webkit-scrollbar-thumb:hover {background:#64748b;}
+  </style>
+</head>
+<body class="bg-slate-100 font-inter min-h-screen">
+  <!-- Overlay para mobile -->
+  <div id="overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden"></div>
 
-{% block title %}🌐 Dashboard Ejecutivo | Suazapawa{% endblock %}
-
-{% block extra_css %}
-<link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-<style>
-  .sidebar {
-    background: linear-gradient(180deg, #0583cc 0%, #bdebfa 100%);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    width: 12rem;
-    padding: 1.5rem;
-    flex-shrink: 0;
-  }
-  .logo {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 9999px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    margin-bottom: 1.5rem;
-  }
-  .nav {
-    text-align: center;
-  }
-  .nav-link {
-    display: block;
-    padding: 0.5rem 1rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #000;
-    border-radius: 0.5rem;
-    transition: background 0.3s ease;
-  }
-  .nav-link:hover {
-    background: rgba(255,255,255,0.3);
-  }
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 40;
-    display: none;
-  }
-  .overlay.visible {
-    display: block;
-    opacity: 1;
-  }
-  .menu-btn {
-    background-color: #1e3a8a;
-    color: white;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-  }
-  .lock-scroll {
-    overflow: hidden;
-  }
-  @media (max-width: 767px) {
-    .sidebar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      height: 100%;
-      z-index: 50;
-    }
-    .sidebar.open {
-      transform: translateX(0);
-    }
-  }
-</style>
-{% endblock %}
-
-{% block content %}
-<div id="overlay" class="overlay"></div>
-
-<div class="flex flex-col min-h-screen">
-  <div class="flex flex-col md:flex-row flex-1">
-    <aside id="sidebar" class="sidebar">
-      <img src="{% static 'img/logo-suazapawa.jpg' %}" alt="Suazapawa" class="logo">
-      <nav class="nav">
-        <a href="#" data-show="bienvenida" class="nav-link">Bienvenida</a>
-        <a href="#" data-show="perfil" class="nav-link">Perfil</a>
-        <a href="#" data-show="calendario" class="nav-link">Calendario</a>
-        <a href="#" data-show="noticias" class="nav-link">Noticias</a>
-      </nav>
-    </aside>
-
-    <div class="flex-1">
-      <!-- Botón menú móvil -->
-      <div class="md:hidden fixed top-24 left-2 z-50">
-        <button id="menu-toggle" class="menu-btn" aria-label="Abrir menú" tabindex="0">
-          <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
-        </button>
-      </div>
-
-      <main class="p-4 md:p-6 overflow-y-auto" data-aos="fade-up">
-        <section id="module-bienvenida" class="module-panel">
-          {% include 'admin/modulos/bienvenida.html' %}
-        </section>
-        <section id="module-perfil" class="module-panel hidden">
-          {% include 'admin/modulos/perfil.html' %}
-        </section>
-        <section id="module-calendario" class="module-panel hidden">
-          {% include 'admin/modulos/calendario.html' %}
-        </section>
-        <section id="module-noticias" class="module-panel hidden">
-          {% include 'admin/modulos/noticias.html' %}
-        </section>
-      </main>
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-gradient-to-b from-blue-900 via-blue-700 to-blue-500 text-white flex flex-col transform -translate-x-full lg:translate-x-0 transition-all duration-300 z-50">
+    <div class="flex flex-col items-center py-6 px-4">
+      <img src="{% static 'img/logo-suazapawa.jpg' %}" class="w-20 h-20 rounded-full border-4 border-white shadow-lg object-cover" alt="Logo" />
+      <h2 class="mt-3 text-lg font-semibold tracking-wide">Suazapawa Admin</h2>
     </div>
-  </div>
-</div>
-{% endblock %}
 
-{% block extra_js %}
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-<script>
-  AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
+    <nav class="flex-1 overflow-y-auto px-4 space-y-1">
+      <a href="?m=bienvenida" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-200 hover:bg-white/20 transition {% if selected_module == 'bienvenida' %}bg-white/20 font-semibold{% endif %}"><i class="fas fa-house w-6 text-center"></i>Bienvenida</a>
+      <a href="?m=perfil" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-200 hover:bg-white/20 transition {% if selected_module == 'perfil' %}bg-white/20 font-semibold{% endif %}"><i class="fas fa-user w-6 text-center"></i>Perfil</a>
+      <a href="?m=calendario" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-200 hover:bg-white/20 transition {% if selected_module == 'calendario' %}bg-white/20 font-semibold{% endif %}"><i class="fas fa-calendar-days w-6 text-center"></i>Calendario</a>
+      <a href="?m=noticias" class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-slate-200 hover:bg-white/20 transition {% if selected_module == 'noticias' %}bg-white/20 font-semibold{% endif %}"><i class="fas fa-newspaper w-6 text-center"></i>Noticias</a>
+    </nav>
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggle = document.getElementById('menu-toggle');
-    const panels = document.querySelectorAll('.module-panel');
-    const params = new URLSearchParams(window.location.search);
-    const target = params.get("show");
-    if (target) {
-      panels.forEach(p => p.classList.add("hidden"));
-      const activePanel = document.getElementById("module-" + target);
-      if (activePanel) {
-      activePanel.classList.remove("hidden");
-  }
-}
+    <div class="px-4 py-6 space-y-3">
+      <a href="/" class="flex items-center justify-center gap-2 bg-black/30 hover:bg-black/40 transition rounded-lg py-2 font-semibold"><i class="fas fa-arrow-left"></i>Volver</a>
+      <a href="{% url 'logout' %}" class="flex items-center justify-center gap-2 bg-black/30 hover:bg-black/40 transition rounded-lg py-2 font-semibold"><i class="fas fa-right-from-bracket"></i>Salir</a>
+    </div>
+  </aside>
 
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md shadow-md flex items-center justify-between px-4 lg:pl-80 z-30">
+    <div class="flex items-center gap-2">
+      <button id="menu-toggle" class="lg:hidden w-11 h-11 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center text-xl transition" aria-label="Abrir menú"><i class="fas fa-bars"></i></button>
+      <h1 class="text-xl font-semibold text-slate-700">Panel Administrativo</h1>
+      {% if selected_module %}<span class="ml-2 px-2 py-1 text-xs rounded bg-blue-100 text-blue-700 font-medium">{{ selected_module|capfirst }}</span>{% endif %}
+    </div>
+    <div class="flex items-center gap-3 bg-slate-100 px-3 py-2 rounded-xl">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center font-bold text-white">
+        {{ request.user.first_name.0|default:request.user.username.0|upper }}
+      </div>
+      <div class="hidden sm:flex flex-col leading-tight">
+        <span class="text-sm font-semibold text-slate-700">{{ request.user.first_name|default:request.user.username }}</span>
+        <span class="text-xs text-slate-500">Administrador</span>
+      </div>
+    </div>
+  </nav>
 
-    toggle?.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('visible');
-      document.body.classList.toggle('lock-scroll');
+  <!-- Contenido principal -->
+  <main class="pt-20 lg:pl-80 px-4 pb-12 min-h-screen">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Scripts globales -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const toggleBtn = document.getElementById('menu-toggle');
+
+      function openSidebar(){ sidebar.classList.remove('-translate-x-full'); overlay.classList.remove('hidden'); document.body.classList.add('overflow-hidden'); }
+      function closeSidebar(){ sidebar.classList.add('-translate-x-full'); overlay.classList.add('hidden'); document.body.classList.remove('overflow-hidden'); }
+
+      toggleBtn?.addEventListener('click', openSidebar);
+      overlay?.addEventListener('click', closeSidebar);
+
+      // Cerrar al cambiar tamaño si ya es desktop
+      window.addEventListener('resize', () => { if(window.innerWidth >= 1024) { closeSidebar(); } });
     });
-
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('visible');
-      document.body.classList.remove('lock-scroll');
-    });
-
-    document.querySelectorAll('a[data-show]').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const key = link.getAttribute('data-show');
-        panels.forEach(p => p.classList.add('hidden'));
-        document.getElementById('module-' + key).classList.remove('hidden');
-
-        if (window.innerWidth < 768) {
-          sidebar.classList.remove('open');
-          overlay.classList.remove('visible');
-          document.body.classList.remove('lock-scroll');
-        }
-      });
-    });
-  });
-</script>
-{% endblock %}
+  </script>
+  {% block extra_js_end %}{% endblock %}
+</body>
+</html>

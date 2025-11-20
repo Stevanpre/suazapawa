@@ -1,178 +1,156 @@
+{% extends 'admin/dashboard.html' %}
 {% load static %}
-
-{% block extra_css %}
-<!-- Flowbite + DaisyUI + AOS + FontAwesome -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/daisyui@3.0.0/dist/full.css" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-<style>
-  .swal2-confirm, .swal2-cancel {
-    background-color: #0284c7 !important; /* sky-600 */
-    color: white !important;
-    border-radius: 0.5rem !important;
-    padding: 0.5rem 1.2rem !important;
-    font-weight: 600;
-  }
-
-  .password-rules {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-  }
-
-  .password-rules span {
-    display: block;
-    color: #555;
-  }
-
-  .password-rules span.valid {
-    color: #16a34a; /* green-600 */
-    font-weight: bold;
-  }
-
-  .password-rules span.invalid {
-    color: #dc2626; /* red-600 */
-  }
-</style>
-{% endblock %}
-
+{% block title %}Perfil | Panel{% endblock %}
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-cyan-100 via-white to-cyan-50 flex items-center justify-center px-4 py-12">
-  <div class="bg-white max-w-md w-full rounded-2xl shadow-xl p-8 animate-fade-in" data-aos="zoom-in">
-    <div class="flex items-center gap-4 mb-6">
-      <div class="w-14 h-14 bg-gradient-to-tr from-cyan-400 to-cyan-200 rounded-full flex items-center justify-center text-3xl text-cyan-800 shadow">
-        <i class="fas fa-user-cog"></i>
+<!-- Perfil optimizado con Tailwind + DaisyUI + Font Awesome -->
+<div class="min-h-[70vh] flex items-center justify-center px-4 py-8 animate-fade-in">
+  <div class="card bg-white shadow-2xl border border-slate-200 w-full max-w-2xl">
+    <div class="card-body p-6 sm:p-8">
+
+      <!-- Header -->
+      <div class="flex items-center gap-4 mb-6">
+        <div class="avatar placeholder">
+          <div class="bg-gradient-to-br from-cyan-500 to-blue-500 text-white rounded-full w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+            <span class="text-2xl sm:text-3xl font-bold">{{ request.user.first_name.0|default:request.user.username.0|upper }}</span>
+          </div>
+        </div>
+        <div>
+          <h2 class="card-title text-xl sm:text-2xl text-slate-800">
+            <i class="fas fa-user-cog text-cyan-600"></i>
+            Configuración de Perfil
+          </h2>
+          <p class="text-sm text-slate-500">Actualiza tu información personal</p>
+        </div>
       </div>
-      <h4 class="text-xl font-bold text-sky-700">Configuración de Perfil</h4>
+
+      <!-- Formulario -->
+      <form id="perfilForm" method="post" action="{% url 'actualizar_perfil' %}" class="space-y-5">
+        {% csrf_token %}
+
+        <!-- Nombre -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold text-slate-700">
+              <i class="fas fa-user text-blue-600 mr-2"></i>Nombre completo
+            </span>
+          </label>
+            <input name="first_name" id="first_name" value="{{ request.user.first_name }}" type="text" class="input input-bordered w-full" required />
+        </div>
+
+        <!-- Usuario -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold text-slate-700">
+              <i class="fas fa-id-badge text-purple-600 mr-2"></i>Nombre de usuario
+            </span>
+          </label>
+          <input name="username" id="username" value="{{ request.user.username }}" type="text" class="input input-bordered w-full" required />
+        </div>
+
+        <!-- Correo -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold text-slate-700">
+              <i class="fas fa-envelope text-green-600 mr-2"></i>Correo electrónico
+            </span>
+          </label>
+          <input name="email" id="email" value="{{ request.user.email }}" type="email" class="input input-bordered w-full" required />
+        </div>
+
+        <div class="divider">Cambiar contraseña (opcional)</div>
+
+        <!-- Nueva contraseña -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold text-slate-700">
+              <i class="fas fa-lock text-red-600 mr-2"></i>Nueva contraseña
+            </span>
+          </label>
+          <input name="password1" id="password1" type="password" placeholder="Dejar en blanco si no deseas cambiarla" class="input input-bordered w-full" minlength="6" />
+
+          <!-- Indicadores de validación -->
+          <div id="passwordRules" class="mt-3 space-y-1 text-xs hidden">
+            <p id="length" class="text-slate-500"><i class="fas fa-circle-notch mr-1"></i>Mínimo 6 caracteres</p>
+            <p id="uppercase" class="text-slate-500"><i class="fas fa-circle-notch mr-1"></i>Al menos una mayúscula</p>
+            <p id="lowercase" class="text-slate-500"><i class="fas fa-circle-notch mr-1"></i>Al menos una minúscula</p>
+            <p id="number" class="text-slate-500"><i class="fas fa-circle-notch mr-1"></i>Al menos un número</p>
+          </div>
+        </div>
+
+        <!-- Confirmar contraseña -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text font-semibold text-slate-700">
+              <i class="fas fa-lock text-orange-600 mr-2"></i>Confirmar contraseña
+            </span>
+          </label>
+          <input name="password2" id="password2" type="password" placeholder="Repetir la nueva contraseña" class="input input-bordered w-full" minlength="6" />
+        </div>
+
+        <!-- Botón -->
+        <button type="button" onclick="confirmarActualizacion()" class="btn btn-primary w-full gap-2 text-lg shadow-lg hover:shadow-xl transition-all">
+          <i class="fas fa-save"></i>
+          Guardar cambios
+        </button>
+      </form>
     </div>
-
-    <form id="perfilForm" method="post" action="{% url 'actualizar_perfil' %}" class="space-y-5">
-      {% csrf_token %}
-
-      <!-- Nombre -->
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text font-semibold text-sky-800">
-            <i class="fas fa-user mr-2"></i>Nombre
-          </span>
-        </div>
-        <input name="first_name" id="first_name" value="{{ request.user.first_name }}" type="text"
-          class="input input-bordered w-full" required />
-      </label>
-
-      <!-- Usuario -->
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text font-semibold text-sky-800">
-            <i class="fas fa-id-badge mr-2"></i>Nombre de usuario
-          </span>
-        </div>
-        <input name="username" id="username" value="{{ request.user.username }}" type="text"
-          class="input input-bordered w-full" required />
-      </label>
-
-      <!-- Correo -->
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text font-semibold text-sky-800">
-            <i class="fas fa-envelope mr-2"></i>Correo de recuperación
-          </span>
-        </div>
-        <input name="email" id="email" value="{{ request.user.email }}" type="email"
-          class="input input-bordered w-full" required />
-      </label>
-
-      <!-- Cambiar contraseña -->
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text font-semibold text-sky-800">
-            <i class="fas fa-lock mr-2"></i>Cambiar contraseña (opcional)
-          </span>
-        </div>
-        <input name="password1" id="password1" type="password" placeholder="Nueva contraseña"
-          class="input input-bordered w-full mb-2" minlength="6" />
-        <input name="password2" id="password2" type="password" placeholder="Confirmar contraseña"
-          class="input input-bordered w-full" minlength="6" />
-
-        <!-- Reglas de contraseña -->
-        <div id="passwordRules" class="password-rules mt-2 px-1">
-          <span id="length" class="invalid">• Mínimo 6 caracteres</span>
-          <span id="uppercase" class="invalid">• Al menos una letra mayúscula</span>
-          <span id="lowercase" class="invalid">• Al menos una letra minúscula</span>
-          <span id="number" class="invalid">• Al menos un número</span>
-          <span id="symbol" class="invalid">• Opcional: símbolo especial (* . # " ! ?)</span>
-        </div>
-      </label>
-
-      <!-- Botón Guardar -->
-      <button type="button" onclick="confirmarActualizacion()"
-        class="btn w-full bg-sky-600 hover:bg-sky-700 text-white text-lg font-semibold rounded-xl shadow-md transition-transform hover:scale-105">
-        <i class="fas fa-save mr-2"></i>Guardar cambios
-      </button>
-    </form>
   </div>
 </div>
 
-<!-- SweetAlert Mensajes -->
+<!-- Mensajes -->
 {% if messages %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', () => {
     {% for message in messages %}
-      Swal.fire({
-        title: "{{ message.tags|capfirst }}",
-        text: "{{ message }}",
-        icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% else %}info{% endif %}",
-        confirmButtonText: 'Aceptar'
-      });
+    Swal.fire({
+      title: "{{ message.tags|capfirst }}",
+      text: "{{ message }}",
+      icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% else %}info{% endif %}",
+      confirmButtonText: 'Aceptar'
+    });
     {% endfor %}
   });
 </script>
 {% endif %}
 {% endblock %}
-
-{% block extra_js %}
-<!-- AOS + Flowbite + SweetAlert -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>AOS.init();</script>
+{% block extra_js_end %}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"></script>
-
 <script>
-  function confirmarActualizacion() {
-    Swal.fire({
-      title: '¿Guardar cambios?',
-      text: "Se actualizará tu perfil.",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, actualizar',
-      cancelButtonText: 'Cancelar',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.isConfirmed) {
-        document.getElementById("perfilForm").submit();
-      }
-    });
-  }
-
-  // Validaciones dinámicas para contraseña segura
-  document.addEventListener('DOMContentLoaded', () => {
-    const passwordInput = document.getElementById('password1');
-    const rules = {
-      length: document.getElementById('length'),
-      uppercase: document.getElementById('uppercase'),
-      lowercase: document.getElementById('lowercase'),
-      number: document.getElementById('number'),
-      symbol: document.getElementById('symbol')
-    };
-
-    passwordInput?.addEventListener('input', () => {
-      const val = passwordInput.value;
-      rules.length.className = val.length >= 6 ? 'valid' : 'invalid';
-      rules.uppercase.className = /[A-Z]/.test(val) ? 'valid' : 'invalid';
-      rules.lowercase.className = /[a-z]/.test(val) ? 'valid' : 'invalid';
-      rules.number.className = /\d/.test(val) ? 'valid' : 'invalid';
-      rules.symbol.className = /[*.#"!?]/.test(val) ? 'valid' : 'invalid';
-    });
+function confirmarActualizacion() {
+  Swal.fire({
+    title: '¿Guardar cambios?',
+    text: "Se actualizará tu perfil.",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3b82f6',
+    cancelButtonColor: '#64748b',
+    confirmButtonText: 'Sí, actualizar',
+    cancelButtonText: 'Cancelar'
+  }).then(result => { if (result.isConfirmed) { document.getElementById("perfilForm").submit(); } });
+}
+// Validación en tiempo real de contraseña
+document.addEventListener('DOMContentLoaded', () => {
+  const passwordInput = document.getElementById('password1');
+  const rules = document.getElementById('passwordRules');
+  const indicators = { length: document.getElementById('length'), uppercase: document.getElementById('uppercase'), lowercase: document.getElementById('lowercase'), number: document.getElementById('number') };
+  passwordInput?.addEventListener('input', () => {
+    const val = passwordInput.value;
+    if (val.length > 0) { rules.classList.remove('hidden');
+      // Longitud
+      if (val.length >= 6) { indicators.length.className = 'text-success'; indicators.length.innerHTML = '<i class="fas fa-check-circle mr-1"></i>Mínimo 6 caracteres'; } else { indicators.length.className = 'text-error'; indicators.length.innerHTML = '<i class="fas fa-times-circle mr-1"></i>Mínimo 6 caracteres'; }
+      // Mayúscula
+      if (/[A-Z]/.test(val)) { indicators.uppercase.className = 'text-success'; indicators.uppercase.innerHTML = '<i class="fas fa-check-circle mr-1"></i>Al menos una mayúscula'; } else { indicators.uppercase.className = 'text-error'; indicators.uppercase.innerHTML = '<i class="fas fa-times-circle mr-1"></i>Al menos una mayúscula'; }
+      // Minúscula
+      if (/[a-z]/.test(val)) { indicators.lowercase.className = 'text-success'; indicators.lowercase.innerHTML = '<i class="fas fa-check-circle mr-1"></i>Al menos una minúscula'; } else { indicators.lowercase.className = 'text-error'; indicators.lowercase.innerHTML = '<i class="fas fa-times-circle mr-1"></i>Al menos una minúscula'; }
+      // Número
+      if (/\d/.test(val)) { indicators.number.className = 'text-success'; indicators.number.innerHTML = '<i class="fas fa-check-circle mr-1"></i>Al menos un número'; } else { indicators.number.className = 'text-error'; indicators.number.innerHTML = '<i class="fas fa-times-circle mr-1"></i>Al menos un número'; }
+    } else { rules.classList.add('hidden'); }
   });
+});
 </script>
+<style>
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fade-in { animation: fadeIn 0.6s ease-out; }
+</style>
 {% endblock %}
