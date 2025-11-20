@@ -3,6 +3,7 @@ from . import views
 from .views import eliminar_correo
 
 urlpatterns = [
+
     path('evento/crear/', views.crear_evento, name='crear_evento'),
     path('evento/editar/<int:evento_id>/', views.actualizar_evento, name='actualizar_evento'),
     path('evento/eliminar/<int:evento_id>/', views.eliminar_evento, name='eliminar_evento'),

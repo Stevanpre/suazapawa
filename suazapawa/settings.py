@@ -15,7 +15,7 @@ DEBUG = True
 SECRET_KEY = os.getenv('SECRET_KEY', 'clave-insegura-desarrollo')
 
 # Hosts permitidos en entorno local
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [

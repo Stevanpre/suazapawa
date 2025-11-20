@@ -1,6 +1,10 @@
 {
   "scripts": {
-    "watch": "npx @tailwindcss/cli -i web/static/css/input.css -o web/static/css/tailwind.css --watch"
+    "watch": "npx @tailwindcss/cli -i web/static/css/input.css -o web/static/css/tailwind.css --watch",
+    "build:css": "npx @tailwindcss/cli -i web/static/css/input.css -o web/static/css/tailwind.css",
+    "copy:assets": "node scripts/copy-assets.js",
+    "build": "npm run build:css && npm run copy:assets",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
@@ -18,7 +22,10 @@
     "tailwindcss": "^4.1.11",
     "taos": "^1.0.5",
     "typed.js": "^2.1.0",
-    "vivus": "^0.4.6"
+    "vivus": "^0.4.6",
+    "@fortawesome/fontawesome-free": "6.4.0",
+  "alpinejs": "^3",
+  "vanilla-tilt": "1.8.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
