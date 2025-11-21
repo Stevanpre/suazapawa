@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.urls import path
-from web.views import (HomeView, calendarioView, TextoEscolarView, UsuarioLoginView, DashboardView, vista_bloqueado,
-                       actualizar_perfil, somos, mision, alumno, docente, ubicacion, pruebas, navbarView,
-                       footerView, transporteView, restauranteView, enfermeriaView, seguridadView, admisionesView,
-                       trabajaView, contactoView)
+from web.views import *
+from login.views import *
+from noticias.views import *
+from eventos.views import *
+from perfil.views import *
+from bienvenida.views import *
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -13,7 +15,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
 #------------Aplicaciones de la web----------------
-    path('pruebas/', pruebas,name='pruebas'),
     path('navbar/', navbarView.as_view(), name='navbar'),
     path('', HomeView.as_view(), name='home'),
     path('footer/', footerView.as_view(), name='footer'),
@@ -47,9 +48,17 @@ path('somos/',somos, name='somos' ),
     path('contacto/', contactoView.as_view(), name='contacto'),
 
 
-#------------admin---------------
+#------------web---------------
 path('adminweb/', include('web.urls')),
 
+#------------noticias---------------
+    path('adminnoticias/', include('noticias.urls')),
+#------------eventos---------------
+    path('admineventos/', include('eventos.urls')),
+#------------perfil---------------
+    path('adminperfil/', include('perfil.urls')),
+#------------bienvenida---------------
+    path('adminbienvenida/', include('bienvenida.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

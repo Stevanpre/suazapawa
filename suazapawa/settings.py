@@ -26,6 +26,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'web.apps.WebConfig',
+    'eventos.apps.EventosConfig',
+    'noticias.apps.NoticiasConfig',
+    'bienvenida.apps.BienvenidaConfig',
+    'perfil.apps.PerfilConfig',
+    'login.apps.LoginConfig',
     'axes',
     'widget_tweaks',
 ]
