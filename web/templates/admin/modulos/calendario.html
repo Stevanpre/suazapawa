@@ -81,30 +81,30 @@
     <form method="dialog" class="modal-backdrop"><button>close</button></form>
   </dialog>
   <div>
-    <h3 class="text-xl sm:text-2xl font-bold text-slate-700 mb-4 flex items-center gap-2"><i class="fas fa-list"></i>Eventos Registrados</h3>
-    <div class="grid gap-4">
+    <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-700 mb-3 sm:mb-4 flex items-center gap-2"><i class="fas fa-list"></i>Eventos Registrados</h3>
+    <div class="grid gap-3 sm:gap-4">
       {% for evento in eventos %}
       <div class="card bg-white shadow-lg hover:shadow-xl transition-all border border-slate-200">
-        <div class="card-body p-4 sm:p-6">
-          <h4 class="card-title text-lg text-blue-700 flex items-start gap-2"><i class="fas fa-calendar-alt mt-1"></i><span>{{ evento.titulo }}</span></h4>
-          <div class="grid sm:grid-cols-2 gap-3 text-sm mt-2">
+        <div class="card-body p-3 sm:p-4 md:p-6">
+          <h4 class="card-title text-base sm:text-lg text-blue-700 flex items-start gap-2"><i class="fas fa-calendar-alt mt-1"></i><span>{{ evento.titulo }}</span></h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm mt-2">
             <p><strong class="text-slate-600"><i class="fas fa-location-dot text-red-500 mr-1"></i>Lugar:</strong> {{ evento.lugar }}</p>
             <p><strong class="text-slate-600"><i class="fas fa-calendar text-green-500 mr-1"></i>Fecha:</strong> {{ evento.fecha }}</p>
-            <p><strong class="text-slate-600"><i class="fas fa-clock text-purple-500 mr-1"></i>Hora:</strong> {{ evento.hora }}</p>
+            <p class="sm:col-span-2"><strong class="text-slate-600"><i class="fas fa-clock text-purple-500 mr-1"></i>Hora:</strong> {{ evento.hora }}</p>
           </div>
-          <div class="mt-3 space-y-2 text-sm">
+          <div class="mt-3 space-y-2 text-xs sm:text-sm">
             <div><strong class="text-slate-600">Descripción corta:</strong><p class="text-slate-700">{{ evento.descripcion_corta }}</p></div>
             <div><strong class="text-slate-600">Descripción detallada:</strong><p class="text-slate-700">{{ evento.descripcion_detallada }}</p></div>
           </div>
-          {% if evento.imagen %}<figure class="mt-4"><img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="rounded-xl shadow-md max-w-xs" /></figure>{% endif %}
-          <div class="card-actions justify-end mt-4 pt-4 border-t border-slate-200 gap-2">
-            <a href="?m=calendario&edit={{ evento.id }}" class="btn btn-info btn-sm gap-2"><i class="fas fa-edit"></i>Editar</a>
-            <form method="POST" action="{% url 'eliminar_evento' evento.id %}" class="form-eliminar-evento inline">{% csrf_token %}<button type="submit" class="btn btn-error btn-sm gap-2"><i class="fas fa-trash"></i>Eliminar</button></form>
+          {% if evento.imagen %}<figure class="mt-3 sm:mt-4"><img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="rounded-xl shadow-md max-w-full sm:max-w-xs" /></figure>{% endif %}
+          <div class="card-actions justify-end mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-200 gap-2">
+            <a href="?m=calendario&edit={{ evento.id }}" class="btn btn-info btn-xs sm:btn-sm gap-2"><i class="fas fa-edit"></i><span class="hidden sm:inline">Editar</span></a>
+            <form method="POST" action="{% url 'eliminar_evento' evento.id %}" class="form-eliminar-evento inline">{% csrf_token %}<button type="submit" class="btn btn-error btn-xs sm:btn-sm gap-2"><i class="fas fa-trash"></i><span class="hidden sm:inline">Eliminar</span></button></form>
           </div>
         </div>
       </div>
       {% empty %}
-      <div class="alert alert-info"><i class="fas fa-info-circle"></i><span>No hay eventos registrados todavía.</span></div>
+      <div class="alert alert-info text-sm"><i class="fas fa-info-circle"></i><span>No hay eventos registrados todavía.</span></div>
       {% endfor %}
     </div>
   </div>
