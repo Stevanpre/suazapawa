@@ -5,72 +5,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Dashboard | Suazapawa{% endblock %}</title>
-
   <link href="{% static 'css/tailwind.css' %}" rel="stylesheet" />
-
   <link href="{% static 'vendor/fontawesome/css/all.min.css' %}" rel="stylesheet" />
-
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" rel="stylesheet" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
   {% block extra_head %}{% endblock %}
   <style>
-    * {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-
-    /* Layout principal */
-    body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
+    * { font-family: 'Inter', sans-serif; }
 
     @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(10px);}
-      to {opacity: 1; transform: translateY(0);}
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .animate-fade-in {
-      animation: fadeIn 0.5s ease-out;
-    }
+    .animate-fade-in { animation: fadeIn 0.5s ease-out; }
 
-    /* Scrollbar personalizado */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 6px; }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #94a3b8;
-      border-radius: 6px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #64748b;
-    }
-
-    /* Sidebar con efecto glassmorphism */
     .sidebar-glass {
-      background: linear-gradient(180deg,
-        rgba(30, 58, 95, 0.95) 0%,
-        rgba(37, 99, 235, 0.92) 50%,
-        rgba(59, 130, 246, 0.90) 100%
-      );
+      background: linear-gradient(180deg, rgba(30, 58, 95, 0.95) 0%, rgba(37, 99, 235, 0.92) 50%, rgba(59, 130, 246, 0.90) 100%);
       backdrop-filter: blur(10px);
       box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
     }
 
-    /* Navbar con efecto de vidrio */
     .navbar-glass {
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(12px);
@@ -78,10 +38,8 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
-    /* Items de navegación con efecto hover suave */
     .nav-item {
       position: relative;
-      overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -107,18 +65,12 @@
       font-weight: 600;
     }
 
-    /* Separador visual */
     .nav-separator {
       height: 1px;
-      background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.2) 50%,
-        transparent 100%
-      );
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
       margin: 12px 0;
     }
 
-    /* Sección de categorías */
     .nav-section-title {
       font-size: 0.7rem;
       font-weight: 700;
@@ -128,15 +80,12 @@
       padding: 12px 16px 8px;
     }
 
-    /* Avatar con gradiente */
     .avatar-gradient {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
 
-    /* Botones del footer del sidebar */
     .sidebar-footer-btn {
-      position: relative;
       background: rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -150,22 +99,11 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
-    /* Badge en navbar */
     .status-badge {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
     }
 
-    /* Iconos con efecto */
-    .icon-hover {
-      transition: all 0.3s ease;
-    }
-
-    .icon-hover:hover {
-      transform: scale(1.1) rotate(5deg);
-    }
-
-    /* Search bar en navbar */
     .search-bar {
       background: #f1f5f9;
       border: 1px solid #e2e8f0;
@@ -178,23 +116,17 @@
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
-    /* Layout Container - CRÍTICO PARA EL POSICIONAMIENTO */
-    .layout-wrapper {
-      display: flex;
-      min-height: 100vh;
-      background: #f8fafc;
-    }
-
     .content-wrapper {
       flex: 1;
       display: flex;
       flex-direction: column;
       margin-left: 0;
+      transition: margin-left 0.3s ease;
     }
 
     @media (min-width: 1024px) {
       .content-wrapper {
-        margin-left: 288px; /* Ancho del sidebar (w-72 = 18rem = 288px) */
+        margin-left: 256px; /* w-64 = 16rem = 256px - REDUCIDO */
       }
     }
 
@@ -208,172 +140,122 @@
 <body class="bg-slate-50">
 
   <!-- Overlay para mobile -->
-  <div id="overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+  <div id="overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden"></div>
 
   <!-- ============== SIDEBAR ============== -->
-  <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 sidebar-glass text-white flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50">
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 sidebar-glass text-white flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
 
     <!-- Logo y Título -->
-    <div class="flex flex-col items-center py-6 px-4 border-b border-white/10">
+    <div class="flex flex-col items-center py-5 px-4 border-b border-white/10">
       <img
         src="{% static 'img/logo-suazapawa.jpg' %}"
-        class="w-20 h-20 rounded-full border-4 border-white/30 shadow-2xl object-cover mb-3 ring-4 ring-white/10"
+        class="w-16 h-16 rounded-full border-4 border-white/30 shadow-2xl object-cover mb-2 ring-4 ring-white/10"
         alt="Logo Suazapawa"
       />
-      <h2 class="text-xl font-bold tracking-tight">SUAZAPAWA</h2>
-      <p class="text-xs text-white/60 mt-1 tracking-wide">Panel Administrativo</p>
+      <h2 class="text-lg font-bold tracking-tight">SUAZAPAWA</h2>
+      <p class="text-xs text-white/60 mt-1">Panel Administrativo</p>
     </div>
 
     <!-- Navegación Principal -->
-    <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-
-      <!-- Sección HOME -->
+    <nav class="flex-1 overflow-y-auto py-3 px-3 space-y-1">
       <div class="nav-section-title">Home</div>
-      <a
-        href="?m=bienvenida"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/90 hover:text-white {% if selected_module == 'bienvenida' %}active{% endif %}"
-      >
-        <i class="fas fa-home w-5 text-center icon-hover"></i>
+      <a href="?m=bienvenida" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-white/90 hover:text-white {% if selected_module == 'bienvenida' %}active{% endif %}">
+        <i class="fas fa-home w-5 text-center"></i>
         <span>Bienvenida</span>
       </a>
 
       <div class="nav-separator"></div>
 
-      <!-- Sección APP -->
       <div class="nav-section-title">App</div>
-      <a
-        href="?m=perfil"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/90 hover:text-white {% if selected_module == 'perfil' %}active{% endif %}"
-      >
-        <i class="fas fa-user w-5 text-center icon-hover"></i>
+      <a href="?m=perfil" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-white/90 hover:text-white {% if selected_module == 'perfil' %}active{% endif %}">
+        <i class="fas fa-user w-5 text-center"></i>
         <span>Perfil</span>
       </a>
-      <a
-        href="?m=calendario"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/90 hover:text-white {% if selected_module == 'calendario' %}active{% endif %}"
-      >
-        <i class="fas fa-calendar-days w-5 text-center icon-hover"></i>
+      <a href="?m=calendario" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-white/90 hover:text-white {% if selected_module == 'calendario' %}active{% endif %}">
+        <i class="fas fa-calendar-days w-5 text-center"></i>
         <span>Calendario</span>
       </a>
-      <a
-        href="?m=noticias"
-        class="nav-item flex items-center gap-3 px-4 py-3 rounded-xl text-white/90 hover:text-white {% if selected_module == 'noticias' %}active{% endif %}"
-      >
-        <i class="fas fa-newspaper w-5 text-center icon-hover"></i>
+      <a href="?m=noticias" class="nav-item flex items-center gap-3 px-4 py-2.5 rounded-xl text-white/90 hover:text-white {% if selected_module == 'noticias' %}active{% endif %}">
+        <i class="fas fa-newspaper w-5 text-center"></i>
         <span>Noticias</span>
       </a>
-
     </nav>
 
-    <!-- Footer del Sidebar: Usuario + Botones -->
-    <div class="px-4 py-5 border-t border-white/10 space-y-3">
-
-      <!-- Info del Usuario -->
-      <div class="flex items-center gap-3 px-3 py-3 rounded-xl bg-white/5 backdrop-blur-sm">
-        <div class="w-11 h-11 rounded-full avatar-gradient flex items-center justify-center font-bold text-white text-lg shrink-0">
+    <!-- Footer del Sidebar -->
+    <div class="px-4 py-4 border-t border-white/10 space-y-3">
+      <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5">
+        <div class="w-10 h-10 rounded-full avatar-gradient flex items-center justify-center font-bold text-white shrink-0">
           {{ request.user.first_name.0|default:request.user.username.0|upper }}
         </div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-semibold text-white truncate">
-            {{ request.user.first_name|default:request.user.username }}
-          </p>
+          <p class="text-sm font-semibold text-white truncate">{{ request.user.first_name|default:request.user.username }}</p>
           <p class="text-xs text-white/60">Administrador</p>
         </div>
-        <button class="w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center transition text-white/70 hover:text-white">
+        <button class="w-8 h-8 rounded-lg hover:bg-white/10 transition text-white/70 hover:text-white">
           <i class="fas fa-cog text-sm"></i>
         </button>
       </div>
 
-      <!-- Botones de acción -->
       <div class="grid grid-cols-2 gap-2">
-        <a
-          href="/"
-          class="sidebar-footer-btn flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold"
-        >
+        <a href="/" class="sidebar-footer-btn flex items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold">
           <i class="fas fa-arrow-left text-xs"></i>
           <span>Volver</span>
         </a>
-        <a
-          href="{% url 'logout' %}"
-          class="sidebar-footer-btn flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold"
-        >
+        <a href="{% url 'logout' %}" class="sidebar-footer-btn flex items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold">
           <i class="fas fa-right-from-bracket text-xs"></i>
           <span>Salir</span>
         </a>
       </div>
-
     </div>
   </aside>
 
-  <!-- ============== CONTENT WRAPPER (Navbar + Main) ============== -->
+  <!-- ============== CONTENT WRAPPER ============== -->
   <div class="content-wrapper">
 
-    <!-- ============== NAVBAR (ZONA VERDE) ============== -->
-    <nav class="sticky top-0 h-16 navbar-glass flex items-center justify-between px-6 z-30">
+    <!-- ============== NAVBAR ============== -->
+    <nav class="sticky top-0 h-16 navbar-glass flex items-center justify-between px-4 z-30">
 
-      <!-- Lado Izquierdo: Toggle + Título -->
-      <div class="flex items-center gap-4">
-        <button
-          id="menu-toggle"
-          class="lg:hidden w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
-          aria-label="Abrir menú"
-        >
+      <!-- Lado Izquierdo -->
+      <div class="flex items-center gap-3">
+        <button id="menu-toggle" class="lg:hidden w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl flex items-center justify-center shadow-lg transition-all" aria-label="Menú">
           <i class="fas fa-bars"></i>
         </button>
 
-        <div class="flex items-center gap-3">
-          <h1 class="text-xl font-bold text-slate-800">Dashboard</h1>
-          {% if selected_module %}
-          <span class="status-badge px-3 py-1 text-xs rounded-full text-white font-semibold uppercase tracking-wide">
-            {{ selected_module }}
-          </span>
-          {% endif %}
-        </div>
+        <h1 class="text-xl font-bold text-slate-800">Dashboard</h1>
+        {% if selected_module %}
+        <span class="hidden sm:inline-flex status-badge px-3 py-1 text-xs rounded-full text-white font-semibold uppercase">{{ selected_module }}</span>
+        {% endif %}
       </div>
 
-      <!-- Centro: Barra de búsqueda -->
-      <div class="hidden md:flex items-center flex-1 max-w-md mx-8">
+      <!-- Centro: Búsqueda -->
+      <div class="hidden md:flex flex-1 max-w-md mx-6">
         <div class="search-bar flex items-center w-full rounded-xl px-4 py-2">
           <i class="fas fa-search text-slate-400 text-sm mr-3"></i>
-          <input
-            type="text"
-            placeholder="Buscar..."
-            class="bg-transparent flex-1 outline-none text-sm text-slate-700 placeholder-slate-400"
-          />
+          <input type="text" placeholder="Buscar..." class="bg-transparent flex-1 outline-none text-sm text-slate-700 placeholder-slate-400" />
         </div>
       </div>
 
-      <!-- Lado Derecho: Iconos de notificación + Avatar -->
-      <div class="flex items-center gap-3">
-        <!-- Icono de cuadrado/fullscreen -->
+      <!-- Lado Derecho -->
+      <div class="flex items-center gap-2">
         <button class="hidden sm:flex w-10 h-10 items-center justify-center rounded-xl hover:bg-slate-100 transition text-slate-600">
           <i class="fas fa-expand text-sm"></i>
         </button>
-
-        <!-- Icono de notificaciones -->
         <button class="hidden sm:flex w-10 h-10 items-center justify-center rounded-xl hover:bg-slate-100 transition text-slate-600 relative">
           <i class="fas fa-bell text-sm"></i>
           <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
         </button>
-
-        <!-- Icono de calendario -->
         <button class="hidden sm:flex w-10 h-10 items-center justify-center rounded-xl hover:bg-slate-100 transition text-slate-600">
           <i class="fas fa-calendar text-sm"></i>
         </button>
-
-        <!-- Avatar del usuario -->
         <div class="w-10 h-10 rounded-full avatar-gradient flex items-center justify-center font-bold text-white text-sm cursor-pointer hover:shadow-lg transition-shadow">
           {{ request.user.first_name.0|default:request.user.username.0|upper }}
         </div>
       </div>
-
     </nav>
 
-    <!-- ============== CONTENIDO PRINCIPAL (ZONA ROJA) ============== -->
-    <main class="main-content px-6 py-6 animate-fade-in">
-      {% block content %}
-      <!-- Aquí se cargará dinámicamente el contenido de cada módulo -->
-      {% endblock %}
+    <!-- ============== CONTENIDO PRINCIPAL ============== -->
+    <main class="main-content px-4 py-5 animate-fade-in">
+      {% block content %}{% endblock %}
     </main>
 
   </div>
@@ -383,36 +265,30 @@
     document.addEventListener('DOMContentLoaded', () => {
       const sidebar = document.getElementById('sidebar');
       const overlay = document.getElementById('overlay');
-      const toggleBtn = document.getElementById('menu-toggle');
+      const toggle = document.getElementById('menu-toggle');
 
-      function openSidebar() {
+      const open = () => {
         sidebar.classList.remove('-translate-x-full');
         overlay.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
-      }
+      };
 
-      function closeSidebar() {
+      const close = () => {
         sidebar.classList.add('-translate-x-full');
         overlay.classList.add('hidden');
         document.body.classList.remove('overflow-hidden');
-      }
+      };
 
-      toggleBtn?.addEventListener('click', openSidebar);
-      overlay?.addEventListener('click', closeSidebar);
+      toggle?.addEventListener('click', open);
+      overlay?.addEventListener('click', close);
 
-      // Cerrar sidebar en desktop
       window.addEventListener('resize', () => {
-        if (window.innerWidth >= 1024) {
-          closeSidebar();
-        }
+        if (window.innerWidth >= 1024) close();
       });
 
-      // Cerrar sidebar al hacer clic en un link (mobile)
       document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', () => {
-          if (window.innerWidth < 1024) {
-            closeSidebar();
-          }
+          if (window.innerWidth < 1024) close();
         });
       });
     });
