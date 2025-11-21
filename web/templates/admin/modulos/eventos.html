@@ -1,0 +1,616 @@
+{% extends 'admin/dashboard.html' %}
+{% load static %}
+{% load form_filters %}
+{% load mathfilters %}
+
+
+{% block title %}Calendario | Panel{% endblock %}
+
+{% block extra_head %}
+<style>
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .delay-100 { animation-delay: 0.1s; opacity: 0; }
+  .delay-200 { animation-delay: 0.2s; opacity: 0; }
+  .delay-300 { animation-delay: 0.3s; opacity: 0; }
+
+  /* Inputs con efectos modernos */
+  .modern-input {
+    transition: all 0.3s ease;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+  }
+
+  .modern-input:focus {
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .modern-textarea {
+    transition: all 0.3s ease;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    resize: vertical;
+  }
+
+  .modern-textarea:focus {
+    border-color: #8b5cf6;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+  }
+
+  /* Cards de eventos con efecto 3D */
+  .event-card {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%) border-box;
+  }
+
+  .event-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+    border-color: transparent;
+  }
+
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    border-radius: 12px 12px 0 0;
+  }
+
+  /* Botón flotante con pulso */
+  .floating-btn {
+    animation: float 3s ease-in-out infinite;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+  }
+
+  .floating-btn:hover {
+    animation: none;
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.6);
+  }
+
+  /* Badges con gradientes */
+  .gradient-badge {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  }
+
+  /* File input mejorado */
+  .file-input-modern {
+    border: 2px dashed #cbd5e1;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+  }
+
+  .file-input-modern:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+  }
+
+  /* Image preview con efecto */
+  .image-preview {
+    transition: all 0.3s ease;
+  }
+
+  .image-preview:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Modal mejorado */
+  .modal-backdrop {
+    backdrop-filter: blur(8px);
+  }
+
+  /* Iconos con efectos de color */
+  .icon-primary { color: #3b82f6; }
+  .icon-success { color: #10b981; }
+  .icon-warning { color: #f59e0b; }
+  .icon-danger { color: #ef4444; }
+  .icon-purple { color: #8b5cf6; }
+  .icon-pink { color: #ec4899; }
+
+  /* Efectos de resplandor */
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="space-y-8 pb-8">
+
+  <!-- ============== HEADER CON ESTADÍSTICAS ============== -->
+  <div class="animate-fade-in-up">
+    <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-2xl p-6 text-white shadow-2xl">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+            <i class="fas fa-calendar-days text-3xl"></i>
+          </div>
+          <div>
+            <h2 class="text-3xl font-bold">Gestión de Eventos</h2>
+            <p class="text-blue-100 text-sm mt-1">Organiza y administra tus eventos</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="text-center bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3">
+            <div class="text-2xl font-bold">{{ eventos|length }}</div>
+            <div class="text-xs text-blue-100">Eventos Totales</div>
+          </div>
+          <div class="text-center bg-white/10 backdrop-blur-sm rounded-xl px-6 py-3">
+            <div class="text-2xl font-bold">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="text-xs text-blue-100">Activos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============== FORMULARIO ============== -->
+  <div class="animate-fade-in-up delay-100">
+    <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden">
+
+      <!-- Header del formulario -->
+      <div class="bg-gradient-to-r from-slate-50 to-blue-50 px-6 py-4 border-b-2 border-slate-200">
+        <h3 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+          {% if modo_edicion %}
+            <span class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+              <i class="fas fa-edit text-amber-600"></i>
+            </span>
+            <span>Editar Evento</span>
+          {% else %}
+            <span class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+              <i class="fas fa-plus-circle text-blue-600"></i>
+            </span>
+            <span>Crear Nuevo Evento</span>
+          {% endif %}
+        </h3>
+      </div>
+
+      <form method="POST" enctype="multipart/form-data" id="evento-form"
+        action="{% if modo_edicion %}{% url 'actualizar_evento' evento_id %}{% else %}{% url 'crear_evento' %}{% endif %}"
+        class="p-6 space-y-6">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+          <div class="flex items-center gap-3">
+            <i class="fas fa-exclamation-circle text-red-500 text-xl"></i>
+            <span class="text-red-800 font-semibold">{{ form.non_field_errors }}</span>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- GRID DEL FORM -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- TITULO -->
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 text-sm font-bold text-slate-700">
+              <span class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-heading text-blue-600 text-sm"></i>
+              </span>
+              Título del Evento *
+            </label>
+            <input
+              type="text"
+              name="{{ form.titulo.name }}"
+              value="{{ form.titulo.value|default:'' }}"
+              placeholder="Ej: Conferencia de Tecnología 2024"
+              class="modern-input w-full px-4 py-3 rounded-xl font-medium text-slate-800 placeholder-slate-400"
+              required
+            />
+          </div>
+
+          <!-- LUGAR -->
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 text-sm font-bold text-slate-700">
+              <span class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-location-dot text-red-600 text-sm"></i>
+              </span>
+              Lugar del Evento *
+            </label>
+            <input
+              type="text"
+              name="{{ form.lugar.name }}"
+              value="{{ form.lugar.value|default:'' }}"
+              placeholder="Ej: Auditorio Principal - Centro de Convenciones"
+              class="modern-input w-full px-4 py-3 rounded-xl font-medium text-slate-800 placeholder-slate-400"
+              required
+            />
+          </div>
+
+          <!-- FECHA -->
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 text-sm font-bold text-slate-700">
+              <span class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-calendar text-green-600 text-sm"></i>
+              </span>
+              Fecha del Evento *
+            </label>
+            <input
+              type="date"
+              name="{{ form.fecha.name }}"
+              value="{{ form.fecha.value|default:'' }}"
+              class="modern-input w-full px-4 py-3 rounded-xl font-medium text-slate-800"
+              required
+            />
+          </div>
+
+          <!-- HORA -->
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 text-sm font-bold text-slate-700">
+              <span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-clock text-purple-600 text-sm"></i>
+              </span>
+              Hora de Inicio *
+            </label>
+            <input
+              type="time"
+              name="{{ form.hora.name }}"
+              value="{{ form.hora.value|default:'' }}"
+              class="modern-input w-full px-4 py-3 rounded-xl font-medium text-slate-800"
+              required
+            />
+          </div>
+
+          <!-- DESCRIPCIÓN CORTA -->
+          <div class="space-y-2 lg:col-span-2">
+            <label class="flex items-center gap-2 text-sm font-bold text-slate-700">
+              <span class="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-align-left text-cyan-600 text-sm"></i>
+              </span>
+              Descripción Corta *
+            </label>
+            <textarea
+              name="{{ form.descripcion_corta.name }}"
+              placeholder="Escribe una descripción breve que aparecerá en las tarjetas de vista previa..."
+              class="modern-textarea w-full px-4 py-3 rounded-xl font-medium text-slate-800 placeholder-slate-400 h-24"
+              required
+            >{{ form.descripcion_corta.value|default:'' }}</textarea>
+            <p class="text-xs text-slate-500 flex items-center gap-2">
+              <i class="fas fa-info-circle"></i>
+              Ideal para resumen rápido (máximo 150 caracteres)
+            </p>
+          </div>
+
+          <!-- DESCRIPCIÓN DETALLADA -->
+          <div class="space-y-2 lg:col-span-2">
+            <label class="flex items-center gap-2 text-sm font-bold text-slate-700">
+              <span class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-align-justify text-indigo-600 text-sm"></i>
+              </span>
+              Descripción Detallada *
+            </label>
+            <textarea
+              name="{{ form.descripcion_detallada.name }}"
+              placeholder="Proporciona todos los detalles importantes del evento: agenda, ponentes, requisitos, etc..."
+              class="modern-textarea w-full px-4 py-3 rounded-xl font-medium text-slate-800 placeholder-slate-400 h-32"
+              required
+            >{{ form.descripcion_detallada.value|default:'' }}</textarea>
+          </div>
+
+          <!-- IMAGEN -->
+          <div class="space-y-2 lg:col-span-2">
+            <label class="flex items-center gap-2 text-sm font-bold text-slate-700">
+              <span class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-image text-pink-600 text-sm"></i>
+              </span>
+              Imagen del Evento
+            </label>
+
+            <div class="file-input-modern p-6 rounded-xl text-center">
+              <i class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-3"></i>
+              <p class="text-sm text-slate-600 mb-2 font-semibold">Arrastra una imagen aquí o haz clic para seleccionar</p>
+              <input
+                type="file"
+                id="id_imagen"
+                name="{{ form.imagen.name }}"
+                accept="image/*"
+                class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer"
+              />
+            </div>
+
+            <img id="preview"
+              class="image-preview mt-4 hidden rounded-2xl shadow-lg w-full max-w-sm h-48 object-cover border-4 border-white ring-2 ring-slate-200"
+              alt="Vista previa" />
+          </div>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t-2 border-slate-100">
+          <button type="submit" id="submit-btn"
+            class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 glow-blue">
+            <i class="fas {% if modo_edicion %}fa-save{% else %}fa-plus-circle{% endif %} text-xl"></i>
+            <span>{% if modo_edicion %}Guardar Cambios{% else %}Crear Evento{% endif %}</span>
+          </button>
+
+          <a href="?m=calendario" id="cancelar-edicion"
+            class="flex-1 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 {% if not modo_edicion %}hidden{% endif %}">
+            <i class="fas fa-times-circle text-xl"></i>
+            <span>Cancelar Edición</span>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============== LISTA DE EVENTOS ============== -->
+  <div class="animate-fade-in-up delay-200">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-2xl font-bold text-slate-800 flex items-center gap-3">
+        <span class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center text-white">
+          <i class="fas fa-list"></i>
+        </span>
+        Eventos Registrados
+      </h3>
+
+      <div class="gradient-badge px-4 py-2 rounded-full text-white font-bold">
+        {{ eventos|length }} evento{{ eventos|length|pluralize }}
+      </div>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
+      {% for evento in eventos %}
+      <div class="event-card bg-white rounded-2xl shadow-lg overflow-hidden animate-scale-in" style="animation-delay: {{ forloop.counter0|multiply:0.1 }}s; opacity: 0;">
+
+        <div class="p-6 space-y-4">
+
+          <!-- Título del evento -->
+          <div class="flex items-start justify-between gap-3">
+            <h4 class="text-xl font-bold text-slate-800 flex items-start gap-2 flex-1">
+              <i class="fas fa-calendar-check text-blue-600 mt-1"></i>
+              {{ evento.titulo }}
+            </h4>
+          </div>
+
+          <!-- Info principal -->
+          <div class="space-y-3">
+            <div class="flex items-center gap-3 bg-red-50 px-4 py-3 rounded-xl">
+              <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-location-dot text-red-600"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-xs text-red-600 font-semibold uppercase">Lugar</p>
+                <p class="text-sm font-bold text-slate-800">{{ evento.lugar }}</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div class="flex items-center gap-2 bg-green-50 px-3 py-3 rounded-xl">
+                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-calendar text-green-600 text-sm"></i>
+                </div>
+                <div>
+                  <p class="text-xs text-green-600 font-semibold">Fecha</p>
+                  <p class="text-sm font-bold text-slate-800">{{ evento.fecha|date:"d/m/Y" }}</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 bg-purple-50 px-3 py-3 rounded-xl">
+                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <i class="fas fa-clock text-purple-600 text-sm"></i>
+                </div>
+                <div>
+                  <p class="text-xs text-purple-600 font-semibold">Hora</p>
+                  <p class="text-sm font-bold text-slate-800">{{ evento.hora }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Descripciones -->
+          <div class="space-y-2 bg-slate-50 p-4 rounded-xl">
+            <div>
+              <p class="text-xs font-bold text-slate-500 uppercase mb-1">Descripción</p>
+              <p class="text-sm text-slate-700 leading-relaxed">{{ evento.descripcion_corta }}</p>
+            </div>
+            <div class="pt-2 border-t border-slate-200">
+              <p class="text-xs font-bold text-slate-500 uppercase mb-1">Detalles</p>
+              <p class="text-sm text-slate-600 leading-relaxed line-clamp-3">{{ evento.descripcion_detallada }}</p>
+            </div>
+          </div>
+
+          <!-- Imagen -->
+          {% if evento.imagen %}
+          <div class="relative overflow-hidden rounded-xl">
+            <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}"
+              class="w-full h-48 object-cover transition-transform duration-300 hover:scale-110" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          </div>
+          {% endif %}
+
+          <!-- Botones de acción -->
+          <div class="flex gap-2 pt-4 border-t-2 border-slate-100">
+            <a href="?m=calendario&edit={{ evento.id }}"
+              class="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+              <i class="fas fa-edit"></i>
+              <span>Editar</span>
+            </a>
+
+            <form method="POST" action="{% url 'eliminar_evento' evento.id %}"
+              class="form-eliminar-evento flex-1">
+              {% csrf_token %}
+              <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+                <i class="fas fa-trash-alt"></i>
+                <span>Eliminar</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {% empty %}
+      <div class="col-span-full">
+        <div class="bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-dashed border-blue-300 rounded-2xl p-12 text-center">
+          <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-calendar-xmark text-4xl text-blue-500"></i>
+          </div>
+          <h4 class="text-xl font-bold text-slate-800 mb-2">No hay eventos registrados</h4>
+          <p class="text-slate-600">Comienza creando tu primer evento usando el formulario de arriba</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- FLOATING BUTTON -->
+  <div class="fixed bottom-8 right-8 z-40">
+    <button id="btn-buscar"
+      class="floating-btn w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-2xl flex items-center justify-center transition-all duration-300"
+      title="Buscar evento">
+      <i class="fas fa-search text-2xl"></i>
+    </button>
+  </div>
+
+  <!-- MODAL BUSQUEDA -->
+  <dialog id="modal-busqueda" class="modal">
+    <div class="modal-box max-w-2xl bg-white rounded-2xl">
+      <div class="bg-gradient-to-r from-blue-500 to-purple-500 -m-6 mb-6 p-6 rounded-t-2xl">
+        <h3 class="font-bold text-2xl text-white flex items-center gap-3">
+          <i class="fas fa-search"></i>
+          Buscar Evento
+        </h3>
+      </div>
+
+      <input type="text" id="busqueda-input" placeholder="Escribe el nombre del evento..."
+        class="modern-input w-full px-4 py-3 rounded-xl mb-4 font-medium" />
+
+      <div id="resultados-busqueda" class="space-y-2 max-h-96 overflow-y-auto"></div>
+
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn bg-slate-200 hover:bg-slate-300 border-0 rounded-xl px-6">Cerrar</button>
+        </form>
+      </div>
+    </div>
+
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js_end %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Preview de imagen
+  const imgInput = document.getElementById('id_imagen');
+  const preview = document.getElementById('preview');
+
+  imgInput?.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) {
+      preview.src = URL.createObjectURL(file);
+      preview.classList.remove('hidden');
+    } else {
+      preview.classList.add('hidden');
+    }
+  });
+
+  // Cancelar edición
+  document.getElementById('cancelar-edicion')?.addEventListener('click', e => {
+    e.preventDefault();
+    Swal.fire({
+      title: '¿Cancelar edición?',
+      text: "Se perderán los cambios no guardados.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No, continuar',
+      customClass: {
+        popup: 'rounded-2xl',
+        confirmButton: 'rounded-xl',
+        cancelButton: 'rounded-xl'
+      }
+    }).then(result => {
+      if (result.isConfirmed) {
+        window.location.href = '?m=calendario';
+      }
+    });
+  });
+
+  // Eliminar evento
+  document.querySelectorAll('.form-eliminar-evento').forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      Swal.fire({
+        title: '¿Eliminar este evento?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        customClass: {
+          popup: 'rounded-2xl',
+          confirmButton: 'rounded-xl',
+          cancelButton: 'rounded-xl'
+        }
+      }).then(result => {
+        if (result.isConfirmed) form.submit();
+      });
+    });
+  });
+
+  // Botón de búsqueda
+  document.getElementById('btn-buscar')?.addEventListener('click', () => {
+    document.getElementById('modal-busqueda')?.showModal();
+  });
+});
+</script>
+{% endblock %}

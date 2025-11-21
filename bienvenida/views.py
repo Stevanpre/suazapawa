@@ -21,7 +21,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         plantilla_map = {
             'bienvenida': 'admin/modulos/bienvenida.html',
             'perfil': 'admin/modulos/perfil.html',
-            'calendario': 'admin/modulos/calendario.html',
+            'calendario': 'admin/modulos/eventos.html',
             'noticias': 'admin/modulos/noticias.html',
         }
         self.template_name = plantilla_map.get(modulo, 'admin/modulos/bienvenida.html')
