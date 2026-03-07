@@ -1,81 +1,102 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}💼 Trabaja con Nosotros | Suazapawa{% endblock %}
+{% block title %}Trabaja con Nosotros | Suazapawa{% endblock %}
 
 {% block content %}
-<section class="bg-gradient-to-tr from-emerald-50 to-white py-16 px-4">
-  <div class="max-w-6xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
+<section class="bg-gray-100 py-20 px-4">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
 
-    <!-- TÍTULO -->
-       <h2 class="text-4xl font-extrabold text-center text-emerald-700 mb-12">💼 Trabaja con Nosotros</h2>
+    <!-- IMAGEN | IZQUIERDA -->
+    <div class="relative" data-aos="fade-right">
+      <img src="{% static 'img/maestro1.jpg' %}"
+           class="rounded-3xl w-full h-[650px] object-cover shadow-2xl" alt="Ambiente laboral">
 
-
-
-    <!-- CONTENIDO INFORMATIVO -->
-    <div class="grid md:grid-cols-2 gap-10 items-center mb-12" data-aos="fade-up" data-aos-delay="100">
-      <img src="{% static 'img/maestro1.webp' %}" class="rounded-3xl shadow-xl w-full" alt="Ambiente laboral" />
-      <div class="space-y-5 text-gray-800 text-lg leading-relaxed">
-        <p>
-          Únete a nuestro equipo educativo de excelencia. En Suazapawa creemos en el talento humano y el desarrollo profesional continuo.
-        </p>
-        <ul class="list-disc pl-6 space-y-2">
-          <li>💰 Salarios competitivos y beneficios sociales</li>
-          <li>📚 Capacitación continua y formación pedagógica</li>
-          <li>🌱 Ambiente escolar cálido, humano y profesional</li>
-          <li>💡 Acceso a recursos tecnológicos e innovadores</li>
-        </ul>
-      </div>
+      <!-- Overlay para contraste -->
+      <div class="absolute inset-0 bg-gradient-to-r from-gray-900/40 rounded-3xl"></div>
     </div>
 
-    <!-- FORMULARIO -->
-    <form method="POST" enctype="multipart/form-data" class="bg-white border border-blue-100 p-10 rounded-3xl shadow-2xl space-y-8" data-aos="fade-up" data-aos-delay="200">
-      {% csrf_token %}
-      <div class="grid md:grid-cols-2 gap-6">
+    <!-- FORMULARIO | DERECHA -->
+    <div class="bg-white p-10 rounded-3xl shadow-xl border border-gray-200" data-aos="fade-left">
 
+      <h2 class="text-4xl font-extrabold text-blue-900 mb-6">
+        💼 TRABAJA CON NOSOTROS
+      </h2>
+
+      <p class="text-black text-lg mb-10 leading-relaxed">
+        Únete a una comunidad educativa que transforma vidas.
+        Comparte tu vocación, experiencia y propósito.
+      </p>
+
+      <form method="POST" enctype="multipart/form-data" class="space-y-7">
+        {% csrf_token %}
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+          <!-- Nombre -->
+          <div>
+            <label class="block mb-1 text-sm font-semibold text-blue-900">Nombre completo *</label>
+            <input type="text" name="nombre" required placeholder="Nombres y Apellidos"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block mb-1 text-sm font-semibold text-blue-900">Correo electrónico *</label>
+            <input type="email" name="email" required placeholder="Ejemplo: docente@gmail.com"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+
+          <!-- Área -->
+          <div>
+            <label class="block mb-1 text-sm font-semibold text-blue-900">Área de interés *</label>
+            <select name="area" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              <option value="">Seleccione una opción</option>
+              <option>Docencia</option>
+              <option>Administración</option>
+              <option>Psicología / Orientación</option>
+              <option>Otro</option>
+            </select>
+          </div>
+
+          <!-- Teléfono -->
+          <div>
+            <label class="block mb-1 text-sm font-semibold text-blue-900">Teléfono de contacto *</label>
+            <input type="tel" name="telefono" required placeholder="Ejemplo: +57 300 1234567"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Motivación -->
         <div>
-          <label class="block mb-1 text-sm font-semibold text-emerald-800">Nombre completo *</label>
-          <input type="text" name="nombre" required class="input input-bordered w-full" />
+          <label class="block mb-1 text-sm font-semibold text-blue-900">Experiencia y motivación *</label>
+          <textarea name="motivacion" rows="5" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    placeholder="Cuéntanos sobre tu experiencia y por qué deseas unirte al equipo..."></textarea>
         </div>
 
+        <!-- Hoja de vida -->
         <div>
-          <label class="block mb-1 text-sm font-semibold text-emerald-800">Correo electrónico *</label>
-          <input type="email" name="email" required class="input input-bordered w-full" />
+          <label class="block mb-1 text-sm font-semibold text-blue-900">Adjuntar hoja de vida (PDF) *</label>
+          <input type="file" name="cv" accept=".pdf" required
+                 class="w-full file:px-4 file:py-2 file:bg-emerald-600 file:text-white file:rounded-xl file:border-0
+                 hover:file:bg-emerald-700 cursor-pointer border border-gray-300 rounded-xl">
+        </div>
+ <br>
+        <!-- Botón -->
+        <div class="text-center">
+          <button type="submit"
+class="bg-blue-900 text-white font-semibold text-lg px-8 py-3 rounded-2xl
+       shadow-md hover:bg-blue-800 hover:shadow-lg
+       hover:scale-[1.03] active:scale-[0.98]
+       transition-all duration-300">
+            📨 Enviar mensaje
+          </button>
         </div>
 
-        <div>
-          <label class="block mb-1 text-sm font-semibold text-emerald-800">Área de interés *</label>
-          <select name="area" required class="select select-bordered w-full">
-            <option value="">Seleccione una opción</option>
-            <option>Docencia</option>
-            <option>Administración</option>
-            <option>Psicología / Orientación</option>
-            <option>Otro</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block mb-1 text-sm font-semibold text-emerald-800">Teléfono de contacto *</label>
-          <input type="tel" name="telefono" required class="input input-bordered w-full" />
-        </div>
-
-        <div class="md:col-span-2">
-          <label class="block mb-1 text-sm font-semibold text-emerald-800">Experiencia y motivación *</label>
-          <textarea name="motivacion" rows="5" required class="textarea textarea-bordered w-full" placeholder="Cuéntanos sobre tu experiencia y por qué quieres unirte a nuestro equipo..."></textarea>
-        </div>
-
-        <div class="md:col-span-2">
-          <label class="block mb-1 text-sm font-semibold text-emerald-800">Adjuntar hoja de vida (PDF) *</label>
-          <input type="file" name="cv" accept=".pdf" required class="file-input file-input-bordered w-full" />
-        </div>
-      </div>
-
-      <div class="text-center">
-        <button type="submit" class="btn btn-success px-10 py-3 text-white font-semibold text-lg hover:scale-105 transition-transform duration-300">
-          Enviar postulación
-        </button>
-      </div>
-    </form>
+      </form>
+    </div>
 
   </div>
 </section>

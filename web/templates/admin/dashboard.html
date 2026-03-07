@@ -1,172 +1,576 @@
-{% extends 'base.html' %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
 
-{% block title %}🌐 Dashboard Ejecutivo | Suazapawa{% endblock %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Dashboard | Suazapawa{% endblock %}</title>
+  <link href="{% static 'css/tailwind.css' %}" rel="stylesheet" />
+  <link href="{% static 'vendor/fontawesome/css/all.min.css' %}" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet">
+  {% block extra_head %}{% endblock %}
+  <style>
+    :root {
+      --sidebar-w: 260px;
+      --sidebar-collapsed-w: 72px;
+      --navbar-h: 64px;
+      --brand-from: #1e3a5f;
+      --brand-to: #2563eb;
+      --accent: #3b82f6;
+      --sidebar-text: rgba(255,255,255,0.85);
+    }
 
-{% block extra_css %}
-<link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-<style>
-  .sidebar {
-    background: linear-gradient(180deg, #0583cc 0%, #bdebfa 100%);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    width: 12rem;
-    padding: 1.5rem;
-    flex-shrink: 0;
-  }
-  .logo {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 9999px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    margin-bottom: 1.5rem;
-  }
-  .nav {
-    text-align: center;
-  }
-  .nav-link {
-    display: block;
-    padding: 0.5rem 1rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #000;
-    border-radius: 0.5rem;
-    transition: background 0.3s ease;
-  }
-  .nav-link:hover {
-    background: rgba(255,255,255,0.3);
-  }
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 40;
-    display: none;
-  }
-  .overlay.visible {
-    display: block;
-    opacity: 1;
-  }
-  .menu-btn {
-    background-color: #1e3a8a;
-    color: white;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-  }
-  .lock-scroll {
-    overflow: hidden;
-  }
-  @media (max-width: 767px) {
-    .sidebar {
+    * { font-family: 'Inter', sans-serif; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: var(--sidebar-w);
+      background: linear-gradient(170deg, #0f2344 0%, #1a3a6e 45%, #1d4ed8 100%);
+      box-shadow: 6px 0 32px rgba(0,0,0,0.18);
+      transition: width 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      overflow: hidden;
+    }
+
+    #sidebar.collapsed {
+      width: var(--sidebar-collapsed-w);
+    }
+
+    #sidebar .sidebar-label,
+    #sidebar .sidebar-section-title,
+    #sidebar .sidebar-user-info {
+      transition: opacity 0.2s ease, width 0.2s ease;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    #sidebar.collapsed .sidebar-label,
+    #sidebar.collapsed .sidebar-section-title,
+    #sidebar.collapsed .sidebar-user-info {
+      opacity: 0;
+      width: 0;
+      pointer-events: none;
+    }
+
+    #sidebar.collapsed .sidebar-logo-text {
+      opacity: 0;
+      width: 0;
+    }
+
+    .sidebar-logo-text {
+      transition: opacity 0.2s ease, width 0.2s ease;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* ── Nav items ── */
+    .nav-item {
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      border-radius: 12px;
+      color: var(--sidebar-text);
+    }
+
+    .nav-item::after {
+      content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-      height: 100%;
-      z-index: 50;
+      left: 0; top: 50%;
+      transform: translateY(-50%) scaleY(0);
+      width: 3px; height: 60%;
+      background: #fff;
+      border-radius: 0 4px 4px 0;
+      transition: transform 0.25s ease;
     }
-    .sidebar.open {
-      transform: translateX(0);
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.12);
+      color: white;
     }
-  }
-</style>
-{% endblock %}
 
-{% block content %}
-<div id="overlay" class="overlay"></div>
+    .nav-item.active {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-weight: 600;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+    }
 
-<div class="flex flex-col min-h-screen">
-  <div class="flex flex-col md:flex-row flex-1">
-    <aside id="sidebar" class="sidebar">
-      <img src="{% static 'img/logo-suazapawa.jpg' %}" alt="Suazapawa" class="logo">
-      <nav class="nav">
-        <a href="#" data-show="bienvenida" class="nav-link">Bienvenida</a>
-        <a href="#" data-show="perfil" class="nav-link">Perfil</a>
-        <a href="#" data-show="calendario" class="nav-link">Calendario</a>
-        <a href="#" data-show="noticias" class="nav-link">Noticias</a>
-      </nav>
-    </aside>
+    .nav-item.active::after {
+      transform: translateY(-50%) scaleY(1);
+    }
 
-    <div class="flex-1">
-      <!-- Botón menú móvil -->
-      <div class="md:hidden fixed top-24 left-2 z-50">
-        <button id="menu-toggle" class="menu-btn" aria-label="Abrir menú" tabindex="0">
-          <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
-        </button>
+    .nav-icon {
+      min-width: 20px;
+      text-align: center;
+      font-size: 1rem;
+      transition: transform 0.25s ease;
+    }
+
+    .nav-item:hover .nav-icon {
+      transform: scale(1.15);
+    }
+
+    /* ── Tooltip al colapsar ── */
+    #sidebar.collapsed .nav-tooltip {
+      display: block !important;
+    }
+
+    .nav-tooltip {
+      display: none;
+      position: absolute;
+      left: calc(var(--sidebar-collapsed-w) + 8px);
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1e293b;
+      color: white;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 8px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .nav-tooltip::before {
+      content: '';
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 5px solid transparent;
+      border-right-color: #1e293b;
+    }
+
+    /* ── Separator ── */
+    .nav-separator {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      margin: 6px 0;
+    }
+
+    /* ── Avatar gradient ── */
+    .avatar-ring {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+      padding: 2px;
+      border-radius: 50%;
+    }
+
+    .avatar-inner {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 50%;
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700;
+    }
+
+    /* ── Navbar ── */
+    #top-navbar {
+      height: var(--navbar-h);
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(226,232,240,0.9);
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+      transition: left 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ── Search ── */
+    .search-wrap {
+      background: #f1f5f9;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      transition: all 0.25s ease;
+    }
+
+    .search-wrap:focus-within {
+      background: #fff;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    }
+
+    /* ── Content wrapper ── */
+    #content-wrapper {
+      margin-left: var(--sidebar-w);
+      transition: margin-left 0.3s cubic-bezier(0.4,0,0.2,1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #content-wrapper.collapsed {
+      margin-left: var(--sidebar-collapsed-w);
+    }
+
+    @media (max-width: 1023px) {
+      #content-wrapper { margin-left: 0 !important; }
+      #sidebar { transform: translateX(-100%); position: fixed; z-index: 50; }
+      #sidebar.mobile-open { transform: translateX(0); }
+    }
+
+    /* ── Main ── */
+    #main-content {
+      flex: 1;
+      background: #f4f7fb;
+      overflow-y: auto;
+    }
+
+    /* ── Animaciones ── */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-enter {
+      animation: fadeSlideIn 0.45s ease-out both;
+    }
+
+    /* ── Collapse toggle button ── */
+    #collapse-btn {
+      transition: all 0.25s ease;
+    }
+
+    #collapse-btn:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    /* ── Notification dot ── */
+    .notif-dot {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      border: 2px solid white;
+    }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb-sep::before {
+      content: '/';
+      color: #cbd5e1;
+      margin: 0 6px;
+    }
+
+    /* ── Sidebar footer btn ── */
+    .sidebar-action-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: rgba(255,255,255,0.8);
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      text-decoration: none;
+    }
+
+    .sidebar-action-btn:hover {
+      background: rgba(255,255,255,0.18);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    /* ── Module badge ── */
+    .module-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: white;
+      box-shadow: 0 2px 8px rgba(79,70,229,0.35);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-100 overflow-hidden">
+
+  <!-- Overlay mobile -->
+  <div id="overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+
+  <!-- ══════════════════ SIDEBAR ══════════════════ -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 flex flex-col z-50">
+
+    <!-- Logo -->
+    <div class="flex items-center gap-3 px-4 py-4 border-b border-white/10 shrink-0">
+      <a href="{% url 'dashboard' %}" class="shrink-0">
+        <img src="{% static 'img/logo-suazapawa.jpg' %}"
+          class="w-10 h-10 rounded-xl border-2 border-white/25 object-cover shadow-lg" alt="Logo" />
+      </a>
+      <div class="sidebar-logo-text">
+        <p class="text-white font-bold text-sm leading-none tracking-wide">SUAZAPAWA</p>
+        <p class="text-white/50 text-xs mt-0.5">Panel Admin</p>
+      </div>
+      <!-- Collapse btn (desktop) -->
+      <button id="collapse-btn" class="hidden lg:flex ml-auto w-7 h-7 rounded-lg items-center justify-center text-white/60 hover:text-white" title="Colapsar sidebar">
+        <i class="fas fa-angles-left text-xs" id="collapse-icon"></i>
+      </button>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-1">
+
+      <!-- Sección Home -->
+      <p class="sidebar-section-title px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-white/40">Inicio</p>
+
+      <a href="?m=bienvenida" class="nav-item relative flex items-center gap-3 px-3 py-2.5 {% if selected_module == 'bienvenida' %}active{% endif %}">
+        <i class="nav-icon fas fa-gauge-high"></i>
+        <span class="sidebar-label text-sm">Dashboard</span>
+        <span class="nav-tooltip">Dashboard</span>
+      </a>
+
+      <div class="nav-separator mx-2"></div>
+
+      <!-- Sección Gestión -->
+      <p class="sidebar-section-title px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-white/40">Gestión</p>
+
+      <a href="?m=perfil" class="nav-item relative flex items-center gap-3 px-3 py-2.5 {% if selected_module == 'perfil' %}active{% endif %}">
+        <i class="nav-icon fas fa-user-circle"></i>
+        <span class="sidebar-label text-sm">Mi Perfil</span>
+        <span class="nav-tooltip">Mi Perfil</span>
+      </a>
+
+      <a href="?m=calendario" class="nav-item relative flex items-center gap-3 px-3 py-2.5 {% if selected_module == 'calendario' %}active{% endif %}">
+        <i class="nav-icon fas fa-calendar-days"></i>
+        <span class="sidebar-label text-sm">Eventos</span>
+        {% if num_eventos %}
+        <span class="sidebar-label ml-auto text-[0.65rem] bg-blue-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">{{ num_eventos }}</span>
+        {% endif %}
+        <span class="nav-tooltip">Eventos</span>
+      </a>
+
+      <a href="?m=noticias" class="nav-item relative flex items-center gap-3 px-3 py-2.5 {% if selected_module == 'noticias' %}active{% endif %}">
+        <i class="nav-icon fas fa-newspaper"></i>
+        <span class="sidebar-label text-sm">Noticias</span>
+        {% if num_noticias %}
+        <span class="sidebar-label ml-auto text-[0.65rem] bg-violet-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">{{ num_noticias }}</span>
+        {% endif %}
+        <span class="nav-tooltip">Noticias</span>
+      </a>
+
+      <div class="nav-separator mx-2"></div>
+
+      <!-- Sección Links -->
+      <p class="sidebar-section-title px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-white/40">Sitio Web</p>
+
+      <a href="/" target="_blank" class="nav-item relative flex items-center gap-3 px-3 py-2.5">
+        <i class="nav-icon fas fa-globe"></i>
+        <span class="sidebar-label text-sm">Ver Sitio</span>
+        <i class="sidebar-label fas fa-arrow-up-right-from-square text-white/30 text-xs ml-auto"></i>
+        <span class="nav-tooltip">Ver Sitio</span>
+      </a>
+
+    </nav>
+
+    <!-- Footer del sidebar -->
+    <div class="px-3 py-3 border-t border-white/10 shrink-0 space-y-2">
+      <!-- User card -->
+      <div class="flex items-center gap-3 px-2 py-2 rounded-xl bg-white/5">
+        <div class="avatar-ring w-9 h-9 shrink-0">
+          <div class="avatar-inner text-sm">
+            {{ request.user.first_name.0|default:request.user.username.0|upper }}
+          </div>
+        </div>
+        <div class="sidebar-user-info flex-1 min-w-0">
+          <p class="text-white text-sm font-semibold truncate leading-none">
+            {{ request.user.first_name|default:request.user.username }}
+          </p>
+          <p class="text-white/45 text-xs mt-0.5">Administrador</p>
+        </div>
+      </div>
+      <!-- Botones acción -->
+      <div class="grid grid-cols-2 gap-1.5">
+        <a href="/" class="sidebar-action-btn">
+          <i class="fas fa-house text-xs"></i>
+          <span class="sidebar-label">Inicio</span>
+        </a>
+        <a href="{% url 'logout' %}" class="sidebar-action-btn">
+          <i class="fas fa-right-from-bracket text-xs"></i>
+          <span class="sidebar-label">Salir</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════════════ CONTENT WRAPPER ══════════════════ -->
+  <div id="content-wrapper" class="flex flex-col min-h-screen">
+
+    <!-- ── NAVBAR ── -->
+    <header id="top-navbar" class="sticky top-0 z-30 flex items-center gap-3 px-4 sm:px-6">
+
+      <!-- Mobile toggle -->
+      <button id="mobile-toggle" class="lg:hidden w-9 h-9 rounded-xl bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-md transition-all shrink-0">
+        <i class="fas fa-bars text-sm"></i>
+      </button>
+
+      <!-- Breadcrumb / Título -->
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="text-slate-400 text-sm hidden sm:block">Panel</span>
+        {% if selected_module %}
+        <span class="breadcrumb-sep hidden sm:block text-slate-400 text-sm"></span>
+        <span class="text-slate-700 font-semibold text-sm capitalize">
+          {% if selected_module == 'bienvenida' %}Dashboard
+          {% elif selected_module == 'calendario' %}Eventos
+          {% elif selected_module == 'perfil' %}Mi Perfil
+          {% elif selected_module == 'noticias' %}Noticias
+          {% else %}{{ selected_module }}
+          {% endif %}
+        </span>
+        {% endif %}
       </div>
 
-      <main class="p-4 md:p-6 overflow-y-auto" data-aos="fade-up">
-        <section id="module-bienvenida" class="module-panel">
-          {% include 'admin/modulos/bienvenida.html' %}
-        </section>
-        <section id="module-perfil" class="module-panel hidden">
-          {% include 'admin/modulos/perfil.html' %}
-        </section>
-        <section id="module-calendario" class="module-panel hidden">
-          {% include 'admin/modulos/calendario.html' %}
-        </section>
-        <section id="module-noticias" class="module-panel hidden">
-          {% include 'admin/modulos/noticias.html' %}
-        </section>
-      </main>
-    </div>
+      <!-- Badge del módulo (mobile) -->
+      {% if selected_module %}
+      <span class="module-badge sm:hidden ml-auto shrink-0">
+        {% if selected_module == 'bienvenida' %}🏠
+        {% elif selected_module == 'calendario' %}📅
+        {% elif selected_module == 'noticias' %}📰
+        {% elif selected_module == 'perfil' %}👤
+        {% else %}{{ selected_module }}
+        {% endif %}
+      </span>
+      {% endif %}
+
+      <!-- Search (centro) -->
+      <div class="hidden md:flex flex-1 max-w-sm mx-auto">
+        <div class="search-wrap flex items-center w-full px-3.5 py-2">
+          <i class="fas fa-search text-slate-400 text-xs mr-2.5"></i>
+          <input type="text" id="global-search" placeholder="Buscar en el panel..."
+            class="bg-transparent flex-1 outline-none text-sm text-slate-700 placeholder-slate-400" autocomplete="off" />
+          <kbd class="hidden sm:inline text-[10px] text-slate-400 bg-slate-200 px-1.5 py-0.5 rounded font-mono ml-2">⌘K</kbd>
+        </div>
+      </div>
+
+      <!-- Acciones derecha -->
+      <div class="flex items-center gap-1 ml-auto">
+
+        <!-- Search mobile -->
+        <button class="md:hidden w-9 h-9 rounded-xl hover:bg-slate-100 transition flex items-center justify-center text-slate-500">
+          <i class="fas fa-search text-sm"></i>
+        </button>
+
+        <!-- Notificaciones -->
+        <button class="relative w-9 h-9 rounded-xl hover:bg-slate-100 transition flex items-center justify-center text-slate-500">
+          <i class="fas fa-bell text-sm"></i>
+          <span class="notif-dot"></span>
+        </button>
+
+        <!-- Acceso rápido: Ver sitio -->
+        <a href="/" target="_blank" class="hidden sm:flex w-9 h-9 rounded-xl hover:bg-slate-100 transition items-center justify-center text-slate-500" title="Ver sitio web">
+          <i class="fas fa-globe text-sm"></i>
+        </a>
+
+        <!-- Perfil del usuario -->
+        <div class="relative group ml-1">
+          <button class="flex items-center gap-2 pl-1 pr-3 py-1 rounded-xl hover:bg-slate-100 transition">
+            <div class="avatar-ring w-8 h-8">
+              <div class="avatar-inner text-xs">
+                {{ request.user.first_name.0|default:request.user.username.0|upper }}
+              </div>
+            </div>
+            <div class="hidden sm:block text-left">
+              <p class="text-sm font-semibold text-slate-700 leading-none">{{ request.user.first_name|default:request.user.username }}</p>
+              <p class="text-xs text-slate-400 mt-0.5">Admin</p>
+            </div>
+            <i class="fas fa-chevron-down text-slate-400 text-xs hidden sm:block"></i>
+          </button>
+
+          <!-- Dropdown -->
+          <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-1 group-hover:translate-y-0">
+            <a href="?m=perfil" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-sm text-slate-700 transition">
+              <i class="fas fa-user-circle text-blue-500 w-4"></i>Mi Perfil
+            </a>
+            <div class="my-1 border-t border-slate-100"></div>
+            <a href="{% url 'logout' %}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 text-sm text-red-500 transition">
+              <i class="fas fa-right-from-bracket w-4"></i>Cerrar Sesión
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main id="main-content" class="flex-1 px-4 sm:px-6 py-5">
+      <div class="page-enter max-w-screen-2xl mx-auto">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <!-- ── FOOTER ── -->
+    <footer class="px-6 py-3 text-center text-xs text-slate-400 border-t border-slate-200 bg-white/60">
+      © 2026 Suazapawa · Panel Administrativo
+    </footer>
+
   </div>
-</div>
-{% endblock %}
 
-{% block extra_js %}
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-<script>
-  AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
+  <!-- ══════════════════ SCRIPTS ══════════════════ -->
+  <script>
+    (() => {
+      const sidebar       = document.getElementById('sidebar');
+      const wrapper       = document.getElementById('content-wrapper');
+      const overlay       = document.getElementById('overlay');
+      const mobileToggle  = document.getElementById('mobile-toggle');
+      const collapseBtn   = document.getElementById('collapse-btn');
+      const collapseIcon  = document.getElementById('collapse-icon');
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggle = document.getElementById('menu-toggle');
-    const panels = document.querySelectorAll('.module-panel');
-    const params = new URLSearchParams(window.location.search);
-    const target = params.get("show");
-    if (target) {
-      panels.forEach(p => p.classList.add("hidden"));
-      const activePanel = document.getElementById("module-" + target);
-      if (activePanel) {
-      activePanel.classList.remove("hidden");
-  }
-}
+      /* ── Estado persistido ── */
+      const COLLAPSED_KEY = 'sz_sidebar_collapsed';
+      let isCollapsed = localStorage.getItem(COLLAPSED_KEY) === 'true';
 
+      const applyCollapse = (animate = false) => {
+        if (!animate) sidebar.style.transition = 'none';
+        sidebar.classList.toggle('collapsed', isCollapsed);
+        wrapper.classList.toggle('collapsed', isCollapsed);
+        collapseIcon.className = isCollapsed
+          ? 'fas fa-angles-right text-xs'
+          : 'fas fa-angles-left text-xs';
+        if (!animate) requestAnimationFrame(() => sidebar.style.transition = '');
+      };
 
-    toggle?.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('visible');
-      document.body.classList.toggle('lock-scroll');
-    });
+      applyCollapse(false);
 
-    overlay.addEventListener('click', () => {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('visible');
-      document.body.classList.remove('lock-scroll');
-    });
+      collapseBtn?.addEventListener('click', () => {
+        isCollapsed = !isCollapsed;
+        localStorage.setItem(COLLAPSED_KEY, isCollapsed);
+        applyCollapse(true);
+      });
 
-    document.querySelectorAll('a[data-show]').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const key = link.getAttribute('data-show');
-        panels.forEach(p => p.classList.add('hidden'));
-        document.getElementById('module-' + key).classList.remove('hidden');
+      /* ── Mobile ── */
+      const openMobile  = () => { sidebar.classList.add('mobile-open'); overlay.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
+      const closeMobile = () => { sidebar.classList.remove('mobile-open'); overlay.classList.add('hidden'); document.body.style.overflow = ''; };
 
-        if (window.innerWidth < 768) {
-          sidebar.classList.remove('open');
-          overlay.classList.remove('visible');
-          document.body.classList.remove('lock-scroll');
+      mobileToggle?.addEventListener('click', openMobile);
+      overlay?.addEventListener('click', closeMobile);
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) closeMobile();
+      });
+
+      /* ── Cerrar al navegar en mobile ── */
+      sidebar.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => { if (window.innerWidth < 1024) closeMobile(); });
+      });
+
+      /* ── Atajo de teclado búsqueda ── */
+      document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+          e.preventDefault();
+          document.getElementById('global-search')?.focus();
         }
       });
-    });
-  });
-</script>
-{% endblock %}
+    })();
+  </script>
+
+  {% block extra_js_end %}{% endblock %}
+</body>
+</html>
+

@@ -3,7 +3,6 @@
 # -------------------------
 __pycache__/
 *.py[cod]
-*.pyc
 *.pyd
 *.so
 *.sqlite3
@@ -37,18 +36,27 @@ secrets.json
 # -------------------------
 *.log
 *.pot
-*.pyc
 local_settings.py
 
 # Archivos generados por collectstatic y media
 staticfiles/
 static/
 media/
-static/video/
-*.mp4
-*.mov
-*.avi
-*.mkv
+
+# PERO NO ignorar los estáticos propios del proyecto
+!web/static/
+!web/static/css/
+!web/static/img/
+!web/static/vendor/
+!web/static/**
+
+# -------------------------
+# Node
+# -------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # -------------------------
 # IDEs y editores
@@ -63,6 +71,10 @@ static/video/
 # -------------------------
 .DS_Store
 Thumbs.db
+
+# -------------------------
+# Archivos sueltos detectados
+# -------------------------
 suazapawa/__pycache__/settings.cpython-313.pyc
 web/__pycache__/forms.cpython-313.pyc
 web/__pycache__/views.cpython-313.pyc

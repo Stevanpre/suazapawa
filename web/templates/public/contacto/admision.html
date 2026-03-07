@@ -1,79 +1,130 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}📘 Proceso de Admisión | Suazapawa{% endblock %}
-
+{% block title %} Proceso de Admisión | Suazapawa{% endblock %}
 
 {% block content %}
-<section class="bg-gradient-to-br from-blue-50 to-white py-16 px-6">
-  <div class="max-w-6xl mx-auto">
+
+<section class="bg-gradient-to-br from-blue-50 to-white py-20 px-6">
+  <div class="max-w-3xl mx-auto">
 
     <!-- Título -->
-    <h2 class="text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-500 mb-4"
-        data-aos="fade-up" data-aos-duration="800">
-      📘 Proceso de Admisión
+    <h2 class="text-5xl font-extrabold text-center text-blue-900 mb-8">
+      👨‍💻PROCESO DE ADMISIÓN
     </h2>
 
     <!-- Descripción -->
-    <p class="text-lg text-center text-gray-700 max-w-3xl mx-auto mb-12"
-       data-aos="fade-up" data-aos-delay="150" data-aos-duration="800">
-      Nuestro proceso de admisión está diseñado para identificar estudiantes con alto potencial académico, compromiso social y sólidos valores. Completa el formulario para iniciar tu camino con nosotros.
+    <p class="text-xl text-justify text-black mb-12">
+      Da el primer paso en tu proceso de admisión con una experiencia guiada, transparente y pensada para tu comodidad.
+      Completa la información solicitada y nuestro equipo te acompañará en cada etapa del camino.
     </p>
 
-    <!-- Contenedor general -->
-    <div class="grid md:grid-cols-2 gap-10 items-start">
+    <!-- BOTÓN PARA MOSTRAR MODAL -->
+    <div class="text-center mb-10">
+      <button
+        onclick="document.getElementById('modalImagen').classList.remove('hidden')"
+        class="px-6 py-3 rounded-2xl bg-blue-900 text-white font-semibold shadow hover:bg-blue-800 transition">
+        📘 Ver paso a paso
+      </button>
+    </div>
 
-      <!-- Imagen -->
-      <div class="space-y-6" data-aos="zoom-in-right" data-aos-delay="200" data-aos-duration="1000">
-        <img src="{% static 'img/formulario.jpg' %}" alt="Formulario de admisión" class="rounded-3xl shadow-xl border border-blue-100">
-        <div class="bg-white p-6 rounded-xl shadow border border-blue-100 space-y-3">
-          <!-- Puedes agregar detalles extra aquí si deseas -->
+    <!-- Tarjeta de información -->
+    <div class="bg-white p-6 rounded-3xl shadow-xl border border-red-900 space-y-4 mb-12">
+      <h3 class="text-2xl font-semibold text-blue-900 text-center">¿Por qué elegirnos?</h3>
+      <p class="text-black text-xl text-justify">
+        Formación integral, excelencia académica, valores sólidos y acompañamiento constante.
+      </p>
+    </div>
+
+    <!-- Formulario -->
+    <form method="POST" enctype="multipart/form-data"
+          class="bg-white p-10 rounded-3xl shadow-2xl border border-red-800 space-y-7">
+
+      {% csrf_token %}
+
+      <h3 class="text-2xl font-bold text-blue-900 mb-4 text-center">
+        Información del Aspirante
+      </h3>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-1">
+          <label class="font-semibold text-blue-900">Nombre completo *</label>
+          <input type="text" name="nombre" required placeholder="Ejemplo: María Gómez"
+                 class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition bg-white"/>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-semibold text-blue-900">Correo electrónico *</label>
+          <input type="email" name="email" required placeholder="Ejemplo: maria@email.com"
+                 class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition"/>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-semibold text-blue-900">Teléfono *</label>
+          <input type="tel" name="telefono" required placeholder="Ejemplo: 3001234567"
+                 class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition"/>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-semibold text-blue-900">Grado al que aspira *</label>
+          <select name="grado" required
+                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition">
+            <option value="">Seleccione un grado</option>
+            <option>Preescolar</option>
+            <option>Primaria</option>
+            <option>Secundaria</option>
+            <option>Media</option>
+          </select>
         </div>
       </div>
 
-      <!-- Formulario -->
-      <form method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-3xl shadow-xl border border-blue-100 space-y-6"
-            data-aos="fade-left" data-aos-delay="300" data-aos-duration="1000">
-        {% csrf_token %}
-        <div class="grid md:grid-cols-2 gap-6">
-          <div>
-            <label for="nombre" class="block mb-1 text-sm font-semibold text-sky-700">👤 Nombre completo *</label>
-            <input type="text" id="nombre" name="nombre" required placeholder="Ej: María Gómez" class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" />
-          </div>
-          <div>
-            <label for="email" class="block mb-1 text-sm font-semibold text-sky-700">📧 Correo electrónico *</label>
-            <input type="email" id="email" name="email" required placeholder="Ej: maria@email.com" class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" />
-          </div>
-          <div>
-            <label for="telefono" class="block mb-1 text-sm font-semibold text-sky-700">📞 Teléfono *</label>
-            <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 3001234567" class="input input-bordered w-full focus:ring-2 focus:ring-sky-400" />
-          </div>
-          <div>
-            <label for="grado" class="block mb-1 text-sm font-semibold text-sky-700">🎓 Grado al que aspira *</label>
-            <select id="grado" name="grado" required class="select select-bordered w-full focus:ring-2 focus:ring-sky-400">
-              <option value="">Seleccione un grado</option>
-              <option>Preescolar</option>
-              <option>Primaria</option>
-              <option>Secundaria</option>
-              <option>Media</option>
-            </select>
-          </div>
-        </div>
+      <div class="space-y-1">
+        <label class="font-semibold text-blue-900">Motivo de la solicitud *</label>
+        <textarea name="motivo" rows="5" required placeholder="Cuéntanos por qué deseas ingresar..."
+                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 resize-none mb-10"></textarea>
+      </div>
 
-        <div>
-          <label for="motivo" class="block mb-1 text-sm font-semibold text-sky-700">✍️ Motivo de la solicitud *</label>
-          <textarea id="motivo" name="motivo" rows="5" required class="textarea textarea-bordered w-full focus:ring-2 focus:ring-sky-400" placeholder="Cuéntanos por qué deseas ingresar a nuestra institución..."></textarea>
-        </div>
-
-        <div class="text-center pt-4">
-          <button type="submit" class="btn bg-sky-600 text-white px-10 py-3 rounded-xl hover:bg-sky-700 hover:scale-105 transition">
-            📩 Enviar solicitud
+      <!-- Botón -->
+          <div class="text-center">
+          <button type="submit"
+class="bg-blue-900 text-white font-semibold text-lg px-8 py-3 rounded-2xl
+       shadow-md hover:bg-blue-800 hover:shadow-lg
+       hover:scale-[1.03] active:scale-[0.98]
+       transition-all duration-300">
+            📨 Enviar mensaje
           </button>
         </div>
-      </form>
-    </div>
+
+    </form>
   </div>
 </section>
+
+<div id="modalImagen"
+     class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+
+  <div class="bg-white p-4 rounded-3xl shadow-xl w-full max-w-xl relative">
+
+      <!-- Contenedor de la imagen, necesario para posicionar la X -->
+      <div class="relative inline-block w-full">
+
+          <!-- Imagen -->
+          <img src="{% static 'img/formulario.jpg' %}"
+               alt="Paso a paso"
+               class="rounded-xl w-full max-w-md max-h-[70vh] object-contain mx-auto">
+
+          <!-- Botón cerrar sobre la imagen -->
+          <button
+            onclick="document.getElementById('modalImagen').classList.add('hidden')"
+            class="absolute top-2 right-2 bg-white text-black
+                   w-9 h-9 flex items-center justify-center
+                   rounded-full text-xl font-bold shadow-md
+                   hover:bg-red-500 hover:text-white transition">
+            ✕
+          </button>
+      </div>
+  </div>
+</div>
+
+
+
 {% endblock %}
-
-

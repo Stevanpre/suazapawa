@@ -3,176 +3,117 @@
 
 {% block title %}Sobre Nosotros | Colegio Suazapawa{% endblock %}
 
-{% block extra_css %}
-<style>
-  .about-section {
-    background: linear-gradient(to bottom,#d1d5db);
-    padding: 3rem 1rem;
-  }
-
-  .intro-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto 3rem auto;
-  }
-
-  @media (min-width: 1024px) {
-    .intro-container {
-      flex-direction: row;
-      align-items: stretch;
-    }
-  }
-
-  .intro-text {
-    flex: 1;
-    color: #000000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  .intro-text h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #fb0202;
-  }
-
-  .intro-text .years {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #0069ff;
-  }
-
-  .intro-img {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-
-  .intro-img img {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 1rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    object-fit: cover;
-  }
-
-  .story {
-    max-width: 800px;
-    margin: 2rem auto;
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-  }
-
-  .values-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    max-width: 800px;
-    margin: 2rem auto;
-  }
-
-  .valor-card {
-    background: white;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    text-align: center;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-  }
-
-  .valor-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-  }
-
-  .valor-card-icon {
-    font-size: 2rem;
-    color: #0284c7;
-    margin-bottom: 0.5rem;
-  }
-
-  .testimonial-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    max-width: 800px;
-    margin: 3rem auto;
-  }
-
-  @media (min-width: 768px) {
-    .testimonial-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .testimonial {
-    background: white;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<section class="about-section">
 
-  <!-- Intro en 2 columnas -->
-  <div class="intro-container" data-aos="fade-up">
-    <!-- Texto izquierda -->
-    <div class="intro-text">
-      <h1>🏫 Colegio Suazapawa</h1>
-      <p class="years">+35 años</p>
-      <p>
-        Comprometidos con la formación integral de nuestros estudiantes. Brindamos educación con valores, ciencia y compromiso humano.
-      </p>
+<!-- HERO -->
+<section class="bg-gray-300 py-16">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+        <!-- Imagen -->
+        <div class="flex justify-center" data-aos="fade-right">
+            <img src="{% static 'img/fondo1Ex.JPG' %}"
+                 class="w-full max-w-lg rounded-2xl shadow-xl object-cover"
+                 alt="Imagen institucional del colegio">
+        </div>
+
+        <!-- Texto -->
+        <div class="space-y-4" data-aos="fade-left">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-blue-900">
+                Colegio Suazapawa
+            </h1>
+            <p class="text-2xl font-bold text-red-700">+35 años de historia</p>
+
+            <p class="text-black text-2xl justify-center">
+                Educamos con ciencia, valores y humanidad. Un espacio donde cada
+                estudiante desarrolla su potencial en un entorno seguro, respetuoso
+                y profundamente formativo.
+            </p>
+        </div>
     </div>
-
-    <!-- Imagen derecha -->
-    <div class="intro-img">
-      <img src="{% static 'img/fondo1Ex.JPG' %}" alt="Imagen institucional del colegio">
-    </div>
-  </div>
-
-  <!-- Nuestra Historia -->
-  <div class="story" data-aos="fade-up" data-aos-delay="150">
-    <h4 style="color:#d7263d;">📚 Nuestra Historia</h4>
-    <p style="color:#1a3c6c;">
-      Desde su fundación, Suazapawa ha crecido gracias al compromiso de docentes, familias y estudiantes,
-      fomentando una educación integral centrada en el respeto, la excelencia académica y el desarrollo humano.
-    </p>
-  </div>
-
-  <!-- Nuestros Valores -->
-  <h3 class="text-center text-xl md:text-2xl font-bold mb-4" style="color:#1a3c6c;" data-aos="fade-up" data-aos-delay="200">💡 Nuestros Valores</h3>
-  <div class="values-grid" data-aos="fade-up" data-aos-delay="250">
-    <div class="valor-card"><div class="valor-card-icon">🤝</div><p>Respeto</p></div>
-    <div class="valor-card"><div class="valor-card-icon">🧠</div><p>Responsabilidad</p></div>
-    <div class="valor-card"><div class="valor-card-icon">💬</div><p>Honestidad</p></div>
-    <div class="valor-card"><div class="valor-card-icon">🌍</div><p>Compromiso</p></div>
-  </div>
-
-  <!-- Testimonios -->
-  <div class="testimonial-grid" data-aos="fade-up" data-aos-delay="300">
-    <div class="testimonial">
-      <p>"Suazapawa ha transformado mi relación con el aprendizaje. Los docentes inspiran y motivan a diario."</p>
-      <footer class="mt-2 text-right text-sm font-semibold text-cyan-700">– Estudiante Anónimo</footer>
-    </div>
-    <div class="testimonial">
-      <p>"La comunidad educativa fortalece a cada estudiante día a día. Es un segundo hogar."</p>
-      <footer class="mt-2 text-right text-sm font-semibold text-cyan-700">– Padre de Familia</footer>
-    </div>
-  </div>
-
 </section>
+
+
+<!-- NUESTRA HISTORIA -->
+<section class="py-16 bg-gray-300">
+    <div class="max-w-4xl mx-auto px-6 text-center space-y-6" data-aos="fade-up">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-blue-900">📚 Nuestra Historia</h2>
+
+        <p class="text-black text-2xl text-justify">
+            Desde nuestra fundación, hemos crecido junto a miles de familias
+            que creen en la educación como motor de transformación.
+            Suazapawa se ha consolidado como una institución que combina
+            excelencia académica, desarrollo humano y un profundo compromiso social.
+        </p>
+
+    </div>
+</section>
+
+
+<!-- VALORES -->
+<section class="py-16 bg-gray-300">
+    <h2 class="text-center text-3xl md:text-4xl font-bold text-blue-900 mb-10" data-aos="fade-up">
+        💡 Nuestros Valores
+    </h2>
+
+    <div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
+
+        <!-- Valor -->
+        <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
+            <div class="text-4xl mb-2">🤝</div>
+            <p class="font-semibold">Respeto</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
+            <div class="text-4xl mb-2">🧠</div>
+            <p class="font-semibold">Responsabilidad</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
+            <div class="text-4xl mb-2">💬</div>
+            <p class="font-semibold">Honestidad</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
+            <div class="text-4xl mb-2">🌍</div>
+            <p class="font-semibold">Compromiso</p>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- TESTIMONIOS -->
+<section class="py-20 bg-gray-300">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <h2 class="text-center text-3xl md:text-4xl font-bold text-blue-900 mb-12" data-aos="fade-up">
+            🌟 Testimonios de Nuestra Comunidad
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+            <div class="p-8 rounded-2xl bg-gray-50 shadow" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-black text-lg leading-relaxed">
+                    “Suazapawa me enseñó a amar el aprendizaje. Los docentes inspiran, acompañan
+                    y construyen confianza todos los días.”
+                </p>
+                <div class="text-right mt-4 font-semibold text-sky-800">
+                    – Estudiante Anónimo
+                </div>
+            </div>
+
+            <div class="p-8 rounded-2xl bg-gray-50 shadow" data-aos="fade-up" data-aos-delay="200">
+                <p class="text-black text-lg leading-relaxed">
+                    “Cada día vemos cómo el colegio aporta no solo educación,
+                    sino valores que fortalecen a nuestros hijos.”
+                </p>
+                <div class="text-right mt-4 font-semibold text-sky-800">
+                    – Padre de Familia
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
 {% endblock %}

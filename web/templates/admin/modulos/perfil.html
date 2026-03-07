@@ -1,178 +1,479 @@
+{% extends 'admin/dashboard.html' %}
 {% load static %}
+{% block title %}Mi Perfil | Panel Suazapawa{% endblock %}
 
-{% block extra_css %}
-<!-- Flowbite + DaisyUI + AOS + FontAwesome -->
-<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/daisyui@3.0.0/dist/full.css" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
+{% block extra_head %}
 <style>
-  .swal2-confirm, .swal2-cancel {
-    background-color: #0284c7 !important; /* sky-600 */
-    color: white !important;
-    border-radius: 0.5rem !important;
-    padding: 0.5rem 1.2rem !important;
-    font-weight: 600;
+  /* ── Sistema de diseño ── */
+  .content-card {
+    background: white; border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid rgba(226,232,240,0.8); overflow: hidden;
+  }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px 14px; border-bottom: 1px solid #f1f5f9;
   }
 
-  .password-rules {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
+  /* ── Avatar ── */
+  .avatar-xl {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
+    border-radius: 24px; padding: 3px; flex-shrink: 0;
+  }
+  .avatar-xl-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    border-radius: 22px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.75rem; font-weight: 800;
   }
 
-  .password-rules span {
-    display: block;
-    color: #555;
+  /* ── Inputs ── */
+  .field-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .field-label {
+    font-size: 0.8rem; font-weight: 700; color: #475569;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .field-label .fi {
+    width: 26px; height: 26px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 0.7rem;
+  }
+  .field-input {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid #e2e8f0; border-radius: 12px;
+    font-size: 0.875rem; background: #f8fafc; color: #1e293b;
+    transition: all 0.25s ease; outline: none; font-family: inherit;
+  }
+  .field-input:focus {
+    border-color: #6366f1; background: white;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+  }
+  .field-input:disabled {
+    background: #f1f5f9; color: #94a3b8; cursor: not-allowed;
   }
 
-  .password-rules span.valid {
-    color: #16a34a; /* green-600 */
-    font-weight: bold;
+  /* ── Password toggle ── */
+  .pw-wrap { position: relative; }
+  .pw-toggle {
+    position: absolute; right: 12px; top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8; cursor: pointer;
+    background: none; border: none; padding: 4px; font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .pw-toggle:hover { color: #6366f1; }
+  .pw-wrap .field-input { padding-right: 40px; }
+
+  /* ── Password strength ── */
+  .pw-strength-bar {
+    height: 4px; border-radius: 99px;
+    background: #e2e8f0; overflow: hidden; margin-top: 6px;
+  }
+  .pw-strength-fill {
+    height: 100%; border-radius: 99px;
+    transition: width 0.4s ease, background 0.4s ease;
+    width: 0%;
+  }
+  .pw-rule {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.75rem; font-weight: 500; color: #94a3b8;
+    transition: color 0.25s ease;
+  }
+  .pw-rule.ok { color: #10b981; }
+  .pw-rule.fail { color: #ef4444; }
+  .pw-rule i { font-size: 0.6rem; }
+
+  /* ── Divider ── */
+  .section-divider {
+    display: flex; align-items: center; gap: 12px;
+    color: #94a3b8; font-size: 0.75rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .section-divider::before, .section-divider::after {
+    content: ''; flex: 1; height: 1px; background: #e2e8f0;
   }
 
-  .password-rules span.invalid {
-    color: #dc2626; /* red-600 */
+  /* ── Botón ── */
+  .btn-indigo-grad {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white; font-weight: 700; font-size: 0.9rem;
+    padding: 13px 28px; border-radius: 14px; border: none; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.35);
+    transition: all 0.25s ease; width: 100%;
   }
+  .btn-indigo-grad:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.45); }
+
+  /* ── Info card lateral ── */
+  .info-card {
+    background: #f8fafc; border: 1px solid #e8ecf0; border-radius: 14px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .info-card .ic-icon {
+    width: 38px; height: 38px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0;
+  }
+
+  /* ── Animaciones ── */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .anim-1 { animation: slideUp 0.45s ease-out 0.05s both; }
+  .anim-2 { animation: slideUp 0.45s ease-out 0.18s both; }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-cyan-100 via-white to-cyan-50 flex items-center justify-center px-4 py-12">
-  <div class="bg-white max-w-md w-full rounded-2xl shadow-xl p-8 animate-fade-in" data-aos="zoom-in">
-    <div class="flex items-center gap-4 mb-6">
-      <div class="w-14 h-14 bg-gradient-to-tr from-cyan-400 to-cyan-200 rounded-full flex items-center justify-center text-3xl text-cyan-800 shadow">
-        <i class="fas fa-user-cog"></i>
+<div class="space-y-6 pb-8">
+
+  <!-- ══ HERO ══ -->
+  <div class="anim-1" style="background: linear-gradient(135deg,#312e81 0%,#4f46e5 50%,#7c3aed 100%); border-radius:22px; padding:24px 28px; position:relative; overflow:hidden;">
+    <div style="position:absolute;right:-30px;bottom:-50px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;"></div>
+    <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="avatar-xl">
+          <div class="avatar-xl-inner">
+            {{ request.user.first_name.0|default:request.user.username.0|upper }}
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <i class="fas fa-user-circle text-indigo-300 text-sm"></i>
+            <span class="text-indigo-200 text-xs font-semibold uppercase tracking-wider">Configuración de Cuenta</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-white">
+            {{ request.user.first_name|default:request.user.username }}
+          </h1>
+          <p class="text-white/55 text-sm mt-0.5">@{{ request.user.username }} · Administrador</p>
+        </div>
       </div>
-      <h4 class="text-xl font-bold text-sky-700">Configuración de Perfil</h4>
+      <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-5 py-3 text-center">
+        <p class="text-white font-bold text-sm">{{ request.user.email|default:"Sin correo" }}</p>
+        <p class="text-white/50 text-xs mt-0.5">Correo registrado</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LAYOUT: Formulario (izq) + Info (der) ══ -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 items-start">
+
+    <!-- ── FORMULARIO (2/3) ── -->
+    <div class="xl:col-span-2 anim-1">
+      <div class="content-card">
+        <div class="card-header">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center">
+              <i class="fas fa-user-cog text-indigo-600 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-800 text-base">Información Personal</h3>
+              <p class="text-xs text-slate-400">Actualiza tu nombre, usuario y correo</p>
+            </div>
+          </div>
+        </div>
+
+        <form id="perfilForm" method="post" action="{% url 'actualizar_perfil' %}" class="p-6 space-y-5">
+          {% csrf_token %}
+
+          <!-- Grid nombre / usuario -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="field-wrap">
+              <label class="field-label">
+                <span class="fi bg-blue-100 text-blue-600"><i class="fas fa-user"></i></span>
+                Nombre Completo
+              </label>
+              <input name="first_name" id="first_name" value="{{ request.user.first_name }}"
+                type="text" class="field-input" placeholder="Tu nombre" required />
+            </div>
+            <div class="field-wrap">
+              <label class="field-label">
+                <span class="fi bg-purple-100 text-purple-600"><i class="fas fa-id-badge"></i></span>
+                Nombre de Usuario
+              </label>
+              <input name="username" id="username" value="{{ request.user.username }}"
+                type="text" class="field-input" placeholder="usuario" required />
+            </div>
+          </div>
+
+          <!-- Correo -->
+          <div class="field-wrap">
+            <label class="field-label">
+              <span class="fi bg-emerald-100 text-emerald-600"><i class="fas fa-envelope"></i></span>
+              Correo Electrónico
+            </label>
+            <input name="email" id="email" value="{{ request.user.email }}"
+              type="email" class="field-input" placeholder="correo@ejemplo.com" required />
+          </div>
+
+          <!-- Divider -->
+          <div class="section-divider">Cambiar contraseña <span class="text-slate-400 normal-case font-normal">(opcional)</span></div>
+
+          <!-- Nueva contraseña -->
+          <div class="field-wrap">
+            <label class="field-label">
+              <span class="fi bg-red-100 text-red-500"><i class="fas fa-lock"></i></span>
+              Nueva Contraseña
+            </label>
+            <div class="pw-wrap">
+              <input name="password1" id="password1" type="password"
+                placeholder="Dejar vacío para no cambiarla"
+                class="field-input" minlength="6" autocomplete="new-password" />
+              <button type="button" class="pw-toggle" onclick="togglePw('password1', this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <!-- Barra de fortaleza -->
+            <div class="pw-strength-bar"><div class="pw-strength-fill" id="pw-bar"></div></div>
+            <!-- Reglas -->
+            <div id="pw-rules" class="mt-2 grid grid-cols-2 gap-1 hidden">
+              <p class="pw-rule" id="r-length"><i class="fas fa-circle"></i> Mín. 6 caracteres</p>
+              <p class="pw-rule" id="r-upper"><i class="fas fa-circle"></i> Una mayúscula</p>
+              <p class="pw-rule" id="r-lower"><i class="fas fa-circle"></i> Una minúscula</p>
+              <p class="pw-rule" id="r-number"><i class="fas fa-circle"></i> Un número</p>
+            </div>
+          </div>
+
+          <!-- Confirmar contraseña -->
+          <div class="field-wrap">
+            <label class="field-label">
+              <span class="fi bg-orange-100 text-orange-500"><i class="fas fa-lock-open"></i></span>
+              Confirmar Contraseña
+            </label>
+            <div class="pw-wrap">
+              <input name="password2" id="password2" type="password"
+                placeholder="Repite la contraseña"
+                class="field-input" minlength="6" autocomplete="new-password" />
+              <button type="button" class="pw-toggle" onclick="togglePw('password2', this)">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            <p id="pw-match-msg" class="text-xs font-semibold mt-1 hidden"></p>
+          </div>
+
+          <!-- Botón guardar -->
+          <button type="button" onclick="confirmarActualizacion()" class="btn-indigo-grad mt-2">
+            <i class="fas fa-save"></i>
+            Guardar Cambios
+          </button>
+        </form>
+      </div>
     </div>
 
-    <form id="perfilForm" method="post" action="{% url 'actualizar_perfil' %}" class="space-y-5">
-      {% csrf_token %}
+    <!-- ── PANEL LATERAL (1/3) ── -->
+    <div class="space-y-4 anim-2">
 
-      <!-- Nombre -->
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text font-semibold text-sky-800">
-            <i class="fas fa-user mr-2"></i>Nombre
-          </span>
+      <!-- Resumen de cuenta -->
+      <div class="content-card">
+        <div class="card-header">
+          <h3 class="font-bold text-slate-800 text-sm">Resumen de Cuenta</h3>
         </div>
-        <input name="first_name" id="first_name" value="{{ request.user.first_name }}" type="text"
-          class="input input-bordered w-full" required />
-      </label>
-
-      <!-- Usuario -->
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text font-semibold text-sky-800">
-            <i class="fas fa-id-badge mr-2"></i>Nombre de usuario
-          </span>
+        <div class="p-4 space-y-3">
+          <div class="info-card">
+            <div class="ic-icon bg-blue-100 text-blue-600"><i class="fas fa-user"></i></div>
+            <div>
+              <p class="text-xs text-slate-400 font-semibold">Nombre completo</p>
+              <p class="text-sm font-bold text-slate-700">{{ request.user.first_name|default:"—" }}</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon bg-purple-100 text-purple-600"><i class="fas fa-at"></i></div>
+            <div>
+              <p class="text-xs text-slate-400 font-semibold">Usuario</p>
+              <p class="text-sm font-bold text-slate-700">@{{ request.user.username }}</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon bg-emerald-100 text-emerald-600"><i class="fas fa-envelope"></i></div>
+            <div class="min-w-0 flex-1">
+              <p class="text-xs text-slate-400 font-semibold">Correo</p>
+              <p class="text-sm font-bold text-slate-700 truncate">{{ request.user.email|default:"No definido" }}</p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon bg-amber-100 text-amber-600"><i class="fas fa-shield-halved"></i></div>
+            <div>
+              <p class="text-xs text-slate-400 font-semibold">Rol</p>
+              <p class="text-sm font-bold text-slate-700">
+                {% if request.user.is_superuser %}Super Admin{% elif request.user.is_staff %}Administrador{% else %}Usuario{% endif %}
+              </p>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon bg-green-100 text-green-600"><i class="fas fa-calendar-check"></i></div>
+            <div>
+              <p class="text-xs text-slate-400 font-semibold">Miembro desde</p>
+              <p class="text-sm font-bold text-slate-700">{{ request.user.date_joined|date:"d M Y" }}</p>
+            </div>
+          </div>
         </div>
-        <input name="username" id="username" value="{{ request.user.username }}" type="text"
-          class="input input-bordered w-full" required />
-      </label>
+      </div>
 
-      <!-- Correo -->
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text font-semibold text-sky-800">
-            <i class="fas fa-envelope mr-2"></i>Correo de recuperación
-          </span>
+      <!-- Tips de seguridad -->
+      <div class="content-card">
+        <div class="card-header">
+          <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+            <i class="fas fa-shield-halved text-indigo-500"></i> Seguridad
+          </h3>
         </div>
-        <input name="email" id="email" value="{{ request.user.email }}" type="email"
-          class="input input-bordered w-full" required />
-      </label>
-
-      <!-- Cambiar contraseña -->
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text font-semibold text-sky-800">
-            <i class="fas fa-lock mr-2"></i>Cambiar contraseña (opcional)
-          </span>
+        <div class="p-4 space-y-3">
+          <div class="flex items-start gap-2.5">
+            <i class="fas fa-check-circle text-emerald-500 text-sm mt-0.5 shrink-0"></i>
+            <p class="text-xs text-slate-600">Usa una contraseña de al menos 8 caracteres con letras y números.</p>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <i class="fas fa-check-circle text-emerald-500 text-sm mt-0.5 shrink-0"></i>
+            <p class="text-xs text-slate-600">No compartas tus credenciales con otras personas.</p>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <i class="fas fa-check-circle text-emerald-500 text-sm mt-0.5 shrink-0"></i>
+            <p class="text-xs text-slate-600">Cierra sesión cuando uses equipos compartidos.</p>
+          </div>
         </div>
-        <input name="password1" id="password1" type="password" placeholder="Nueva contraseña"
-          class="input input-bordered w-full mb-2" minlength="6" />
-        <input name="password2" id="password2" type="password" placeholder="Confirmar contraseña"
-          class="input input-bordered w-full" minlength="6" />
+      </div>
 
-        <!-- Reglas de contraseña -->
-        <div id="passwordRules" class="password-rules mt-2 px-1">
-          <span id="length" class="invalid">• Mínimo 6 caracteres</span>
-          <span id="uppercase" class="invalid">• Al menos una letra mayúscula</span>
-          <span id="lowercase" class="invalid">• Al menos una letra minúscula</span>
-          <span id="number" class="invalid">• Al menos un número</span>
-          <span id="symbol" class="invalid">• Opcional: símbolo especial (* . # " ! ?)</span>
+      <!-- Acceso rápido -->
+      <div class="content-card">
+        <div class="card-header">
+          <h3 class="font-bold text-slate-800 text-sm">Acciones</h3>
         </div>
-      </label>
+        <div class="p-4 grid grid-cols-2 gap-2">
+          <a href="?m=bienvenida"
+            class="flex flex-col items-center gap-2 py-3 px-2 bg-blue-50 hover:bg-blue-100 border border-blue-100 rounded-xl transition text-center">
+            <i class="fas fa-gauge-high text-blue-600"></i>
+            <span class="text-xs font-semibold text-blue-700">Dashboard</span>
+          </a>
+          <a href="{% url 'logout' %}"
+            class="flex flex-col items-center gap-2 py-3 px-2 bg-red-50 hover:bg-red-100 border border-red-100 rounded-xl transition text-center">
+            <i class="fas fa-right-from-bracket text-red-500"></i>
+            <span class="text-xs font-semibold text-red-600">Cerrar Sesión</span>
+          </a>
+        </div>
+      </div>
 
-      <!-- Botón Guardar -->
-      <button type="button" onclick="confirmarActualizacion()"
-        class="btn w-full bg-sky-600 hover:bg-sky-700 text-white text-lg font-semibold rounded-xl shadow-md transition-transform hover:scale-105">
-        <i class="fas fa-save mr-2"></i>Guardar cambios
-      </button>
-    </form>
+    </div>
   </div>
 </div>
-
-<!-- SweetAlert Mensajes -->
-{% if messages %}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    {% for message in messages %}
-      Swal.fire({
-        title: "{{ message.tags|capfirst }}",
-        text: "{{ message }}",
-        icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% else %}info{% endif %}",
-        confirmButtonText: 'Aceptar'
-      });
-    {% endfor %}
-  });
-</script>
-{% endif %}
 {% endblock %}
 
-{% block extra_js %}
-<!-- AOS + Flowbite + SweetAlert -->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>AOS.init();</script>
+{% block extra_js_end %}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.5/dist/flowbite.min.js"></script>
-
 <script>
-  function confirmarActualizacion() {
-    Swal.fire({
-      title: '¿Guardar cambios?',
-      text: "Se actualizará tu perfil.",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, actualizar',
-      cancelButtonText: 'Cancelar',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.isConfirmed) {
-        document.getElementById("perfilForm").submit();
-      }
-    });
+  /* ── Toggle visibilidad contraseña ── */
+  function togglePw(id, btn) {
+    const inp = document.getElementById(id);
+    const icon = btn.querySelector('i');
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      icon.className = 'fas fa-eye-slash';
+    } else {
+      inp.type = 'password';
+      icon.className = 'fas fa-eye';
+    }
   }
 
-  // Validaciones dinámicas para contraseña segura
-  document.addEventListener('DOMContentLoaded', () => {
-    const passwordInput = document.getElementById('password1');
-    const rules = {
-      length: document.getElementById('length'),
-      uppercase: document.getElementById('uppercase'),
-      lowercase: document.getElementById('lowercase'),
-      number: document.getElementById('number'),
-      symbol: document.getElementById('symbol')
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── Indicadores de fortaleza de contraseña ── */
+  const pw1      = document.getElementById('password1');
+  const pw2      = document.getElementById('password2');
+  const rules    = document.getElementById('pw-rules');
+  const bar      = document.getElementById('pw-bar');
+  const matchMsg = document.getElementById('pw-match-msg');
+
+  const rLength = document.getElementById('r-length');
+  const rUpper  = document.getElementById('r-upper');
+  const rLower  = document.getElementById('r-lower');
+  const rNumber = document.getElementById('r-number');
+
+  pw1?.addEventListener('input', () => {
+    const v = pw1.value;
+    if (v.length > 0) {
+      rules.classList.remove('hidden');
+    } else {
+      rules.classList.add('hidden');
+      bar.style.width = '0%'; return;
+    }
+
+    const checks = {
+      length: v.length >= 6,
+      upper:  /[A-Z]/.test(v),
+      lower:  /[a-z]/.test(v),
+      number: /\d/.test(v),
     };
 
-    passwordInput?.addEventListener('input', () => {
-      const val = passwordInput.value;
-      rules.length.className = val.length >= 6 ? 'valid' : 'invalid';
-      rules.uppercase.className = /[A-Z]/.test(val) ? 'valid' : 'invalid';
-      rules.lowercase.className = /[a-z]/.test(val) ? 'valid' : 'invalid';
-      rules.number.className = /\d/.test(val) ? 'valid' : 'invalid';
-      rules.symbol.className = /[*.#"!?]/.test(val) ? 'valid' : 'invalid';
-    });
+    const applyRule = (el, ok) => {
+      el.className = ok ? 'pw-rule ok' : 'pw-rule fail';
+      el.querySelector('i').className = ok ? 'fas fa-check-circle' : 'fas fa-times-circle';
+    };
+    applyRule(rLength, checks.length);
+    applyRule(rUpper,  checks.upper);
+    applyRule(rLower,  checks.lower);
+    applyRule(rNumber, checks.number);
+
+    const score = Object.values(checks).filter(Boolean).length;
+    const colors = ['', '#ef4444', '#f97316', '#eab308', '#22c55e'];
+    const widths  = ['0%', '25%', '50%', '75%', '100%'];
+    bar.style.width      = widths[score];
+    bar.style.background = colors[score];
+
+    /* Match check */
+    if (pw2.value.length > 0) checkMatch();
   });
+
+  pw2?.addEventListener('input', checkMatch);
+
+  function checkMatch() {
+    if (!pw2.value) { matchMsg.classList.add('hidden'); return; }
+    matchMsg.classList.remove('hidden');
+    if (pw1.value === pw2.value) {
+      matchMsg.textContent = '✓ Las contraseñas coinciden';
+      matchMsg.style.color = '#10b981';
+    } else {
+      matchMsg.textContent = '✗ Las contraseñas no coinciden';
+      matchMsg.style.color = '#ef4444';
+    }
+  }
+
+  /* ── Confirmar actualización ── */
+  window.confirmarActualizacion = function() {
+    const p1 = document.getElementById('password1').value;
+    const p2 = document.getElementById('password2').value;
+
+    if (p1 && p1 !== p2) {
+      Swal.fire({ title: 'Error', text: 'Las contraseñas no coinciden.', icon: 'error',
+        confirmButtonColor: '#6366f1',
+        customClass: { popup: 'rounded-2xl', confirmButton: 'rounded-xl' } });
+      return;
+    }
+    Swal.fire({
+      title: '¿Guardar cambios?',
+      text: 'Se actualizará la información de tu perfil.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#6366f1',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Sí, guardar',
+      cancelButtonText: 'Cancelar',
+      customClass: { popup: 'rounded-2xl', confirmButton: 'rounded-xl', cancelButton: 'rounded-xl' }
+    }).then(r => { if (r.isConfirmed) document.getElementById('perfilForm').submit(); });
+  };
+
+  /* ── Toast de mensajes ── */
+  {% if messages %}
+    {% for message in messages %}
+    Swal.fire({
+      toast: true, position: 'top-end',
+      icon: '{% if "success" in message.tags %}success{% elif "error" in message.tags %}error{% else %}info{% endif %}',
+      title: '{{ message|escapejs }}',
+      showConfirmButton: false,
+      timer: 4000, timerProgressBar: true
+    });
+    {% endfor %}
+  {% endif %}
+
+});
 </script>
 {% endblock %}
