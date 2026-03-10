@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from noticias.models import *
 from eventos.models import Evento
+from .models import ImagenGaleria
+from .forms import ImagenGaleriaForm
 
 # --------------------
 # 📦 Páginas públicas
@@ -22,6 +26,7 @@ class HomeView(TemplateView):
         ctx = super().get_context_data(**kwargs)
         ctx['eventos']  = Evento.objects.order_by('-fecha')[:3]
         ctx['noticias'] = Noticia.objects.order_by('-fecha')[:6]
+        ctx['imagenes_galeria'] = ImagenGaleria.objects.filter(publicada=True)
         return ctx
 
 
@@ -96,3 +101,60 @@ def mision(request): return render(request, 'public/ModNav/mision-vision.html')
 def alumno(request): return render(request, 'public/ModNav/alumno.html')
 def docente(request): return render(request, 'public/ModNav/docente.html')
 def ubicacion(request): return render(request, 'public/ModNav/ubicacion.html')
+
+
+# --------------------
+# 🖼️  CRUD Galería (Dashboard)
+# --------------------
+
+def _redir_galeria():
+    return redirect(reverse('dashboard') + '?m=galeria')
+
+
+@login_required
+def crear_imagen_galeria(request):
+    if request.method == 'POST':
+        form = ImagenGaleriaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Imagen agregada a la galería.")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"❌ {field}: {error}")
+    return _redir_galeria()
+
+
+@login_required
+def actualizar_imagen_galeria(request, imagen_id):
+    imagen = get_object_or_404(ImagenGaleria, id=imagen_id)
+    if request.method == 'POST':
+        form = ImagenGaleriaForm(request.POST, request.FILES, instance=imagen)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "✅ Imagen actualizada correctamente.")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"❌ {field}: {error}")
+    return _redir_galeria()
+
+
+@login_required
+def eliminar_imagen_galeria(request, imagen_id):
+    imagen = get_object_or_404(ImagenGaleria, id=imagen_id)
+    imagen.imagen.delete(save=False)   # elimina el archivo físico
+    imagen.delete()
+    messages.success(request, "🗑 Imagen eliminada de la galería.")
+    return _redir_galeria()
+
+
+@login_required
+def toggle_publicar_imagen(request, imagen_id):
+    """Alterna el estado publicada/oculta de una imagen."""
+    imagen = get_object_or_404(ImagenGaleria, id=imagen_id)
+    imagen.publicada = not imagen.publicada
+    imagen.save()
+    estado = "publicada" if imagen.publicada else "ocultada"
+    messages.success(request, f"✅ Imagen {estado} correctamente.")
+    return _redir_galeria()

@@ -4,6 +4,45 @@
 {% block title %}Sobre Nosotros | Colegio Suazapawa{% endblock %}
 
 {% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
 
 <!-- HERO -->
 <section class="bg-gray-300 py-16">
@@ -18,9 +57,9 @@
 
         <!-- Texto -->
         <div class="space-y-4" data-aos="fade-left">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-blue-900">
-                Colegio Suazapawa
-            </h1>
+            <h2 class="exp-title">Colegio <em>Suazapawa</em>
+      </h2>
+      <br>
             <p class="text-2xl font-bold text-red-700">+35 años de historia</p>
 
             <p class="text-black text-2xl justify-center">
@@ -47,7 +86,6 @@
 
     </div>
 </section>
-
 
 <!-- VALORES -->
 <section class="py-16 bg-gray-300">
@@ -80,7 +118,6 @@
 
     </div>
 </section>
-
 
 <!-- TESTIMONIOS -->
 <section class="py-20 bg-gray-300">

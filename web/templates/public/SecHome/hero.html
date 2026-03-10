@@ -1,135 +1,345 @@
 {% load static %}
-
-{% block extra_css %}
-<style>
-  .fade-in-start {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 2s ease-out, transform 2s ease-out;
-    will-change: opacity, transform;
-  }
-
-  .fade-in-active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .carousel-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .carousel-bg img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-  }
-
-  .carousel-bg img.active {
-    opacity: 1;
-    z-index: 1;
-  }
-
-  .bg-overlay {
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    mix-blend-mode: multiply;
-    z-index: 2;
-  }
-
-.glass-panel {
-  background: rgba(255, 255, 255, 0.08); /* más transparente */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 1rem;
-  padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* borde suave */
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* sombra sutil */
-}
-
-
-  .glass-panel h2 {
-    color: #000000;
-  }
-
-  .glass-panel p {
-    color: #000000;
-  }
-
-  .highlighted-title {
-    background: linear-gradient(to right, #ff0000);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 800;
-  }
-</style>
-{% endblock %}
+<link rel="stylesheet" href="{% static 'css/hero.css' %}" />
 
 {% block content %}
-<section id="hero-section" class="relative min-h-screen fade-in-start overflow-hidden flex items-center justify-center">
+  <section id="hero-section" class="relative min-h-screen fade-in-start overflow-hidden flex items-center">
+    <div class="carousel-bg">
+      <img src="{% static 'img/somos.JPG' %}" class="active" alt="Campus Suazapawa" />
+      <img src="{% static 'img/fondo2Ex.JPG' %}" alt="Vida estudiantil" />
+      <img src="{% static 'img/fondo3Ex.JPG' %}" alt="Instalaciones" />
+      <div class="bg-overlay"></div>
+    </div>
+    <div class="bg-vignette"></div>
+    <div class="bg-grain"></div>
+    <div class="bg-scanlines"></div>
+    <div class="hero-orb hero-orb-red" id="orb1"></div>
+    <div class="hero-orb hero-orb-gold" id="orb2"></div>
 
-  <!-- Imagen de fondo tipo carrusel -->
-  <div class="carousel-bg">
-    <img src="{% static 'img/somos.JPG' %}" class="active" alt="Fondo 1">
-    <img src="{% static 'img/fondo2Ex.JPG' %}" alt="Fondo 2">
-    <img src="{% static 'img/fondo3Ex.JPG' %}" alt="Fondo 3">
-    <div class="bg-overlay"></div>
-  </div>
-
-  <!-- Contenido sobre la imagen de fondo -->
-  <div class="relative z-10 w-full max-w-6xl mx-auto px-6 py-16 lg:py-32">
-<div class="max-w-3xl lg:max-w-2xl space-y-8 text-center lg:text-left
-            bg-white/50 backdrop-blur-2xl rounded-xl p-8 border border-white/30 shadow-xl">
-
-      <h2 class="text-lg font-semibold tracking-wide">¡Bienvenido a nuestra comunidad!</h2>
-      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
-        <span class="block text-black">Institución Educativa</span>
-<span class="md:text-4xl md:text-4xl md:text-3xl lg:text-5xl xl:text-6xl text-red-600">Suazapawa</span>
-      </h1>
-      <p class="text-lg text-gray-800">Formamos líderes con valores, excelencia académica y compromiso social.</p>
-
-      <!-- Botones -->
-      <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-2">
-        <a href="#conocenos"
-           class="px-6 py-3 rounded-full text-white font-medium bg-blue-600 hover:bg-indigo-700 transition duration-300 shadow-lg hover:scale-105">
-          Conócenos
-        </a>
-        <a href="{% url 'admision' %}"
-           class="px-6 py-3 rounded-full text-black font-semibold bg-white/80 backdrop-blur-md border border-white/30 hover:bg-white hover:scale-105 transition duration-500 shadow-lg">
-          <i class="fas fa-arrow-right mr-2"></i> Proceso de Admisión
-        </a>
+    <div class="hero-inner">
+      <div class="hero-panel">
+        <div class="sa" style="--d:0.1s">
+          <div class="hero-badge">
+            <div class="hero-badge-dot"></div>Bienvenido a nuestra comunidad
+          </div>
+        </div>
+        <div class="sa" style="--d:0.25s">
+          <p class="hero-eyebrow">Nobsa · Boyacá · Colombia</p>
+        </div>
+        <div class="sa" style="--d:0.4s">
+          <h1 style="margin:0;line-height:1;">
+            <span class="hero-t1">Institución Educativa</span>
+            <div style="margin-top:0.1rem;position:relative;">
+              <span class="hero-t2-glow" aria-hidden="true">Suazapawa</span>
+              <span class="hero-t2">Suazapawa</span>
+            </div>
+          </h1>
+        </div>
+        <div class="sa" style="--d:0.55s">
+          <div class="hero-divider">
+            <div class="hero-divider-line"></div>
+            <div class="hero-divider-dot"></div>
+          </div>
+        </div>
+        <div class="sa" style="--d:0.65s">
+          <p class="hero-desc">Formamos líderes con valores sólidos, excelencia académica y un profundo compromiso con nuestra región y comunidad.</p>
+        </div>
+        <div class="sa hero-btns" style="--d:0.8s">
+          <a href="somos" class="btn-primary">
+            Conócenos<svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M1.5 6.5h10M7.5 2.5l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href="{% url 'admision' %}" class="btn-secondary">Proceso de Admisión<div class="btn-arrow">→</div></a>
+        </div>
+        <div class="sa hero-stats" style="--d:0.95s">
+          <div class="stat-item">
+            <div class="stat-num">
+              <span class="counter" data-target="35" data-suffix="+">0+</span>
+            </div>
+            <div class="stat-lbl">Años</div>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <div class="stat-num">
+              <span class="counter" data-target="1200" data-format="k">0</span>
+            </div>
+            <div class="stat-lbl">Estudiantes</div>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat-item">
+            <div class="stat-num">
+              <span class="counter" data-target="98" data-suffix="%">0%</span>
+            </div>
+            <div class="stat-lbl">Graduados</div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-</section>
+    <div class="hero-card sa" style="--d:1.1s;">
+      <div class="card-eyebrow">Nuestros pilares</div>
+      <div class="card-row">
+        <div class="card-icon ci-red">🎓</div>
+        <div class="card-txt">
+          <div class="card-title">Excelencia Académica</div>
+          <div class="card-sub">Educación de alta calidad</div>
+        </div>
+      </div>
+      <div class="card-row">
+        <div class="card-icon ci-gold">⚖️</div>
+        <div class="card-txt">
+          <div class="card-title">Valores y Ética</div>
+          <div class="card-sub">Formación integral del ser</div>
+        </div>
+      </div>
+      <div class="card-row">
+        <div class="card-icon ci-blue">🌱</div>
+        <div class="card-txt">
+          <div class="card-title">Compromiso Social</div>
+          <div class="card-sub">Líderes para el territorio</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-mouse">
+        <div class="scroll-ball"></div>
+      </div>
+      <span>Scroll</span>
+    </div>
+
+    <div class="carousel-dots">
+      <div class="cdot active" data-idx="0"></div>
+      <div class="cdot" data-idx="1"></div>
+      <div class="cdot" data-idx="2"></div>
+    </div>
+  </section>
+
+  <!-- NAVEGACIÓN FLOTANTE -->
+  <nav class="pg-nav theme-dark" id="pgNav" aria-label="Navegar entre secciones">
+    <button class="pg-btn hidden-btn" id="pgUp" data-tip="" aria-label="Sección anterior">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M2 9.5 6.5 5 11 9.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+    <div class="pg-pips" id="pgPips"></div>
+    <button class="pg-btn" id="pgDown" data-tip="" aria-label="Sección siguiente">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M2 3.5 6.5 8 11 3.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </nav>
 {% endblock %}
 
 {% block extra_js %}
-<script>
-  // Fade-in
-  window.addEventListener("DOMContentLoaded", () => {
-    const hero = document.getElementById("hero-section");
-    setTimeout(() => {
-      hero.classList.add("fade-in-active");
-    }, 800);
-  });
-
-  // Carrusel automático
-  const images = document.querySelectorAll(".carousel-bg img");
-  let index = 0;
-
-  setInterval(() => {
-    images[index].classList.remove("active");
-    index = (index + 1) % images.length;
-    images[index].classList.add("active");
-  }, 7000);
-</script>
+  <script>
+    ;(function () {
+      /* ── Hero: animaciones de entrada ── */
+      const hero = document.getElementById('hero-section')
+      setTimeout(() => hero.classList.add('fade-in-active'), 200)
+    
+      hero.querySelectorAll('.sa').forEach((el, i) => {
+        const d = [0.1, 0.25, 0.4, 0.55, 0.65, 0.8, 0.95, 1.1]
+        setTimeout(() => {
+          el.classList.add('on')
+          if (el.classList.contains('hero-stats')) startCounters()
+        }, 400 + (d[i] || i * 0.15) * 1000)
+      })
+    
+      function startCounters() {
+        document.querySelectorAll('.counter').forEach((el) => {
+          const target = +el.dataset.target
+          const suffix = el.dataset.suffix || ''
+          const fmt = el.dataset.format || ''
+          const t0 = performance.now()
+          const ease = (t) => 1 - Math.pow(1 - t, 3)
+          ;(function tick(now) {
+            const p = Math.min((now - t0) / 1800, 1),
+              v = Math.round(ease(p) * target)
+            el.textContent = fmt === 'k' ? (v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v + suffix) : v + suffix
+            if (p < 1) requestAnimationFrame(tick)
+          })(performance.now())
+        })
+      }
+    
+      /* ── Carrusel ── */
+      const cImgs = document.querySelectorAll('.carousel-bg img')
+      const cDots = document.querySelectorAll('.cdot')
+      let cIdx = 0
+      function goCar(n) {
+        cImgs[cIdx].classList.remove('active')
+        cDots[cIdx].classList.remove('active')
+        cIdx = n
+        cImgs[cIdx].classList.add('active')
+        cDots[cIdx].classList.add('active')
+      }
+      setInterval(() => goCar((cIdx + 1) % cImgs.length), 7000)
+      cDots.forEach((d) => d.addEventListener('click', () => goCar(+d.dataset.idx)))
+    
+      /* ── Parallax mouse ── */
+      if (window.innerWidth > 1024) {
+        const o1 = document.getElementById('orb1'),
+          o2 = document.getElementById('orb2')
+        hero.addEventListener('mousemove', (e) => {
+          const cx = hero.offsetWidth / 2,
+            cy = hero.offsetHeight / 2
+          const dx = (e.clientX - cx) / cx,
+            dy = (e.clientY - cy) / cy
+          o1.style.transform = `scale(1) translate(${dx * 22}px,${dy * 22}px)`
+          o2.style.transform = `scale(1) translate(${dx * -14}px,${dy * -14}px)`
+        })
+      }
+    
+      /* ════════════════════════════════════════════════════
+             NAVEGACIÓN ENTRE SECCIONES
+             ─────────────────────────────────────────────────
+             ⚙️  ORDEN EXACTO de tu página (de arriba a abajo)
+                id    = atributo id de la <section>
+                label = texto del tooltip
+                dark  = true  → fondo oscuro (botones blancos)
+                        false → fondo claro  (botones navy)
+          ════════════════════════════════════════════════════ */
+      /* ══════════════════════════════════════════════════════
+             ORDEN EXACTO de las secciones de tu página
+             id   = atributo id de la <section> en el HTML
+             dark = true  → fondo oscuro  (botones blancos)
+                    false → fondo claro   (botones navy)
+          ══════════════════════════════════════════════════════ */
+      const SECS = [
+        { id: 'hero-section', label: 'Inicio', dark: true },
+        { id: 'niveles', label: 'Niveles Académicos', dark: false },
+        { id: 'experiencia', label: '35 Años de Excelencia', dark: false },
+        { id: 'eventos', label: 'Eventos Destacados', dark: false },
+        { id: 'servicios', label: 'Servicios Integrales', dark: false },
+        { id: 'galeria', label: 'Galería', dark: true },
+        { id: 'noticias', label: 'Últimas Noticias', dark: false },
+        { id: 'ambiente', label: 'Ambiente Escolar', dark: true }
+      ]
+    
+      const nav = document.getElementById('pgNav')
+      const btnUp = document.getElementById('pgUp')
+      const btnDn = document.getElementById('pgDown')
+      const pips = document.getElementById('pgPips')
+    
+      /* cur = índice de la sección activa*/
+      let cur = 0
+    
+      /* ── Construir puntitos ── */
+      SECS.forEach((s, i) => {
+        const p = document.createElement('div')
+        p.className = 'pg-pip' + (i === 0 ? ' pip-on' : '')
+        p.title = s.label
+        p.addEventListener('click', () => navTo(i))
+        pips.appendChild(p)
+      })
+    
+      /* ── Refrescar botones, dots y tema ── */
+      function refreshUI(idx) {
+        pips.querySelectorAll('.pg-pip').forEach((p, i) => p.classList.toggle('pip-on', i === idx))
+        btnUp.classList.toggle('hidden-btn', idx === 0)
+        btnDn.classList.toggle('hidden-btn', idx === SECS.length - 1)
+        btnUp.dataset.tip = idx > 0 ? SECS[idx - 1].label : ''
+        btnDn.dataset.tip = idx < SECS.length - 1 ? SECS[idx + 1].label : ''
+        nav.classList.toggle('theme-dark', SECS[idx].dark)
+        nav.classList.toggle('theme-light', !SECS[idx].dark)
+      }
+    
+      /* ── Top absoluto del elemento (compatible con todos los layouts) ── */
+      function absTop(el) {
+        let y = 0,
+          n = el
+        while (n) {
+          y += n.offsetTop
+          n = n.offsetParent
+        }
+        return y
+      }
+    
+      /* ── Cache de posiciones, construida una vez al cargar ── */
+      let tops = []
+      function buildCache() {
+        tops = SECS.map((s) => {
+          const el = document.getElementById(s.id)
+          return el ? absTop(el) : -1
+        })
+      }
+    
+      /* ── Qué sección es la más visible ahora ── */
+      function detectCurrent() {
+        const ref = window.scrollY + window.innerHeight * 0.35
+        let idx = 0
+        for (let i = 0; i < tops.length; i++) {
+          if (tops[i] >= 0 && tops[i] <= ref) idx = i
+        }
+        return idx
+      }
+    
+      /* ══════════════════════════════════════════════════
+             navTo — única función que mueve el scroll.
+             NO tiene ningún flag que bloquee los botones.
+             cur se actualiza ANTES del scrollTo, así el
+             próximo click siempre parte del índice correcto.
+          ══════════════════════════════════════════════════ */
+      function navTo(idx) {
+        idx = Math.max(0, Math.min(SECS.length - 1, idx))
+        const target = document.getElementById(SECS[idx].id)
+        if (!target) return
+    
+        cur = idx // ← actualizar primero
+        refreshUI(cur) // ← luego la UI
+        window.scrollTo({ top: tops[idx], behavior: 'smooth' })
+      }
+    
+      /* ── Botones: un solo click = una sección ── */
+      btnUp.addEventListener('click', () => {
+        navTo(cur - 1)
+      })
+      btnDn.addEventListener('click', () => {
+        navTo(cur + 1)
+      })
+    
+      /* ── Teclado ── */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') {
+          e.preventDefault()
+          navTo(cur - 1)
+        }
+        if (e.key === 'ArrowDown') {
+          e.preventDefault()
+          navTo(cur + 1)
+        }
+      })
+    
+      /* ── Scroll manual: actualiza dots mientras el usuario scrollea ──
+             Usamos un pequeño debounce para no interferir con el smooth scroll
+             de navTo (que también dispara eventos scroll). La clave es que
+             solo actualizamos cur si el valor detectado es DIFERENTE — así
+             aunque navTo dispare scroll events, no rompe nada porque cur ya
+             está actualizado al valor correcto. ── */
+      let rafId = null
+      window.addEventListener(
+        'scroll',
+        () => {
+          cancelAnimationFrame(rafId)
+          rafId = requestAnimationFrame(() => {
+            const i = detectCurrent()
+            if (i !== cur) {
+              cur = i
+              refreshUI(i)
+            }
+          })
+        },
+        { passive: true }
+      )
+    
+      /* ── Inicializar cuando el DOM esté completamente pintado ── */
+      setTimeout(() => {
+        buildCache()
+        window.addEventListener('resize', buildCache, { passive: true })
+        cur = detectCurrent()
+        refreshUI(cur)
+        nav.classList.add('visible')
+      }, 500)
+    })()
+  </script>
 {% endblock %}

@@ -4,18 +4,73 @@
 {% block title %} Contáctanos | Suazapawa{% endblock %}
 
 {% block content %}
+<style> 
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
 <section class="bg-gray-300 py-20 px-6">
   <div class="max-w-7xl mx-auto">
 
     <!-- TÍTULO -->
     <div class="text-center mb-16" data-aos="zoom-in">
-      <h2 class="text-5xl md:text-6xl font-extrabold text-blue-900 tracking-tight">
-        📬 CONTÁCTANOS
+      <h2 class="exp-title">📬 CONTÁCTANOS <em>AHORA</em>
       </h2>
+      <br>
       <p class="text-lg text-red-600 mt-3">
         Estamos aquí para ayudarte. Resolvemos tus dudas en minutos.
       </p>
     </div>
+
+    <!-- ── Mensajes de Django ── -->
+    {% if messages %}
+    <div class="mb-8 space-y-3 max-w-2xl mx-auto">
+      {% for message in messages %}
+      <div class="flex items-center gap-3 px-5 py-4 rounded-2xl font-semibold text-sm shadow-md
+        {% if 'success' in message.tags %}bg-green-50 border border-green-300 text-green-800
+        {% else %}bg-red-50 border border-red-300 text-red-800{% endif %}">
+        {% if 'success' in message.tags %}<span class="text-xl">✅</span>
+        {% else %}<span class="text-xl">❌</span>{% endif %}
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
 
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="grid md:grid-cols-2 gap-10 items-start">
@@ -72,6 +127,7 @@
 
       <!-- FORMULARIO -->
       <form method="POST"
+            action="{% url 'enviar_contacto' %}"
             class="bg-white p-10 rounded-3xl shadow-2xl border border-red-800 space-y-6"
             data-aos="fade-left">
         {% csrf_token %}

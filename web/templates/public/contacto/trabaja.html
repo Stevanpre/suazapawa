@@ -4,6 +4,46 @@
 {% block title %}Trabaja con Nosotros | Suazapawa{% endblock %}
 
 {% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.0rem, 2vw, 2.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
 <section class="bg-gray-100 py-20 px-4">
   <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
 
@@ -18,17 +58,33 @@
 
     <!-- FORMULARIO | DERECHA -->
     <div class="bg-white p-10 rounded-3xl shadow-xl border border-gray-200" data-aos="fade-left">
-
-      <h2 class="text-4xl font-extrabold text-blue-900 mb-6">
-        💼 TRABAJA CON NOSOTROS
+      <h2 class="exp-title">💼 TRABAJA CON  <em>NOSOTROS</em>
       </h2>
+      <br>
 
-      <p class="text-black text-lg mb-10 leading-relaxed">
+      <p class="text-black text-lg mb-6 leading-relaxed">
         Únete a una comunidad educativa que transforma vidas.
         Comparte tu vocación, experiencia y propósito.
       </p>
 
-      <form method="POST" enctype="multipart/form-data" class="space-y-7">
+      <!-- ── Mensajes de Django ── -->
+      {% if messages %}
+      <div class="mb-6 space-y-3">
+        {% for message in messages %}
+        <div class="flex items-center gap-3 px-5 py-4 rounded-2xl font-semibold text-sm shadow-md
+          {% if 'success' in message.tags %}bg-green-50 border border-green-300 text-green-800
+          {% else %}bg-red-50 border border-red-300 text-red-800{% endif %}">
+          {% if 'success' in message.tags %}<span class="text-xl">✅</span>
+          {% else %}<span class="text-xl">❌</span>{% endif %}
+          {{ message }}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <form method="POST" enctype="multipart/form-data"
+            action="{% url 'enviar_trabaja' %}"
+            class="space-y-7">
         {% csrf_token %}
 
         <div class="grid md:grid-cols-2 gap-6">

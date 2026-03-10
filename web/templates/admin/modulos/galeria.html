@@ -1,0 +1,323 @@
+{% extends 'admin/dashboard.html' %}
+{% load static %}
+{% block title %}Galería | Panel Suazapawa{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css_dashboard/galeria.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="space-y-6 pb-6">
+
+  <!-- ══ HERO ══ -->
+  <div class="anim-1" style="background: linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 50%,#7c3aed 100%); border-radius:22px; padding:22px 26px; position:relative; overflow:hidden;">
+    <div style="position:absolute;right:-30px;bottom:-50px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;"></div>
+    <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fas fa-images text-white text-sm"></i>
+          <span class="text-white text-xs font-semibold uppercase tracking-wider">Gestión de Contenido Visual</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-white">Galería Suazapawa</h1>
+        <p class="text-white text-sm mt-1 opacity-80">
+          {{ imagenes_galeria|length }} imagen{{ imagenes_galeria|length|pluralize:"es" }} en total ·
+          {{ imagenes_galeria.filter.publicada|default:"0" }} publicadas
+        </p>
+      </div>
+      <div class="flex gap-3">
+        <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-5 py-3 text-center">
+          <p class="text-2xl font-bold text-white">{{ imagenes_galeria|length }}</p>
+          <p class="text-white text-xs opacity-80">Total</p>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-5 py-3 text-center">
+          <p class="text-2xl font-bold text-white">{{ num_imagenes }}</p>
+          <p class="text-white text-xs opacity-80">Publicadas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ LAYOUT: Formulario (izq) + Lista (der) ══ -->
+  <div class="grid grid-cols-1 xl:grid-cols-5 gap-5 items-start">
+
+    <!-- ── FORMULARIO (2/5) ── -->
+    <div class="xl:col-span-2 anim-1">
+      <div class="content-card">
+        <div class="card-header">
+          <div class="flex items-center gap-3">
+            {% if modo_edicion_imagen %}
+            <div class="w-9 h-9 bg-amber-100 rounded-xl flex items-center justify-center shrink-0">
+              <i class="fas fa-pen text-amber-600 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-800 text-base">Editar Imagen</h3>
+              <p class="text-xs text-amber-600 font-semibold">Modo edición activo</p>
+            </div>
+            {% else %}
+            <div class="w-9 h-9 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
+              <i class="fas fa-plus text-blue-600 text-sm"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-800 text-base">Subir Imagen</h3>
+              <p class="text-xs text-slate-400">Completa los campos</p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data"
+          action="{% if modo_edicion_imagen %}{% url 'actualizar_imagen_galeria' imagen_id %}{% else %}{% url 'crear_imagen_galeria' %}{% endif %}">
+          {% csrf_token %}
+          <div class="p-4 space-y-3">
+
+            {% if modo_edicion_imagen %}
+            <div class="edit-mode-banner">
+              <i class="fas fa-info-circle text-amber-500"></i>
+              Editando imagen #{{ imagen_id }} · Si no seleccionas archivo nuevo, se conserva el actual.
+            </div>
+            {% endif %}
+
+            <!-- Título -->
+            <div class="field-wrap">
+              <label class="field-label">
+                <span class="lbl-icon bg-blue-100 text-blue-600"><i class="fas fa-heading"></i></span>
+                Título *
+              </label>
+              {{ galeria_form.titulo }}
+            </div>
+
+            <!-- Imagen -->
+            <div class="field-wrap">
+              <label class="field-label">
+                <span class="lbl-icon bg-pink-100 text-pink-600"><i class="fas fa-image"></i></span>
+                {% if modo_edicion_imagen %}Cambiar imagen (opcional){% else %}Imagen *{% endif %}
+                <span class="ml-auto text-[10px] text-slate-400 font-normal">PNG, JPG · máx 5MB</span>
+              </label>
+              <div class="file-zone" id="file-zone" onclick="document.getElementById('id_imagen').click()">
+                <i class="fas fa-cloud-upload-alt text-xl text-slate-400 mb-1"></i>
+                <p class="text-xs text-slate-500 font-semibold">Clic o arrastra aquí</p>
+                <input type="file" id="id_imagen" name="{{ galeria_form.imagen.html_name }}" accept="image/*" class="hidden" />
+              </div>
+              <img id="preview-img" src="" alt="Vista previa" />
+            </div>
+
+            <!-- Descripción -->
+            <div class="field-wrap">
+              <label class="field-label">
+                <span class="lbl-icon bg-indigo-100 text-indigo-600"><i class="fas fa-align-left"></i></span>
+                Descripción corta
+              </label>
+              {{ galeria_form.descripcion }}
+            </div>
+
+            <!-- Orden -->
+            <div class="field-wrap">
+              <label class="field-label">
+                <span class="lbl-icon bg-cyan-100 text-cyan-600"><i class="fas fa-sort-numeric-up"></i></span>
+                Orden de aparición
+              </label>
+              {{ galeria_form.orden }}
+              <p class="text-[10px] text-slate-400">0 = primero. Menor número aparece antes en la galería.</p>
+            </div>
+
+            <!-- Publicada -->
+            <div class="flex items-center gap-3 bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
+              {{ galeria_form.publicada }}
+              <label class="text-sm font-semibold text-slate-700 cursor-pointer select-none">
+                Publicar en la web al guardar
+              </label>
+            </div>
+
+            <!-- Botones -->
+            <div class="flex gap-2 pt-1">
+              <button type="submit" class="btn-primary-grad flex-1 justify-center">
+                <i class="fas {% if modo_edicion_imagen %}fa-save{% else %}fa-upload{% endif %}"></i>
+                {% if modo_edicion_imagen %}Actualizar imagen{% else %}Subir a galería{% endif %}
+              </button>
+              {% if modo_edicion_imagen %}
+              <a href="?m=galeria" id="cancelar-edicion-imagen" class="btn-cancel-grad">
+                <i class="fas fa-times"></i>
+              </a>
+              {% endif %}
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── LISTA DE IMÁGENES (3/5) ── -->
+    <div class="xl:col-span-3 anim-2">
+      <div class="content-card">
+        <div class="card-header">
+          <div>
+            <h3 class="font-bold text-slate-800">Imágenes en Galería</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Ordenadas por posición · menor orden primero</p>
+          </div>
+          <span class="text-xs bg-pink-100 text-pink-700 font-bold px-2.5 py-1 rounded-full">
+            {{ imagenes_galeria|length }} total
+          </span>
+        </div>
+
+        <div class="gallery-list-scroll divide-y divide-slate-50">
+          {% for img in imagenes_galeria %}
+          <div class="gallery-card">
+            <!-- Miniatura -->
+            <img src="{{ img.imagen.url }}" alt="{{ img.titulo }}" class="gallery-thumb">
+
+            <!-- Info -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h4 class="font-bold text-slate-800 text-sm truncate">{{ img.titulo }}</h4>
+                {% if img.publicada %}
+                  <span class="badge-pub">● Publicada</span>
+                {% else %}
+                  <span class="badge-oculta">○ Oculta</span>
+                {% endif %}
+              </div>
+              {% if img.descripcion %}
+              <p class="text-xs text-slate-500 mt-1 truncate">{{ img.descripcion }}</p>
+              {% endif %}
+              <div class="flex items-center gap-3 mt-1">
+                <span class="text-[10px] text-slate-400"><i class="fas fa-sort-numeric-up text-[9px] mr-0.5"></i>Orden: {{ img.orden }}</span>
+                <span class="text-[10px] text-slate-400"><i class="fas fa-calendar text-[9px] mr-0.5"></i>{{ img.fecha_subida|date:"d M Y" }}</span>
+              </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="gallery-card-actions">
+              <a href="?m=galeria&edit_imagen={{ img.id }}" class="action-btn action-edit">
+                <i class="fas fa-pen text-[11px]"></i>
+                <span class="hidden sm:inline">Editar</span>
+              </a>
+              <form method="POST" action="{% url 'toggle_publicar_imagen' img.id %}">
+                {% csrf_token %}
+                <button type="submit" class="action-btn {% if img.publicada %}action-toggle-on{% else %}action-toggle-off{% endif %} w-full justify-center">
+                  <i class="fas {% if img.publicada %}fa-eye-slash{% else %}fa-eye{% endif %} text-[11px]"></i>
+                  <span class="hidden sm:inline">{% if img.publicada %}Ocultar{% else %}Publicar{% endif %}</span>
+                </button>
+              </form>
+              <form method="POST" action="{% url 'eliminar_imagen_galeria' img.id %}" class="form-eliminar-imagen">
+                {% csrf_token %}
+                <button type="submit" class="action-btn action-delete w-full justify-center">
+                  <i class="fas fa-trash text-[11px]"></i>
+                  <span class="hidden sm:inline">Eliminar</span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {% empty %}
+          <div class="flex flex-col items-center justify-center py-14 px-6 text-center">
+            <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mb-4">
+              <i class="fas fa-images text-pink-400 text-2xl"></i>
+            </div>
+            <h4 class="font-bold text-slate-700 text-base mb-1">Sin imágenes aún</h4>
+            <p class="text-sm text-slate-400">Sube la primera imagen con el formulario de la izquierda.</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js_end %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── File zone: preview + drag & drop + validación 5MB ── */
+  const inputFile = document.getElementById('id_imagen');
+  const preview   = document.getElementById('preview-img');
+  const fileZone  = document.getElementById('file-zone');
+
+  function loadPreview(file) {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      Swal.fire({ toast:true, position:'top-end', icon:'error', title:'Solo se permiten imágenes (PNG, JPG)', showConfirmButton:false, timer:3500 });
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      Swal.fire({ toast:true, position:'top-end', icon:'error', title:'La imagen supera el máximo de 5MB', showConfirmButton:false, timer:3500 });
+      inputFile.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ev => { preview.src = ev.target.result; preview.style.display = 'block'; };
+    reader.readAsDataURL(file);
+    // Mostrar nombre en la zona
+    const p = fileZone.querySelector('p');
+    if (p) p.textContent = file.name;
+  }
+
+  inputFile?.addEventListener('change', e => loadPreview(e.target.files[0]));
+
+  // Drag & drop
+  fileZone?.addEventListener('dragover',  e => { e.preventDefault(); fileZone.classList.add('drag-over'); });
+  fileZone?.addEventListener('dragleave', () => fileZone.classList.remove('drag-over'));
+  fileZone?.addEventListener('drop', e => {
+    e.preventDefault();
+    fileZone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      const dt = new DataTransfer();
+      dt.items.add(file);
+      inputFile.files = dt.files;
+      loadPreview(file);
+    }
+  });
+
+  /* ── Cancelar edición ── */
+  document.getElementById('cancelar-edicion-imagen')?.addEventListener('click', e => {
+    e.preventDefault();
+    Swal.fire({
+      title: '¿Cancelar edición?',
+      text: 'Se perderán los cambios no guardados.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'Continuar editando',
+      customClass: { popup: 'rounded-2xl', confirmButton: 'rounded-xl', cancelButton: 'rounded-xl' }
+    }).then(r => { if (r.isConfirmed) window.location.href = '?m=galeria'; });
+  });
+
+  /* ── Confirmar eliminación ── */
+  document.querySelectorAll('.form-eliminar-imagen').forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      Swal.fire({
+        title: '¿Eliminar esta imagen?',
+        text: 'Se borrará permanentemente de la galería y del servidor.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc2626',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        customClass: { popup: 'rounded-2xl', confirmButton: 'rounded-xl', cancelButton: 'rounded-xl' }
+      }).then(r => { if (r.isConfirmed) form.submit(); });
+    });
+  });
+
+  /* ── Toast de mensajes Django ── */
+  {% if messages %}
+    {% for message in messages %}
+    Swal.fire({
+      toast: true, position: 'top-end',
+      icon: '{% if "success" in message.tags %}success{% elif "error" in message.tags %}error{% else %}info{% endif %}',
+      title: '{{ message|escapejs }}',
+      showConfirmButton: false,
+      timer: 4000, timerProgressBar: true
+    });
+    {% endfor %}
+  {% endif %}
+
+});
+</script>
+{% endblock %}
+

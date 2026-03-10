@@ -23,6 +23,11 @@
   <link href="{% static 'vendor/fontawesome/css/all.min.css' %} " rel="stylesheet">
 
   {% block extra_css %}{% endblock %}
+
+  <!-- JS de Sienna Accessibility: cargar primero sienna (widget) y luego ajustes locales -->
+  <script src="{% static 'vendor/accesibilidad.js/sienna.js' %}"></script>
+  <script src="{% static 'vendor/accesibilidad.js/accesibilidad.js' %}"></script>
+
 </head>
 <body class="flex flex-col min-h-screen bg-gray-300 text-sky-900" data-theme="light">
 

@@ -3,147 +3,45 @@
 {% block title %}Noticias | Panel Suazapawa{% endblock %}
 
 {% block extra_head %}
-<style>
-  /* ── Reutilizamos sistema de diseño del dashboard ── */
-  .content-card {
-    background: white;
-    border-radius: 18px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    border: 1px solid rgba(226,232,240,0.8);
-    overflow: hidden;
-  }
-  .card-header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 22px 14px;
-    border-bottom: 1px solid #f1f5f9;
-  }
-
-  /* ── Inputs modernos ── */
-  .field-wrap { display: flex; flex-direction: column; gap: 6px; }
-  .field-label {
-    font-size: 0.8rem; font-weight: 700; color: #475569;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .field-label span {
-    width: 26px; height: 26px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
-  }
-  .field-input {
-    width: 100%; padding: 10px 14px;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 12px; font-size: 0.875rem;
-    background: #f8fafc; color: #1e293b;
-    transition: all 0.25s ease; outline: none;
-  }
-  .field-input:focus {
-    border-color: #8b5cf6; background: white;
-    box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
-  }
-  textarea.field-input { resize: vertical; min-height: 100px; }
-
-  /* ── Botones ── */
-  .btn-primary-grad {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-    color: white; font-weight: 700; font-size: 0.875rem;
-    padding: 11px 22px; border-radius: 12px; border: none; cursor: pointer;
-    box-shadow: 0 4px 14px rgba(139,92,246,0.35);
-    transition: all 0.25s ease;
-  }
-  .btn-primary-grad:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,92,246,0.45); }
-
-  .btn-cancel-grad {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: #f1f5f9; color: #64748b;
-    font-weight: 700; font-size: 0.875rem;
-    padding: 11px 22px; border-radius: 12px; border: 1.5px solid #e2e8f0; cursor: pointer;
-    transition: all 0.25s ease; text-decoration: none;
-  }
-  .btn-cancel-grad:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
-
-  /* ── Tarjetas de noticias ── */
-  .news-card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px;
-    padding: 18px 20px;
-    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-    position: relative;
-    overflow: hidden;
-  }
-  .news-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0; width: 4px;
-    background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
-  }
-  .news-card:hover {
-    border-color: #c4b5fd;
-    box-shadow: 0 8px 24px rgba(139,92,246,0.12);
-    transform: translateX(2px);
-  }
-
-  .action-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 7px 14px; border-radius: 10px;
-    font-size: 0.78rem; font-weight: 600; cursor: pointer;
-    transition: all 0.2s ease; border: none; text-decoration: none;
-  }
-  .action-edit   { background: #fef3c7; color: #d97706; }
-  .action-edit:hover   { background: #fde68a; transform: translateY(-1px); }
-  .action-delete { background: #fee2e2; color: #dc2626; }
-  .action-delete:hover { background: #fca5a5; transform: translateY(-1px); }
-
-  /* ── Animaciones ── */
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .anim-1 { animation: slideUp 0.45s ease-out 0.05s both; }
-  .anim-2 { animation: slideUp 0.45s ease-out 0.15s both; }
-
-  /* ── Badge modo edicion ── */
-  .edit-mode-banner {
-    background: linear-gradient(135deg, #fef3c7, #fde68a);
-    border: 1.5px solid #fbbf24;
-    border-radius: 12px;
-    padding: 10px 16px;
-    display: flex; align-items: center; gap: 10px;
-    font-size: 0.85rem; font-weight: 600; color: #92400e;
-  }
-</style>
+<link rel="stylesheet" href="{% static 'css_dashboard/noticias.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="space-y-6 pb-8">
+<div class="space-y-6 pb-6">
 
   <!-- ══ HERO ══ -->
-  <div class="anim-1" style="background: linear-gradient(135deg,#4c1d95 0%,#6d28d9 50%,#8b5cf6 100%); border-radius:22px; padding:24px 28px; position:relative; overflow:hidden;">
+  <div class="anim-1" style="background: linear-gradient(135deg,#4c1d95 0%,#6d28d9 50%,#8b5cf6 100%); border-radius:22px; padding:22px 26px; position:relative; overflow:hidden;">
     <div style="position:absolute;right:-30px;bottom:-50px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;"></div>
     <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div>
         <div class="flex items-center gap-2 mb-1">
-          <i class="fas fa-newspaper text-violet-300 text-sm"></i>
-          <span class="text-violet-200 text-xs font-semibold uppercase tracking-wider">Gestión de Contenido</span>
+          <i class="fas fa-newspaper text-white text-sm"></i>
+          <span class="text-white text-xs font-semibold uppercase tracking-wider">Gestión de Contenido</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-bold text-white">Noticias</h1>
-        <p class="text-white/55 text-sm mt-1">{{ noticias|length }} noticia{{ noticias|length|pluralize }} publicada{{ noticias|length|pluralize }}</p>
+        <p class="text-white text-sm mt-1 opacity-80">{{ noticias|length }} noticia{{ noticias|length|pluralize }} publicada{{ noticias|length|pluralize }}</p>
       </div>
+      <!-- Contador + botón Buscar — igual que en Eventos -->
       <div class="flex items-center gap-3">
         <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-5 py-3 text-center">
           <p class="text-2xl font-bold text-white">{{ noticias|length }}</p>
-          <p class="text-white/55 text-xs">Total</p>
+          <p class="text-white text-xs opacity-80">Total</p>
         </div>
+        <button id="open-search-noticia"
+          class="flex items-center gap-2 bg-white/15 hover:bg-white/25 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition border border-white/10">
+          <i class="fas fa-search text-xs"></i> Buscar
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- ══ LAYOUT PRINCIPAL: Formulario (izq) + Lista (der) ══ -->
+  <!-- ══ LAYOUT: Formulario (izq sticky) + Lista (der scrollable) ══ -->
   <div class="grid grid-cols-1 xl:grid-cols-5 gap-5 items-start">
 
     <!-- ── FORMULARIO (2/5) ── -->
     <div class="xl:col-span-2 anim-1">
       <div class="content-card">
+        <!-- Header fijo -->
         <div class="card-header">
           <div class="flex items-center gap-3">
             {% if modo_edicion_noticia %}
@@ -166,65 +64,72 @@
           </div>
         </div>
 
+        <!-- Formulario noticias -->
         <form method="POST"
-          action="{% if modo_edicion_noticia %}{% url 'actualizar_noticia' noticia_id %}{% else %}{% url 'crear_noticia' %}{% endif %}"
-          class="p-5 space-y-4">
+          action="{% if modo_edicion_noticia %}{% url 'actualizar_noticia' noticia_id %}{% else %}{% url 'crear_noticia' %}{% endif %}">
           {% csrf_token %}
+          <div class="p-4 space-y-3">
 
-          {% if modo_edicion_noticia %}
-          <div class="edit-mode-banner">
-            <i class="fas fa-info-circle text-amber-500"></i>
-            Editando noticia #{{ noticia_id }}
-          </div>
-          {% endif %}
-
-          <!-- Título -->
-          <div class="field-wrap">
-            <label class="field-label">
-              <span class="bg-violet-100 text-violet-600"><i class="fas fa-heading"></i></span>
-              Título *
-            </label>
-            {{ noticia_form.titulo }}
-          </div>
-
-          <!-- Fecha y Hora -->
-          <div class="grid grid-cols-2 gap-3">
-            <div class="field-wrap">
-              <label class="field-label">
-                <span class="bg-blue-100 text-blue-600"><i class="fas fa-calendar"></i></span>
-                Fecha *
-              </label>
-              {{ noticia_form.fecha }}
-            </div>
-            <div class="field-wrap">
-              <label class="field-label">
-                <span class="bg-purple-100 text-purple-600"><i class="fas fa-clock"></i></span>
-                Hora *
-              </label>
-              {{ noticia_form.hora }}
-            </div>
-          </div>
-
-          <!-- Descripción -->
-          <div class="field-wrap">
-            <label class="field-label">
-              <span class="bg-indigo-100 text-indigo-600"><i class="fas fa-align-left"></i></span>
-              Descripción *
-            </label>
-            {{ noticia_form.descripcion }}
-          </div>
-
-          <!-- Botones -->
-          <div class="flex gap-2 pt-2">
-            <button type="submit" class="btn-primary-grad flex-1 justify-center">
-              <i class="fas {% if modo_edicion_noticia %}fa-save{% else %}fa-plus{% endif %}"></i>
-              {% if modo_edicion_noticia %}Actualizar{% else %}Publicar{% endif %}
-            </button>
             {% if modo_edicion_noticia %}
-            <a href="?m=noticias" id="cancelar-edicion-noticia" class="btn-cancel-grad">
-              <i class="fas fa-times"></i>
-            </a>
+            <div class="edit-mode-banner">
+              <i class="fas fa-info-circle text-amber-500"></i>
+              Editando noticia #{{ noticia_id }}
+            </div>
             {% endif %}
+
+            <!-- Título -->
+            <div class="field-wrap">
+              <label class="field-label">
+                <span class="lbl-icon bg-violet-100 text-violet-600"><i class="fas fa-heading"></i></span>
+                Título de la Noticia *
+              </label>
+              {{ noticia_form.titulo }}
+            </div>
+
+            <!-- Separador -->
+            <div class="border-t border-slate-100 pt-1"></div>
+
+            <!-- Fecha y Hora en fila -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="field-wrap">
+                <label class="field-label">
+                  <span class="lbl-icon bg-blue-100 text-blue-600"><i class="fas fa-calendar"></i></span>
+                  Fecha *
+                </label>
+                {{ noticia_form.fecha }}
+              </div>
+              <div class="field-wrap">
+                <label class="field-label">
+                  <span class="lbl-icon bg-purple-100 text-purple-600"><i class="fas fa-clock"></i></span>
+                  Hora *
+                </label>
+                {{ noticia_form.hora }}
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="field-wrap">
+              <label class="field-label field-label-description">
+                <span class="lbl-icon bg-indigo-100 text-indigo-600"><i class="fas fa-align-left"></i></span>
+                <span class="label-main">Descripción *</span>
+                <span class="label-sub">Contenido principal</span>
+              </label>
+              {{ noticia_form.descripcion }}
+            </div>
+
+            <!-- Botones -->
+            <div class="flex gap-2 pt-1">
+              <button type="submit" class="btn-primary-grad flex-1 justify-center">
+                <i class="fas {% if modo_edicion_noticia %}fa-save{% else %}fa-plus{% endif %}"></i>
+                {% if modo_edicion_noticia %}Actualizar{% else %}Publicar Noticia{% endif %}
+              </button>
+              {% if modo_edicion_noticia %}
+              <a href="?m=noticias" id="cancelar-edicion-noticia" class="btn-cancel-grad">
+                <i class="fas fa-times"></i>
+              </a>
+              {% endif %}
+            </div>
+
           </div>
         </form>
       </div>
@@ -243,11 +148,10 @@
           </span>
         </div>
 
-        <div class="divide-y divide-slate-50 max-h-[640px] overflow-y-auto">
+        <div class="news-list-scroll divide-y divide-slate-50">
           {% for noticia in noticias %}
           <div class="news-card mx-4 my-3">
             <div class="flex items-start justify-between gap-3">
-              <!-- Icono + contenido -->
               <div class="flex items-start gap-3 flex-1 min-w-0">
                 <div class="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center shrink-0 mt-0.5">
                   <i class="fas fa-newspaper text-violet-600 text-sm"></i>
@@ -264,7 +168,7 @@
                       {{ noticia.hora|time:"H:i" }}
                     </span>
                   </div>
-                  <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">{{ noticia.descripcion|truncatechars:100 }}</p>
+                  <p class="text-xs text-slate-500 mt-2 desc-clamp">{{ noticia.descripcion }}</p>
                 </div>
               </div>
 
@@ -300,17 +204,34 @@
 
   </div>
 </div>
+
+<!-- ══ MODAL DE BÚSQUEDA — NOTICIAS ══ -->
+<div id="search-overlay-noticia">
+  <div id="search-box-noticia">
+    <div style="background:linear-gradient(135deg,#6d28d9,#8b5cf6);padding:20px 24px;">
+      <div class="flex items-center gap-3">
+        <i class="fas fa-search text-white/80 text-lg"></i>
+        <input type="text" id="search-input-noticia"
+          placeholder="Buscar noticia por título..."
+          style="flex:1;background:transparent;color:white;font-weight:600;font-size:1rem;outline:none;border:none;"
+          placeholder-color="rgba(255,255,255,0.5)" />
+        <button id="close-search-noticia" style="color:rgba(255,255,255,0.6);background:none;border:none;cursor:pointer;font-size:1.25rem;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <div id="search-results-noticia" class="max-h-72 overflow-y-auto p-3">
+      <p class="text-center text-slate-400 text-sm py-4">Escribe para buscar...</p>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js_end %}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-  /* ── Estilos a los inputs del form Django ── */
-  document.querySelectorAll('input[type=text], input[type=date], input[type=time], textarea').forEach(el => {
-    el.classList.add('field-input');
-  });
 
   /* ── Cancelar edición ── */
   document.getElementById('cancelar-edicion-noticia')?.addEventListener('click', e => {
@@ -359,6 +280,76 @@ document.addEventListener('DOMContentLoaded', () => {
     {% endfor %}
   {% endif %}
 
+  /* ══ BUSCADOR DE NOTICIAS ══ */
+  const overlayN     = document.getElementById('search-overlay-noticia');
+  const searchInputN = document.getElementById('search-input-noticia');
+  const searchResN   = document.getElementById('search-results-noticia');
+
+  const noticiasData = [
+    {% for n in noticias %}
+    { id: {{ n.id }}, titulo: "{{ n.titulo|escapejs }}", fecha: "{{ n.fecha|date:'d M Y' }}", hora: "{{ n.hora|time:'H:i' }}" }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+
+  /* Abrir */
+  document.getElementById('open-search-noticia')?.addEventListener('click', () => {
+    overlayN.classList.add('open');
+    setTimeout(() => searchInputN.focus(), 100);
+  });
+  /* Cerrar */
+  document.getElementById('close-search-noticia')?.addEventListener('click', () => overlayN.classList.remove('open'));
+  overlayN?.addEventListener('click', e => { if (e.target === overlayN) overlayN.classList.remove('open'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') overlayN.classList.remove('open'); });
+
+  /* Filtrar en tiempo real */
+  searchInputN?.addEventListener('input', () => {
+    const q = searchInputN.value.toLowerCase().trim();
+    if (!q) {
+      searchResN.innerHTML = '<p class="text-center text-slate-400 text-sm py-4">Escribe para buscar...</p>';
+      return;
+    }
+    const found = noticiasData.filter(n => n.titulo.toLowerCase().includes(q));
+    if (!found.length) {
+      searchResN.innerHTML = `<p class="text-center text-slate-400 text-sm py-4">Sin resultados para <strong>${q}</strong></p>`;
+      return;
+    }
+    searchResN.innerHTML = found.map(n => `
+      <a href="?m=noticias&edit_noticia=${n.id}"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition group"
+        onclick="document.getElementById('search-overlay-noticia').classList.remove('open')">
+        <div class="w-9 h-9 bg-violet-100 rounded-xl flex items-center justify-center shrink-0">
+          <i class="fas fa-newspaper text-violet-600 text-sm"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-slate-800 text-sm truncate">${n.titulo}</p>
+          <p class="text-xs text-slate-400">${n.fecha} &middot; ${n.hora}</p>
+        </div>
+        <i class="fas fa-arrow-right text-slate-300 group-hover:text-violet-500 transition text-xs"></i>
+      </a>
+    `).join('');
+  });
+
 });
 </script>
+
+<style>
+/* ── Modal overlay búsqueda noticias ── */
+#search-overlay-noticia {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(15,23,42,0.65);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+}
+#search-overlay-noticia.open { display: flex; }
+#search-box-noticia {
+  background: white; border-radius: 20px;
+  width: 100%; max-width: 540px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+#search-input-noticia::placeholder { color: rgba(255,255,255,0.55); }
+</style>
 {% endblock %}

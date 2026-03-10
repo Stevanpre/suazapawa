@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'login.apps.LoginConfig',
     'axes',
     'widget_tweaks',
+    'comunicaciones',
 ]
 
 # Middleware
@@ -111,12 +112,48 @@ AXES_HANDLER = 'axes.handlers.database.AxesDatabaseHandler'
 AXES_IPWARE_PROXY_COUNT = 1
 AXES_IPWARE_META_PRECEDENCE_ORDER = ['HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR']
 
-# Backend que graba cada email en un fichero
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'    # Carpeta donde se guardan los archivos
+# ── Correo electrónico ──────────────────────────────────────────────────────
+# Se usa SMTP real si EMAIL_HOST_USER está definido en .env, de lo contrario
+# los correos se guardan como archivos en sent_emails/ (útil en desarrollo).
+_email_user = os.getenv('EMAIL_HOST_USER', '')
 
-# Para que desde send_mail() use DEFAULT_FROM_EMAIL automáticamente
-DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+if _email_user:
+    EMAIL_BACKEND    = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST       = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+    EMAIL_PORT       = int(os.getenv('EMAIL_PORT', 587))
+    EMAIL_USE_TLS    = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+    EMAIL_HOST_USER  = _email_user
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+else:
+    # Fallback: guarda los correos como archivos (desarrollo sin SMTP)
+    EMAIL_BACKEND  = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+
+DEFAULT_FROM_EMAIL    = os.getenv('DEFAULT_FROM_EMAIL', 'webmaster@localhost').strip("'\"")
+CONTACT_EMAIL_DESTINO = os.getenv('CONTACT_EMAIL_DESTINO', 'marinonaranjoj@gmail.com')
+
+# Logging — muestra errores de correo en la consola del servidor
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'comunicaciones': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.core.mail': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 
 # Internacionalización

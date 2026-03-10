@@ -4,12 +4,54 @@
 {% block title %}Ubicación | Colegio Suazapawa{% endblock %}
 
 {% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
 <section class="relative overflow-hidden py-12 px-4 md:px-12 bg-gray-300">
   <div class="max-w-6xl mx-auto">
 
     <!-- Título principal -->
     <div class="text-center mb-12" data-aos="fade-down">
-      <h2 class="text-4xl md:text-5xl font-extrabold text-blue-900 mb-3">📍 ¿Dónde Estamos Ubicados?</h2>
+      <h2 class="exp-title">📍 ¿Dónde Estamos <em>Ubicados?</em>
+      </h2>
+      <br>
       <p class="text-lg md:text-xl text-red-700 font-medium">Ubicación oficial del Centro Educativo Suazapawa</p>
     </div>
 

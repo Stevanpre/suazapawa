@@ -37,13 +37,13 @@
   }
   .field-label .fi {
     width: 26px; height: 26px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center; font-size: 0.7rem;
+    display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0;
   }
   .field-input {
     width: 100%; padding: 11px 14px;
     border: 1.5px solid #e2e8f0; border-radius: 12px;
     font-size: 0.875rem; background: #f8fafc; color: #1e293b;
-    transition: all 0.25s ease; outline: none; font-family: inherit;
+    transition: all 0.25s ease; outline: none; font-family: inherit; box-sizing: border-box;
   }
   .field-input:focus {
     border-color: #6366f1; background: white;
@@ -72,15 +72,14 @@
   }
   .pw-strength-fill {
     height: 100%; border-radius: 99px;
-    transition: width 0.4s ease, background 0.4s ease;
-    width: 0%;
+    transition: width 0.4s ease, background 0.4s ease; width: 0%;
   }
   .pw-rule {
     display: flex; align-items: center; gap: 6px;
     font-size: 0.75rem; font-weight: 500; color: #94a3b8;
     transition: color 0.25s ease;
   }
-  .pw-rule.ok { color: #10b981; }
+  .pw-rule.ok   { color: #10b981; }
   .pw-rule.fail { color: #ef4444; }
   .pw-rule i { font-size: 0.6rem; }
 
@@ -94,7 +93,7 @@
     content: ''; flex: 1; height: 1px; background: #e2e8f0;
   }
 
-  /* ── Botón ── */
+  /* ── Botón guardar ── */
   .btn-indigo-grad {
     display: flex; align-items: center; justify-content: center; gap: 8px;
     background: linear-gradient(135deg, #6366f1, #4f46e5);
@@ -116,6 +115,12 @@
     display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0;
   }
 
+  /* ── Panel lateral sticky ── */
+  .side-sticky {
+    position: sticky;
+    top: 12px;
+  }
+
   /* ── Animaciones ── */
   @keyframes slideUp {
     from { opacity: 0; transform: translateY(18px); }
@@ -127,10 +132,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="space-y-6 pb-8">
+<div class="space-y-6 pb-6">
 
   <!-- ══ HERO ══ -->
-  <div class="anim-1" style="background: linear-gradient(135deg,#312e81 0%,#4f46e5 50%,#7c3aed 100%); border-radius:22px; padding:24px 28px; position:relative; overflow:hidden;">
+  <div class="anim-1" style="background: linear-gradient(135deg,#312e81 0%,#4f46e5 50%,#7c3aed 100%); border-radius:22px; padding:22px 26px; position:relative; overflow:hidden;">
     <div style="position:absolute;right:-30px;bottom:-50px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none;"></div>
     <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div class="flex items-center gap-4">
@@ -142,22 +147,22 @@
         <div>
           <div class="flex items-center gap-2 mb-1">
             <i class="fas fa-user-circle text-indigo-300 text-sm"></i>
-            <span class="text-indigo-200 text-xs font-semibold uppercase tracking-wider">Configuración de Cuenta</span>
+            <span class="text-indigo-200 text-white text-xs font-semibold uppercase tracking-wider">Configuración de Cuenta</span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-bold text-white">
             {{ request.user.first_name|default:request.user.username }}
           </h1>
-          <p class="text-white/55 text-sm mt-0.5">@{{ request.user.username }} · Administrador</p>
+          <p class="text-white/55 text-sm mt-0.5 text-white">@{{ request.user.username }} · Administrador</p>
         </div>
       </div>
       <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-5 py-3 text-center">
-        <p class="text-white font-bold text-sm">{{ request.user.email|default:"Sin correo" }}</p>
-        <p class="text-white/50 text-xs mt-0.5">Correo registrado</p>
+        <p class="text-white font-bold text-sm break-all">{{ request.user.email|default:"Sin correo" }}</p>
+        <p class="text-white/50 text-xs mt-0.5 text-white">Correo registrado</p>
       </div>
     </div>
   </div>
 
-  <!-- ══ LAYOUT: Formulario (izq) + Info (der) ══ -->
+  <!-- ══ LAYOUT: Formulario (izq 2/3) + Info (der 1/3) ══ -->
   <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 items-start">
 
     <!-- ── FORMULARIO (2/3) ── -->
@@ -178,10 +183,10 @@
         <form id="perfilForm" method="post" action="{% url 'actualizar_perfil' %}" class="p-6 space-y-5">
           {% csrf_token %}
 
-          <!-- Grid nombre / usuario -->
+          <!-- Nombre / Usuario -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="field-wrap">
-              <label class="field-label">
+              <label for="first_name" class="field-label">
                 <span class="fi bg-blue-100 text-blue-600"><i class="fas fa-user"></i></span>
                 Nombre Completo
               </label>
@@ -189,7 +194,7 @@
                 type="text" class="field-input" placeholder="Tu nombre" required />
             </div>
             <div class="field-wrap">
-              <label class="field-label">
+              <label for="username" class="field-label">
                 <span class="fi bg-purple-100 text-purple-600"><i class="fas fa-id-badge"></i></span>
                 Nombre de Usuario
               </label>
@@ -200,7 +205,7 @@
 
           <!-- Correo -->
           <div class="field-wrap">
-            <label class="field-label">
+            <label for="email" class="field-label">
               <span class="fi bg-emerald-100 text-emerald-600"><i class="fas fa-envelope"></i></span>
               Correo Electrónico
             </label>
@@ -209,11 +214,13 @@
           </div>
 
           <!-- Divider -->
-          <div class="section-divider">Cambiar contraseña <span class="text-slate-400 normal-case font-normal">(opcional)</span></div>
+          <div class="section-divider">
+            Cambiar contraseña <span class="text-slate-400 normal-case font-normal">(opcional)</span>
+          </div>
 
           <!-- Nueva contraseña -->
           <div class="field-wrap">
-            <label class="field-label">
+            <label for="password1" class="field-label">
               <span class="fi bg-red-100 text-red-500"><i class="fas fa-lock"></i></span>
               Nueva Contraseña
             </label>
@@ -225,9 +232,7 @@
                 <i class="fas fa-eye"></i>
               </button>
             </div>
-            <!-- Barra de fortaleza -->
             <div class="pw-strength-bar"><div class="pw-strength-fill" id="pw-bar"></div></div>
-            <!-- Reglas -->
             <div id="pw-rules" class="mt-2 grid grid-cols-2 gap-1 hidden">
               <p class="pw-rule" id="r-length"><i class="fas fa-circle"></i> Mín. 6 caracteres</p>
               <p class="pw-rule" id="r-upper"><i class="fas fa-circle"></i> Una mayúscula</p>
@@ -238,7 +243,7 @@
 
           <!-- Confirmar contraseña -->
           <div class="field-wrap">
-            <label class="field-label">
+            <label for="password2" class="field-label">
               <span class="fi bg-orange-100 text-orange-500"><i class="fas fa-lock-open"></i></span>
               Confirmar Contraseña
             </label>
@@ -262,8 +267,8 @@
       </div>
     </div>
 
-    <!-- ── PANEL LATERAL (1/3) ── -->
-    <div class="space-y-4 anim-2">
+    <!-- ── PANEL LATERAL (1/3) sticky ── -->
+    <div class="space-y-4 anim-2 side-sticky">
 
       <!-- Resumen de cuenta -->
       <div class="content-card">
@@ -273,16 +278,16 @@
         <div class="p-4 space-y-3">
           <div class="info-card">
             <div class="ic-icon bg-blue-100 text-blue-600"><i class="fas fa-user"></i></div>
-            <div>
+            <div class="min-w-0">
               <p class="text-xs text-slate-400 font-semibold">Nombre completo</p>
-              <p class="text-sm font-bold text-slate-700">{{ request.user.first_name|default:"—" }}</p>
+              <p class="text-sm font-bold text-slate-700 truncate">{{ request.user.first_name|default:"—" }}</p>
             </div>
           </div>
           <div class="info-card">
             <div class="ic-icon bg-purple-100 text-purple-600"><i class="fas fa-at"></i></div>
-            <div>
+            <div class="min-w-0">
               <p class="text-xs text-slate-400 font-semibold">Usuario</p>
-              <p class="text-sm font-bold text-slate-700">@{{ request.user.username }}</p>
+              <p class="text-sm font-bold text-slate-700 truncate">@{{ request.user.username }}</p>
             </div>
           </div>
           <div class="info-card">
@@ -321,20 +326,20 @@
         <div class="p-4 space-y-3">
           <div class="flex items-start gap-2.5">
             <i class="fas fa-check-circle text-emerald-500 text-sm mt-0.5 shrink-0"></i>
-            <p class="text-xs text-slate-600">Usa una contraseña de al menos 8 caracteres con letras y números.</p>
+            <p class="text-xs text-slate-600">Usa al menos 8 caracteres con letras y números.</p>
           </div>
           <div class="flex items-start gap-2.5">
             <i class="fas fa-check-circle text-emerald-500 text-sm mt-0.5 shrink-0"></i>
-            <p class="text-xs text-slate-600">No compartas tus credenciales con otras personas.</p>
+            <p class="text-xs text-slate-600">No compartas tus credenciales con nadie.</p>
           </div>
           <div class="flex items-start gap-2.5">
             <i class="fas fa-check-circle text-emerald-500 text-sm mt-0.5 shrink-0"></i>
-            <p class="text-xs text-slate-600">Cierra sesión cuando uses equipos compartidos.</p>
+            <p class="text-xs text-slate-600">Cierra sesión en equipos compartidos.</p>
           </div>
         </div>
       </div>
 
-      <!-- Acceso rápido -->
+      <!-- Acciones rápidas -->
       <div class="content-card">
         <div class="card-header">
           <h3 class="font-bold text-slate-800 text-sm">Acciones</h3>
@@ -345,11 +350,15 @@
             <i class="fas fa-gauge-high text-blue-600"></i>
             <span class="text-xs font-semibold text-blue-700">Dashboard</span>
           </a>
-          <a href="{% url 'logout' %}"
-            class="flex flex-col items-center gap-2 py-3 px-2 bg-red-50 hover:bg-red-100 border border-red-100 rounded-xl transition text-center">
-            <i class="fas fa-right-from-bracket text-red-500"></i>
-            <span class="text-xs font-semibold text-red-600">Cerrar Sesión</span>
-          </a>
+          <form method="POST" action="{% url 'logout' %}" style="display:contents;">
+            {% csrf_token %}
+            <button type="submit"
+              class="flex flex-col items-center gap-2 py-3 px-2 bg-red-50 hover:bg-red-100 border border-red-100 rounded-xl transition text-center"
+              style="background:none;border:1px solid #fee2e2;background:#fef2f2;cursor:pointer;border-radius:0.75rem;">
+              <i class="fas fa-right-from-bracket text-red-500"></i>
+              <span class="text-xs font-semibold text-red-600">Cerrar Sesión</span>
+            </button>
+          </form>
         </div>
       </div>
 
@@ -376,50 +385,40 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── Indicadores de fortaleza de contraseña ── */
   const pw1      = document.getElementById('password1');
   const pw2      = document.getElementById('password2');
   const rules    = document.getElementById('pw-rules');
   const bar      = document.getElementById('pw-bar');
   const matchMsg = document.getElementById('pw-match-msg');
+  const rLength  = document.getElementById('r-length');
+  const rUpper   = document.getElementById('r-upper');
+  const rLower   = document.getElementById('r-lower');
+  const rNumber  = document.getElementById('r-number');
 
-  const rLength = document.getElementById('r-length');
-  const rUpper  = document.getElementById('r-upper');
-  const rLower  = document.getElementById('r-lower');
-  const rNumber = document.getElementById('r-number');
+  const applyRule = (el, ok) => {
+    el.className = ok ? 'pw-rule ok' : 'pw-rule fail';
+    el.querySelector('i').className = ok ? 'fas fa-check-circle' : 'fas fa-times-circle';
+  };
 
   pw1?.addEventListener('input', () => {
     const v = pw1.value;
-    if (v.length > 0) {
-      rules.classList.remove('hidden');
-    } else {
-      rules.classList.add('hidden');
-      bar.style.width = '0%'; return;
-    }
-
+    if (!v.length) { rules.classList.add('hidden'); bar.style.width = '0%'; return; }
+    rules.classList.remove('hidden');
     const checks = {
       length: v.length >= 6,
       upper:  /[A-Z]/.test(v),
       lower:  /[a-z]/.test(v),
       number: /\d/.test(v),
     };
-
-    const applyRule = (el, ok) => {
-      el.className = ok ? 'pw-rule ok' : 'pw-rule fail';
-      el.querySelector('i').className = ok ? 'fas fa-check-circle' : 'fas fa-times-circle';
-    };
     applyRule(rLength, checks.length);
     applyRule(rUpper,  checks.upper);
     applyRule(rLower,  checks.lower);
     applyRule(rNumber, checks.number);
-
     const score = Object.values(checks).filter(Boolean).length;
     const colors = ['', '#ef4444', '#f97316', '#eab308', '#22c55e'];
     const widths  = ['0%', '25%', '50%', '75%', '100%'];
     bar.style.width      = widths[score];
     bar.style.background = colors[score];
-
-    /* Match check */
     if (pw2.value.length > 0) checkMatch();
   });
 

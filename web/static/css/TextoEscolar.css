@@ -1,0 +1,381 @@
+/* MISMOS ESTILOS DEL CALENDARIO */
+    .exp-title {
+        font-family: 'Poppins', sans-serif;
+        font-size: clamp(2.0rem, 4vw, 4.0rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        color: #0B1A3E;
+        margin: 0 0 2rem 0;
+        text-align: center;
+    }
+
+    .exp-title em {
+        font-style: normal;
+        font-weight: 900;
+        color: #D0021B;
+        position: relative;
+    }
+
+    .exp-title em::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+        border-radius: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        animation: expLine 0.8s ease forwards 1s;
+    }
+
+    @keyframes expLine {
+        to { transform: scaleX(1); }
+    }
+
+    /* FILTROS LATERALES - Estilo calendario */
+    .filters-card {
+        background: white;
+        border-radius: 24px;
+        border: 1px solid #EDF2F7;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .filters-card:hover {
+        box-shadow: 0 10px 30px rgba(208, 2, 27, 0.05);
+        border-color: rgba(208, 2, 27, 0.2);
+    }
+
+    .filters-header {
+        background: linear-gradient(135deg, #F8FAFC, white);
+        padding: 1.2rem 1.5rem;
+        border-bottom: 1px solid #EDF2F7;
+    }
+
+    .filters-header h4 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #0B1A3E;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+    }
+
+    .filters-header h4 i {
+        color: #D0021B;
+        font-size: 1.1rem;
+    }
+
+    .filters-body {
+        padding: 1.5rem;
+    }
+
+    /* Inputs estilo calendario */
+    .filter-label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #4A5568;
+        margin-bottom: 0.5rem;
+    }
+
+    .filter-input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        background: #F8FAFC;
+    }
+
+    .filter-input:focus {
+        outline: none;
+        border-color: #D0021B;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(208, 2, 27, 0.1);
+    }
+
+    .filter-input::placeholder {
+        color: #A0AEC0;
+        font-size: 0.9rem;
+    }
+
+    /* Botones estilo calendario */
+    .btn-search {
+        width: 100%;
+        padding: 0.8rem 1.5rem;
+        background: #D0021B;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        box-shadow: 0 4px 12px rgba(208, 2, 27, 0.2);
+    }
+
+    .btn-search:hover {
+        background: #B00218;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(208, 2, 27, 0.3);
+    }
+
+    .btn-search:active {
+        transform: translateY(0);
+    }
+
+    /* Botón de limpiar */
+    .btn-clear {
+        width: 100%;
+        padding: 0.6rem 1rem;
+        background: white;
+        color: #4A5568;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 0.5rem;
+    }
+
+    .btn-clear:hover {
+        border-color: #D0021B;
+        color: #D0021B;
+        background: #FFF5F5;
+    }
+
+    .btn-order {
+        display: block;
+        width: 100%;
+        padding: 0.7rem 1rem;
+        background: #F8FAFC;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 12px;
+        color: #0B1A3E;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-align: center;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .btn-order:hover {
+        border-color: #D0021B;
+        color: #D0021B;
+        background: white;
+        transform: translateY(-2px);
+    }
+
+    /* CONTADOR DE NOTICIAS - MÁS PEQUEÑO Y EN MEJOR POSICIÓN */
+    .news-counter {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: white;
+        padding: 0.5rem 1.2rem;
+        border-radius: 40px;
+        border: 1px solid #EDF2F7;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        margin-bottom: 1.5rem;
+        font-size: 0.85rem;
+    }
+
+    .news-counter i {
+        color: #D0021B;
+        font-size: 0.9rem;
+    }
+
+    .news-counter span {
+        color: #4A5568;
+        font-weight: 500;
+    }
+
+    .news-counter strong {
+        color: #D0021B;
+        font-weight: 700;
+        margin-left: 4px;
+    }
+
+    /* TARJETAS DE NOTICIAS - Con detalles adicionales */
+    .news-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        border: 1px solid #EDF2F7;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+        position: relative;
+    }
+
+    .news-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #D0021B, transparent);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+        transform-origin: left;
+        z-index: 2;
+    }
+
+    .news-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .news-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(208, 2, 27, 0.08);
+        border-color: rgba(208, 2, 27, 0.2);
+    }
+
+    .news-header {
+        padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .news-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #0B1A3E;
+        margin: 0;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+        flex: 1;
+    }
+
+    .news-card:hover .news-title {
+        color: #D0021B;
+    }
+
+    .news-date-badge {
+        background: linear-gradient(135deg, #F8FAFC, white);
+        border: 1px solid rgba(208, 2, 27, 0.2);
+        color: #D0021B;
+        font-weight: 600;
+        font-size: 0.75rem;
+        padding: 0.4rem 1rem;
+        border-radius: 40px;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .news-date-badge i {
+        font-size: 0.7rem;
+    }
+
+    .news-content {
+        padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+    }
+
+    .news-description {
+        color: #4A5568;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin: 0 0 1rem 0;
+    }
+
+    /* DETALLES ADICIONALES (sin URLs) */
+    .news-meta-details {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px dashed #E2E8F0;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #64748B;
+        font-size: 0.8rem;
+    }
+
+    .meta-item i {
+        color: #D0021B;
+        font-size: 0.8rem;
+    }
+
+    /* Divisoria decorativa */
+    .news-divider {
+        width: 50px;
+        height: 2px;
+        background: linear-gradient(90deg, #D0021B, transparent);
+        margin: 0.5rem 0 1rem 1.5rem;
+        transition: width 0.3s ease;
+    }
+
+    .news-card:hover .news-divider {
+        width: 80px;
+    }
+
+    /* Estado vacío */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 24px;
+        border: 1px solid #EDF2F7;
+        grid-column: span 3;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: #D0021B;
+        opacity: 0.3;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+        font-size: 1.2rem;
+        color: #4A5568;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        .grid {
+            gap: 1.5rem;
+        }
+        
+        .news-header {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .news-date-badge {
+            align-self: flex-start;
+        }
+        
+        .news-meta-details {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    }

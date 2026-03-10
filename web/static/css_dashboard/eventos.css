@@ -1,0 +1,175 @@
+/* ══ EVENTOS DASHBOARD CSS ══ */
+
+/* ── Sistema de diseño ── */
+.content-card {
+  background: white; border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid rgba(226,232,240,0.8); overflow: hidden;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px 14px; border-bottom: 1px solid #f1f5f9;
+}
+
+/* ── Lista con scroll dinámico ── */
+.events-scroll {
+  overflow-y: auto;
+  max-height: 72vh;
+  padding: 16px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(1, 1fr);
+}
+@media (min-width: 640px) {
+  .events-scroll { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Inputs ── */
+.field-wrap { display: flex; flex-direction: column; gap: 5px; }
+.field-label {
+  font-size: 0.78rem; font-weight: 700; color: #475569;
+  display: flex; align-items: center; gap: 6px;
+}
+.field-label .lbl-icon {
+  width: 24px; height: 24px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; flex-shrink: 0;
+}
+.lbl-icon {
+  width: 24px; height: 24px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; flex-shrink: 0;
+}
+.field-input {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid #e2e8f0; border-radius: 12px;
+  font-size: 0.875rem; background: #f8fafc; color: #1e293b;
+  transition: all 0.25s ease; outline: none;
+  font-family: inherit;
+}
+.field-input:focus {
+  border-color: #3b82f6; background: white;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+textarea.field-input { resize: vertical; min-height: 80px; }
+
+/* ── Descripciones con corte de texto ── */
+.desc-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  line-height: 1.5;
+  max-height: 4.5em;
+}
+
+/* ── File drop zone ── */
+.file-zone {
+  border: 2px dashed #cbd5e1; border-radius: 14px;
+  background: #f8fafc; padding: 18px;
+  text-align: center; transition: all 0.3s ease; cursor: pointer;
+}
+.file-zone:hover, .file-zone.drag-over {
+  border-color: #3b82f6; background: #eff6ff;
+}
+#preview-img {
+  width: 100%; max-height: 160px; object-fit: cover;
+  border-radius: 12px; display: none; margin-top: 10px;
+  border: 2px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ── Botones ── */
+.btn-blue-grad {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white; font-weight: 700; font-size: 0.875rem;
+  padding: 11px 24px; border-radius: 12px; border: none; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(59,130,246,0.35); transition: all 0.25s ease;
+}
+.btn-blue-grad:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.45); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #f1f5f9; color: #64748b;
+  font-weight: 600; font-size: 0.875rem;
+  padding: 11px 20px; border-radius: 12px; border: 1.5px solid #e2e8f0;
+  cursor: pointer; transition: all 0.25s ease; text-decoration: none;
+}
+.btn-ghost:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+
+/* ── Cards de eventos ── */
+.event-item {
+  background: white; border: 1px solid #e8edf2; border-radius: 16px;
+  overflow: hidden; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+}
+.event-item:hover {
+  border-color: #93c5fd;
+  box-shadow: 0 8px 28px rgba(59,130,246,0.12);
+  transform: translateY(-3px);
+}
+.event-item::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+
+/* ── Badges info del evento ── */
+.ev-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 8px; font-size: 0.72rem; font-weight: 600;
+}
+
+/* ── Botones acción ── */
+.action-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 14px; border-radius: 10px;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  transition: all 0.2s ease; border: none; text-decoration: none;
+}
+.action-edit   { background: #dbeafe; color: #1d4ed8; }
+.action-edit:hover   { background: #bfdbfe; transform: translateY(-1px); }
+.action-delete { background: #fee2e2; color: #dc2626; }
+.action-delete:hover { background: #fca5a5; transform: translateY(-1px); }
+
+/* ── Estado ── */
+.status-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.7rem; font-weight: 700; padding: 3px 9px; border-radius: 99px;
+}
+.sp-upcoming { background: #dbeafe; color: #1d4ed8; }
+.sp-today    { background: #d1fae5; color: #047857; }
+.sp-past     { background: #f1f5f9; color: #64748b; }
+
+/* ── Edit mode banner ── */
+.edit-banner {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1.5px solid #fbbf24; border-radius: 12px;
+  padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.82rem; font-weight: 600; color: #92400e;
+}
+
+/* ── Animaciones ── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim-1 { animation: slideUp 0.45s ease-out 0.05s both; }
+.anim-2 { animation: slideUp 0.45s ease-out 0.15s both; }
+
+/* ── Search modal overlay ── */
+#search-overlay {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(15,23,42,0.65); backdrop-filter: blur(4px);
+  display: none; align-items: flex-start; justify-content: center; padding-top: 80px;
+}
+#search-overlay.open { display: flex; }
+#search-box {
+  background: white; border-radius: 20px; width: 100%; max-width: 540px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25); overflow: hidden;
+}
+

@@ -4,8 +4,50 @@
 {% block title %}Transporte Escolar | Colegio Suazapawa{% endblock %}
 
 {% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
 <section class="bg-gradient-to-b from-sky-50 to-white py-12 px-4" data-aos="fade-up">
-<p class="text-center text-blue-900 text-5xl mb-10 font-extrabold">TRANSPORTE SUAZAPAWA</p>
+<h2 class="exp-title">TRANSPORTE <em>SUAZAPAWA</em>
+      </h2>
+      <br>
   <div class="max-w-5xl mx-auto space-y-16">
 
     <!-- Bloque 1: Seguridad garantizada -->
@@ -39,11 +81,7 @@
     <!-- Bloque 3: Rutas eficientes -->
     <div class="md:flex md:items-center md:space-x-8" data-aos="fade-right">
       <div class="md:w-1/2">
-<<<<<<< HEAD
-        <img src="{% static 'img/navsec/buses3.JPG' %}" alt="Rutas eficientes"
-=======
         <img src="{% static 'img/buses3.JPG' %}" alt="Rutas eficientes"
->>>>>>> origin/robot
              class="w-full rounded-xl shadow-lg">
       </div>
       <div class="md:w-1/2 mt-4 md:mt-0">

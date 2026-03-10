@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es" data-theme="light">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,561 +12,1017 @@
   {% block extra_head %}{% endblock %}
   <style>
     :root {
-      --sidebar-w: 260px;
+      --sidebar-w: 270px;
       --sidebar-collapsed-w: 72px;
-      --navbar-h: 64px;
-      --brand-from: #1e3a5f;
-      --brand-to: #2563eb;
-      --accent: #3b82f6;
-      --sidebar-text: rgba(255,255,255,0.85);
+      --navbar-h: 68px;
     }
+    * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
 
-    * { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    * { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
 
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #f1f5f9; }
-    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 99px; }
-    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    html, body { height: 100%; overflow: hidden; margin: 0; padding: 0; }
 
-    /* ── Sidebar ── */
+    /* ══ SIDEBAR ══ */
     #sidebar {
       width: var(--sidebar-w);
-      background: linear-gradient(170deg, #0f2344 0%, #1a3a6e 45%, #1d4ed8 100%);
-      box-shadow: 6px 0 32px rgba(0,0,0,0.18);
+      height: 100vh;
+      background: linear-gradient(175deg, #0a1628 0%, #0f2447 35%, #1a3a6e 70%, #1d4ed8 100%);
+      box-shadow: 4px 0 24px rgba(0,0,0,0.25);
       transition: width 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset-y: 0;
+      left: 0;
+      z-index: 50;
     }
+    #sidebar.collapsed { width: var(--sidebar-collapsed-w); }
 
-    #sidebar.collapsed {
-      width: var(--sidebar-collapsed-w);
-    }
-
-    #sidebar .sidebar-label,
-    #sidebar .sidebar-section-title,
-    #sidebar .sidebar-user-info {
-      transition: opacity 0.2s ease, width 0.2s ease;
-      white-space: nowrap;
+    /* Logo area */
+    .sidebar-logo-area {
+      padding: 14px 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      background: rgba(0,0,0,0.15);
+      min-height: 72px;
       overflow: hidden;
+      transition: all 0.3s ease;
     }
-
-    #sidebar.collapsed .sidebar-label,
-    #sidebar.collapsed .sidebar-section-title,
-    #sidebar.collapsed .sidebar-user-info {
-      opacity: 0;
-      width: 0;
-      pointer-events: none;
+    .sidebar-logo-img {
+      width: 42px; height: 42px;
+      border-radius: 13px;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.2);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3), 0 0 0 3px rgba(255,255,255,0.05);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
     }
-
-    #sidebar.collapsed .sidebar-logo-text {
-      opacity: 0;
-      width: 0;
+    /* Al colapsar: centrar contenido del logo area */
+    #sidebar.collapsed .sidebar-logo-area {
+      justify-content: center;
+      padding: 14px 6px 12px;
+      gap: 0;
+      flex-direction: column;
+    }
+    #sidebar.collapsed .sidebar-logo-img {
+      display: block;
+      width: 36px; height: 36px;
+      margin: 0 auto;
     }
 
     .sidebar-logo-text {
-      transition: opacity 0.2s ease, width 0.2s ease;
+      transition: opacity 0.2s ease, max-width 0.3s ease;
       white-space: nowrap;
       overflow: hidden;
+      max-width: 160px;
+      flex: 1;
+    }
+    #sidebar.collapsed .sidebar-logo-text { opacity: 0; max-width: 0; pointer-events: none; }
+    .sidebar-logo-brand {
+      font-size: 0.9rem; font-weight: 800; color: #fff;
+      letter-spacing: 0.08em; line-height: 1;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    }
+    .sidebar-logo-sub {
+      font-size: 0.65rem; color: rgba(255,255,255,0.45);
+      margin-top: 3px; font-weight: 500; letter-spacing: 0.04em;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .sidebar-logo-dot {
+      width: 5px; height: 5px; background: #10b981;
+      border-radius: 50%; flex-shrink: 0;
+      box-shadow: 0 0 5px #10b981;
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+    /* Collapse btn */
+    #collapse-btn {
+      flex-shrink: 0;
+      margin-left: auto;
+      width: 26px; height: 26px; border-radius: 7px;
+      display: none; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    #collapse-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    @media (min-width: 1024px) { #collapse-btn { display: flex; } }
+    /* Cuando colapsado: centrar el botón en lugar de ocultarlo */
+    #sidebar.collapsed #collapse-btn {
+      display: flex;
+      margin: 0 auto;
     }
 
-    /* ── Nav items ── */
+    /* Labels ocultos al colapsar */
+    .sidebar-label, .nav-section-title, .sidebar-user-info {
+      transition: opacity 0.2s ease, max-width 0.3s ease;
+      white-space: nowrap; overflow: hidden;
+    }
+    #sidebar.collapsed .sidebar-label,
+    #sidebar.collapsed .nav-section-title,
+    #sidebar.collapsed .sidebar-user-info { opacity: 0; max-width: 0; pointer-events: none; }
+
+    /* Nav */
+    #sidebar nav { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 10px 8px; }
+
+    .nav-section-title {
+      font-size: 0.58rem; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.12em; color: rgba(255,255,255,0.28);
+      padding: 8px 10px 4px;
+      display: flex; align-items: center; gap: 8px; overflow: hidden;
+    }
+    .nav-section-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.12), transparent);
+    }
+    #sidebar.collapsed .nav-section-title { opacity: 0; height: 0; padding: 0; overflow: hidden; }
+
     .nav-item {
-      position: relative;
-      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-      border-radius: 12px;
-      color: var(--sidebar-text);
+      position: relative; display: flex; align-items: center; gap: 10px;
+      padding: 9px 10px; border-radius: 11px;
+      color: rgba(255,255,255,0.68); text-decoration: none;
+      margin-bottom: 2px;
+      transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
     }
-
-    .nav-item::after {
-      content: '';
-      position: absolute;
-      left: 0; top: 50%;
+    .nav-item::before {
+      content: ''; position: absolute; left: 0; top: 50%;
       transform: translateY(-50%) scaleY(0);
-      width: 3px; height: 60%;
-      background: #fff;
-      border-radius: 0 4px 4px 0;
-      transition: transform 0.25s ease;
+      width: 3px; height: 50%; background: #fff;
+      border-radius: 0 3px 3px 0;
+      transition: transform 0.2s ease;
     }
-
-    .nav-item:hover {
-      background: rgba(255,255,255,0.12);
-      color: white;
-    }
-
+    .nav-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
     .nav-item.active {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      font-weight: 600;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.17); color: #fff; font-weight: 600;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
     }
-
-    .nav-item.active::after {
-      transform: translateY(-50%) scaleY(1);
-    }
+    .nav-item.active::before { transform: translateY(-50%) scaleY(1); }
 
     .nav-icon {
-      min-width: 20px;
-      text-align: center;
-      font-size: 1rem;
-      transition: transform 0.25s ease;
-    }
-
-    .nav-item:hover .nav-icon {
-      transform: scale(1.15);
-    }
-
-    /* ── Tooltip al colapsar ── */
-    #sidebar.collapsed .nav-tooltip {
-      display: block !important;
-    }
-
-    .nav-tooltip {
-      display: none;
-      position: absolute;
-      left: calc(var(--sidebar-collapsed-w) + 8px);
-      top: 50%;
-      transform: translateY(-50%);
-      background: #1e293b;
-      color: white;
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 5px 10px;
-      border-radius: 8px;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    }
-
-    .nav-tooltip::before {
-      content: '';
-      position: absolute;
-      right: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 5px solid transparent;
-      border-right-color: #1e293b;
-    }
-
-    /* ── Separator ── */
-    .nav-separator {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-      margin: 6px 0;
-    }
-
-    /* ── Avatar gradient ── */
-    .avatar-ring {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-      padding: 2px;
-      border-radius: 50%;
-    }
-
-    .avatar-inner {
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      border-radius: 50%;
-      width: 100%; height: 100%;
+      width: 34px; height: 34px; border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
-      color: white; font-weight: 700;
+      font-size: 0.85rem; flex-shrink: 0;
+      background: rgba(255,255,255,0.07);
+      transition: all 0.2s ease;
     }
+    .nav-item.active .nav-icon { background: rgba(255,255,255,0.18); }
+    .nav-item:hover .nav-icon { background: rgba(255,255,255,0.14); transform: scale(1.06); }
 
-    /* ── Navbar ── */
-    #top-navbar {
-      height: var(--navbar-h);
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(226,232,240,0.9);
-      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-      transition: left 0.3s cubic-bezier(0.4,0,0.2,1);
+    .nav-label {
+      font-size: 0.85rem; font-weight: 500; flex: 1;
+      white-space: nowrap; overflow: hidden;
+      transition: opacity 0.2s ease, max-width 0.3s ease; max-width: 160px;
     }
+    #sidebar.collapsed .nav-label { opacity: 0; max-width: 0; pointer-events: none; }
 
-    /* ── Search ── */
-    .search-wrap {
-      background: #f1f5f9;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      transition: all 0.25s ease;
+    .nav-badge {
+      font-size: 0.6rem; font-weight: 700;
+      padding: 2px 6px; border-radius: 99px; line-height: 1.4;
+      flex-shrink: 0; transition: opacity 0.2s ease;
     }
+    #sidebar.collapsed .nav-badge { opacity: 0; pointer-events: none; }
 
-    .search-wrap:focus-within {
-      background: #fff;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    /* Tooltip colapsado */
+    .nav-tooltip {
+      display: none; position: absolute;
+      left: calc(var(--sidebar-collapsed-w) + 8px); top: 50%;
+      transform: translateY(-50%);
+      background: #1e293b; color: white;
+      font-size: 0.75rem; font-weight: 600;
+      padding: 5px 10px; border-radius: 8px;
+      white-space: nowrap; pointer-events: none; z-index: 200;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
+    .nav-tooltip::before {
+      content: ''; position: absolute;
+      right: 100%; top: 50%; transform: translateY(-50%);
+      border: 5px solid transparent; border-right-color: #1e293b;
+    }
+    #sidebar.collapsed .nav-tooltip { display: block !important; }
 
-    /* ── Content wrapper ── */
+    .nav-sep { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 5px 3px; }
+
+    /* Footer sidebar */
+    .sidebar-footer {
+      padding: 10px 8px; border-top: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0; background: rgba(0,0,0,0.15);
+    }
+    .sidebar-user-card {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 10px; border-radius: 11px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 7px; overflow: hidden;
+    }
+    #sidebar.collapsed .sidebar-user-card { justify-content: center; }
+    .sidebar-user-avatar {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 0.85rem;
+      flex-shrink: 0; box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+    }
+    .sidebar-user-name { font-size: 0.8rem; font-weight: 600; color: white; line-height: 1; }
+    .sidebar-user-role { font-size: 0.65rem; color: rgba(255,255,255,0.38); margin-top: 2px; }
+
+    .sidebar-footer-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    #sidebar.collapsed .sidebar-footer-btns { grid-template-columns: 1fr; }
+
+    .sidebar-action-btn {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 7px 8px; border-radius: 9px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.09);
+      color: rgba(255,255,255,0.7); font-size: 0.75rem; font-weight: 600;
+      text-decoration: none; transition: all 0.2s ease; overflow: hidden;
+    }
+    .sidebar-action-btn:hover { background: rgba(255,255,255,0.14); color: #fff; transform: translateY(-1px); }
+    .sidebar-action-btn.danger:hover { background: rgba(239,68,68,0.22); border-color: rgba(239,68,68,0.35); color: #fca5a5; }
+    #sidebar.collapsed .sidebar-action-btn .btn-label { display: none; }
+
+    /* ══ MOBILE OVERLAY ══ */
+    #overlay {
+      position: fixed; inset: 0;
+      background: rgba(10,22,40,0.6);
+      backdrop-filter: blur(3px);
+      z-index: 40; display: none;
+    }
+    #overlay.visible { display: block; }
+
+    /* ══ CONTENT WRAPPER ══ */
     #content-wrapper {
       margin-left: var(--sidebar-w);
       transition: margin-left 0.3s cubic-bezier(0.4,0,0.2,1);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      height: 100vh; display: flex; flex-direction: column;
+      overflow: clip;
     }
-
-    #content-wrapper.collapsed {
-      margin-left: var(--sidebar-collapsed-w);
-    }
-
+    #content-wrapper.collapsed { margin-left: var(--sidebar-collapsed-w); }
     @media (max-width: 1023px) {
       #content-wrapper { margin-left: 0 !important; }
-      #sidebar { transform: translateX(-100%); position: fixed; z-index: 50; }
+      #sidebar { transform: translateX(-100%); }
       #sidebar.mobile-open { transform: translateX(0); }
     }
 
-    /* ── Main ── */
-    #main-content {
-      flex: 1;
-      background: #f4f7fb;
-      overflow-y: auto;
+    /* ══ NAVBAR ══ */
+    #top-navbar {
+      height: var(--navbar-h);
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226,232,240,0.8);
+      box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+      flex-shrink: 0; display: flex; align-items: center;
+      gap: 0; padding: 0 16px;
+      position: relative; z-index: 40;
+    }
+    @media (max-width: 480px) {
+      #top-navbar { padding: 0 8px 0 10px; }
     }
 
-    /* ── Animaciones ── */
-    @keyframes fadeSlideIn {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* Bloque izquierdo */
+    .navbar-left {
+      display: flex; align-items: center; gap: 8px;
+      flex-shrink: 0; min-width: 0;
+      overflow: hidden;
+    }
+    @media (max-width: 480px) {
+      .navbar-left { gap: 6px; max-width: calc(100vw - 160px); }
+    }
+    /* Bloque central — ocupa el espacio libre y centra el buscador */
+    .navbar-center {
+      flex: 1; display: flex; justify-content: center;
+      padding: 0 10px; min-width: 0;
+    }
+    @media (max-width: 767px) { .navbar-center { display: none; } }
+    /* Bloque derecho — siempre visible en todos los tamaños */
+    .navbar-right {
+      display: flex; align-items: center; gap: 4px;
+      flex-shrink: 0; margin-left: auto;
+    }
+    @media (max-width: 640px) {
+      .navbar-right { gap: 2px; }
     }
 
-    .page-enter {
-      animation: fadeSlideIn 0.45s ease-out both;
+    /* Botones del navbar derecho */
+    .navbar-right .w-8 { width: 32px; height: 32px; }
+    @media (max-width: 640px) {
+      .navbar-right .w-8 { width: 30px; height: 30px; }
     }
 
-    /* ── Collapse toggle button ── */
-    #collapse-btn {
-      transition: all 0.25s ease;
-    }
-
-    #collapse-btn:hover {
-      background: rgba(255,255,255,0.15);
-    }
-
-    /* ── Notification dot ── */
-    .notif-dot {
-      position: absolute;
-      top: 8px; right: 8px;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #ef4444;
-      border: 2px solid white;
-    }
-
-    /* ── Breadcrumb ── */
-    .breadcrumb-sep::before {
-      content: '/';
-      color: #cbd5e1;
-      margin: 0 6px;
-    }
-
-    /* ── Sidebar footer btn ── */
-    .sidebar-action-btn {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 10px;
-      color: rgba(255,255,255,0.8);
-      padding: 8px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
+    /* Dropdown perfil — hacia la izquierda para no cortarse */
+    .profile-dropdown {
+      position: fixed;
+      top: calc(var(--navbar-h) + 6px);
+      right: 10px;
+      width: 210px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      padding: 6px 0;
+      opacity: 0; visibility: hidden;
+      transform: translateY(6px);
       transition: all 0.2s ease;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      text-decoration: none;
+      z-index: 9999;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.07);
+    }
+    @media (max-width: 480px) {
+      .profile-dropdown { right: 6px; width: 188px; }
+    }
+    .profile-trigger:hover .profile-dropdown,
+    .profile-trigger:focus-within .profile-dropdown {
+      opacity: 1; visibility: visible; transform: translateY(0);
     }
 
-    .sidebar-action-btn:hover {
-      background: rgba(255,255,255,0.18);
-      color: white;
-      transform: translateY(-1px);
+    /* Hamburguesa mejorada */
+    .hamburger-btn {
+      display: none; width: 38px; height: 38px;
+      border-radius: 12px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, #1d4ed8, #6d28d9);
+      align-items: center; justify-content: center;
+      box-shadow: 0 3px 10px rgba(29,78,216,0.35);
+      transition: all 0.2s ease; flex-shrink: 0;
+    }
+    .hamburger-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(29,78,216,0.45); }
+    .hamburger-btn:active { transform: scale(0.95); }
+    .hamburger-btn .bar {
+      display: block; width: 16px; height: 2px;
+      background: white; border-radius: 2px;
+      transition: all 0.3s ease; margin: 3px auto;
+    }
+    @media (max-width: 1023px) { .hamburger-btn { display: flex; flex-direction: column; justify-content: center; } }
+    @media (max-width: 480px)  { .hamburger-btn { width: 34px; height: 34px; border-radius: 10px; } }
+
+    .search-wrap {
+      background: #f1f5f9; border: 1.5px solid #e2e8f0; border-radius: 10px;
+      transition: all 0.25s ease; width: 230px;
+      display: flex; align-items: center; padding: 6px 11px; gap: 7px;
+    }
+    .search-wrap:focus-within {
+      background: #fff; border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+      width: 270px;
+    }
+    .search-wrap input {
+      background: transparent; border: none; outline: none;
+      font-size: 0.78rem; color: #1e293b; flex: 1; min-width: 0;
+      font-family: inherit; width: 100%;
+    }
+    .search-wrap input::placeholder { color: #94a3b8; }
+
+    .navbar-avatar {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 0.82rem;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(99,102,241,0.28);
+    }
+    @media (max-width: 640px) {
+      .navbar-avatar { width: 28px; height: 28px; border-radius: 8px; font-size: 0.75rem; }
     }
 
-    /* ── Module badge ── */
+    .breadcrumb-sep::before { content: '/'; color: #e2e8f0; margin: 0 5px; font-size: 0.75rem; }
+
+    .notif-dot {
+      position: absolute; top: 5px; right: 5px;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #ef4444; border: 2px solid white;
+    }
+    .notif-dot.hidden-dot { display: none; }
+
     .module-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      padding: 3px 10px;
-      border-radius: 99px;
+      font-size: 0.6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding: 2px 8px; border-radius: 99px;
       background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      color: white;
-      box-shadow: 0 2px 8px rgba(79,70,229,0.35);
+      color: white; flex-shrink: 0;
+    }
+
+    /* ══ MAIN ══ */
+    #main-content { flex: 1; background: #f0f4f9; overflow-y: auto; overflow-x: hidden; }
+
+    @keyframes fadeSlideIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    .page-enter { animation: fadeSlideIn 0.4s ease-out both; }
+
+    /* ══ MODAL NOTIFICACIONES ══ */
+    #notif-modal {
+      position: fixed; inset: 0; z-index: 9998;
+      display: none; align-items: flex-start; justify-content: flex-end;
+      padding: 80px 18px 0;
+    }
+    #notif-modal.open { display: flex; }
+    #notif-panel {
+      width: 100%; max-width: 380px;
+      background: white; border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.1);
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      max-height: calc(100vh - 100px);
+      display: flex; flex-direction: column;
+      animation: slideDown 0.25s ease-out both;
+    }
+    /* En móvil el panel ocupa todo el ancho */
+    @media (max-width: 480px) {
+      #notif-modal { padding: calc(var(--navbar-h) + 6px) 8px 0; }
+      #notif-panel { max-width: 100%; border-radius: 16px; }
+    }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+    .notif-header {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .notif-list { overflow-y: auto; flex: 1; }
+    .notif-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 16px; border-bottom: 1px solid #f8fafc;
+      cursor: pointer; transition: background 0.15s ease;
+      text-decoration: none; color: inherit;
+    }
+    .notif-item:hover { background: #f8fafc; }
+    .notif-item.unread { background: #f0f6ff; border-left: 3px solid #3b82f6; padding-left: 13px; }
+    .notif-item.unread:hover { background: #e8f0fe; }
+    .notif-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; flex-shrink: 0;
+    }
+    .notif-footer {
+      padding: 10px 16px; border-top: 1px solid #f1f5f9;
+      display: flex; gap: 8px; flex-shrink: 0;
+    }
+    .notif-action-btn {
+      flex: 1; padding: 8px; border-radius: 10px;
+      font-size: 0.75rem; font-weight: 600; cursor: pointer;
+      border: none; transition: all 0.2s ease;
+    }
+    .notif-badge {
+      position: absolute; top: -4px; right: -4px;
+      min-width: 18px; height: 18px;
+      background: #ef4444; color: white;
+      font-size: 0.6rem; font-weight: 800;
+      border-radius: 99px; border: 2px solid white;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 4px; line-height: 1;
     }
   </style>
 </head>
 
-<body class="bg-slate-100 overflow-hidden">
-
+<body>
   <!-- Overlay mobile -->
-  <div id="overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+  <div id="overlay"></div>
 
-  <!-- ══════════════════ SIDEBAR ══════════════════ -->
-  <aside id="sidebar" class="fixed inset-y-0 left-0 flex flex-col z-50">
-
+  <!-- ══ SIDEBAR ══ -->
+  <aside id="sidebar">
     <!-- Logo -->
-    <div class="flex items-center gap-3 px-4 py-4 border-b border-white/10 shrink-0">
+    <div class="sidebar-logo-area">
       <a href="{% url 'dashboard' %}" class="shrink-0">
-        <img src="{% static 'img/logo-suazapawa.jpg' %}"
-          class="w-10 h-10 rounded-xl border-2 border-white/25 object-cover shadow-lg" alt="Logo" />
+        <img src="{% static 'img/logo-suazapawa.jpg' %}" class="sidebar-logo-img" alt="Logo" />
       </a>
       <div class="sidebar-logo-text">
-        <p class="text-white font-bold text-sm leading-none tracking-wide">SUAZAPAWA</p>
-        <p class="text-white/50 text-xs mt-0.5">Panel Admin</p>
+        <div class="sidebar-logo-brand">SUAZAPAWA</div>
+        <div class="sidebar-logo-sub">
+          <span class="sidebar-logo-dot"></span>Panel Administrativo
+        </div>
       </div>
-      <!-- Collapse btn (desktop) -->
-      <button id="collapse-btn" class="hidden lg:flex ml-auto w-7 h-7 rounded-lg items-center justify-center text-white/60 hover:text-white" title="Colapsar sidebar">
+      <button id="collapse-btn" title="Colapsar">
         <i class="fas fa-angles-left text-xs" id="collapse-icon"></i>
       </button>
     </div>
 
     <!-- Nav -->
-    <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-1">
-
-      <!-- Sección Home -->
-      <p class="sidebar-section-title px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-white/40">Inicio</p>
-
-      <a href="?m=bienvenida" class="nav-item relative flex items-center gap-3 px-3 py-2.5 {% if selected_module == 'bienvenida' %}active{% endif %}">
-        <i class="nav-icon fas fa-gauge-high"></i>
-        <span class="sidebar-label text-sm">Dashboard</span>
+    <nav>
+      <p class="nav-section-title">Inicio</p>
+      <a href="?m=bienvenida" class="nav-item {% if selected_module == 'bienvenida' %}active{% endif %}">
+        <span class="nav-icon"><i class="fas fa-gauge-high"></i></span>
+        <span class="nav-label">Dashboard</span>
         <span class="nav-tooltip">Dashboard</span>
       </a>
 
-      <div class="nav-separator mx-2"></div>
+      <div class="nav-sep"></div>
+      <p class="nav-section-title">Gestión</p>
 
-      <!-- Sección Gestión -->
-      <p class="sidebar-section-title px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-white/40">Gestión</p>
-
-      <a href="?m=perfil" class="nav-item relative flex items-center gap-3 px-3 py-2.5 {% if selected_module == 'perfil' %}active{% endif %}">
-        <i class="nav-icon fas fa-user-circle"></i>
-        <span class="sidebar-label text-sm">Mi Perfil</span>
+      <a href="?m=perfil" class="nav-item {% if selected_module == 'perfil' %}active{% endif %}">
+        <span class="nav-icon"><i class="fas fa-user-circle"></i></span>
+        <span class="nav-label">Mi Perfil</span>
         <span class="nav-tooltip">Mi Perfil</span>
       </a>
-
-      <a href="?m=calendario" class="nav-item relative flex items-center gap-3 px-3 py-2.5 {% if selected_module == 'calendario' %}active{% endif %}">
-        <i class="nav-icon fas fa-calendar-days"></i>
-        <span class="sidebar-label text-sm">Eventos</span>
-        {% if num_eventos %}
-        <span class="sidebar-label ml-auto text-[0.65rem] bg-blue-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">{{ num_eventos }}</span>
-        {% endif %}
+      <a href="?m=calendario" class="nav-item {% if selected_module == 'calendario' %}active{% endif %}">
+        <span class="nav-icon"><i class="fas fa-calendar-days"></i></span>
+        <span class="nav-label">Eventos</span>
+        {% if num_eventos %}<span class="nav-badge bg-blue-500 text-white sidebar-label">{{ num_eventos }}</span>{% endif %}
         <span class="nav-tooltip">Eventos</span>
       </a>
-
-      <a href="?m=noticias" class="nav-item relative flex items-center gap-3 px-3 py-2.5 {% if selected_module == 'noticias' %}active{% endif %}">
-        <i class="nav-icon fas fa-newspaper"></i>
-        <span class="sidebar-label text-sm">Noticias</span>
-        {% if num_noticias %}
-        <span class="sidebar-label ml-auto text-[0.65rem] bg-violet-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">{{ num_noticias }}</span>
-        {% endif %}
+      <a href="?m=noticias" class="nav-item {% if selected_module == 'noticias' %}active{% endif %}">
+        <span class="nav-icon"><i class="fas fa-newspaper"></i></span>
+        <span class="nav-label">Noticias</span>
+        {% if num_noticias %}<span class="nav-badge bg-violet-500 text-white sidebar-label">{{ num_noticias }}</span>{% endif %}
         <span class="nav-tooltip">Noticias</span>
       </a>
-
-      <div class="nav-separator mx-2"></div>
-
-      <!-- Sección Links -->
-      <p class="sidebar-section-title px-3 py-1 text-[0.65rem] font-bold uppercase tracking-widest text-white/40">Sitio Web</p>
-
-      <a href="/" target="_blank" class="nav-item relative flex items-center gap-3 px-3 py-2.5">
-        <i class="nav-icon fas fa-globe"></i>
-        <span class="sidebar-label text-sm">Ver Sitio</span>
-        <i class="sidebar-label fas fa-arrow-up-right-from-square text-white/30 text-xs ml-auto"></i>
-        <span class="nav-tooltip">Ver Sitio</span>
+      <a href="?m=galeria" class="nav-item {% if selected_module == 'galeria' %}active{% endif %}">
+        <span class="nav-icon"><i class="fas fa-images"></i></span>
+        <span class="nav-label">Galería</span>
+        {% if num_imagenes %}<span class="nav-badge bg-violet-500 text-white sidebar-label">{{ num_imagenes }}</span>{% endif %}
+        <span class="nav-tooltip">Galería</span>
       </a>
 
+      <div class="nav-sep"></div>
+      <p class="nav-section-title">Sitio Web</p>
+      <a href="/" class="nav-item">
+        <span class="nav-icon"><i class="fas fa-globe"></i></span>
+        <span class="nav-label">Ver Sitio</span>
+        <i class="fas fa-arrow-up-right-from-square text-white/20 text-[9px] sidebar-label ml-auto"></i>
+        <span class="nav-tooltip">Ver Sitio</span>
+      </a>
     </nav>
 
-    <!-- Footer del sidebar -->
-    <div class="px-3 py-3 border-t border-white/10 shrink-0 space-y-2">
-      <!-- User card -->
-      <div class="flex items-center gap-3 px-2 py-2 rounded-xl bg-white/5">
-        <div class="avatar-ring w-9 h-9 shrink-0">
-          <div class="avatar-inner text-sm">
-            {{ request.user.first_name.0|default:request.user.username.0|upper }}
-          </div>
-        </div>
-        <div class="sidebar-user-info flex-1 min-w-0">
-          <p class="text-white text-sm font-semibold truncate leading-none">
-            {{ request.user.first_name|default:request.user.username }}
-          </p>
-          <p class="text-white/45 text-xs mt-0.5">Administrador</p>
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <div class="sidebar-user-card">
+        <div class="sidebar-user-avatar">{{ request.user.first_name.0|default:request.user.username.0|upper }}</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name truncate max-w-[130px]">{{ request.user.first_name|default:request.user.username }}</div>
+          <div class="sidebar-user-role">Administrador</div>
         </div>
       </div>
-      <!-- Botones acción -->
-      <div class="grid grid-cols-2 gap-1.5">
+      <div class="sidebar-footer-btns">
         <a href="/" class="sidebar-action-btn">
           <i class="fas fa-house text-xs"></i>
-          <span class="sidebar-label">Inicio</span>
+          <span class="btn-label sidebar-label">Inicio</span>
         </a>
-        <a href="{% url 'logout' %}" class="sidebar-action-btn">
-          <i class="fas fa-right-from-bracket text-xs"></i>
-          <span class="sidebar-label">Salir</span>
-        </a>
+        <form method="POST" action="{% url 'logout' %}" style="flex:1;">
+          {% csrf_token %}
+          <button type="submit" class="sidebar-action-btn danger" style="width:100%;border:none;cursor:pointer;">
+            <i class="fas fa-right-from-bracket text-xs"></i>
+            <span class="btn-label sidebar-label">Salir</span>
+          </button>
+        </form>
       </div>
     </div>
   </aside>
 
-  <!-- ══════════════════ CONTENT WRAPPER ══════════════════ -->
-  <div id="content-wrapper" class="flex flex-col min-h-screen">
+  <!-- ══ CONTENT WRAPPER ══ -->
+  <div id="content-wrapper" class="flex flex-col" style="position:relative;">
 
-    <!-- ── NAVBAR ── -->
-    <header id="top-navbar" class="sticky top-0 z-30 flex items-center gap-3 px-4 sm:px-6">
+    <!-- NAVBAR -->
+    <header id="top-navbar">
 
-      <!-- Mobile toggle -->
-      <button id="mobile-toggle" class="lg:hidden w-9 h-9 rounded-xl bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center shadow-md transition-all shrink-0">
-        <i class="fas fa-bars text-sm"></i>
-      </button>
+      <!-- ── IZQUIERDA: Hamburguesa + Breadcrumb ── -->
+      <div class="navbar-left">
+        <button id="mobile-toggle" class="hamburger-btn" aria-label="Abrir menú">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
 
-      <!-- Breadcrumb / Título -->
-      <div class="flex items-center gap-2 min-w-0">
-        <span class="text-slate-400 text-sm hidden sm:block">Panel</span>
-        {% if selected_module %}
-        <span class="breadcrumb-sep hidden sm:block text-slate-400 text-sm"></span>
-        <span class="text-slate-700 font-semibold text-sm capitalize">
-          {% if selected_module == 'bienvenida' %}Dashboard
-          {% elif selected_module == 'calendario' %}Eventos
-          {% elif selected_module == 'perfil' %}Mi Perfil
-          {% elif selected_module == 'noticias' %}Noticias
-          {% else %}{{ selected_module }}
+        <div class="flex items-center gap-1 min-w-0">
+          <i class="fas fa-grip-horizontal text-slate-300 text-xs hidden sm:block"></i>
+          <span class="text-slate-400 text-xs hidden sm:block mx-1">/</span>
+          <span class="text-slate-700 font-semibold text-sm whitespace-nowrap">
+            {% if selected_module == 'bienvenida' or not selected_module %}Dashboard
+            {% elif selected_module == 'calendario' %}Eventos
+            {% elif selected_module == 'perfil' %}Mi Perfil
+            {% elif selected_module == 'noticias' %}Noticias
+            {% elif selected_module == 'galeria' %}Galería
+            {% else %}{{ selected_module }}{% endif %}
+          </span>
+          {% if selected_module %}
+          <span class="hidden lg:inline-flex items-center ml-1.5">
+            {% if selected_module == 'bienvenida' %}
+            <span class="text-[10px] bg-blue-100 text-blue-600 font-bold px-2 py-0.5 rounded-full">Principal</span>
+            {% elif selected_module == 'calendario' %}
+            <span class="text-[10px] bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full">📅</span>
+            {% elif selected_module == 'noticias' %}
+            <span class="text-[10px] bg-violet-100 text-violet-700 font-bold px-2 py-0.5 rounded-full">📰</span>
+            {% elif selected_module == 'galeria' %}
+            <span class="text-[10px] bg-pink-100 text-pink-700 font-bold px-2 py-0.5 rounded-full">🖼️</span>
+            {% elif selected_module == 'perfil' %}
+            <span class="text-[10px] bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded-full">👤</span>
+            {% endif %}
+          </span>
           {% endif %}
+        </div>
+
+        <!-- Badge solo en mobile -->
+        {% if selected_module %}
+        <span class="module-badge sm:hidden">
+          {% if selected_module == 'bienvenida' %}🏠
+          {% elif selected_module == 'calendario' %}📅
+          {% elif selected_module == 'noticias' %}📰
+          {% elif selected_module == 'galeria' %}🖼️
+          {% elif selected_module == 'perfil' %}👤
+          {% else %}{{ selected_module }}{% endif %}
         </span>
         {% endif %}
       </div>
 
-      <!-- Badge del módulo (mobile) -->
-      {% if selected_module %}
-      <span class="module-badge sm:hidden ml-auto shrink-0">
-        {% if selected_module == 'bienvenida' %}🏠
-        {% elif selected_module == 'calendario' %}📅
-        {% elif selected_module == 'noticias' %}📰
-        {% elif selected_module == 'perfil' %}👤
-        {% else %}{{ selected_module }}
-        {% endif %}
-      </span>
-      {% endif %}
-
-      <!-- Search (centro) -->
-      <div class="hidden md:flex flex-1 max-w-sm mx-auto">
-        <div class="search-wrap flex items-center w-full px-3.5 py-2">
-          <i class="fas fa-search text-slate-400 text-xs mr-2.5"></i>
-          <input type="text" id="global-search" placeholder="Buscar en el panel..."
-            class="bg-transparent flex-1 outline-none text-sm text-slate-700 placeholder-slate-400" autocomplete="off" />
-          <kbd class="hidden sm:inline text-[10px] text-slate-400 bg-slate-200 px-1.5 py-0.5 rounded font-mono ml-2">⌘K</kbd>
+      <!-- ── CENTRO: Buscador compacto ── -->
+      <div class="navbar-center">
+        <div class="search-wrap">
+          <i class="fas fa-search text-slate-400" style="font-size:0.7rem;flex-shrink:0;"></i>
+          <input type="text" id="global-search" placeholder="Buscar…" autocomplete="off" />
+          <kbd class="hidden lg:inline text-[9px] text-slate-400 bg-slate-200 px-1.5 py-0.5 rounded font-mono shrink-0">⌘K</kbd>
         </div>
       </div>
 
-      <!-- Acciones derecha -->
-      <div class="flex items-center gap-1 ml-auto">
+      <!-- ── DERECHA: Acciones + Perfil ── -->
+      <div class="navbar-right">
 
-        <!-- Search mobile -->
-        <button class="md:hidden w-9 h-9 rounded-xl hover:bg-slate-100 transition flex items-center justify-center text-slate-500">
-          <i class="fas fa-search text-sm"></i>
+        <!-- Búsqueda — solo móvil (abre el campo central) -->
+        <button id="mobile-search-btn"
+          class="md:hidden w-8 h-8 rounded-lg hover:bg-slate-100 transition flex items-center justify-center text-slate-500"
+          title="Buscar" aria-label="Buscar">
+          <i class="fas fa-search text-xs"></i>
         </button>
 
         <!-- Notificaciones -->
-        <button class="relative w-9 h-9 rounded-xl hover:bg-slate-100 transition flex items-center justify-center text-slate-500">
-          <i class="fas fa-bell text-sm"></i>
-          <span class="notif-dot"></span>
-        </button>
+        <div class="relative">
+          <button id="notif-btn"
+            class="w-8 h-8 rounded-lg hover:bg-slate-100 transition flex items-center justify-center text-slate-500 relative"
+            aria-label="Notificaciones">
+            <i class="fas fa-bell text-sm"></i>
+            <span id="notif-dot" class="notif-dot hidden-dot"></span>
+            <span id="notif-badge" class="notif-badge" style="display:none;"></span>
+          </button>
+        </div>
 
-        <!-- Acceso rápido: Ver sitio -->
-        <a href="/" target="_blank" class="hidden sm:flex w-9 h-9 rounded-xl hover:bg-slate-100 transition items-center justify-center text-slate-500" title="Ver sitio web">
+        <!-- Ver sitio — oculto en móvil para no saturar -->
+        <a href="/"
+          class="hidden sm:flex w-8 h-8 rounded-lg hover:bg-slate-100 transition items-center justify-center text-slate-500"
+          title="Ver sitio web" aria-label="Ver sitio web">
           <i class="fas fa-globe text-sm"></i>
         </a>
 
-        <!-- Perfil del usuario -->
-        <div class="relative group ml-1">
-          <button class="flex items-center gap-2 pl-1 pr-3 py-1 rounded-xl hover:bg-slate-100 transition">
-            <div class="avatar-ring w-8 h-8">
-              <div class="avatar-inner text-xs">
-                {{ request.user.first_name.0|default:request.user.username.0|upper }}
-              </div>
+        <!-- Divisor — solo desktop -->
+        <div class="hidden sm:block w-px h-6 bg-slate-200 mx-1"></div>
+
+        <!-- Perfil -->
+        <div class="relative profile-trigger">
+          <button class="flex items-center gap-1.5 pl-0.5 pr-1.5 py-1 rounded-xl hover:bg-slate-100 transition">
+            <div class="navbar-avatar">
+              {{ request.user.first_name.0|default:request.user.username.0|upper }}
             </div>
+            <!-- Nombre solo en sm+ -->
             <div class="hidden sm:block text-left">
-              <p class="text-sm font-semibold text-slate-700 leading-none">{{ request.user.first_name|default:request.user.username }}</p>
-              <p class="text-xs text-slate-400 mt-0.5">Admin</p>
+              <p class="text-xs font-bold text-slate-700 leading-tight whitespace-nowrap">
+                {{ request.user.first_name|default:request.user.username }}
+              </p>
+              <p class="text-[10px] text-slate-400 leading-tight">Admin</p>
             </div>
-            <i class="fas fa-chevron-down text-slate-400 text-xs hidden sm:block"></i>
+            <i class="fas fa-chevron-down text-slate-300 text-[9px] hidden sm:block"></i>
           </button>
 
           <!-- Dropdown -->
-          <div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-1.5 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-1 group-hover:translate-y-0">
+          <div class="profile-dropdown">
+            <div class="px-4 py-2.5 border-b border-slate-100 mb-1">
+              <p class="text-xs font-bold text-slate-800 truncate">{{ request.user.first_name|default:request.user.username }}</p>
+              <p class="text-[10px] text-slate-400 mt-0.5 truncate">{{ request.user.email|default:"Sin correo" }}</p>
+            </div>
             <a href="?m=perfil" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-sm text-slate-700 transition">
-              <i class="fas fa-user-circle text-blue-500 w-4"></i>Mi Perfil
+              <i class="fas fa-user-circle text-blue-500 w-4 text-center text-xs"></i>
+              <span>Mi Perfil</span>
+            </a>
+            <a href="/" class="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-50 text-sm text-slate-700 transition sm:hidden">
+              <i class="fas fa-globe text-slate-400 w-4 text-center text-xs"></i>
+              <span>Ver Sitio</span>
             </a>
             <div class="my-1 border-t border-slate-100"></div>
-            <a href="{% url 'logout' %}" class="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 text-sm text-red-500 transition">
-              <i class="fas fa-right-from-bracket w-4"></i>Cerrar Sesión
-            </a>
+            <form method="POST" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="flex items-center gap-3 px-4 py-2.5 hover:bg-red-50 text-sm text-red-500 transition w-full text-left" style="background:none;border:none;cursor:pointer;width:100%;">
+                <i class="fas fa-right-from-bracket w-4 text-center text-xs"></i>
+                <span>Cerrar Sesión</span>
+              </button>
+            </form>
           </div>
         </div>
+
       </div>
     </header>
 
-    <!-- ── MAIN CONTENT ── -->
+    <!-- ── Barra de búsqueda mobile (visible solo en md-) ── -->
+    <div id="mobile-search-bar"
+      style="display:none; position:absolute; top:var(--navbar-h); left:0; right:0; z-index:39;
+             background:rgba(255,255,255,0.98); border-bottom:1px solid #e2e8f0;
+             padding:8px 14px; backdrop-filter:blur(12px);
+             box-shadow:0 4px 16px rgba(0,0,0,0.08);">
+      <div style="display:flex; align-items:center; gap:8px; background:#f1f5f9; border:1.5px solid #e2e8f0;
+                  border-radius:10px; padding:7px 12px;">
+        <i class="fas fa-search" style="color:#94a3b8; font-size:0.7rem; flex-shrink:0;"></i>
+        <input id="mobile-search-input" type="text" placeholder="Buscar en el panel…"
+          style="background:transparent; border:none; outline:none; font-size:0.82rem;
+                 color:#1e293b; flex:1; font-family:inherit;" autocomplete="off" />
+        <button onclick="document.getElementById('mobile-search-bar').classList.remove('open')"
+          style="background:none; border:none; cursor:pointer; color:#94a3b8; font-size:0.75rem; padding:0;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+    <style>
+      #mobile-search-bar.open { display:block !important; }
+      @media (min-width: 768px) { #mobile-search-bar { display:none !important; } }
+    </style>
+
+    <!-- MAIN -->
     <main id="main-content" class="flex-1 px-4 sm:px-6 py-5">
       <div class="page-enter max-w-screen-2xl mx-auto">
         {% block content %}{% endblock %}
       </div>
     </main>
 
-    <!-- ── FOOTER ── -->
-    <footer class="px-6 py-3 text-center text-xs text-slate-400 border-t border-slate-200 bg-white/60">
+    <!-- FOOTER -->
+    <footer class="px-6 py-3 text-center text-xs text-slate-400 border-t border-slate-200 bg-white/60 shrink-0">
       © 2026 Suazapawa · Panel Administrativo
     </footer>
-
   </div>
 
-  <!-- ══════════════════ SCRIPTS ══════════════════ -->
+  <!-- ══ MODAL DE NOTIFICACIONES ══ -->
+  <div id="notif-modal">
+    <div id="notif-panel">
+      <div class="notif-header">
+        <div>
+          <h3 class="font-bold text-slate-800 text-base">Notificaciones</h3>
+          <p class="text-xs text-slate-400 mt-0.5" id="notif-count-text">Sin notificaciones</p>
+        </div>
+        <button id="notif-close" class="w-8 h-8 rounded-xl hover:bg-slate-100 transition flex items-center justify-center text-slate-400 hover:text-slate-600">
+          <i class="fas fa-times text-sm"></i>
+        </button>
+      </div>
+      <div class="notif-list" id="notif-list">
+        <!-- Se llena con JS -->
+      </div>
+      <div class="notif-footer">
+        <button id="mark-all-read" class="notif-action-btn bg-blue-50 text-blue-600 hover:bg-blue-100">
+          <i class="fas fa-check-double mr-1.5"></i>Marcar todo leído
+        </button>
+        <button id="clear-all-notif" class="notif-action-btn bg-red-50 text-red-500 hover:bg-red-100">
+          <i class="fas fa-trash mr-1.5"></i>Limpiar todo
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    (() => {
-      const sidebar       = document.getElementById('sidebar');
-      const wrapper       = document.getElementById('content-wrapper');
-      const overlay       = document.getElementById('overlay');
-      const mobileToggle  = document.getElementById('mobile-toggle');
-      const collapseBtn   = document.getElementById('collapse-btn');
-      const collapseIcon  = document.getElementById('collapse-icon');
+  (() => {
+    /* ══ SIDEBAR COLLAPSE ══ */
+    const sidebar      = document.getElementById('sidebar');
+    const wrapper      = document.getElementById('content-wrapper');
+    const overlay      = document.getElementById('overlay');
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const collapseBtn  = document.getElementById('collapse-btn');
+    const collapseIcon = document.getElementById('collapse-icon');
+    const logoArea     = document.querySelector('.sidebar-logo-area');
 
-      /* ── Estado persistido ── */
-      const COLLAPSED_KEY = 'sz_sidebar_collapsed';
-      let isCollapsed = localStorage.getItem(COLLAPSED_KEY) === 'true';
+    const COLLAPSED_KEY = 'sz_sidebar_collapsed';
+    let isCollapsed = localStorage.getItem(COLLAPSED_KEY) === 'true';
 
-      const applyCollapse = (animate = false) => {
-        if (!animate) sidebar.style.transition = 'none';
-        sidebar.classList.toggle('collapsed', isCollapsed);
-        wrapper.classList.toggle('collapsed', isCollapsed);
-        collapseIcon.className = isCollapsed
-          ? 'fas fa-angles-right text-xs'
-          : 'fas fa-angles-left text-xs';
-        if (!animate) requestAnimationFrame(() => sidebar.style.transition = '');
-      };
+    const applyCollapse = (animate = true) => {
+      if (!animate) sidebar.style.transition = 'none';
+      sidebar.classList.toggle('collapsed', isCollapsed);
+      wrapper.classList.toggle('collapsed', isCollapsed);
+      if (collapseIcon) collapseIcon.className = isCollapsed
+        ? 'fas fa-angles-right text-xs'
+        : 'fas fa-angles-left text-xs';
+      if (!animate) requestAnimationFrame(() => sidebar.style.transition = '');
+    };
+    applyCollapse(false);
 
-      applyCollapse(false);
+    /* Clic en el botón colapsar/expandir — stopPropagation para no disparar logoArea */
+    collapseBtn?.addEventListener('click', e => {
+      e.stopPropagation();
+      isCollapsed = !isCollapsed;
+      localStorage.setItem(COLLAPSED_KEY, isCollapsed);
+      applyCollapse(true);
+    });
 
-      collapseBtn?.addEventListener('click', () => {
-        isCollapsed = !isCollapsed;
-        localStorage.setItem(COLLAPSED_KEY, isCollapsed);
+    /* Clic en logo area cuando está colapsado → expande (solo si no fue el botón) */
+    logoArea?.addEventListener('click', () => {
+      if (isCollapsed && window.innerWidth >= 1024) {
+        isCollapsed = false;
+        localStorage.setItem(COLLAPSED_KEY, false);
         applyCollapse(true);
+      }
+    });
+
+    /* ── Dropdown perfil: toggle en mobile ── */
+    const profileTrigger  = document.querySelector('.profile-trigger');
+    const profileDropdown = document.querySelector('.profile-dropdown');
+    const profileBtn      = profileTrigger?.querySelector('button');
+
+    const closeProfileDropdown = () => {
+      if (profileDropdown) { profileDropdown.style.opacity='0'; profileDropdown.style.visibility='hidden'; profileDropdown.style.transform='translateY(6px)'; }
+    };
+    const openProfileDropdown = () => {
+      if (profileDropdown) { profileDropdown.style.opacity='1'; profileDropdown.style.visibility='visible'; profileDropdown.style.transform='translateY(0)'; }
+    };
+
+    let profileOpen = false;
+    profileBtn?.addEventListener('click', e => {
+      e.stopPropagation();
+      profileOpen = !profileOpen;
+      profileOpen ? openProfileDropdown() : closeProfileDropdown();
+    });
+    document.addEventListener('click', e => {
+      if (profileTrigger && !profileTrigger.contains(e.target)) {
+        profileOpen = false;
+        closeProfileDropdown();
+      }
+    });
+
+    /* ── Mobile ── */
+    const openMobile  = () => { sidebar.classList.add('mobile-open'); overlay.classList.add('visible'); };
+    const closeMobile = () => { sidebar.classList.remove('mobile-open'); overlay.classList.remove('visible'); };
+
+    mobileToggle?.addEventListener('click', openMobile);
+    overlay.addEventListener('click', closeMobile);
+    window.addEventListener('resize', () => { if (window.innerWidth >= 1024) closeMobile(); });
+    sidebar.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { if (window.innerWidth < 1024) closeMobile(); }));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { closeMobile(); closeProfileDropdown(); closeMobileSearch(); }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); document.getElementById('global-search')?.focus(); }
+    });
+
+    /* ── Búsqueda mobile ── */
+    const mobilSearchBtn = document.getElementById('mobile-search-btn');
+    const mobileSearchBar = document.getElementById('mobile-search-bar');
+    const mobileSearchInput = document.getElementById('mobile-search-input');
+
+    const closeMobileSearch = () => {
+      mobileSearchBar?.classList.remove('open');
+    };
+    mobilSearchBtn?.addEventListener('click', e => {
+      e.stopPropagation();
+      mobileSearchBar?.classList.toggle('open');
+      if (mobileSearchBar?.classList.contains('open')) {
+        setTimeout(() => mobileSearchInput?.focus(), 100);
+      }
+    });
+    document.addEventListener('click', e => {
+      if (mobileSearchBar && !mobileSearchBar.contains(e.target) && e.target !== mobilSearchBtn) {
+        closeMobileSearch();
+      }
+    });
+  })();
+
+  /* ══ SISTEMA DE NOTIFICACIONES ══ */
+  (() => {
+    const STORAGE_KEY = 'sz_notifications';
+
+    /* Datos de noticias y eventos desde Django */
+    const eventosRaw = [
+      {% for ev in eventos %}{ id: {{ ev.id }}, tipo: 'evento', titulo: "{{ ev.titulo|escapejs }}", fecha: "{{ ev.fecha|date:'d M Y' }}", hora: "{{ ev.hora }}", url: "?m=calendario&edit={{ ev.id }}" }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ];
+    const noticiasRaw = [
+      {% for n in noticias %}{ id: {{ n.id }}, tipo: 'noticia', titulo: "{{ n.titulo|escapejs }}", fecha: "{{ n.fecha|date:'d M Y' }}", hora: "{{ n.hora|time:'H:i' }}", url: "?m=noticias&edit_noticia={{ n.id }}" }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ];
+
+    /* Generar notificaciones base desde los datos reales */
+    const allItems = [...eventosRaw, ...noticiasRaw];
+
+    /* Leer estado guardado (leídas / eliminadas) */
+    let notifState = {};
+    try { notifState = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){}
+
+    /* Construir lista de notificaciones activas */
+    const buildNotifs = () => allItems
+      .filter(item => !notifState[`del_${item.tipo}_${item.id}`])
+      .map(item => ({
+        ...item,
+        key: `${item.tipo}_${item.id}`,
+        read: !!notifState[`read_${item.tipo}_${item.id}`]
+      }));
+
+    const unreadCount = () => buildNotifs().filter(n => !n.read).length;
+
+    /* ── UI del badge ── */
+    const dot   = document.getElementById('notif-dot');
+    const badge = document.getElementById('notif-badge');
+    const updateBadge = () => {
+      const c = unreadCount();
+      if (c > 0) {
+        dot.classList.remove('hidden-dot');
+        badge.style.display = 'flex';
+        badge.textContent = c > 9 ? '9+' : c;
+      } else {
+        dot.classList.add('hidden-dot');
+        badge.style.display = 'none';
+      }
+    };
+
+    /* ── Renderizar lista ── */
+    const renderList = () => {
+      const list  = document.getElementById('notif-list');
+      const notifs = buildNotifs();
+      document.getElementById('notif-count-text').textContent =
+        notifs.length === 0 ? 'Sin notificaciones' :
+        `${unreadCount()} sin leer · ${notifs.length} total`;
+
+      if (notifs.length === 0) {
+        list.innerHTML = `
+          <div class="flex flex-col items-center justify-center py-12 px-6 text-center">
+            <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mb-3">
+              <i class="fas fa-bell-slash text-slate-400 text-xl"></i>
+            </div>
+            <p class="font-semibold text-slate-600 text-sm">Todo al día</p>
+            <p class="text-xs text-slate-400 mt-1">No hay notificaciones pendientes</p>
+          </div>`;
+        return;
+      }
+
+      list.innerHTML = notifs.map(n => {
+        const isEvento = n.tipo === 'evento';
+        const iconBg   = isEvento ? 'bg-blue-100' : 'bg-violet-100';
+        const iconCol  = isEvento ? 'text-blue-600' : 'text-violet-600';
+        const icon     = isEvento ? 'fa-calendar-days' : 'fa-newspaper';
+        const tipoBadge = isEvento
+          ? `<span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md">EVENTO</span>`
+          : `<span class="text-[10px] font-bold text-violet-600 bg-violet-50 px-1.5 py-0.5 rounded-md">NOTICIA</span>`;
+        return `
+          <div class="notif-item ${n.read ? '' : 'unread'}" data-key="${n.key}" data-url="${n.url}">
+            <div class="notif-icon ${iconBg} ${iconCol} mt-0.5">
+              <i class="fas ${icon}"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 mb-0.5">
+                ${tipoBadge}
+                ${!n.read ? '<span class="w-1.5 h-1.5 bg-blue-500 rounded-full flex-shrink-0"></span>' : ''}
+              </div>
+              <p class="text-sm font-semibold text-slate-800 truncate">${n.titulo}</p>
+              <p class="text-xs text-slate-400 mt-0.5">${n.fecha}${n.hora ? ' · ' + n.hora : ''}</p>
+            </div>
+            <button class="notif-del-btn w-6 h-6 rounded-lg hover:bg-red-50 flex items-center justify-center text-slate-300 hover:text-red-400 transition flex-shrink-0" data-key="${n.key}">
+              <i class="fas fa-times text-[10px]"></i>
+            </button>
+          </div>`;
+      }).join('');
+
+      /* Click en item → navegar + marcar leída */
+      list.querySelectorAll('.notif-item').forEach(el => {
+        el.addEventListener('click', e => {
+          if (e.target.closest('.notif-del-btn')) return;
+          const key = el.dataset.key;
+          notifState[`read_${key}`] = true;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(notifState));
+          window.location.href = el.dataset.url;
+        });
       });
 
-      /* ── Mobile ── */
-      const openMobile  = () => { sidebar.classList.add('mobile-open'); overlay.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
-      const closeMobile = () => { sidebar.classList.remove('mobile-open'); overlay.classList.add('hidden'); document.body.style.overflow = ''; };
-
-      mobileToggle?.addEventListener('click', openMobile);
-      overlay?.addEventListener('click', closeMobile);
-
-      window.addEventListener('resize', () => {
-        if (window.innerWidth >= 1024) closeMobile();
+      /* Click en X → eliminar */
+      list.querySelectorAll('.notif-del-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const key = btn.dataset.key;
+          notifState[`del_${key}`] = true;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(notifState));
+          renderList();
+          updateBadge();
+        });
       });
+    };
 
-      /* ── Cerrar al navegar en mobile ── */
-      sidebar.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => { if (window.innerWidth < 1024) closeMobile(); });
-      });
+    /* ── Abrir / cerrar modal ── */
+    const modal = document.getElementById('notif-modal');
+    document.getElementById('notif-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      modal.classList.toggle('open');
+      if (modal.classList.contains('open')) renderList();
+    });
+    document.getElementById('notif-close').addEventListener('click', () => modal.classList.remove('open'));
+    document.addEventListener('click', e => {
+      if (!modal.contains(e.target) && !document.getElementById('notif-btn').contains(e.target))
+        modal.classList.remove('open');
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
 
-      /* ── Atajo de teclado búsqueda ── */
-      document.addEventListener('keydown', e => {
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-          e.preventDefault();
-          document.getElementById('global-search')?.focus();
-        }
-      });
-    })();
+    /* ── Marcar todo leído ── */
+    document.getElementById('mark-all-read').addEventListener('click', () => {
+      buildNotifs().forEach(n => { notifState[`read_${n.key}`] = true; });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(notifState));
+      renderList(); updateBadge();
+    });
+
+    /* ── Limpiar todo ── */
+    document.getElementById('clear-all-notif').addEventListener('click', () => {
+      buildNotifs().forEach(n => { notifState[`del_${n.key}`] = true; });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(notifState));
+      renderList(); updateBadge();
+    });
+
+    /* Init */
+    updateBadge();
+  })();
   </script>
 
   {% block extra_js_end %}{% endblock %}

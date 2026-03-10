@@ -1,16 +1,11 @@
-
 from django import forms
 from .models import Noticia
 import datetime
 import bleach
 
 
-
-
-
-# Clases reutilizables (Tailwind + DaisyUI + accesibilidad)
-input_css = 'input input-bordered w-full text-sky-900 bg-white border-cyan-200 focus:ring-2 focus:ring-sky-300 transition'
-textarea_css = 'textarea textarea-bordered w-full text-sky-900 bg-white border-cyan-200 focus:ring-2 focus:ring-sky-300 transition'
+# Clase reutilizable — coincide con el diseño del dashboard admin
+field_input_css = 'field-input'
 
 class NoticiaForm(forms.ModelForm):
     class Meta:
@@ -18,14 +13,14 @@ class NoticiaForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'titulo': forms.TextInput(attrs={
-                'class': input_css,
+                'class': field_input_css,
                 'placeholder': 'Título de la noticia',
                 'required': True,
                 'maxlength': 100,
                 'aria-label': 'Título de la noticia'
             }),
             'descripcion': forms.Textarea(attrs={
-                'class': textarea_css,
+                'class': field_input_css,
                 'rows': 4,
                 'placeholder': 'Contenido de la noticia...',
                 'required': True,
@@ -33,14 +28,14 @@ class NoticiaForm(forms.ModelForm):
             }),
             'fecha': forms.DateInput(format='%Y-%m-%d', attrs={
                 'type': 'date',
-                'class': input_css,
+                'class': field_input_css,
                 'required': True,
                 'min': datetime.date.today().isoformat(),
                 'aria-label': 'Fecha de la noticia'
             }),
             'hora': forms.TimeInput(format='%H:%M', attrs={
                 'type': 'time',
-                'class': input_css,
+                'class': field_input_css,
                 'required': True,
                 'aria-label': 'Hora de la noticia'
             }),

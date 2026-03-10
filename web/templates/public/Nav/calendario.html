@@ -4,125 +4,171 @@
 {% block title %}Calendario Escolar | Suazapawa{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/calendario.css' %}">
 
-<section
-    x-data="{
-        search: '',
-        date: '',
-        modalSearch: '',
-        showModal: false,
-        showScrollBtn: false
-    }"
-    @scroll.window="showScrollBtn = (window.scrollY > 200)"
-    class="min-h-screen px-4 pt-6 lg:px-20 relative"
->
+<section x-data="{
+search: '',
+date: '',
+showDetails: null,
+searchModal: '',
+showScrollBtn: false,
 
-  <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-5xl font-bold text-blue-900 text-center mb-10 animate-in fade-in zoom-in duration-700">
-    📅 Calendario Escolar
-  </h2>
+// Función para buscar desde el botón
+performSearch() {
+    console.log('Buscando:', this.search, this.date);
+},
 
-  <!-- Buscador -->
-<div id="busqueda" class="flex flex-col md:flex-row justify-between gap-4 mb-10" data-aos="fade-right">
+// Función para limpiar filtros
+clearFilters() {
+    this.search = '';
+    this.date = '';
+    this.showDetails = null;
+}
+}"
+@scroll.window="showScrollBtn = (window.scrollY > 300)"
+class="min-h-screen px-4 py-8 lg:px-20 bg-gray-50">
 
-    <!-- Buscar por título -->
-    <div class="flex flex-col w-full md:w-1/2">
-        <label class="mb-1 text-lg font-medium text-black">Buscar por título:</label>
-        <input type="text"
-               placeholder="Buscar por título..."
-               class="px-4 py-2 border border-red-800 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-red-800"
-               x-model="search">
+<div class="max-w-7xl mx-auto">
+    
+    <!-- HEADER EXACTAMENTE COMO LA SEGUNDA IMAGEN -->
+    <div class="institutional-header">
+        <h1 class="exp-title">
+            📅 Calendario <em>Escolar</em>
+        </h1>
+        <br>
+        
+            <!-- CONTADOR DE EVENTOS -->
+            {% if eventos %}
+            <div class="event-counter">
+                <i class="fas fa-calendar-alt"></i>
+                <span><strong>{{ eventos|length }}</strong> eventos programados</span>
+            </div>
+            {% endif %}
+        </div>
+    
+
+    <!-- SECCIÓN DE FILTROS CON BOTÓN DE BÚSQUEDA Y LIMPIAR -->
+    <div class="filters-section">
+        <div class="filters-grid">
+            <!-- Buscar por título -->
+            <div class="filter-item">
+                <label class="filter-label">Buscar por título</label>
+                <input type="text" 
+                      placeholder="fiesta de grado..."
+                      class="filter-input"
+                      x-model="search"
+                      @input="showDetails = null">
+            </div>
+            
+            <!-- Buscar por fecha -->
+            <div class="filter-item">
+                <label class="filter-label">Buscar por fecha</label>
+                <input type="text" 
+                      placeholder="dd / mm / aaaa"
+                      class="filter-input"
+                      x-model="date"
+                      @input="showDetails = null"
+                      @focus="this.type='date'"
+                      @blur="if(!this.value) this.type='text'">
+            </div>
+            
+            <!-- BOTÓN DE BÚSQUEDA -->
+            <div class="search-button-wrapper">
+                <button class="search-button" @click="performSearch()">
+                    <i class="fas fa-search"></i>
+                    <span>Buscar</span>
+                </button>
+            </div>
+            
+            <!-- BOTÓN DE LIMPIAR (aparece solo si hay filtros activos) -->
+            <button class="btn-clear" 
+                    @click="clearFilters()"
+                    x-show="search || date"
+                    x-transition>
+                <i class="fas fa-times"></i>
+                Limpiar
+            </button>
+        </div>
     </div>
 
-    <!-- Buscar por fecha -->
-    <div class="flex flex-col w-full md:w-1/3">
-        <label class="mb-1 text-lg font-medium text-black">Buscar por fecha:</label>
-        <input type="date"
-               class="px-4 py-2 border border-red-800 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-red-800"
-               x-model="date">
+    <!-- CONTADOR DE RESULTADOS DE BÚSQUEDA -->
+    <div class="results-info" x-show="search || date" x-cloak>
+        <i class="fas fa-calendar-check"></i>
+        <span x-text="`${document.querySelectorAll('.event-card:not([style*='display: none'])').length} eventos encontrados`"></span>
     </div>
-
-</div>
-
-
 
     {% if eventos %}
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- GRID DE EVENTOS -->
+    <div class="events-grid">
         {% for evento in eventos %}
-          <div
-            class="bg-white rounded-3xl shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 overflow-hidden"
+        <div class="event-card"
             x-show="
-              ('{{ evento.titulo|lower }}'.includes(search.toLowerCase()) || search === '') &&
-              ('{{ evento.fecha|date:'Y-m-d' }}' === date || date === '')
+                ('{{ evento.titulo|lower }}'.includes(search.toLowerCase()) || search === '') &&
+                (date === '' || '{{ evento.fecha|date:'d/m/Y' }}'.includes(date) || '{{ evento.fecha|date:'Y-m-d' }}'.includes(date))
             "
-            data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'1' }}00"
-          >
-            <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" class="w-full h-48 object-cover rounded-t-3xl">
-            <div class="p-6 flex flex-col h-full">
-              <span class="inline-block mb-3 px-4 py-1 bg-gradient-to-r from-sky-400 to-indigo-500 text-white text-sm rounded-full shadow">
-                <i class="fas fa-calendar-alt mr-1"></i> {{ evento.fecha }}
-              </span>
-
-              <h3 class="text-xl font-semibold text-slate-800 mb-2">{{ evento.titulo }}</h3>
-              <p class="text-sm text-slate-600 mb-4">{{ evento.descripcion_corta }}</p>
-
-              <details class="mt-auto cursor-pointer group">
-                <summary class="text-sm text-indigo-600 font-semibold hover:underline flex items-center gap-1">
-                  <i class="fas fa-chevron-down group-open:rotate-180 transition-transform"></i> Ver más
-                </summary>
-                <div class="mt-3 text-slate-600 text-sm space-y-2">
-                  <p><i class="fas fa-clock text-indigo-500 mr-1"></i> <strong>Hora:</strong> {{ evento.hora }}</p>
-                  <p><i class="fas fa-map-marker-alt text-indigo-500 mr-1"></i> <strong>Lugar:</strong> {{ evento.lugar }}</p>
-                  <p>{{ evento.descripcion_detallada }}</p>
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-95"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-95">
+            
+            <div class="event-image">
+                <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}">
+                <div class="event-date-chip">
+                    <i class="far fa-calendar-alt mr-1"></i> {{ evento.fecha|date:'d M, Y' }}
                 </div>
-              </details>
             </div>
-          </div>
+            
+            <div class="event-content">
+                <h3 class="event-title">{{ evento.titulo }}</h3>
+                <p class="event-description">{{ evento.descripcion_corta|truncatechars:80 }}</p>
+                
+                <!-- Botón Ver detalles -->
+                <div class="details-button" @click="showDetails = showDetails === {{ forloop.counter0 }} ? null : {{ forloop.counter0 }}">
+                    <span>✔ Ver detalles</span>
+                    <i class="fas" :class="showDetails === {{ forloop.counter0 }} ? 'fa-chevron-up' : 'fa-chevron-right'"></i>
+                </div>
+                
+                <!-- Detalles expandibles -->
+                <div class="event-details-expand" x-show="showDetails === {{ forloop.counter0 }}" x-collapse>
+                    <div class="detail-row">
+                        <i class="fas fa-clock"></i>
+                        <span><strong>Hora:</strong> {{ evento.hora }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Lugar:</strong> {{ evento.lugar }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-info-circle"></i>
+                        <span>{{ evento.descripcion_detallada|truncatechars:60 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-      </div>
-    {% else %}
-
-      <div class="text-center text-black text-2xl mt-16" data-aos="fade-in">
-        <i class="fas fa-info-circle text-2xl mb-2"></i>
-        <p>No hay eventos programados por ahora.</p>
-      </div>
-
-    {% endif %}
-  </div>
-
-  <!-- Botón flotante -->
-  <button
-      x-show="showScrollBtn"
-      @click="showModal = true"
-      class="fixed top-1/2 right-6 bg-indigo-500 hover:bg-indigo-600 text-white p-3 rounded-full shadow-lg transition transform hover:scale-110 z-50"
-      x-transition
-  >
-    <i class="fas fa-search"></i>
-  </button>
-
-  <!-- Modal -->
-  <div class="fixed inset-0 flex items-center justify-center z-50"
-       x-show="showModal" x-transition>
-    <div class="absolute inset-0 bg-white/30 backdrop-blur-md" @click="showModal = false"></div>
-
-    <div class="relative z-10 bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl w-full max-w-md p-6">
-      <h3 class="text-xl font-bold text-indigo-600 mb-4">Buscar evento por nombre</h3>
-
-      <input type="text" placeholder="Ej: Día del estudiante"
-             class="w-full px-4 py-2 border border-indigo-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-             x-model="modalSearch">
-
-      <div class="flex justify-end gap-2 mt-6">
-        <button @click="showModal = false"
-                class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-slate-700 rounded-lg transition">
-          Cerrar
-        </button>
-        <button @click="search = modalSearch; showModal = false"
-                class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg transition">
-          Buscar
-        </button>
-      </div>
     </div>
-  </div>
+    {% else %}
+    <!-- ESTADO VACÍO -->
+    <div class="empty-state">
+        <i class="far fa-calendar-times"></i>
+        <p>No hay eventos programados por ahora</p>
+        <button @click="clearFilters()">
+            <i class="fas fa-redo-alt mr-2"></i>Actualizar
+        </button>
+    </div>
+    {% endif %}
+</div>
+
 </section>
+
+<!-- Script para Alpine.js Collapse -->
+<script>
+document.addEventListener('alpine:init', () => {
+    if (typeof Alpine.plugin !== 'undefined' && Alpine.plugin) {
+        Alpine.plugin(collapse)
+    }
+})
+</script>
 {% endblock %}

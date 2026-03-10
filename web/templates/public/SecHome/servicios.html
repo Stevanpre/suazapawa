@@ -1,104 +1,87 @@
-<!-- SERVICIOS SECTION -->
-<section class="py-24 bg-gradient-to-br from-white via-sky-50 to-indigo-50" id="servicios">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/servicios.css' %}">
 
-    <!-- TÍTULO -->
-    <div class="text-center mb-20" data-taos-offset="200" data-taos="zoom-in">
-      <h2 class="text-5xl font-extrabold bg-clip-text text-red-500 mb-6"
-          data-aos="fade-down" data-aos-duration="1000">
-        Servicios Integrales
+<!-- SERVICIOS SECTION -->
+
+<section id="servicios">
+  <div class="srv-inner">
+
+    <!-- Header -->
+    <div class="srv-head" id="srv-head">
+      <div class="srv-chip"><div class="srv-chip-dot"></div> Bienestar Estudiantil</div>
+      <h2 class="exp-title">Servicios <em>Integrales</em>
       </h2>
     </div>
 
-    <!-- CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+    <!-- Grid -->
+    <div class="srv-grid">
 
-      <!-- Card -->
-    <a href="{% url 'transporte' %}" class="block no-underline">
-  <div class="group bg-white/70 backdrop-blur-xl border border-sky-100 rounded-3xl p-8 shadow-lg
-              transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
-       data-aos="fade-up" data-aos-delay="100">
-    <div class="flex items-center gap-4 mb-4">
-      <div class="p-4 bg-blue-100 text-blue-600 rounded-full shadow-md group-hover:animate-bounce">
-        <i class="fas fa-bus fa-lg"></i>
-      </div>
-      <h3 class="text-xl font-semibold text-blue-600">Transporte Escolar</h3>
-    </div>
-    <p class="text-black mb-4">
-      Rutas seguras y monitoreadas, adaptadas a los diferentes sectores de la ciudad.
-    </p>
-    <span class="inline-block text-sm text-blue-600 font-medium hover:underline">
-      Ver más detalles →
-    </span>
-  </div>
-</a>
+      <!-- Transporte -->
+      <a href="{% url 'transporte' %}" class="srv-card sc-blue" data-d="0">
+        <div class="srv-card-bar"></div>
+        <div class="srv-icon-wrap"><i class="fas fa-bus"></i></div>
+        <div class="srv-card-title">Transporte Escolar</div>
+        <p class="srv-card-desc">Rutas seguras y monitoreadas, adaptadas a los diferentes sectores de la ciudad.</p>
+        <div class="srv-card-link">Ver más detalles <span class="srv-arrow">→</span></div>
+      </a>
 
+      <!-- Enfermería -->
+      <a href="{% url 'enfermeria' %}" class="srv-card sc-green" data-d="100">
+        <div class="srv-card-bar"></div>
+        <div class="srv-icon-wrap"><i class="fas fa-heartbeat"></i></div>
+        <div class="srv-card-title">Enfermería Escolar</div>
+        <p class="srv-card-desc">Atención médica primaria, primeros auxilios y seguimiento continuo a la salud de los estudiantes.</p>
+        <div class="srv-card-link">Ver más detalles <span class="srv-arrow">→</span></div>
+      </a>
 
-      <!-- Card -->
+      <!-- Restaurante -->
+      <a href="{% url 'restaurante' %}" class="srv-card sc-red" data-d="200">
+        <div class="srv-card-bar"></div>
+        <div class="srv-icon-wrap"><i class="fas fa-utensils"></i></div>
+        <div class="srv-card-title">Restaurante Escolar</div>
+        <p class="srv-card-desc">Alimentación nutritiva y balanceada, con menús diarios planificados por profesionales.</p>
+        <div class="srv-card-link">Ver más detalles <span class="srv-arrow">→</span></div>
+      </a>
 
-      <a href="{% url 'enfermeria' %}" class="block no-underline">
-  <div class="group bg-white/70 backdrop-blur-xl border border-green-100 rounded-3xl p-8 shadow-lg
-              transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
-       data-aos="fade-up" data-aos-delay="200">
-    <div class="flex items-center gap-4 mb-4">
-      <div class="p-4 bg-green-100 text-green-600 rounded-full shadow-md group-hover:animate-pulse">
-        <i class="fas fa-heartbeat fa-lg"></i>
-      </div>
-      <h3 class="text-xl font-semibold text-blue-600">Enfermería Escolar</h3>
-    </div>
-    <p class="text-black mb-4">
-      Atención médica primaria, primeros auxilios y seguimiento continuo a la salud de los estudiantes.
-    </p>
-    <span class="inline-block text-sm text-green-600 font-medium hover:underline">
-      Ver más detalles →
-    </span>
-  </div>
-</a>
-
-
-      <!-- Card -->
-     <a href="{% url 'restaurante' %}" class="block no-underline">
-  <div class="group bg-white/70 backdrop-blur-xl border border-red-100
-              rounded-3xl p-8 shadow-lg transition-transform duration-300
-              hover:-translate-y-2 hover:scale-[1.02]"
-       data-aos="fade-up" data-aos-delay="300">
-    <div class="flex items-center gap-4 mb-4">
-      <div class="p-4 bg-red-100 text-orange-600 rounded-full shadow-md
-                  group-hover:animate-pulse">
-        <i class="fas fa-utensils fa-lg"></i>
-      </div>
-      <h3 class="text-xl font-semibold text-blue-600">Restaurante Escolar</h3>
-    </div>
-    <p class="text-black mb-4">
-      Alimentación nutritiva y balanceada, con menús diarios planificados por profesionales.
-    </p>
-    <span class="inline-block text-sm text-red-600 font-medium hover:underline">
-      Ver más detalles →
-    </span>
-  </div>
-</a>
-
-
-      <!-- Card -->
-      <a href="{% url 'seguridad'%}" class="block no-underline">
-  <div class="group bg-white/70 backdrop-blur-xl border border-red-100 rounded-3xl p-8 shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:scale-[1.02]"
-       data-aos="fade-up" data-aos-delay="400">
-    <div class="flex items-center gap-4 mb-4">
-      <div class="p-4 bg-red-100 text-red-600 rounded-full shadow-md group-hover:animate-bounce">
-        <i class="fas fa-shield-alt fa-lg"></i>
-      </div>
-      <h3 class="text-xl font-semibold text-blue-600">Seguridad Integral</h3>
-    </div>
-    <p class="text-black mb-4">
-      Vigilancia 24/7, control de acceso, y protocolos de emergencia activos en todo momento.
-    </p>
-    <span class="inline-block text-sm text-red-600 font-medium hover:underline">
-      Ver más detalles →
-    </span>
-  </div>
-</a>
-
+      <!-- Seguridad -->
+      <a href="{% url 'seguridad' %}" class="srv-card sc-navy" data-d="300">
+        <div class="srv-card-bar"></div>
+        <div class="srv-icon-wrap"><i class="fas fa-shield-alt"></i></div>
+        <div class="srv-card-title">Seguridad Integral</div>
+        <p class="srv-card-desc">Vigilancia 24/7, control de acceso y protocolos de emergencia activos en todo momento.</p>
+        <div class="srv-card-link">Ver más detalles <span class="srv-arrow">→</span></div>
+      </a>
 
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      setTimeout(() => e.target.classList.add('on'), +(e.target.dataset.d || 0));
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12 });
+
+  document.getElementById('srv-head') && io.observe(document.getElementById('srv-head'));
+  document.querySelectorAll('.srv-card').forEach(el => io.observe(el));
+
+  // Subtle 3D tilt
+  document.querySelectorAll('.srv-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r  = card.getBoundingClientRect();
+      const rx = ((e.clientY - r.top  - r.height/2) / r.height) * -5;
+      const ry = ((e.clientX - r.left - r.width /2) / r.width)  *  5;
+      card.style.transform  = `translateY(-5px) perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      card.style.transition = 'transform 0.08s linear';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform  = '';
+      card.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1), background .3s ease, border-color .3s ease, box-shadow .3s ease';
+    });
+  });
+})();
+</script>

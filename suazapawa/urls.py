@@ -59,6 +59,8 @@ path('adminweb/', include('web.urls')),
     path('adminperfil/', include('perfil.urls')),
 #------------bienvenida---------------
     path('adminbienvenida/', include('bienvenida.urls')),
+#------------comunicaciones (envío de formularios)---------------
+    path('comunicaciones/', include('comunicaciones.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,9 +1,10 @@
-<section class="py-20 bg-gradient-to-b from-white via-indigo-50 to-purple-100">
-  <div class="max-w-7xl mx-auto px-4">
+<section id="noticias" class="py-20 bg-gradient-to-b from-white via-indigo-50 to-purple-100">
+    <div class="max-w-7xl mx-auto px-4">
     <!-- Título -->
-    <h2 class="text-5xl font-extrabold bg-clip-text text-red-500 mb-16 text-center" data-aos="fade-down" data-aos-duration="1000">
-      📰 Últimas Noticias
-    </h2>
+     <div class="institutional-header">
+    <h2 class="exp-title">📰 Últimas <em>Noticias</em>
+      </h2>
+    </div>
 
     {% if noticias %}
       <!-- Grid de Noticias -->
@@ -42,4 +43,51 @@
       <p class="text-center text-gray-500 mt-10">No hay noticias disponibles.</p>
     {% endif %}
   </div>
+
+  <style>
+    /* ESTILOS EXACTOS DE LA SEGUNDA IMAGEN */
+    .institutional-header {
+        margin-bottom: 2.0rem;
+        position: relative;
+    }
+
+    .exp-title {
+      top: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 4.0rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+  </style>
 </section>

@@ -4,6 +4,45 @@
 {% block title %}Restaurante Escolar | Colegio Suazapawa{% endblock %}
 
 {% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
 
 <section class="bg-gradient-to-b from-sky-50 to-white " data-aos="fade-up">
 
@@ -14,9 +53,9 @@
 
   <div class="max-w-4xl mx-auto space-y-8">
     <!-- TÍTULO ARRIBA (fuera de la imagen) -->
-    <h2 class="text-center text-blue-900 text-5xl mb-10 font-extrabold">
-      🍽️ Restaurante Suazapawa
-    </h2>
+    <h2 class="exp-title">🍽️ Restaurante <em>Suazapawa</em>
+      </h2>
+      <br>
     <!-- Imagen destacada abajo -->
     <div class="relative overflow-hidden rounded-2xl shadow-xl" data-aos="zoom-in">
       <img src="{% static 'img/restaurante1.JPG' %}"

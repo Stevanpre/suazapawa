@@ -1,53 +1,187 @@
 {% load static %}
-<section class="py-24 relative overflow-hidden bg-gradient-to-br from-blue-100 via-sky-100 to-cyan-50 text-slate-800" id="experiencia">
-  <div class="container mx-auto px-6 lg:px-12 relative z-10">
+<link rel="stylesheet" href="{% static 'css/exp.css' %}">
 
-    <!-- Título -->
-    <div class="text-center mb-20" data-aos="fade-up">
-        <h2 class="text-5xl font-extrabold bg-clip-text text-red-500">
-        35 Años de Excelencia Académica
-    </h2>
+<section id="experiencia">
+  <div class="exp-inner">
 
+    <!-- Header -->
+    <div class="exp-header" id="exp-head">
+      <div class="exp-chip"><div class="exp-chip-dot"></div> Nuestra Historia</div>
+      <h2 class="exp-title">35 Años de Excelencia <em>Académica</em>
+      </h2>
     </div>
 
-    <!-- Imagen + Texto -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-3xl overflow-hidden shadow-2xl border border-sky-200">
-      <!-- Imagen -->
-      <div class="h-[500px]" data-aos="fade-right">
-        <img src="{% static 'img/mascota.webp' %}" alt="Colegio Suazapawa"
-             class="w-full h-full object-cover object-center">
+    <!-- Main grid -->
+    <div class="exp-grid">
+
+      <!-- Image -->
+      <div class="exp-img-wrap" id="exp-img">
+        <img src="{% static 'img/maestro1.jpg' %}" alt="Colegio Suazapawa" class="exp-img">
+        <div class="exp-img-overlay"></div>
+        <div class="exp-img-tag">Desde 1990 · Sogamoso</div>
+        <div class="exp-years-badge">
+          <div class="exp-years-num">35<span>+</span></div>
+          <div class="exp-years-label">
+            <strong>Años formando</strong>
+            líderes para Colombia
+          </div>
+        </div>
       </div>
 
-      <!-- Texto -->
-      <div class="bg-white bg-opacity-90 backdrop-blur-xl text-left text-slate-800 p-10 flex flex-col justify-center" data-aos="fade-left">
-        <h3 class="text-3xl font-bold mb-4 text-blue-600">Un Camino de Logros Educativos</h3>
-        <p class="text-slate-600 text-lg leading-relaxed mb-6">
-          En Suazapawa hemos forjado generaciones de líderes con visión global, formación humana y pensamiento crítico.
-        </p>
+      <!-- Content -->
+      <div class="exp-content" id="exp-content">
+        <div>
+          <div class="exp-subtitle">Un Camino de <span>Logros</span> Educativos</div>
+          <p class="exp-body" style="margin-top:0.75rem;">
+            En Suazapawa hemos forjado generaciones de líderes con visión global, formación humana profunda y pensamiento crítico. Cada estudiante es el centro de nuestra misión.
+          </p>
+        </div>
 
-        <div class="grid grid-cols-2 gap-4 text-center">
-          <div class="bg-sky-100 p-4 rounded-xl shadow">
-            <i class="fas fa-award text-cyan-600 text-3xl mb-2"></i>
-            <div class="text-2xl font-bold text-slate-800">35+</div>
-            <p class="text-sm text-slate-600">Años</p>
+        <div class="exp-stats">
+          <div class="exp-stat s-red" data-d="0">
+            <span class="exp-stat-icon">🏆</span>
+            <div class="exp-stat-val"><span class="xc" data-t="35" data-s="+">0</span></div>
+            <div class="exp-stat-lbl">Años de historia</div>
           </div>
-          <div class="bg-indigo-100 p-4 rounded-xl shadow">
-            <i class="fas fa-user-graduate text-indigo-600 text-3xl mb-2"></i>
-            <div class="text-2xl font-bold text-slate-800">1500+</div>
-            <p class="text-sm text-slate-600">Graduados</p>
+          <div class="exp-stat s-navy" data-d="120">
+            <span class="exp-stat-icon">🎓</span>
+            <div class="exp-stat-val"><span class="xc" data-t="1500" data-s="+" data-fmt="k">0</span></div>
+            <div class="exp-stat-lbl">Graduados</div>
           </div>
-          <div class="bg-pink-100 p-4 rounded-xl shadow">
-            <i class="fas fa-heart text-pink-600 text-3xl mb-2"></i>
-            <div class="text-2xl font-bold text-slate-800">99%</div>
-            <p class="text-sm text-slate-600">Satisfacción</p>
+          <div class="exp-stat s-mix" data-d="240">
+            <span class="exp-stat-icon">⭐</span>
+            <div class="exp-stat-val"><span class="xc" data-t="99" data-s="%">0</span></div>
+            <div class="exp-stat-lbl">Satisfacción familiar</div>
           </div>
-          <div class="bg-yellow-100 p-4 rounded-xl shadow">
-            <i class="fas fa-university text-yellow-600 text-3xl mb-2"></i>
-            <div class="text-2xl font-bold text-slate-800">+95%</div>
-            <p class="text-sm text-slate-600">Ingreso Univ.</p>
+          <div class="exp-stat s-navy" data-d="360">
+            <span class="exp-stat-icon">🎯</span>
+            <div class="exp-stat-val"><span class="xc" data-t="95" data-s="%">+</span></div>
+            <div class="exp-stat-lbl">Ingreso universitario</div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Timeline -->
+    <div class="exp-timeline" id="exp-tl">
+      <div class="exp-tl-label">Momentos que nos definen</div>
+      <div class="exp-tl-track">
+        <div class="exp-tl-fill"></div>
+        <div class="exp-tl-node">
+          <div class="exp-tl-dot">🏫</div>
+          <div class="exp-tl-year">1990</div>
+          <div class="exp-tl-text">Fundación del colegio</div>
+          <div class="exp-tl-tooltip">Apertura oficial</div>
+        </div>
+        <div class="exp-tl-node">
+          <div class="exp-tl-dot">📚</div>
+          <div class="exp-tl-year">1998</div>
+          <div class="exp-tl-text">Primera promoción</div>
+          <div class="exp-tl-tooltip">Primeros graduados</div>
+        </div>
+        <div class="exp-tl-node">
+          <div class="exp-tl-dot">🏆</div>
+          <div class="exp-tl-year">2005</div>
+          <div class="exp-tl-text">Reconocimiento regional</div>
+          <div class="exp-tl-tooltip">Premio educativo Boyacá</div>
+        </div>
+        <div class="exp-tl-node">
+          <div class="exp-tl-dot">🚀</div>
+          <div class="exp-tl-year">2015</div>
+          <div class="exp-tl-text">Expansión académica</div>
+          <div class="exp-tl-tooltip">Nuevas instalaciones</div>
+        </div>
+        <div class="exp-tl-node">
+          <div class="exp-tl-dot">⭐</div>
+          <div class="exp-tl-year">2025</div>
+          <div class="exp-tl-text">35 años de legado</div>
+          <div class="exp-tl-tooltip">Hoy · Más fuertes</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<script>
+(function(){
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  let counted = false;
+
+  function runCounters() {
+    if (counted) return; counted = true;
+    document.querySelectorAll('.xc').forEach(el => {
+      const target = +el.dataset.t;
+      const suffix = el.dataset.s || '';
+      const fmt    = el.dataset.fmt || '';
+      const t0 = performance.now();
+      const tick = now => {
+        const p = Math.min((now - t0) / 1600, 1);
+        const v = Math.round(ease(p) * target);
+        if (fmt === 'k') {
+          el.textContent = v >= 1000 ? (v/1000).toFixed(1)+'k' : v + suffix;
+        } else {
+          el.textContent = v + suffix;
+        }
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const d  = +(el.dataset.d || 0);
+
+      if (el.id === 'exp-head' || el.id === 'exp-img' || el.id === 'exp-content' || el.id === 'exp-tl') {
+        setTimeout(() => el.classList.add('on'), d);
+      } else if (el.classList.contains('exp-stat')) {
+        setTimeout(() => {
+          el.classList.add('on');
+          runCounters();
+        }, d);
+      }
+      io.unobserve(el);
+    });
+  }, { threshold: 0.18 });
+
+  ['exp-head','exp-img','exp-content','exp-tl'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+  document.querySelectorAll('.exp-stat').forEach(el => io.observe(el));
+
+  // 3D tilt on image
+  const imgWrap = document.getElementById('exp-img');
+  if (imgWrap) {
+    imgWrap.addEventListener('mousemove', e => {
+      const r  = imgWrap.getBoundingClientRect();
+      const rx = ((e.clientY - r.top  - r.height/2) / r.height) * -6;
+      const ry = ((e.clientX - r.left - r.width /2) / r.width)  *  6;
+      imgWrap.style.transform  = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      imgWrap.style.transition = 'transform 0.1s ease';
+    });
+    imgWrap.addEventListener('mouseleave', () => {
+      imgWrap.style.transform  = 'perspective(1000px) rotateX(0) rotateY(0)';
+      imgWrap.style.transition = 'transform 0.7s cubic-bezier(0.34,1.56,0.64,1)';
+    });
+  }
+
+  // Stat card tilt
+  document.querySelectorAll('.exp-stat').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r  = card.getBoundingClientRect();
+      const rx = ((e.clientY - r.top  - r.height/2) / r.height) * -8;
+      const ry = ((e.clientX - r.left - r.width /2) / r.width)  *  8;
+      card.style.transform  = `translateY(-4px) scale(1.01) perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      card.style.transition = 'transform 0.08s ease';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform  = '';
+      card.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease';
+    });
+  });
+})();
+</script>

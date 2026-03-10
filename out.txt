@@ -1,0 +1,3 @@
+TABLAS WEB/GALERIA: ['web_imagengaleria']
+Registros en ImagenGaleria: 0
+TODO OK

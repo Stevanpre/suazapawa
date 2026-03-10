@@ -1,9 +1,4 @@
 {
-<<<<<<< HEAD
-"scripts": {
-  "build": "npx tailwindcss -i web/static/css/input.css -o web/static/css/tailwind.css --minify"
-},
-=======
   "scripts": {
     "watch": "npx @tailwindcss/cli -i web/static/css/input.css -o web/static/css/tailwind.css --watch",
     "build:css": "npx @tailwindcss/cli -i web/static/css/input.css -o web/static/css/tailwind.css",
@@ -11,7 +6,6 @@
     "build": "npm run build:css && npm run copy:assets",
     "postinstall": "npm run build"
   },
->>>>>>> origin/robot
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/cli": "^4.1.11",
