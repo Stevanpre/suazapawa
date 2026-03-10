@@ -1,0 +1,93 @@
+<section id="noticias" class="py-20 bg-gradient-to-b from-white via-indigo-50 to-purple-100">
+    <div class="max-w-7xl mx-auto px-4">
+    <!-- Título -->
+     <div class="institutional-header">
+    <h2 class="exp-title">📰 Últimas <em>Noticias</em>
+      </h2>
+    </div>
+
+    {% if noticias %}
+      <!-- Grid de Noticias -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {% for noticia in noticias %}
+          <div class="bg-white rounded-3xl shadow-xl overflow-hidden transition-transform duration-300 hover:scale-[1.02]" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+            {% if noticia.imagen %}
+              <img src="{{ noticia.imagen.url }}" alt="{{ noticia.titulo }}" class="h-48 w-full object-cover">
+            {% endif %}
+            <div class="p-6 flex flex-col h-full">
+              <h3 class="text-2xl font-bold text-blue-800 mb-1">{{ noticia.titulo }}</h3>
+              <p class="text-sm text-black mb-3">{{ noticia.fecha|date:"d M Y" }}</p>
+
+              <!-- Línea separadora -->
+              <hr class="border-t border-red-800 my-6">
+
+              <!-- Descripción + fade -->
+              <div class="relative flex-1 mb-4 overflow-hidden">
+                <p class="text-black text-base leading-relaxed max-h-24 overflow-hidden">
+                  {{ noticia.descripcion }}
+                </p>
+                <div class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Botón General -->
+      <div class="mt-12 text-center" data-aos="fade-up" data-aos-delay="700">
+        <a href="{% url 'textoescolar' %}" class="inline-block px-6 py-3 bg-red-500 text-white font-semibold rounded-2xl shadow-lg hover:opacity-90 transition">
+          Ver más noticias
+        </a>
+      </div>
+    {% else %}
+      <p class="text-center text-gray-500 mt-10">No hay noticias disponibles.</p>
+    {% endif %}
+  </div>
+
+  <style>
+    /* ESTILOS EXACTOS DE LA SEGUNDA IMAGEN */
+    .institutional-header {
+        margin-bottom: 2.0rem;
+        position: relative;
+    }
+
+    .exp-title {
+      top: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 4.0rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+  </style>
+</section>

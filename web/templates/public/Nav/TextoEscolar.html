@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Noticias Escolares | Suazapawa{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/TextoEscolar.css' %}">
+
+<section
+    x-data="{
+        showScrollBtn: false,
+        showModal: false,
+        modalSearch: '',
+        // Función para limpiar filtros
+        clearFilters() {
+            // Limpiar los campos del formulario
+            document.querySelectorAll('.filter-input').forEach(input => {
+                if (input.name === 'q') input.value = '';
+                if (input.name === 'fecha') input.value = '';
+            });
+            // Enviar el formulario limpio
+            document.getElementById('filter-form').submit();
+        }
+    }"
+    @scroll.window="showScrollBtn = (window.scrollY > 200)"
+    class="min-h-screen px-4 pt-6 lg:px-20 relative bg-gray-50"
+>
+
+    <!-- TÍTULO CON MISMO ESTILO DEL CALENDARIO -->
+    <h2 class="exp-title">📰 Noticias <em>Escolares</em></h2>
+
+    <!-- CONTADOR DE NOTICIAS - MÁS PEQUEÑO Y ARRIBA -->
+    {% if noticias %}
+    <div class="news-counter" data-aos="fade-right">
+        <i class="fas fa-newspaper"></i>
+        <span><strong>{{ noticias|length }}</strong> noticias publicadas</span>
+    </div>
+    {% endif %}
+
+    <!-- MODAL estilo del calendario -->
+    <div
+        x-show="showModal"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 flex items-center justify-center z-50"
+        x-cloak
+    >
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="showModal = false"></div>
+
+        <div class="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all"
+             x-show="showModal"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100">
+            
+            <div class="text-center mb-4">
+                <div class="w-16 h-16 bg-[#D0021B] rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-search text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-[#0B1A3E]">Buscar Noticias</h3>
+                <p class="text-gray-500 text-sm">Encuentra noticias por título</p>
+            </div>
+
+            <form method="get" class="space-y-4">
+                <input
+                    type="text"
+                    name="q"
+                    x-model="modalSearch"
+                    placeholder="Ej: Día del estudiante, Graduación..."
+                    class="filter-input w-full"
+                >
+
+                <div class="flex gap-3 mt-6">
+                    <button
+                        type="button"
+                        @click="showModal = false"
+                        class="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-300 font-semibold"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        @click="showModal = false"
+                        class="flex-1 px-4 py-3 bg-[#D0021B] hover:bg-[#B00218] text-white rounded-xl transition-all duration-300 font-semibold transform hover:scale-105"
+                    >
+                        Buscar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- GRID PRINCIPAL -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+        <!-- NOTICIAS (columna izquierda - 3 columnas) -->
+        <div class="lg:col-span-3 space-y-6">
+            {% for noticia in noticias %}
+            <article class="news-card" 
+                     data-aos="fade-up" 
+                     data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                
+                <div class="news-header">
+                    <h3 class="news-title">{{ noticia.titulo }}</h3>
+                    <span class="news-date-badge">
+                        <i class="far fa-calendar-alt"></i>
+                        {{ noticia.fecha|date:"d M Y" }} - {{ noticia.hora|time:"H:i" }}
+                    </span>
+                </div>
+                
+                <!-- Línea divisoria decorativa -->
+                <div class="news-divider"></div>
+                
+                <div class="news-content">
+                    <p class="news-description">{{ noticia.descripcion }}</p>
+                    
+                    <!-- DETALLES ADICIONALES (sin URLs) -->
+                    <div class="news-meta-details">
+                        <div class="meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>Tiempo lectura: 
+                                {% with words=noticia.descripcion|wordcount %}
+                                    {% if words < 200 %}1{% else %}{{ words|divisibleby:200 }}{% endif %} min
+                                {% endwith %}
+                            </span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="far fa-eye"></i>
+                            <span>Visto: {{ forloop.counter }} veces</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="far fa-comment"></i>
+                            <span>Comentarios: 0</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <!-- ESTADO VACÍO -->
+            <div class="empty-state">
+                <i class="far fa-newspaper"></i>
+                <p>No hay noticias disponibles por ahora</p>
+                <button onclick="window.location.href='?'" class="btn-clear" style="width: auto; margin: 1rem auto 0; padding: 0.6rem 2rem;">
+                    <i class="fas fa-redo-alt"></i> Limpiar filtros
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- FILTROS LATERALES (columna derecha - 1 columna) CON BOTÓN LIMPIAR -->
+        <aside class="sticky top-20 h-fit space-y-6">
+            <!-- Card de Búsqueda -->
+            <div class="filters-card">
+                <div class="filters-header">
+                    <h4>
+                        <i class="fas fa-search"></i>
+                        Buscar Noticias
+                    </h4>
+                </div>
+                <div class="filters-body">
+                    <form id="filter-form" method="get" class="space-y-4">
+                        <div>
+                            <label class="filter-label">Por título</label>
+                            <input type="text" 
+                                   name="q" 
+                                   class="filter-input" 
+                                   placeholder="fiesta de grado..."
+                                   value="{{ request.GET.q }}">
+                        </div>
+
+                        <div>
+                            <label class="filter-label">Por fecha</label>
+                            <input type="text" 
+                                   name="fecha" 
+                                   class="filter-input" 
+                                   placeholder="dd / mm / aaaa"
+                                   value="{{ request.GET.fecha }}"
+                                   onfocus="this.type='date'"
+                                   onblur="if(!this.value) this.type='text'">
+                        </div>
+
+                        <button type="submit" class="btn-search">
+                            <i class="fas fa-search"></i>
+                            Buscar
+                        </button>
+
+                        <!-- BOTÓN DE LIMPIAR -->
+                        {% if request.GET.q or request.GET.fecha %}
+                        <button type="button" class="btn-clear" @click="clearFilters()">
+                            <i class="fas fa-times"></i>
+                            Limpiar filtros
+                        </button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+
+            <!-- Card de Ordenamiento -->
+            <div class="filters-card">
+                <div class="filters-header">
+                    <h4>
+                        <i class="fas fa-sort"></i>
+                        Ordenar por
+                    </h4>
+                </div>
+                <div class="filters-body">
+                    <div class="flex flex-col gap-3">
+                        <a href="?orden=reciente" class="btn-order {% if request.GET.orden == 'reciente' %}active{% endif %}">
+                            <i class="fas fa-arrow-down mr-2"></i>
+                            Más recientes
+                        </a>
+                        <a href="?orden=antiguo" class="btn-order {% if request.GET.orden == 'antiguo' %}active{% endif %}">
+                            <i class="fas fa-arrow-up mr-2"></i>
+                            Más antiguas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+</section>
+
+<style>
+    [x-cloak] { display: none !important; }
+    
+    /* Estilo para botón activo */
+    .btn-order.active {
+        border-color: #D0021B;
+        color: #D0021B;
+        background: white;
+    }
+</style>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        // Si hay filtros activos, mostrar el contador
+        console.log('Filtros activos:', {
+            q: '{{ request.GET.q|default:"" }}',
+            fecha: '{{ request.GET.fecha|default:"" }}'
+        });
+    });
+</script>
+
+{% endblock %}

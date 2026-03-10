@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Transporte Escolar | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
+<section class="bg-gradient-to-b from-sky-50 to-white py-12 px-4" data-aos="fade-up">
+<h2 class="exp-title">TRANSPORTE <em>SUAZAPAWA</em>
+      </h2>
+      <br>
+  <div class="max-w-5xl mx-auto space-y-16">
+
+    <!-- Bloque 1: Seguridad garantizada -->
+    <div class="md:flex md:items-center md:space-x-8" data-aos="fade-right">
+      <div class="md:w-1/2">
+        <img src="{% static 'img/buses1.JPG' %}" alt="Seguridad en los buses"
+             class="w-full rounded-xl shadow-lg">
+      </div>
+      <div class="md:w-1/2 mt-4 md:mt-0">
+        <h3 class="text-2xl font-bold text-blue-900 mb-2">Seguridad garantizada</h3>
+        <p class="text-black leading-relaxed">
+          Los siguientes puntos son requisitos obligatorios en Colombia: cinturones de seguridad en cada asiento, adulto acompañante en rutas, extintor, dos salidas de emergencia, señalización escolar obligatoria y revisión técnico-mecánica y SOAT vigentes.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bloque 2: Capacidad y confort -->
+    <div class="md:flex md:flex-row-reverse md:items-center md:space-x-8" data-aos="fade-left">
+      <div class="md:w-1/2">
+        <img src="{% static 'img/buses2.JPG' %}" alt="Capacidad y confort"
+             class="w-full rounded-xl shadow-lg">
+      </div>
+      <div class="md:w-1/2 mt-4 md:mt-0">
+        <h3 class="text-2xl font-bold text-blue-900 mb-2">Capacidad & confort</h3>
+        <p class="text-black leading-relaxed">
+          Cada bus transporta hasta 40 pasajeros con asientos acolchados, ventilación y ventanas amplias para garantizar comodidad durante el trayecto.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bloque 3: Rutas eficientes -->
+    <div class="md:flex md:items-center md:space-x-8" data-aos="fade-right">
+      <div class="md:w-1/2">
+        <img src="{% static 'img/buses3.JPG' %}" alt="Rutas eficientes"
+             class="w-full rounded-xl shadow-lg">
+      </div>
+      <div class="md:w-1/2 mt-4 md:mt-0">
+        <h3 class="text-2xl font-bold text-blue-900 mb-2">Rutas eficientes</h3>
+        <p class="text-black leading-relaxed">
+          Utilizamos GPS y análisis de tráfico para optimizar rutas, minimizar tiempos de traslado y garantizar paradas seguras.
+        </p>
+      </div>
+    </div>
+
+    <!-- Bloque 4: Normativa y control -->
+    <div class="md:flex md:flex-row-reverse md:items-center md:space-x-8" data-aos="fade-left">
+      <div class="md:w-1/2">
+        <img src="{% static 'img/buses4.JPG' %}" alt="Normativas y mantenimiento"
+             class="w-full rounded-xl shadow-lg">
+      </div>
+      <div class="md:w-1/2 mt-4 md:mt-0">
+        <h3 class="text-2xl font-bold text-blue-900 mb-2">Normativa y control</h3>
+        <p class="text-black leading-relaxed">
+          El Código Nacional de Tránsito (art. 84) establece que no debe haber sobrecupo ni personas de pie dentro del vehículo. Además, la Superintendencia ha sancionado múltiples empresas por incumplimientos y hay controles rigurosos por parte del Ministerio de Transporte.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

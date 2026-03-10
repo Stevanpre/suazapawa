@@ -1,0 +1,365 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/zonasverdes.css' %}">
+
+{% block content %}
+<section id="ambiente">
+
+  <!-- HEADER -->
+  <div class="amb-header" id="amb-header">
+    <div>
+      <div class="amb-chip"><div class="amb-chip-dot"></div> Instalaciones · Campus</div>
+      <h2 class="gal-title">Ambiente <em>Escolar</em>
+      </h2>
+    </div>
+    <p class="amb-header-right">
+      Explora cada rincón de la Institución Educativa Suazapawa. Espacios pensados para el aprendizaje, el deporte y la convivencia.
+    </p>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="amb-cats" id="amb-cats">
+    <button class="amb-cat active" data-cat="0"><span class="amb-cat-icon">🏫</span> El Colegio</button>
+    <button class="amb-cat" data-cat="1"><span class="amb-cat-icon">📚</span> Salones</button>
+    <button class="amb-cat" data-cat="2"><span class="amb-cat-icon">👨‍🎓</span> Estudiantes</button>
+    <button class="amb-cat" data-cat="3"><span class="amb-cat-icon">🚌</span> Transporte</button>
+    <button class="amb-cat" data-cat="4"><span class="amb-cat-icon">⚽</span> Deportes</button>
+    <button class="amb-cat" data-cat="5"><span class="amb-cat-icon">🏥</span> Enfermería</button>
+  </div>
+
+  <!-- MAIN STAGE -->
+  <div class="amb-stage">
+
+    <!-- Left info panel -->
+    <div class="amb-info" id="amb-info">
+      <div>
+        <div class="amb-cat-title" id="amb-cat-title">El <em>Colegio</em></div>
+        <p class="amb-cat-desc" id="amb-cat-desc">Nuestra sede principal en Sogamoso, Boyacá. Instalaciones modernas en un entorno natural que inspira el aprendizaje y la convivencia.</p>
+      </div>
+
+      <!-- Mini thumbnails -->
+      <div class="amb-thumbs" id="amb-thumbs">
+        <div class="amb-thumb active" data-photo="0"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=200&q=70" alt=""></div>
+        <div class="amb-thumb" data-photo="1"><img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=200&q=70" alt=""></div>
+        <div class="amb-thumb" data-photo="2"><img src="https://images.unsplash.com/photo-1562774053-701939374585?w=200&q=70" alt=""></div>
+      </div>
+
+      <div class="amb-photo-count">
+        Foto <strong id="amb-pcur">1</strong> de <span id="amb-ptotal">3</span>
+      </div>
+
+      <div class="amb-nav-row">
+        <button class="amb-btn" id="amb-prev">‹</button>
+        <button class="amb-btn" id="amb-next">›</button>
+      </div>
+    </div>
+
+    <!-- Right viewer -->
+    <div class="amb-viewer" id="amb-viewer">
+      <div class="amb-viewer-bar" id="amb-vbar"></div>
+      <div class="amb-viewer-num" id="amb-vnum">01 / 03</div>
+
+      <!-- Slides injected by JS -->
+      <div id="amb-slides"></div>
+
+      <!-- Pips -->
+      <div class="amb-pips" id="amb-pips"></div>
+
+      <!-- Photo nav -->
+      <button class="amb-photo-nav amb-pn-l" id="amb-pnl">‹</button>
+      <button class="amb-photo-nav amb-pn-r" id="amb-pnr">›</button>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function(){
+'use strict';
+
+
+const CATS = [
+  {
+    label:  'El <em>Colegio</em>',
+    desc:   'Nuestra sede principal en Sogamoso, Boyacá. Instalaciones modernas en un entorno natural que inspira el aprendizaje y la convivencia.',
+    icon:   '🏫',
+    bar:    'linear-gradient(to right, #D0021B, #ff6b6b)',
+    photos: [
+      { url: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1100&q=85', title: 'Vista principal', tag: 'Infraestructura' },
+      { url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1100&q=85', title: 'Áreas comunes',   tag: 'Campus' },
+      { url: 'https://images.unsplash.com/photo-1562774053-701939374585?w=1100&q=85',   title: 'Zonas verdes',   tag: 'Exterior' },
+    ]
+  },
+  {
+    label:  '<em>Salones</em> Premium',
+    desc:   'Aulas equipadas con tecnología de punta. Proyectores, tableros digitales y ambientes diseñados para potenciar el aprendizaje activo.',
+    icon:   '📚',
+    bar:    'linear-gradient(to right, #1a3a8f, #4a7acc)',
+    photos: [
+      { url: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1100&q=85', title: 'Salón de clase',    tag: 'Aulas' },
+      { url: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1100&q=85', title: 'Zona de estudio',   tag: 'Aulas' },
+      { url: 'https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?w=1100&q=85', title: 'Salón tecnológico', tag: 'Tecnología' },
+    ]
+  },
+  {
+    label:  'Nuestros <em>Estudiantes</em>',
+    desc:   'Formamos líderes íntegros. Nuestra comunidad estudiantil crece en un ambiente de respeto, valores y excelencia académica.',
+    icon:   '👨‍🎓',
+    bar:    'linear-gradient(to right, #D0021B, #1a3a8f)',
+    photos: [
+      { url: 'https://images.unsplash.com/photo-1491904768633-2b7e3e7fede5?w=1100&q=85', title: 'Vida escolar',   tag: 'Comunidad' },
+      { url: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1100&q=85', title: 'En el aula',     tag: 'Aprendizaje' },
+      { url: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=1100&q=85', title: 'Trabajo en equipo', tag: 'Colaboración' },
+    ]
+  },
+  {
+    label:  'Transporte <em>Escolar</em>',
+    desc:   'Flota propia de buses modernos para el traslado seguro de nuestros estudiantes desde y hacia sus hogares.',
+    icon:   '🚌',
+    bar:    'linear-gradient(to right, #ff6b6b, #D0021B)',
+    photos: [
+      { url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1100&q=85', title: 'Flota de buses',    tag: 'Transporte' },
+      { url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1100&q=85', title: 'Rutas seguras',     tag: 'Movilidad' },
+      { url: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=1100&q=85', title: 'Llegada al colegio', tag: 'Día a día' },
+    ]
+  },
+  {
+    label:  'Canchas <em>Deportivas</em>',
+    desc:   'Espacios para el deporte, la recreación y el desarrollo físico. Canchas multifuncionales para fútbol, baloncesto y más.',
+    icon:   '⚽',
+    bar:    'linear-gradient(to right, #1a3a8f, #D0021B)',
+    photos: [
+      { url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1100&q=85', title: 'Cancha principal',   tag: 'Deportes' },
+      { url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=1100&q=85', title: 'Baloncesto',         tag: 'Deportes' },
+      { url: 'https://images.unsplash.com/photo-1547347298-4074fc3086f0?w=1100&q=85', title: 'Zona de recreación', tag: 'Bienestar' },
+    ]
+  },
+  {
+    label:  '<em>Enfermería</em> & Bienestar',
+    desc:   'Atención en salud permanente. Nuestro equipo médico vela por el bienestar físico y emocional de toda la comunidad.',
+    icon:   '🏥',
+    bar:    'linear-gradient(to right, #4a7acc, #1a3a8f)',
+    photos: [
+      { url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1100&q=85', title: 'Área de atención',  tag: 'Salud' },
+      { url: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1100&q=85', title: 'Primeros auxilios', tag: 'Bienestar' },
+      { url: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=1100&q=85', title: 'Cuidado integral',  tag: 'Salud' },
+    ]
+  },
+];
+
+/* ══════════════════════════════════
+   STATE
+══════════════════════════════════ */
+let curCat   = 0;
+let curPhoto = 0;
+let transitioning = false;
+
+/* ══════════════════════════════════
+   ELEMENTS
+══════════════════════════════════ */
+const catBtns   = document.querySelectorAll('.amb-cat');
+const infoEl    = document.getElementById('amb-info');
+const titleEl   = document.getElementById('amb-cat-title');
+const descEl    = document.getElementById('amb-cat-desc');
+const thumbsEl  = document.getElementById('amb-thumbs');
+const pcurEl    = document.getElementById('amb-pcur');
+const ptotalEl  = document.getElementById('amb-ptotal');
+const slidesEl  = document.getElementById('amb-slides');
+const pipsEl    = document.getElementById('amb-pips');
+const vnumEl    = document.getElementById('amb-vnum');
+const vbarEl    = document.getElementById('amb-vbar');
+
+/* ══════════════════════════════════
+   BUILD SLIDES FOR A CATEGORY
+══════════════════════════════════ */
+function buildSlides(catIdx) {
+  const cat = CATS[catIdx];
+
+  // Slides
+  slidesEl.innerHTML = '';
+  cat.photos.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'amb-slide' + (i === 0 ? ' active' : '');
+    div.innerHTML = `
+      <img src="${p.url}" alt="${p.title}">
+      <div class="amb-slide-grad"></div>
+      <div class="amb-slide-cap">
+        <div class="amb-slide-cat-tag">${p.tag}</div>
+        <div class="amb-slide-title">${p.title}</div>
+      </div>`;
+    slidesEl.appendChild(div);
+  });
+
+  // Pips
+  pipsEl.innerHTML = '';
+  cat.photos.forEach((_, i) => {
+    const pip = document.createElement('div');
+    pip.className = 'amb-pip' + (i === 0 ? ' active' : '');
+    pip.addEventListener('click', () => goToPhoto(i));
+    pipsEl.appendChild(pip);
+  });
+
+  // Thumbs
+  thumbsEl.innerHTML = '';
+  cat.photos.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'amb-thumb' + (i === 0 ? ' active' : '');
+    div.dataset.photo = i;
+    div.innerHTML = `<img src="${p.url}" alt="">`;
+    div.addEventListener('click', () => goToPhoto(i));
+    thumbsEl.appendChild(div);
+  });
+
+  // Bar gradient
+  vbarEl.style.background = cat.bar;
+  // Total
+  ptotalEl.textContent = cat.photos.length;
+}
+
+/* ══════════════════════════════════
+   GO TO PHOTO (within category)
+══════════════════════════════════ */
+function goToPhoto(idx, dir) {
+  if (transitioning) return;
+  const slides = slidesEl.querySelectorAll('.amb-slide');
+  if (!slides.length) return;
+  const total = slides.length;
+  const next  = ((idx % total) + total) % total;
+  if (next === curPhoto && idx !== undefined) return;
+
+  transitioning = true;
+  const exitClass = (dir === 'left' || (dir === undefined && next > curPhoto)) ? 'exit-left' : 'exit-right';
+
+  slides[curPhoto].classList.remove('active');
+  slides[curPhoto].classList.add(exitClass);
+
+  setTimeout(() => {
+    slides[curPhoto].classList.remove(exitClass);
+    curPhoto = next;
+    slides[curPhoto].classList.add('active');
+    syncPhotoUI();
+    transitioning = false;
+  }, 120);
+
+  // optimistic UI
+  curPhoto = next;
+  syncPhotoUI();
+}
+
+function syncPhotoUI() {
+  // pips
+  pipsEl.querySelectorAll('.amb-pip').forEach((p, i) => p.classList.toggle('active', i === curPhoto));
+  // thumbs
+  thumbsEl.querySelectorAll('.amb-thumb').forEach((t, i) => t.classList.toggle('active', i === curPhoto));
+  // counter
+  pcurEl.textContent = curPhoto + 1;
+  vnumEl.textContent = String(curPhoto + 1).padStart(2,'0') + ' / ' + String(CATS[curCat].photos.length).padStart(2,'0');
+}
+
+/* ══════════════════════════════════
+   GO TO CATEGORY
+══════════════════════════════════ */
+function goToCat(idx) {
+  if (idx === curCat) return;
+
+  // Animate info out
+  infoEl.classList.add('amb-info-changing');
+
+  setTimeout(() => {
+    curCat   = idx;
+    curPhoto = 0;
+
+    // Update text
+    titleEl.innerHTML = CATS[idx].label;
+    descEl.textContent = CATS[idx].desc;
+
+    // Rebuild slides + thumbs
+    buildSlides(idx);
+
+    // Sync cat buttons
+    catBtns.forEach((b, i) => b.classList.toggle('active', i === idx));
+
+    // counter
+    pcurEl.textContent = 1;
+    vnumEl.textContent = '01 / 0' + CATS[idx].photos.length;
+
+    infoEl.classList.remove('amb-info-changing');
+  }, 250);
+}
+
+/* ══════════════════════════════════
+   EVENT LISTENERS
+══════════════════════════════════ */
+catBtns.forEach((btn, i) => btn.addEventListener('click', () => goToCat(i)));
+
+document.getElementById('amb-prev').addEventListener('click', () => goToPhoto(curPhoto - 1, 'right'));
+document.getElementById('amb-next').addEventListener('click', () => goToPhoto(curPhoto + 1, 'left'));
+document.getElementById('amb-pnl').addEventListener('click',  () => goToPhoto(curPhoto - 1, 'right'));
+document.getElementById('amb-pnr').addEventListener('click',  () => goToPhoto(curPhoto + 1, 'left'));
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goToPhoto(curPhoto + 1, 'left');
+  if (e.key === 'ArrowLeft')  goToPhoto(curPhoto - 1, 'right');
+});
+
+// Touch swipe on viewer
+let swipeX = 0;
+const viewer = document.getElementById('amb-viewer');
+viewer.addEventListener('touchstart', e => swipeX = e.touches[0].clientX, { passive: true });
+viewer.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - swipeX;
+  if (Math.abs(dx) > 45) goToPhoto(curPhoto + (dx < 0 ? 1 : -1), dx < 0 ? 'left' : 'right');
+});
+
+/* ══════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('on');
+    io.unobserve(e.target);
+  });
+}, { threshold: 0.12 });
+
+['amb-header','amb-cats'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) io.observe(el);
+});
+
+const infoIo = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('on');
+    infoIo.unobserve(e.target);
+  });
+}, { threshold: 0.1 });
+infoIo.observe(infoEl);
+
+const viewerIo = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('on');
+    viewerIo.unobserve(e.target);
+  });
+}, { threshold: 0.1 });
+viewerIo.observe(viewer);
+
+/* ══════════════════════════════════
+   INIT
+══════════════════════════════════ */
+buildSlides(0);
+
+// Auto-advance photos every 4s
+let autoT = setInterval(() => goToPhoto(curPhoto + 1, 'left'), 4000);
+document.getElementById('ambiente').addEventListener('mouseenter', () => clearInterval(autoT));
+document.getElementById('ambiente').addEventListener('mouseleave', () => {
+  clearInterval(autoT);
+  autoT = setInterval(() => goToPhoto(curPhoto + 1, 'left'), 4000);
+});
+
+})();
+</script>
+{% endblock %}

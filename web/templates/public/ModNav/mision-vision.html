@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Misión y Visión | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
+<section class="py-16 px-4 bg-gradient-to-b from-white via-sky-50 to-white">
+  <div class="max-w-5xl mx-auto space-y-20">
+
+    <!-- Título general -->
+    <div class="text-center space-y-4" data-aos="fade-up">
+      <h2 class="exp-title">Colegio<em>Suazapawa</em>
+      </h2>
+      <br>
+      <p class="text-xl text-red-800 font-medium">
+        Nuestra identidad institucional y proyección
+      </p>
+    </div>
+
+    <!-- Misión -->
+    <div class="space-y-6" data-aos="fade-up" data-aos-delay="100">
+      <div class="flex items-center gap-3">
+        <span class="inline-block w-2 h-10 bg-red-600 rounded-lg"></span>
+        <h3 class="text-3xl font-bold text-red-800">Misión</h3>
+      </div>
+
+      <div class="bg-white shadow-lg rounded-2xl border border-red-100 p-8 leading-relaxed">
+        <p class="text-black text-lg">
+          El Colegio Suazapawa tiene como misión brindar una educación integral y de calidad,
+          fundamentada en valores humanos, éticos y ciudadanos. Nuestro enfoque promueve el
+          desarrollo académico, emocional, artístico y social, formando estudiantes capaces de
+          liderar transformaciones positivas en su comunidad y en su entorno.
+        </p>
+      </div>
+    </div>
+ <br>
+    <!-- Visión -->
+    <div class="space-y-6" data-aos="fade-up" data-aos-delay="200">
+      <div class="flex items-center gap-3">
+        <span class="inline-block w-2 h-10 bg-green-600 rounded-lg"></span>
+        <h3 class="text-3xl font-bold text-green-800">Visión</h3>
+      </div>
+
+      <div class="bg-white shadow-lg rounded-2xl border border-sky-200 p-8 leading-relaxed">
+        <p class="text-black text-lg">
+          Para el año 2030 seremos una institución reconocida por su excelencia académica,
+          innovación y compromiso con la inclusión. Formamos ciudadanos críticos, autónomos
+          y comprometidos con el desarrollo sostenible y la construcción de paz. En Suazapawa,
+          cada estudiante es protagonista activo de su aprendizaje y un motor de cambio social.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+@media (max-width: 768px) {
+  .text-justify {
+    text-align: left !important;
+  }
+}
+</style>
+{% endblock %}

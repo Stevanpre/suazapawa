@@ -1,0 +1,110 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/eventos.css' %}">
+
+<section id="eventos" class="py-20">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <!-- Header -->
+    <div class="ev-header ev-reveal">
+      <div class="ev-eyebrow">
+        <span class="ev-eyebrow-dot"></span>
+        Agenda institucional
+      </div>
+       <h2 class="exp-title">Eventos <em>Destacados</em>
+      <div class="exp-title-line"></div>
+    </div>
+
+    {% if eventos %}
+      <div class="ev-grid">
+        {% for evento in eventos %}
+          <div class="ev-card ev-reveal" style="transition-delay: {{ forloop.counter0 }}00ms">
+
+            <!-- Barra de acento animada -->
+            <div class="ev-card-accent"></div>
+
+            {% if evento.imagen %}
+              <!-- Imagen con badge de fecha -->
+              <div class="ev-card-img">
+                <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}" loading="lazy">
+                <div class="ev-date-badge">
+                  <span class="ev-date-day">{{ evento.fecha|date:"d" }}</span>
+                  <span class="ev-date-month">{{ evento.fecha|date:"M" }}</span>
+                </div>
+              </div>
+            {% else %}
+              <!-- Placeholder sin imagen -->
+              <div class="ev-card-img-placeholder">
+                📅
+                <div class="ev-date-badge">
+                  <span class="ev-date-day">{{ evento.fecha|date:"d" }}</span>
+                  <span class="ev-date-month">{{ evento.fecha|date:"M" }}</span>
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="ev-card-body">
+              <div class="ev-card-title">{{ evento.titulo }}</div>
+
+              {% if evento.descripcion_corta %}
+                <p class="ev-card-desc">{{ evento.descripcion_corta }}</p>
+              {% endif %}
+
+              <div class="ev-card-footer">
+                {% if evento.lugar %}
+                  <div class="ev-card-lugar">
+                    <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                      <path d="M5.5 1C3.57 1 2 2.57 2 4.5c0 2.7 3.5 5.5 3.5 5.5s3.5-2.8 3.5-5.5C9 2.57 7.43 1 5.5 1z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                      <circle cx="5.5" cy="4.5" r="1.2" fill="currentColor"/>
+                    </svg>
+                    {{ evento.lugar }}
+                  </div>
+                {% endif %}
+                <span class="ev-card-tag">{{ evento.fecha|date:"Y" }}</span>
+              </div>
+            </div>
+
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="ev-cta-wrap ev-reveal" style="transition-delay:300ms">
+        <a href="{% url 'calendario' %}" class="ev-cta">
+          <span>Ver todos los eventos</span>
+          <div class="ev-cta-arrow">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+              <path d="M1.5 5.5h8M6.5 2l3 3.5-3 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </a>
+      </div>
+
+    {% else %}
+      <div class="ev-empty ev-reveal">
+        <div class="ev-empty-icon">📅</div>
+        <p>No hay eventos disponibles por el momento.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% block extra_js %}
+<script>
+(function () {
+  /* Reveal on scroll con IntersectionObserver */
+  const items = document.querySelectorAll('#eventos .ev-reveal');
+  if (!items.length) return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('ev-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  items.forEach(el => io.observe(el));
+})();
+</script>
+{% endblock %}

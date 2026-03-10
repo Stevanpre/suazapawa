@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ubicación | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
+<section class="relative overflow-hidden py-12 px-4 md:px-12 bg-gray-300">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Título principal -->
+    <div class="text-center mb-12" data-aos="fade-down">
+      <h2 class="exp-title">📍 ¿Dónde Estamos <em>Ubicados?</em>
+      </h2>
+      <br>
+      <p class="text-lg md:text-xl text-red-700 font-medium">Ubicación oficial del Centro Educativo Suazapawa</p>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+
+      <!-- Imagen ilustrativa -->
+      <div class="aspect-[4/5] rounded-3xl shadow-xl overflow-hidden">
+  <img src="{% static 'img/ubicacion.JPG' %}" alt="Mapa Ilustrado"
+       class="w-full h-full object-cover">
+</div>
+
+
+      <!-- Tarjeta con dirección y mapa -->
+      <div data-aos="fade-left">
+        <div class="bg-white border-2 border-sky-100 rounded-3xl p-6 shadow-xl hover:shadow-2xl transition duration-300">
+          <h3 class="text-2xl font-bold text-black mb-4">🏫 Dirección Física:</h3>
+          <p class="text-black text-base leading-relaxed mb-6">
+            Centro Educativo Suazapawa<br>
+            Vía Duitama–Nobsa Km 13, Nobsa, Boyacá<br>
+            <span class="text-red-700 font-semibold">📞 Contacto: 313 4188407</span>
+          </p>
+
+          <!-- Mapa responsivo -->
+          <div class="aspect-w-16 aspect-h-9 mb-5 rounded-2xl overflow-hidden shadow">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0911527249927!2d-72.96889968467725!3d5.757726893060829!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e6a46e6e07c5b91%3A0x383451ef2186e5cc!2sCentro%20Educativo%20Suazapawa!5e0!3m2!1ses-419!2sco!4v1720318800000!5m2!1ses-419!2sco"
+              class="w-full h-full border-0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+
+          <!-- Botón Google Maps -->
+          <div class="text-right">
+            <a href="https://www.google.com/maps/place/Centro+Educativo+Suazapawa/@5.7577269,-72.9663102,17z/data=!3m1!4b1!4m6!3m5!1s0x8e6a46e6e07c5b91:0x383451ef2186e5cc!8m2!3d5.7577269!4d-72.9663102!16s%2Fg%2F1tt1j869?entry=ttu"
+              target="_blank"
+              class="inline-block bg-sky-800 hover:bg-rose-600 transition-colors duration-300 text-white font-semibold py-2 px-5 rounded-full shadow">
+              🌍 Ver en Google Maps
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Soporte para la relación de aspecto sin plugin Tailwind aspect-ratio */
+.aspect-w-16 {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+.aspect-w-16 iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
+{% endblock %}

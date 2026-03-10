@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sobre Nosotros | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
+<!-- HERO -->
+<section class="bg-gray-300 py-16">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+        <!-- Imagen -->
+        <div class="flex justify-center" data-aos="fade-right">
+            <img src="{% static 'img/fondo1Ex.JPG' %}"
+                 class="w-full max-w-lg rounded-2xl shadow-xl object-cover"
+                 alt="Imagen institucional del colegio">
+        </div>
+
+        <!-- Texto -->
+        <div class="space-y-4" data-aos="fade-left">
+            <h2 class="exp-title">Colegio <em>Suazapawa</em>
+      </h2>
+      <br>
+            <p class="text-2xl font-bold text-red-700">+35 años de historia</p>
+
+            <p class="text-black text-2xl justify-center">
+                Educamos con ciencia, valores y humanidad. Un espacio donde cada
+                estudiante desarrolla su potencial en un entorno seguro, respetuoso
+                y profundamente formativo.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<!-- NUESTRA HISTORIA -->
+<section class="py-16 bg-gray-300">
+    <div class="max-w-4xl mx-auto px-6 text-center space-y-6" data-aos="fade-up">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-blue-900">📚 Nuestra Historia</h2>
+
+        <p class="text-black text-2xl text-justify">
+            Desde nuestra fundación, hemos crecido junto a miles de familias
+            que creen en la educación como motor de transformación.
+            Suazapawa se ha consolidado como una institución que combina
+            excelencia académica, desarrollo humano y un profundo compromiso social.
+        </p>
+
+    </div>
+</section>
+
+<!-- VALORES -->
+<section class="py-16 bg-gray-300">
+    <h2 class="text-center text-3xl md:text-4xl font-bold text-blue-900 mb-10" data-aos="fade-up">
+        💡 Nuestros Valores
+    </h2>
+
+    <div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="100">
+
+        <!-- Valor -->
+        <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
+            <div class="text-4xl mb-2">🤝</div>
+            <p class="font-semibold">Respeto</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
+            <div class="text-4xl mb-2">🧠</div>
+            <p class="font-semibold">Responsabilidad</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
+            <div class="text-4xl mb-2">💬</div>
+            <p class="font-semibold">Honestidad</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition text-center">
+            <div class="text-4xl mb-2">🌍</div>
+            <p class="font-semibold">Compromiso</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="py-20 bg-gray-300">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <h2 class="text-center text-3xl md:text-4xl font-bold text-blue-900 mb-12" data-aos="fade-up">
+            🌟 Testimonios de Nuestra Comunidad
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+            <div class="p-8 rounded-2xl bg-gray-50 shadow" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-black text-lg leading-relaxed">
+                    “Suazapawa me enseñó a amar el aprendizaje. Los docentes inspiran, acompañan
+                    y construyen confianza todos los días.”
+                </p>
+                <div class="text-right mt-4 font-semibold text-sky-800">
+                    – Estudiante Anónimo
+                </div>
+            </div>
+
+            <div class="p-8 rounded-2xl bg-gray-50 shadow" data-aos="fade-up" data-aos-delay="200">
+                <p class="text-black text-lg leading-relaxed">
+                    “Cada día vemos cómo el colegio aporta no solo educación,
+                    sino valores que fortalecen a nuestros hijos.”
+                </p>
+                <div class="text-right mt-4 font-semibold text-sky-800">
+                    – Padre de Familia
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

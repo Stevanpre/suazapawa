@@ -1,0 +1,174 @@
+{% load static %}
+{% block extra_css %}
+<style>
+.navbar-gradient {
+    background: linear-gradient(135deg, #000000, #0352ca); /* sky-700 to sky-100 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+  .animate-expand {
+    animation: expand 1.2s ease-out forwards;
+  }
+
+  @keyframes expand {
+    from { transform: scaleX(0); opacity: 0; }
+    to   { transform: scaleX(1); opacity: 1; }
+  }
+
+  [data-dropdown] {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: static;
+    z-index: 50;
+  }
+
+  @media (min-width: 1024px) {
+    [data-dropdown] {
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
+  }
+
+  [data-dropdown].active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 50%;
+    background: linear-gradient(90deg, #ffffff, #a78bfa);
+    transition: width 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .nav-item:hover::after {
+    width: 100%;
+  }
+
+  #mobile-menu {
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    overflow: hidden;
+  }
+
+  .hide-navbar {
+    transform: translateY(-100%);
+  }
+</style>
+<link href="{% static 'vendor/fontawesome/css/all.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+<nav id="navbar" class="sticky top-0 z-50 transition-transform duration-300 ease-in-out">
+  <div class="w-full px-6 sm:px-8 lg:px-10 navbar-gradient shadow-lg animate-expand">
+    <div class="flex justify-between items-center h-20 flex-wrap">
+
+      <!-- Logo -->
+      {% include 'public/includes/secciones/navbar_logo.html' %}
+
+      <!-- Botón hamburguesa en móvil -->
+      <div class="lg:hidden">
+        <button id="hamburger-btn" class="text-white text-2xl focus:outline-none">
+          <i class="fas fa-bars" id="hamburger-icon"></i>
+        </button>
+      </div>
+
+      <!-- Enlaces principales en escritorio -->
+      <div class="hidden lg:flex flex-wrap items-center justify-end gap-x-6 gap-y-4 mt-4 lg:mt-0">
+        {% include 'public/includes/secciones/navbar_suazapawa.html' %}
+        {% include 'public/includes/secciones/navbar_zona_academica.html' %}
+        {% include 'public/includes/secciones/navbar_links.html' %}
+        {% include 'public/includes/secciones/navbar_bienestar.html' %}
+        {% include 'public/includes/secciones/navbar_contacto.html' %}
+        {% include 'public/includes/secciones/navbar_usuario.html' %}
+      </div>
+    </div>
+
+    <!-- Menú móvil desplegable -->
+    <div id="mobile-menu" class="w-full hidden lg:hidden flex flex-col gap-y-4 pb-4 mt-2">
+      {% include 'public/includes/secciones/navbar_suazapawa.html' %}
+      {% include 'public/includes/secciones/navbar_zona_academica.html' %}
+      {% include 'public/includes/secciones/navbar_links.html' %}
+      {% include 'public/includes/secciones/navbar_bienestar.html' %}
+      {% include 'public/includes/secciones/navbar_contacto.html' %}
+      {% include 'public/includes/secciones/navbar_usuario.html' %}
+    </div>
+  </div>
+</nav>
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropdowns = document.querySelectorAll('[data-dropdown-container]');
+
+    dropdowns.forEach(drop => {
+      const button = drop.querySelector('button');
+      const content = drop.querySelector('[data-dropdown]');
+      let isClickOpen = false;
+
+      // Hover (escritorio)
+      drop.addEventListener('mouseenter', () => {
+        if (window.innerWidth >= 1024 && !isClickOpen) {
+          content.classList.add('active');
+        }
+      });
+
+      drop.addEventListener('mouseleave', () => {
+        if (window.innerWidth >= 1024 && !isClickOpen) {
+          content.classList.remove('active');
+        }
+      });
+
+      // Click toggle
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        isClickOpen = !isClickOpen;
+        content.classList.toggle('active', isClickOpen);
+      });
+
+      // Cerrar si se hace click fuera
+      document.addEventListener('click', (e) => {
+        if (!drop.contains(e.target)) {
+          isClickOpen = false;
+          content.classList.remove('active');
+        }
+      });
+    });
+
+    // Hamburguesa
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      hamburgerIcon.classList.toggle('fa-bars');
+      hamburgerIcon.classList.toggle('fa-xmark');
+    });
+
+    // Mostrar/ocultar navbar según scroll
+    let lastScrollTop = 0;
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+
+
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    });
+  });
+</script>
+{% endblock %}

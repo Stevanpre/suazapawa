@@ -1,0 +1,121 @@
+{% load static %}
+
+{% block extra_css %}
+<style>
+  .footer-gradient {
+    background: linear-gradient(135deg, #000000, #0352ca); /* sky-700 to sky-100 */
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.15) 2px, transparent 2px);
+    background-size: 50px 50px;
+    opacity: 0.1;
+    z-index: 0;
+  }
+
+  .footer-gradient .footer-content {
+    position: relative;
+    z-index: 10;
+  }
+
+  .footer-gradient a:hover {
+    color: #bae6fd; /* sky-200 */
+    transition: all 0.3s ease;
+    transform: translateX(2px);
+  }
+
+  .footer-gradient i {
+    color: #7dd3fc; /* sky-300 */
+  }
+
+  .footer-gradient .social-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+</style>
+{% endblock %}
+
+<footer class="footer-gradient">
+  <div class="footer-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+      <!-- Contacto -->
+      <div data-aos="fade-up" class="space-y-4">
+        <h3 class="text-lg font-bold flex items-center">
+          <i class="fas fa-school w-5 h-5 mr-2"></i>
+          Información de Contacto
+        </h3>
+        <ul class="text-sm space-y-2">
+          <li class="flex items-start">
+            <i class="fas fa-map-marker-alt w-4 h-4 mt-1 mr-2"></i>
+            Vía Duitama-Nobsa Km 13, Boyacá
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-phone w-4 h-4 mr-2"></i>
+            313 4188407
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-envelope w-4 h-4 mr-2"></i>
+            suazapawa@yahoo.com
+          </li>
+            <li class="flex items-center">
+            <i class="fas fa-envelope w-4 h-4 mr-2"></i>
+              rectoria@suazapawa.edu.co
+          </li>
+        </ul>
+      </div>
+
+      <!-- Redes Sociales -->
+      <div data-aos="fade-up" data-aos-delay="100" class="space-y-4">
+        <h3 class="text-lg font-bold flex items-center">
+          <i class="fas fa-share-alt w-5 h-5 mr-2"></i>
+          Síguenos
+        </h3>
+        <div class="flex space-x-4">
+          <a href="https://www.facebook.com/suazapawafanpage/?locale=es_LA" target="_blank"
+             class="social-icon w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center transition-all duration-300">
+            <i class="fab fa-facebook-f text-lg"></i>
+          </a>
+          <a href="https://www.instagram.com/suazapawa/?hl=es&source=omni_redirect" target="_blank"
+             class="social-icon w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center transition-all duration-300">
+            <i class="fab fa-instagram text-lg"></i>
+          </a>
+          <a href="https://wa.me/573134188407" target="_blank"
+             class="social-icon w-12 h-12 bg-green-800 rounded-full flex items-center justify-center transition-all duration-300">
+            <i class="fab fa-whatsapp text-lg"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Enlaces rápidos -->
+      <div data-aos="fade-up" data-aos-delay="200" class="space-y-4">
+        <h3 class="text-lg font-bold flex items-center">
+          <i class="fas fa-link w-5 h-5 mr-2"></i>
+          Enlaces Rápidos
+        </h3>
+        <div class="grid grid-cols-2 gap-3 text-sm">
+          <a href="{% url 'somos' %}">¿Quiénes Somos?</a>
+          <a href="{% url 'mision' %}">Misión - Visión</a>
+          <a href="{% url 'calendario' %}">Calendario</a>
+          <a href="{% url 'textoescolar' %}">Noticias</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Línea final -->
+    <div class="border-t border-white/20 pt-8">
+      <div class="flex flex-col md:flex-row justify-between items-center text-sm text-white/80 gap-4">
+        <p>© 2025 Suazapawa - Todos los derechos reservados</p>
+        <p class="flex items-center gap-1">
+          Desarrollado con <i class="fas fa-heart text-red-400 animate-pulse"></i> por <i class="fas fa-code"></i>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

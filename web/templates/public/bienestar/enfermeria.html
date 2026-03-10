@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Enfermería Escolar | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
+<section class="bg-gradient-to-b from-sky-50 to-white " data-aos="fade-up">
+
+  <div class="max-w-4xl mx-auto text-center">
+    <!-- Imagen destacada -->
+    <div class="relative overflow-hidden rounded-2xl shadow-xl" data-aos="zoom-in"></div>
+      <section class="bg-gradient-to-b from-sky-50 to-white py-16" data-aos="fade-up">
+
+  <div class="max-w-4xl mx-auto space-y-8">
+    <!-- TÍTULO ARRIBA (fuera de la imagen) -->
+    <h2 class="exp-title">🩺 Enfermería <em>Suazapawa</em>
+      </h2>
+      <br>
+    <!-- Imagen destacada abajo -->
+    <div class="relative overflow-hidden rounded-2xl shadow-xl" data-aos="zoom-in">
+      <img src="{% static 'img/enfermeria1.JPG' %}"
+           alt="Seguridad escolar Suazapawa"
+           class="w-full object-cover object-center h-96 md:h-[500px] transition-transform duration-700 hover:scale-105">
+    </div>
+  </div>
+</section>
+
+    <!-- Descripción general -->
+    <div data-aos="fade-up" data-aos-delay="100">
+      <h3 class="text-4xl font-semibold text-blue-900 mb-4">Cuidado integral dentro del colegio</h3>
+      <p class="text-black leading-relaxed mb-10">
+        Contar con enfermería escolar garantiza atención inmediata ante emergencias, manejo seguro de enfermedades crónicas y espacios de educación en salud para toda la comunidad escolar.
+      </p>
+    </div>
+
+    <!-- Beneficios en lista -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8
+            place-items-center md:place-items-start"
+     data-aos="fade-up" data-aos-delay="200">
+
+      <div class="space-y-4">
+        <h4 class="text-2xl font-bold text-blue-800"><i class="fas fa-first-aid mr-2"></i> Atención y urgencias</h4>
+        <p class="text-black">
+          Actuamos con rapidez en casos de lesiones o emergencias, y contamos con protocolos médicos claros para actuar con seguridad y confianza.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <h4 class="text-2xl font-bold text-blue-900"><i class="fas fa-pills mr-2"></i> Manejo de enfermedades crónicas</h4>
+        <p class="text-black">
+          Supervisión constante en casos como asma, alergias o diabetes, con administración controlada de medicaciones según prescripción médica y autorización parental.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <h4 class="text-2xl font-bold text-blue-900"><i class="fas fa-chalkboard-teacher mr-2"></i> Educación en salud</h4>
+        <p class="text-black">
+          Realizamos talleres sobre higiene, nutrición, primeros auxilios, RCP, prevención de adicciones y salud emocional para formar hábitos saludables.
+        </p>
+      </div>
+
+      <div class="space-y-4 mb-10">
+        <h4 class="text-2xl font-bold text-blue-900"><i class="fas fa-users-cog mr-2"></i> Bienestar comunitario</h4>
+        <p class="text-black">
+          Coordinación con docentes, padres y servicios externos para detectar problemas de salud, disminuir ausentismo y construir un entorno educativo más seguro.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+{% endblock %}

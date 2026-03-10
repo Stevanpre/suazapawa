@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Seguridad Escolar | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<style>
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+
+<section class="bg-gradient-to-b from-sky-50 to-white " data-aos="fade-up">
+
+  <div class="max-w-4xl mx-auto text-center">
+    <!-- Imagen destacada -->
+    <div class="relative overflow-hidden rounded-2xl shadow-xl" data-aos="zoom-in"></div>
+      <section class="bg-gradient-to-b from-sky-50 to-white py-16" data-aos="fade-up">
+
+  <div class="max-w-4xl mx-auto space-y-8">
+    <!-- TÍTULO ARRIBA (fuera de la imagen) -->
+    <h2 class="exp-title">🛡️ Seguridad <em>Suazapawa</em>
+      </h2>
+      <br>
+    <!-- Imagen destacada abajo -->
+    <div class="relative overflow-hidden rounded-2xl shadow-xl" data-aos="zoom-in">
+      <img src="{% static 'img/seguridad1.JPG' %}"
+           alt="Seguridad escolar Suazapawa"
+           class="w-full object-cover object-center h-96 md:h-[500px] transition-transform duration-700 hover:scale-105">
+    </div>
+  </div>
+
+</section>
+    <!-- Descripción general -->
+    <div data-aos="fade-up" data-aos-delay="100">
+      <h3 class="text-5xl font-semibold text-blue-900 mb-10">Protección en entornos escolares y rutas</h3>
+      <p class="text-black leading-relaxed mb-10">
+        Aplicamos protocolos integrales de seguridad y emergencia, coordinación con autoridades y medidas preventivas para garantizar un entorno seguro dentro y fuera del colegio.
+      </p>
+    </div>
+
+
+    <!-- Beneficios en lista -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8
+            place-items-center md:place-items-start"
+     data-aos="fade-up" data-aos-delay="200">
+
+  <div class="space-y-4">
+    <h4 class="text-xl font-bold text-blue-900">
+      <i class="fas fa-lock mr-2"></i> Control de acceso y vigilancia
+    </h4>
+    <p class="text-black">
+      Implementamos control de accesos, cámaras de videovigilancia monitoreadas y personal de seguridad capacitado.
+    </p>
+  </div>
+
+  <div class="space-y-4">
+    <h4 class="text-xl font-bold text-blue-900">
+      <i class="fas fa-school mr-2"></i> Estrategia Zona Escolar Segura
+    </h4>
+    <p class="text-black">
+      En coordinación con la Policía Metropolitana, desarrollamos la estrategia “Zona Escolar Segura” para proteger entradas y salidas del colegio, con patrullajes y escuadrones especializados.
+    </p>
+  </div>
+
+  <div class="space-y-4">
+    <h4 class="text-xl font-bold text-blue-900">
+      <i class="fas fa-bullhorn mr-2"></i> Simulacros y protocolos de emergencia
+    </h4>
+    <p class="text-black">
+      Además de un Plan Integral de Seguridad Escolar, realizamos simulacros periódicos de evacuación, emergencias médicas y protocolos claros para incendios o amenazas externas.
+    </p>
+  </div>
+
+  <div class="space-y-4 mb-10">
+    <h4 class="text-xl font-bold text-blue-900">
+      <i class="fas fa-hand-holding-medical mr-2"></i> Cultura de prevención comunitaria
+    </h4>
+    <p class="text-black">
+      Organizamos charlas y campañas de prevención con padres, estudiantes y profesores, para tratar acoso, uso responsable de internet y convivencia pacífica.
+    </p>
+  </div>
+
+</div>
+
+  </div>
+</section>
+
+{% endblock %}

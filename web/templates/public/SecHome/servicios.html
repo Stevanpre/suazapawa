@@ -1,0 +1,87 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/servicios.css' %}">
+
+<!-- SERVICIOS SECTION -->
+
+<section id="servicios">
+  <div class="srv-inner">
+
+    <!-- Header -->
+    <div class="srv-head" id="srv-head">
+      <div class="srv-chip"><div class="srv-chip-dot"></div> Bienestar Estudiantil</div>
+      <h2 class="exp-title">Servicios <em>Integrales</em>
+      </h2>
+    </div>
+
+    <!-- Grid -->
+    <div class="srv-grid">
+
+      <!-- Transporte -->
+      <a href="{% url 'transporte' %}" class="srv-card sc-blue" data-d="0">
+        <div class="srv-card-bar"></div>
+        <div class="srv-icon-wrap"><i class="fas fa-bus"></i></div>
+        <div class="srv-card-title">Transporte Escolar</div>
+        <p class="srv-card-desc">Rutas seguras y monitoreadas, adaptadas a los diferentes sectores de la ciudad.</p>
+        <div class="srv-card-link">Ver más detalles <span class="srv-arrow">→</span></div>
+      </a>
+
+      <!-- Enfermería -->
+      <a href="{% url 'enfermeria' %}" class="srv-card sc-green" data-d="100">
+        <div class="srv-card-bar"></div>
+        <div class="srv-icon-wrap"><i class="fas fa-heartbeat"></i></div>
+        <div class="srv-card-title">Enfermería Escolar</div>
+        <p class="srv-card-desc">Atención médica primaria, primeros auxilios y seguimiento continuo a la salud de los estudiantes.</p>
+        <div class="srv-card-link">Ver más detalles <span class="srv-arrow">→</span></div>
+      </a>
+
+      <!-- Restaurante -->
+      <a href="{% url 'restaurante' %}" class="srv-card sc-red" data-d="200">
+        <div class="srv-card-bar"></div>
+        <div class="srv-icon-wrap"><i class="fas fa-utensils"></i></div>
+        <div class="srv-card-title">Restaurante Escolar</div>
+        <p class="srv-card-desc">Alimentación nutritiva y balanceada, con menús diarios planificados por profesionales.</p>
+        <div class="srv-card-link">Ver más detalles <span class="srv-arrow">→</span></div>
+      </a>
+
+      <!-- Seguridad -->
+      <a href="{% url 'seguridad' %}" class="srv-card sc-navy" data-d="300">
+        <div class="srv-card-bar"></div>
+        <div class="srv-icon-wrap"><i class="fas fa-shield-alt"></i></div>
+        <div class="srv-card-title">Seguridad Integral</div>
+        <p class="srv-card-desc">Vigilancia 24/7, control de acceso y protocolos de emergencia activos en todo momento.</p>
+        <div class="srv-card-link">Ver más detalles <span class="srv-arrow">→</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      setTimeout(() => e.target.classList.add('on'), +(e.target.dataset.d || 0));
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12 });
+
+  document.getElementById('srv-head') && io.observe(document.getElementById('srv-head'));
+  document.querySelectorAll('.srv-card').forEach(el => io.observe(el));
+
+  // Subtle 3D tilt
+  document.querySelectorAll('.srv-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r  = card.getBoundingClientRect();
+      const rx = ((e.clientY - r.top  - r.height/2) / r.height) * -5;
+      const ry = ((e.clientX - r.left - r.width /2) / r.width)  *  5;
+      card.style.transform  = `translateY(-5px) perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      card.style.transition = 'transform 0.08s linear';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform  = '';
+      card.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1), background .3s ease, border-color .3s ease, box-shadow .3s ease';
+    });
+  });
+})();
+</script>

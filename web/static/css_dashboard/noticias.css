@@ -1,0 +1,145 @@
+/* ══ NOTICIAS DASHBOARD CSS ══ */
+
+/* ── Sistema de diseño ── */
+.content-card {
+  background: white; border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid rgba(226,232,240,0.8); overflow: hidden;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px 14px; border-bottom: 1px solid #f1f5f9;
+}
+
+/* ── Lista con scroll dinámico ── */
+.news-list-scroll {
+  overflow-y: auto;
+  max-height: 72vh;
+}
+
+/* ── Inputs ── */
+.field-wrap { display: flex; flex-direction: column; gap: 6px; }
+.field-label {
+  font-size: 0.8rem; font-weight: 700; color: #475569;
+  display: flex; align-items: center; gap: 6px;
+}
+.lbl-icon {
+  width: 24px; height: 24px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; flex-shrink: 0;
+}
+/* Antes aplicaba a todos los span y comprimía el texto */
+.field-label > .lbl-icon {
+  width: 26px; height: 26px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; flex-shrink: 0;
+}
+
+/* Label de descripción más respirado */
+.field-label-description {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  row-gap: 2px;
+}
+.field-label-description .label-main {
+  line-height: 1.2;
+}
+.field-label-description .label-sub {
+  flex-basis: 100%;
+  margin-left: 32px;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #94a3b8;
+  line-height: 1.25;
+}
+.field-input {
+  width: 100%; padding: 10px 14px;
+  border: 1.5px solid #e2e8f0; border-radius: 12px;
+  font-size: 0.875rem; background: #f8fafc; color: #1e293b;
+  transition: all 0.25s ease; outline: none;
+  font-family: inherit; box-sizing: border-box;
+}
+.field-input:focus {
+  border-color: #8b5cf6; background: white;
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
+}
+textarea.field-input { resize: vertical; min-height: 100px; }
+
+/* ── Descripción con corte ── */
+.desc-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  line-height: 1.5;
+  max-height: 4.5em;
+}
+
+/* ── Botones ── */
+.btn-primary-grad {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+  color: white; font-weight: 700; font-size: 0.875rem;
+  padding: 11px 22px; border-radius: 12px; border: none; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(139,92,246,0.35); transition: all 0.25s ease;
+}
+.btn-primary-grad:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,92,246,0.45); }
+
+.btn-cancel-grad {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #f1f5f9; color: #64748b;
+  font-weight: 700; font-size: 0.875rem;
+  padding: 11px 20px; border-radius: 12px; border: 1.5px solid #e2e8f0;
+  cursor: pointer; transition: all 0.25s ease; text-decoration: none;
+}
+.btn-cancel-grad:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+
+/* ── Tarjetas de noticias ── */
+.news-card {
+  background: white; border: 1px solid #e2e8f0; border-radius: 16px;
+  padding: 18px 20px; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden;
+}
+.news-card::before {
+  content: ''; position: absolute;
+  left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%);
+}
+.news-card:hover {
+  border-color: #c4b5fd;
+  box-shadow: 0 8px 24px rgba(139,92,246,0.12);
+  transform: translateX(2px);
+}
+
+/* ── Botones acción ── */
+.action-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 10px;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  transition: all 0.2s ease; border: none; text-decoration: none;
+}
+.action-edit   { background: #fef3c7; color: #d97706; }
+.action-edit:hover   { background: #fde68a; transform: translateY(-1px); }
+.action-delete { background: #fee2e2; color: #dc2626; }
+.action-delete:hover { background: #fca5a5; transform: translateY(-1px); }
+
+/* ── Animaciones ── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim-1 { animation: slideUp 0.45s ease-out 0.05s both; }
+.anim-2 { animation: slideUp 0.45s ease-out 0.15s both; }
+
+/* ── Banner modo edición ── */
+.edit-mode-banner {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1.5px solid #fbbf24; border-radius: 12px;
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.85rem; font-weight: 600; color: #92400e;
+}
+

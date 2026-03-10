@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Suazapawa | Plataforma Escolar{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Tailwind CSS compilado -->
+  <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/logo-suazapawa.jpg' %}" />
+
+  <!-- Flowbite -->
+  <link href="{% static 'vendor/flowbite/dist/flowbite.min.css' %}" rel="stylesheet">
+
+
+  <!-- AOS (Animate On Scroll)-->
+  <link href="{% static 'vendor/aos/dist/aos.css' %}" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="{% static 'vendor/fontawesome/css/all.min.css' %} " rel="stylesheet">
+
+  {% block extra_css %}{% endblock %}
+
+  <!-- JS de Sienna Accessibility: cargar primero sienna (widget) y luego ajustes locales -->
+  <script src="{% static 'vendor/accesibilidad.js/sienna.js' %}"></script>
+  <script src="{% static 'vendor/accesibilidad.js/accesibilidad.js' %}"></script>
+
+</head>
+<body class="flex flex-col min-h-screen bg-gray-300 text-sky-900" data-theme="light">
+
+
+  {% include 'public/includes/navbar.html' %}
+
+  {# Django Messages #}
+  {% if messages %}
+    <div class="fixed top-4 right-4 space-y-2 z-50">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} shadow-lg">
+          <span>{{ message }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'public/includes/footer.html' %}
+
+  <!-- Scripts al final del body -->
+
+  <!-- Flowbite JS -->
+  <script src="{% static 'vendor/flowbite/dist/flowbite.min.js' %}"></script>
+  
+  <!-- Alpine.js -->
+
+  <script src="{% static 'vendor/alpinejs/cdn.min.js' %}" defer></script>
+  
+  <!-- AOS JS -->
+  <script src="{% static 'vendor/aos/dist/aos.js' %}"></script>
+  
+  <script>
+      AOS.init({
+      once: true,
+      duration: 800,
+      easing: 'ease-in-out'
+    });
+  </script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+      setTimeout(() => {
+        alert.classList.add('opacity-0', 'transition-opacity', 'duration-1000');
+        setTimeout(() => alert.remove(), 1000);
+      }, 3000); // ⏱️ 3 segundos antes de empezar a desaparecer mensajes django
+    });
+  });
+</script>
+
+
+  <!-- Vanilla-Tilt -->
+  <script src="{% static 'vendor/vanilla-tilt/vanilla-tilt.min.js' %}"></script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Proceso de Admisión | Suazapawa{% endblock %}
+
+{% block content %}
+<style>
+    
+/* ESTILOS EXACTOS DE LA SEGUNDA IMAGEN */
+    .institutional-header {
+        margin-bottom: 2.0rem;
+        position: relative;
+    }
+    
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+    /* FORZAMOS QUE TODO ESTÉ EN UNA SOLA LÍNEA */
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Aumenté el gap para separar más los elementos */
+}
+
+.exp-title .icon-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.exp-title .icon {
+    margin-right: 4px;
+}
+
+.exp-title .text-part {
+    white-space: nowrap;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+    display: inline-block;
+    margin-left: 8px; /* Espacio adicional antes de Admisión */
+    padding-left: 4px; /* Espacio interno */
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+/* Responsive: en móvil sí permitimos que se envuelva */
+@media (max-width: 500px) {
+    .exp-title {
+        white-space: normal;
+        flex-wrap: wrap;
+    }
+}
+</style>
+
+<section class="bg-gradient-to-br from-blue-50 to-white py-20 px-6">
+  <div class="max-w-3xl mx-auto">
+
+    <div class="text-center mb-12" data-aos="fade-up">
+      <!-- Título con separación visual -->
+      <h2 class="exp-title">
+        <span class="icon-text">
+          <span class="icon">👨‍💻</span>
+          <span class="text-part">Proceso de</span>
+        </span>
+        <em>Admisión</em>
+      </h2>
+      <br>
+
+    <!-- ── Mensajes de Django ── -->
+    {% if messages %}
+    <div class="mb-8 space-y-3">
+      {% for message in messages %}
+      <div class="flex items-center gap-3 px-5 py-4 rounded-2xl font-semibold text-sm shadow-md
+        {% if 'success' in message.tags %}bg-green-50 border border-green-300 text-green-800
+        {% else %}bg-red-50 border border-red-300 text-red-800{% endif %}">
+        {% if 'success' in message.tags %}
+          <span class="text-xl">✅</span>
+        {% else %}
+          <span class="text-xl">❌</span>
+        {% endif %}
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Descripción -->
+      <p class="text-xl text-justify text-black mb-12">
+        Da el primer paso en tu proceso de admisión con una experiencia guiada, transparente y pensada para tu comodidad.
+        Completa la información solicitada y nuestro equipo te acompañará en cada etapa del camino.
+      </p>
+    </div>
+    <div>
+
+    <!-- BOTÓN PARA MOSTRAR MODAL -->
+    <div class="text-center mb-10">
+      <button
+        onclick="document.getElementById('modalImagen').classList.remove('hidden')"
+        class="px-6 py-3 rounded-2xl bg-blue-900 text-white font-semibold shadow hover:bg-blue-800 transition">
+        📘 Ver paso a paso
+      </button>
+    </div>
+
+    <!-- Tarjeta de información -->
+    <div class="bg-white p-6 rounded-3xl shadow-xl border border-red-900 space-y-4 mb-12">
+      <h3 class="text-2xl font-semibold text-blue-900 text-center">¿Por qué elegirnos?</h3>
+      <p class="text-black text-xl text-justify">
+        Formación integral, excelencia académica, valores sólidos y acompañamiento constante.
+      </p>
+    </div>
+
+    <!-- Formulario -->
+    <form method="POST" enctype="multipart/form-data"
+          action="{% url 'enviar_admision' %}"
+          class="bg-white p-10 rounded-3xl shadow-2xl border border-red-800 space-y-7">
+
+      {% csrf_token %}
+
+      <h3 class="text-2xl font-bold text-blue-900 mb-4 text-center">
+        Información del Aspirante
+      </h3>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-1">
+          <label class="font-semibold text-blue-900">Nombre completo *</label>
+          <input type="text" name="nombre" required placeholder="Ejemplo: María Gómez"
+                 class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition bg-white"/>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-semibold text-blue-900">Correo electrónico *</label>
+          <input type="email" name="email" required placeholder="Ejemplo: maria@email.com"
+                 class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition"/>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-semibold text-blue-900">Teléfono *</label>
+          <input type="tel" name="telefono" required placeholder="Ejemplo: 3001234567"
+                 class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition"/>
+        </div>
+
+        <div class="space-y-1">
+          <label class="font-semibold text-blue-900">Grado al que aspira *</label>
+          <select name="grado" required
+                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 transition">
+            <option value="">Seleccione un grado</option>
+            <option>Preescolar</option>
+            <option>Primaria</option>
+            <option>Secundaria</option>
+            <option>Media</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <label class="font-semibold text-blue-900">Motivo de la solicitud *</label>
+        <textarea name="motivo" rows="5" required placeholder="Cuéntanos por qué deseas ingresar..."
+                  class="w-full px-4 py-3 rounded-xl border border-green-700 shadow-sm focus:ring-2 focus:ring-sky-400 resize-none mb-10"></textarea>
+      </div>
+
+      <!-- Botón -->
+          <div class="text-center">
+          <button type="submit"
+class="bg-blue-900 text-white font-semibold text-lg px-8 py-3 rounded-2xl
+       shadow-md hover:bg-blue-800 hover:shadow-lg
+       hover:scale-[1.03] active:scale-[0.98]
+       transition-all duration-300">
+            📨 Enviar mensaje
+          </button>
+        </div>
+
+    </form>
+  </div>
+</section>
+
+<div id="modalImagen"
+     class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50">
+
+  <div class="bg-white p-4 rounded-3xl shadow-xl w-full max-w-xl relative">
+
+      <!-- Contenedor de la imagen, necesario para posicionar la X -->
+      <div class="relative inline-block w-full">
+
+          <!-- Imagen -->
+          <img src="{% static 'img/formulario.jpg' %}"
+               alt="Paso a paso"
+               class="rounded-xl w-full max-w-md max-h-[70vh] object-contain mx-auto">
+
+          <!-- Botón cerrar sobre la imagen -->
+          <button
+            onclick="document.getElementById('modalImagen').classList.add('hidden')"
+            class="absolute top-2 right-2 bg-white text-black
+                   w-9 h-9 flex items-center justify-center
+                   rounded-full text-xl font-bold shadow-md
+                   hover:bg-red-500 hover:text-white transition">
+            ✕
+          </button>
+      </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

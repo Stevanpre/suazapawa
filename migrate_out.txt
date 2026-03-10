@@ -1,0 +1,4 @@
+Operations to perform:
+  Apply all migrations: admin, auth, axes, contenttypes, eventos, noticias, sessions, web
+Running migrations:
+  No migrations to apply.

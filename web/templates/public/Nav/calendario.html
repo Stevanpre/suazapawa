@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Calendario Escolar | Suazapawa{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/calendario.css' %}">
+
+<section x-data="{
+search: '',
+date: '',
+showDetails: null,
+searchModal: '',
+showScrollBtn: false,
+
+// Función para buscar desde el botón
+performSearch() {
+    console.log('Buscando:', this.search, this.date);
+},
+
+// Función para limpiar filtros
+clearFilters() {
+    this.search = '';
+    this.date = '';
+    this.showDetails = null;
+}
+}"
+@scroll.window="showScrollBtn = (window.scrollY > 300)"
+class="min-h-screen px-4 py-8 lg:px-20 bg-gray-50">
+
+<div class="max-w-7xl mx-auto">
+    
+    <!-- HEADER EXACTAMENTE COMO LA SEGUNDA IMAGEN -->
+    <div class="institutional-header">
+        <h1 class="exp-title">
+            📅 Calendario <em>Escolar</em>
+        </h1>
+        <br>
+        
+            <!-- CONTADOR DE EVENTOS -->
+            {% if eventos %}
+            <div class="event-counter">
+                <i class="fas fa-calendar-alt"></i>
+                <span><strong>{{ eventos|length }}</strong> eventos programados</span>
+            </div>
+            {% endif %}
+        </div>
+    
+
+    <!-- SECCIÓN DE FILTROS CON BOTÓN DE BÚSQUEDA Y LIMPIAR -->
+    <div class="filters-section">
+        <div class="filters-grid">
+            <!-- Buscar por título -->
+            <div class="filter-item">
+                <label class="filter-label">Buscar por título</label>
+                <input type="text" 
+                      placeholder="fiesta de grado..."
+                      class="filter-input"
+                      x-model="search"
+                      @input="showDetails = null">
+            </div>
+            
+            <!-- Buscar por fecha -->
+            <div class="filter-item">
+                <label class="filter-label">Buscar por fecha</label>
+                <input type="text" 
+                      placeholder="dd / mm / aaaa"
+                      class="filter-input"
+                      x-model="date"
+                      @input="showDetails = null"
+                      @focus="this.type='date'"
+                      @blur="if(!this.value) this.type='text'">
+            </div>
+            
+            <!-- BOTÓN DE BÚSQUEDA -->
+            <div class="search-button-wrapper">
+                <button class="search-button" @click="performSearch()">
+                    <i class="fas fa-search"></i>
+                    <span>Buscar</span>
+                </button>
+            </div>
+            
+            <!-- BOTÓN DE LIMPIAR (aparece solo si hay filtros activos) -->
+            <button class="btn-clear" 
+                    @click="clearFilters()"
+                    x-show="search || date"
+                    x-transition>
+                <i class="fas fa-times"></i>
+                Limpiar
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTADOR DE RESULTADOS DE BÚSQUEDA -->
+    <div class="results-info" x-show="search || date" x-cloak>
+        <i class="fas fa-calendar-check"></i>
+        <span x-text="`${document.querySelectorAll('.event-card:not([style*='display: none'])').length} eventos encontrados`"></span>
+    </div>
+
+    {% if eventos %}
+    <!-- GRID DE EVENTOS -->
+    <div class="events-grid">
+        {% for evento in eventos %}
+        <div class="event-card"
+            x-show="
+                ('{{ evento.titulo|lower }}'.includes(search.toLowerCase()) || search === '') &&
+                (date === '' || '{{ evento.fecha|date:'d/m/Y' }}'.includes(date) || '{{ evento.fecha|date:'Y-m-d' }}'.includes(date))
+            "
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 transform scale-95"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-95">
+            
+            <div class="event-image">
+                <img src="{{ evento.imagen.url }}" alt="{{ evento.titulo }}">
+                <div class="event-date-chip">
+                    <i class="far fa-calendar-alt mr-1"></i> {{ evento.fecha|date:'d M, Y' }}
+                </div>
+            </div>
+            
+            <div class="event-content">
+                <h3 class="event-title">{{ evento.titulo }}</h3>
+                <p class="event-description">{{ evento.descripcion_corta|truncatechars:80 }}</p>
+                
+                <!-- Botón Ver detalles -->
+                <div class="details-button" @click="showDetails = showDetails === {{ forloop.counter0 }} ? null : {{ forloop.counter0 }}">
+                    <span>✔ Ver detalles</span>
+                    <i class="fas" :class="showDetails === {{ forloop.counter0 }} ? 'fa-chevron-up' : 'fa-chevron-right'"></i>
+                </div>
+                
+                <!-- Detalles expandibles -->
+                <div class="event-details-expand" x-show="showDetails === {{ forloop.counter0 }}" x-collapse>
+                    <div class="detail-row">
+                        <i class="fas fa-clock"></i>
+                        <span><strong>Hora:</strong> {{ evento.hora }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Lugar:</strong> {{ evento.lugar }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <i class="fas fa-info-circle"></i>
+                        <span>{{ evento.descripcion_detallada|truncatechars:60 }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- ESTADO VACÍO -->
+    <div class="empty-state">
+        <i class="far fa-calendar-times"></i>
+        <p>No hay eventos programados por ahora</p>
+        <button @click="clearFilters()">
+            <i class="fas fa-redo-alt mr-2"></i>Actualizar
+        </button>
+    </div>
+    {% endif %}
+</div>
+
+</section>
+
+<!-- Script para Alpine.js Collapse -->
+<script>
+document.addEventListener('alpine:init', () => {
+    if (typeof Alpine.plugin !== 'undefined' && Alpine.plugin) {
+        Alpine.plugin(collapse)
+    }
+})
+</script>
+{% endblock %}

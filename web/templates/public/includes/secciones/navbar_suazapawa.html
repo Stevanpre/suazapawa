@@ -1,0 +1,17 @@
+<div class="relative nav-item" data-dropdown-container>
+  <button class="inline-flex items-center text-sm font-medium text-white hover:bg-white/10">
+    <i class="fas fa-landmark mr-2"></i> Suazapawa
+    <i class="fas fa-chevron-down ml-1"></i>
+  </button>
+
+  <div data-dropdown class="absolute left-0 mt-2 w-48 bg-white text-sky-900 rounded-md shadow-lg hidden z-50">
+    <a href="{% url 'somos' %}" class="block px-4 py-2 hover:text-sky-600">¿Quiénes Somos?</a>
+    <a href="{% url 'mision' %}" class="block px-4 py-2 hover:text-sky-600">Misión-Visión</a>
+    <a href="{% url 'alumno' %}" class="block px-4 py-2 hover:text-sky-600">Perfil Alumno</a>
+    <a href="{% url 'docente' %}" class="block px-4 py-2 hover:text-sky-600">Perfil Docente</a>
+    <a href="https://temp-hawyqxozvkjiufzoqnrd.webadorsite.com/" class="block px-4 py-2 hover:text-sky-600">Inspira</a>
+    <hr class="my-1 border-gray-200" />
+    <a href="{% url 'ubicacion' %}" class="block px-4 py-2 hover:text-sky-600">Ubicación</a>
+  </div>
+</div>
+

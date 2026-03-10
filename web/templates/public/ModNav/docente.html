@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Perfil del Docente | Colegio Suazapawa{% endblock %}
+
+{% block content %}
+<style>
+    
+    .exp-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 4.0rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0B1A3E;
+    margin: 0;
+    text-align: center;
+}
+
+.exp-title em {
+    font-style: normal;
+    font-weight: 900;
+    color: #D0021B;
+    position: relative;
+}
+
+.exp-title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #D0021B, rgba(208,2,27,0.15));
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: expLine 0.8s ease forwards 1s;
+}
+
+@keyframes expLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+</style>
+<section class="py-20 bg-gray-300">
+
+  <div class="max-w-5xl mx-auto px-6">
+
+    <!-- Título -->
+    <div class="text-center mb-12" data-aos="fade-up">
+      <h2 class="exp-title">👨‍🏫 Docentes <em>Suazapawa</em>
+      </h2>
+      <br>
+
+      <p class="text-red-800 text-2xl mt-4 font-medium">
+        Educadores que inspiran, transforman y lideran
+      </p>
+    </div>
+
+    <!-- Descripción general -->
+    <div class="max-w-3xl mx-auto mb-16" data-aos="fade-up" data-aos-delay="100">
+      <p class="text-center text-black text-lg text-justify">
+        En el Colegio Suazapawa, el docente es un referente académico y humano.
+        Su labor trasciende la enseñanza: acompaña, orienta, escucha y motiva.
+        Desarrolla propuestas pedagógicas innovadoras y fortalece valores esenciales
+        para la convivencia, la inclusión y el pensamiento crítico.
+      </p>
+    </div>
+
+    <!-- Cards con separación central -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
+
+      <!-- Vocación -->
+      <div class="bg-white rounded-2xl shadow-md border-l-8 border-blue-900 p-8 mb-8" data-aos="fade-up" data-aos-delay="150">
+        <h4 class="text-xl font-bold text-blue-900 mb-3">Vocación y ética profesional</h4>
+        <p class="text-black leading-relaxed">
+          Ejerce su labor con responsabilidad, coherencia y profundo sentido humano.
+          Es ejemplo de respeto, empatía y compromiso institucional.
+        </p>
+      </div>
+
+      <!-- Innovación -->
+      <div class="bg-white rounded-2xl shadow-md border-l-8 border-red-800 p-8 mb-8" data-aos="fade-up" data-aos-delay="200">
+        <h4 class="text-xl font-bold text-red-800 mb-3">Innovación y creatividad pedagógica</h4>
+        <p class="text-black leading-relaxed">
+          Integra estrategias activas, herramientas digitales y metodologías flexibles
+          que enriquecen las experiencias de aprendizaje.
+        </p>
+      </div>
+
+      <!-- Compromiso -->
+      <div class="bg-white rounded-2xl shadow-md border-l-8 border-blue-900 p-8 mb-8" data-aos="fade-up" data-aos-delay="250">
+        <h4 class="text-xl font-bold text-blue-900 mb-3">Compromiso con la comunidad</h4>
+        <p class="text-black leading-relaxed">
+          Participa en proyectos institucionales, promueve la convivencia
+          y crea vínculos positivos con estudiantes y familias.
+        </p>
+      </div>
+
+      <!-- Formación continua -->
+      <div class="bg-white rounded-2xl shadow-md border-l-8 border-red-800 p-8 mb-8" data-aos="fade-up" data-aos-delay="300">
+        <h4 class="text-xl font-bold text-red-800 mb-3">Formación y desarrollo profesional</h4>
+        <p class="text-black leading-relaxed">
+          Se actualiza permanentemente, mejora sus prácticas y construye ambientes
+          de aprendizaje cada vez más pertinentes e inclusivos.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+{% endblock %}
