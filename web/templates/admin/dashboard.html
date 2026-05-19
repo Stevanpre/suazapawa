@@ -534,6 +534,12 @@
         {% if num_imagenes %}<span class="nav-badge bg-violet-500 text-white sidebar-label">{{ num_imagenes }}</span>{% endif %}
         <span class="nav-tooltip">Galería</span>
       </a>
+      <a href="?m=ambiente_escolar" class="nav-item {% if selected_module == 'ambiente_escolar' %}active{% endif %}">
+        <span class="nav-icon"><i class="fas fa-leaf"></i></span>
+        <span class="nav-label">Ambiente Escolar</span>
+        {% if num_ambiente %}<span class="nav-badge bg-emerald-500 text-white sidebar-label">{{ num_ambiente }}</span>{% endif %}
+        <span class="nav-tooltip">Ambiente Escolar</span>
+      </a>
 
       <div class="nav-sep"></div>
       <p class="nav-section-title">Sitio Web</p>
@@ -593,6 +599,7 @@
             {% elif selected_module == 'perfil' %}Mi Perfil
             {% elif selected_module == 'noticias' %}Noticias
             {% elif selected_module == 'galeria' %}Galería
+            {% elif selected_module == 'ambiente_escolar' %}Ambiente Escolar
             {% else %}{{ selected_module }}{% endif %}
           </span>
           {% if selected_module %}
@@ -605,6 +612,8 @@
             <span class="text-[10px] bg-violet-100 text-violet-700 font-bold px-2 py-0.5 rounded-full">📰</span>
             {% elif selected_module == 'galeria' %}
             <span class="text-[10px] bg-pink-100 text-pink-700 font-bold px-2 py-0.5 rounded-full">🖼️</span>
+            {% elif selected_module == 'ambiente_escolar' %}
+            <span class="text-[10px] bg-emerald-100 text-emerald-700 font-bold px-2 py-0.5 rounded-full">🌿</span>
             {% elif selected_module == 'perfil' %}
             <span class="text-[10px] bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded-full">👤</span>
             {% endif %}
@@ -619,8 +628,9 @@
           {% elif selected_module == 'calendario' %}📅
           {% elif selected_module == 'noticias' %}📰
           {% elif selected_module == 'galeria' %}🖼️
+          {% elif selected_module == 'ambiente_escolar' %}🌿
           {% elif selected_module == 'perfil' %}👤
-          {% else %}{{ selected_module }}{% endif %}
+          {% endif %}
         </span>
         {% endif %}
       </div>

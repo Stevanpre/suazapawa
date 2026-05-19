@@ -7,7 +7,7 @@
   <!-- HEADER -->
   <div class="amb-header" id="amb-header">
     <div>
-      <div class="amb-chip"><div class="amb-chip-dot"></div> Instalaciones · Campus</div>
+      <div class="amb-chip"><div class="amb-chip-dot"></div>     Instalaciones · Campus</div>
       <h2 class="gal-title">Ambiente <em>Escolar</em>
       </h2>
     </div>
@@ -18,12 +18,20 @@
 
   <!-- CATEGORY TABS -->
   <div class="amb-cats" id="amb-cats">
+    {% if ambiente_cats %}
+      {% for cat in ambiente_cats %}
+      <button class="amb-cat {% if forloop.first %}active{% endif %}" data-cat="{{ forloop.counter0 }}">
+        <span class="amb-cat-icon">{{ cat.icon }}</span> {{ cat.label|striptags }}
+      </button>
+      {% endfor %}
+    {% else %}
     <button class="amb-cat active" data-cat="0"><span class="amb-cat-icon">🏫</span> El Colegio</button>
     <button class="amb-cat" data-cat="1"><span class="amb-cat-icon">📚</span> Salones</button>
     <button class="amb-cat" data-cat="2"><span class="amb-cat-icon">👨‍🎓</span> Estudiantes</button>
     <button class="amb-cat" data-cat="3"><span class="amb-cat-icon">🚌</span> Transporte</button>
     <button class="amb-cat" data-cat="4"><span class="amb-cat-icon">⚽</span> Deportes</button>
     <button class="amb-cat" data-cat="5"><span class="amb-cat-icon">🏥</span> Enfermería</button>
+    {% endif %}
   </div>
 
   <!-- MAIN STAGE -->
@@ -32,19 +40,31 @@
     <!-- Left info panel -->
     <div class="amb-info" id="amb-info">
       <div>
-        <div class="amb-cat-title" id="amb-cat-title">El <em>Colegio</em></div>
-        <p class="amb-cat-desc" id="amb-cat-desc">Nuestra sede principal en Sogamoso, Boyacá. Instalaciones modernas en un entorno natural que inspira el aprendizaje y la convivencia.</p>
+        <div class="amb-cat-title" id="amb-cat-title">
+          {% if ambiente_first %}{{ ambiente_first.label|safe }}{% else %}El <em>Colegio</em>{% endif %}
+        </div>
+        <p class="amb-cat-desc" id="amb-cat-desc">
+          {% if ambiente_first %}{{ ambiente_first.desc }}{% else %}Nuestra sede principal en Sogamoso, Boyacá. Instalaciones modernas en un entorno natural que inspira el aprendizaje y la convivencia.{% endif %}
+        </p>
       </div>
 
       <!-- Mini thumbnails -->
       <div class="amb-thumbs" id="amb-thumbs">
+        {% if ambiente_first %}
+          {% for p in ambiente_first.photos %}
+          <div class="amb-thumb {% if forloop.first %}active{% endif %}" data-photo="{{ forloop.counter0 }}">
+            <img src="{{ p.url }}" alt="{{ p.title }}">
+          </div>
+          {% endfor %}
+        {% else %}
         <div class="amb-thumb active" data-photo="0"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=200&q=70" alt=""></div>
         <div class="amb-thumb" data-photo="1"><img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=200&q=70" alt=""></div>
         <div class="amb-thumb" data-photo="2"><img src="https://images.unsplash.com/photo-1562774053-701939374585?w=200&q=70" alt=""></div>
+        {% endif %}
       </div>
 
       <div class="amb-photo-count">
-        Foto <strong id="amb-pcur">1</strong> de <span id="amb-ptotal">3</span>
+        Foto <strong id="amb-pcur">1</strong> de <span id="amb-ptotal">{% if ambiente_first %}{{ ambiente_first.photos|length }}{% else %}3{% endif %}</span>
       </div>
 
       <div class="amb-nav-row">
@@ -56,7 +76,7 @@
     <!-- Right viewer -->
     <div class="amb-viewer" id="amb-viewer">
       <div class="amb-viewer-bar" id="amb-vbar"></div>
-      <div class="amb-viewer-num" id="amb-vnum">01 / 03</div>
+      <div class="amb-viewer-num" id="amb-vnum">{% if ambiente_first %}01 / {{ ambiente_first.photos|length|stringformat:"02d" }}{% else %}01 / 03{% endif %}</div>
 
       <!-- Slides injected by JS -->
       <div id="amb-slides"></div>
@@ -75,11 +95,14 @@
 
 {% block extra_js %}
 <script>
+window.AMB_CATS = {{ ambiente_cats_json|default:"[]"|safe }};
+</script>
+<script>
 (function(){
 'use strict';
 
 
-const CATS = [
+const FALLBACK_CATS = [
   {
     label:  'El <em>Colegio</em>',
     desc:   'Nuestra sede principal en Sogamoso, Boyacá. Instalaciones modernas en un entorno natural que inspira el aprendizaje y la convivencia.',
@@ -148,6 +171,8 @@ const CATS = [
   },
 ];
 
+const CATS = (window.AMB_CATS && window.AMB_CATS.length) ? window.AMB_CATS : FALLBACK_CATS;
+
 /* ══════════════════════════════════
    STATE
 ══════════════════════════════════ */
@@ -170,11 +195,14 @@ const pipsEl    = document.getElementById('amb-pips');
 const vnumEl    = document.getElementById('amb-vnum');
 const vbarEl    = document.getElementById('amb-vbar');
 
+const formatCount = num => String(num).padStart(2, '0');
+
 /* ══════════════════════════════════
    BUILD SLIDES FOR A CATEGORY
 ══════════════════════════════════ */
 function buildSlides(catIdx) {
   const cat = CATS[catIdx];
+  if (!cat) return;
 
   // Slides
   slidesEl.innerHTML = '';
@@ -206,7 +234,7 @@ function buildSlides(catIdx) {
     const div = document.createElement('div');
     div.className = 'amb-thumb' + (i === 0 ? ' active' : '');
     div.dataset.photo = i;
-    div.innerHTML = `<img src="${p.url}" alt="">`;
+    div.innerHTML = `<img src="${p.url}" alt="${p.title}">`;
     div.addEventListener('click', () => goToPhoto(i));
     thumbsEl.appendChild(div);
   });
@@ -254,7 +282,7 @@ function syncPhotoUI() {
   thumbsEl.querySelectorAll('.amb-thumb').forEach((t, i) => t.classList.toggle('active', i === curPhoto));
   // counter
   pcurEl.textContent = curPhoto + 1;
-  vnumEl.textContent = String(curPhoto + 1).padStart(2,'0') + ' / ' + String(CATS[curCat].photos.length).padStart(2,'0');
+  vnumEl.textContent = `${formatCount(curPhoto + 1)} / ${formatCount(CATS[curCat].photos.length)}`;
 }
 
 /* ══════════════════════════════════
@@ -282,7 +310,7 @@ function goToCat(idx) {
 
     // counter
     pcurEl.textContent = 1;
-    vnumEl.textContent = '01 / 0' + CATS[idx].photos.length;
+    vnumEl.textContent = `${formatCount(1)} / ${formatCount(CATS[idx].photos.length)}`;
 
     infoEl.classList.remove('amb-info-changing');
   }, 250);
@@ -350,6 +378,7 @@ viewerIo.observe(viewer);
 /* ══════════════════════════════════
    INIT
 ══════════════════════════════════ */
+if (!CATS.length) return;
 buildSlides(0);
 
 // Auto-advance photos every 4s

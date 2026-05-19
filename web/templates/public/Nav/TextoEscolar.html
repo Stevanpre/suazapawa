@@ -3,249 +3,553 @@
 
 {% block title %}Noticias Escolares | Suazapawa{% endblock %}
 
-{% block content %}
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/TextoEscolar.css' %}">
+<style>
+:root { --red: #D0021B; --navy: #0B1A3E; }
 
+/* ── Título ── */
+.exp-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2.0rem, 4vw, 4.0rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--navy);
+  margin: 0 0 2rem;
+  text-align: center;
+}
+.exp-title em {
+  font-style: normal;
+  font-weight: 900;
+  color: var(--red);
+  position: relative;
+}
+.exp-title em::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--red), rgba(208,2,27,0.15));
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: expLine 0.8s ease forwards 1s;
+}
+@keyframes expLine { to { transform: scaleX(1); } }
+
+/* ── Contador ── */
+.news-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 40px;
+  border: 1px solid #EDF2F7;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  font-family: 'DM Sans', sans-serif;
+}
+.news-counter i { color: var(--red); }
+.news-counter strong { color: var(--red); font-weight: 700; margin-left: 2px; }
+
+/* ══════════════════════════════════
+   TARJETA
+══════════════════════════════════ */
+.news-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1.5px solid #EDF2F7;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  position: relative;
+}
+.news-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+  z-index: 2;
+}
+.news-card:hover::before { transform: scaleX(1); }
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(208,2,27,0.08);
+  border-color: rgba(208,2,27,0.2);
+}
+
+/* Header */
+.news-header {
+  padding: 1.5rem 1.5rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.news-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+  line-height: 1.4;
+  transition: color 0.25s ease;
+  flex: 1;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+}
+.news-card:hover .news-title { color: var(--red); }
+
+.news-date-badge {
+  background: white;
+  border: 1px solid rgba(208,2,27,0.2);
+  color: var(--red);
+  font-weight: 600;
+  font-size: 0.72rem;
+  padding: 0.38rem 0.9rem;
+  border-radius: 40px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Divisor */
+.news-divider {
+  width: 48px;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--red), transparent);
+  margin: 0.5rem 0 1rem 1.5rem;
+  border-radius: 2px;
+  transition: width 0.35s ease;
+}
+.news-card:hover .news-divider { width: 72px; }
+
+/* Contenido */
+.news-content { padding: 0 1.5rem 1.5rem; }
+
+/* ══════════════════════════════════
+   DESCRIPCIÓN — Colapso a 2 líneas
+══════════════════════════════════ */
+.news-desc-wrap { position: relative; background: white; }
+
+.news-description {
+  color: #2D3748;
+  font-size: 0.93rem;
+  line-height: 1.8;
+  margin: 0;
+  /* CLAVE: romper cualquier cadena sin espacios */
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Estado colapsado: solo 2 líneas */
+.news-description.is-collapsed {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  white-space: normal !important;
+}
+
+/* Sin fade - texto visible */
+.news-desc-fade { display: none; }
+
+/* Botón Ver más / Ver menos */
+.news-expand-btn {
+  display: none; /* JS lo muestra solo si overflow */
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.55rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+  background: rgba(208,2,27,0.07);
+  border: 1px solid rgba(208,2,27,0.2);
+  border-radius: 100px;
+  padding: 0.28rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  line-height: 1;
+}
+.news-expand-btn:hover { background: rgba(208,2,27,0.14); transform: translateY(-1px); }
+.news-expand-btn.show { display: inline-flex; }
+.news-expand-btn .btn-arrow {
+  display: inline-flex;
+  transition: transform 0.3s ease;
+}
+.news-expand-btn.expanded .btn-arrow { transform: rotate(180deg); }
+
+/* ══════════════════════════════════
+   FOOTER — fecha + hora + tags
+══════════════════════════════════ */
+.news-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #EDF2F7;
+}
+
+.news-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; }
+.news-tag {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 100px;
+  border: 1px solid;
+  transition: transform 0.2s, background 0.2s;
+  cursor: default;
+}
+.news-tag:hover { transform: translateY(-1px); }
+.news-tag-red   { color: var(--red);  background: rgba(208,2,27,0.07); border-color: rgba(208,2,27,0.22); }
+.news-tag-navy  { color: var(--navy); background: rgba(11,26,62,0.05); border-color: rgba(11,26,62,0.16); }
+.news-tag-green { color: #166534; background: rgba(22,101,52,0.07); border-color: rgba(22,101,52,0.22); }
+
+/* Metadatos derecha */
+.news-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.news-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.70rem;
+  color: rgba(11,26,62,0.55);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+}
+.news-meta-item svg { color: var(--red); opacity: 0.65; flex-shrink: 0; }
+
+/* ══════════════════════════════════
+   FILTROS SIDEBAR
+══════════════════════════════════ */
+.filters-card {
+  background: white;
+  border-radius: 20px;
+  border: 1.5px solid #EDF2F7;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.filters-card:hover { box-shadow: 0 10px 30px rgba(208,2,27,0.05); border-color: rgba(208,2,27,0.18); }
+.filters-header {
+  background: #FAFAFA;
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid #EDF2F7;
+}
+.filters-header h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.filters-header h4 i { color: var(--red); }
+.filters-body { padding: 1.4rem; }
+.filter-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #718096;
+  margin-bottom: 0.45rem;
+}
+.filter-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #F8FAFC;
+  box-sizing: border-box;
+  color: var(--navy);
+}
+.filter-input:focus {
+  outline: none;
+  border-color: var(--red);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(208,2,27,0.08);
+}
+.btn-search {
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(208,2,27,0.22);
+}
+.btn-search:hover { background: #B00218; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(208,2,27,0.3); }
+.btn-clear {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  background: white;
+  color: #718096;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 0.5rem;
+}
+.btn-clear:hover { border-color: var(--red); color: var(--red); background: #FFF5F5; }
+.btn-order {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn-order:hover, .btn-order.active {
+  border-color: var(--red);
+  color: var(--red);
+  background: white;
+  transform: translateY(-2px);
+}
+
+/* ── Vacío ── */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 20px;
+  border: 1.5px solid #EDF2F7;
+}
+.empty-state i { font-size: 3rem; color: var(--red); opacity: 0.25; display: block; margin-bottom: 1rem; }
+.empty-state p { color: #718096; font-size: 1rem; }
+
+[x-cloak] { display: none !important; }
+</style>
+{% endblock %}
+
+{% block content %}
 <section
-    x-data="{
-        showScrollBtn: false,
-        showModal: false,
-        modalSearch: '',
-        // Función para limpiar filtros
-        clearFilters() {
-            // Limpiar los campos del formulario
-            document.querySelectorAll('.filter-input').forEach(input => {
-                if (input.name === 'q') input.value = '';
-                if (input.name === 'fecha') input.value = '';
-            });
-            // Enviar el formulario limpio
-            document.getElementById('filter-form').submit();
-        }
-    }"
-    @scroll.window="showScrollBtn = (window.scrollY > 200)"
-    class="min-h-screen px-4 pt-6 lg:px-20 relative bg-gray-50"
+  x-data="{
+    clearFilters() {
+      document.querySelectorAll('.filter-input').forEach(el => el.value = '');
+      document.getElementById('filter-form').submit();
+    }
+  }"
+  class="min-h-screen px-4 pt-6 lg:px-20 pb-16 relative bg-gray-50"
 >
 
-    <!-- TÍTULO CON MISMO ESTILO DEL CALENDARIO -->
-    <h2 class="exp-title">📰 Noticias <em>Escolares</em></h2>
+  <h2 class="exp-title">📰 Noticias <em>Escolares</em></h2>
 
-    <!-- CONTADOR DE NOTICIAS - MÁS PEQUEÑO Y ARRIBA -->
-    {% if noticias %}
-    <div class="news-counter" data-aos="fade-right">
-        <i class="fas fa-newspaper"></i>
-        <span><strong>{{ noticias|length }}</strong> noticias publicadas</span>
-    </div>
-    {% endif %}
+  {% if noticias %}
+  <div class="news-counter">
+    <i class="fas fa-newspaper"></i>
+    <span><strong>{{ noticias|length }}</strong> noticias publicadas</span>
+  </div>
+  {% endif %}
 
-    <!-- MODAL estilo del calendario -->
-    <div
-        x-show="showModal"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed inset-0 flex items-center justify-center z-50"
-        x-cloak
-    >
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="showModal = false"></div>
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-        <div class="relative z-10 bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all"
-             x-show="showModal"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100">
-            
-            <div class="text-center mb-4">
-                <div class="w-16 h-16 bg-[#D0021B] rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i class="fas fa-search text-white text-2xl"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-[#0B1A3E]">Buscar Noticias</h3>
-                <p class="text-gray-500 text-sm">Encuentra noticias por título</p>
-            </div>
+    <!-- Lista de noticias -->
+    <div class="lg:col-span-3 space-y-5">
+      {% for noticia in noticias %}
+      <article class="news-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
 
-            <form method="get" class="space-y-4">
-                <input
-                    type="text"
-                    name="q"
-                    x-model="modalSearch"
-                    placeholder="Ej: Día del estudiante, Graduación..."
-                    class="filter-input w-full"
-                >
-
-                <div class="flex gap-3 mt-6">
-                    <button
-                        type="button"
-                        @click="showModal = false"
-                        class="flex-1 px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-300 font-semibold"
-                    >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="submit"
-                        @click="showModal = false"
-                        class="flex-1 px-4 py-3 bg-[#D0021B] hover:bg-[#B00218] text-white rounded-xl transition-all duration-300 font-semibold transform hover:scale-105"
-                    >
-                        Buscar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- GRID PRINCIPAL -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-        <!-- NOTICIAS (columna izquierda - 3 columnas) -->
-        <div class="lg:col-span-3 space-y-6">
-            {% for noticia in noticias %}
-            <article class="news-card" 
-                     data-aos="fade-up" 
-                     data-aos-delay="{{ forloop.counter0|add:1 }}00">
-                
-                <div class="news-header">
-                    <h3 class="news-title">{{ noticia.titulo }}</h3>
-                    <span class="news-date-badge">
-                        <i class="far fa-calendar-alt"></i>
-                        {{ noticia.fecha|date:"d M Y" }} - {{ noticia.hora|time:"H:i" }}
-                    </span>
-                </div>
-                
-                <!-- Línea divisoria decorativa -->
-                <div class="news-divider"></div>
-                
-                <div class="news-content">
-                    <p class="news-description">{{ noticia.descripcion }}</p>
-                    
-                    <!-- DETALLES ADICIONALES (sin URLs) -->
-                    <div class="news-meta-details">
-                        <div class="meta-item">
-                            <i class="far fa-clock"></i>
-                            <span>Tiempo lectura: 
-                                {% with words=noticia.descripcion|wordcount %}
-                                    {% if words < 200 %}1{% else %}{{ words|divisibleby:200 }}{% endif %} min
-                                {% endwith %}
-                            </span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="far fa-eye"></i>
-                            <span>Visto: {{ forloop.counter }} veces</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="far fa-comment"></i>
-                            <span>Comentarios: 0</span>
-                        </div>
-                    </div>
-                </div>
-            </article>
-            {% empty %}
-            <!-- ESTADO VACÍO -->
-            <div class="empty-state">
-                <i class="far fa-newspaper"></i>
-                <p>No hay noticias disponibles por ahora</p>
-                <button onclick="window.location.href='?'" class="btn-clear" style="width: auto; margin: 1rem auto 0; padding: 0.6rem 2rem;">
-                    <i class="fas fa-redo-alt"></i> Limpiar filtros
-                </button>
-            </div>
-            {% endfor %}
+        <div class="news-header">
+          <h3 class="news-title">{{ noticia.titulo }}</h3>
+          <span class="news-date-badge">
+            <i class="far fa-calendar-alt"></i>
+            {{ noticia.fecha|date:"d M Y" }} · {{ noticia.hora|time:"H:i" }}
+          </span>
         </div>
 
-        <!-- FILTROS LATERALES (columna derecha - 1 columna) CON BOTÓN LIMPIAR -->
-        <aside class="sticky top-20 h-fit space-y-6">
-            <!-- Card de Búsqueda -->
-            <div class="filters-card">
-                <div class="filters-header">
-                    <h4>
-                        <i class="fas fa-search"></i>
-                        Buscar Noticias
-                    </h4>
-                </div>
-                <div class="filters-body">
-                    <form id="filter-form" method="get" class="space-y-4">
-                        <div>
-                            <label class="filter-label">Por título</label>
-                            <input type="text" 
-                                   name="q" 
-                                   class="filter-input" 
-                                   placeholder="fiesta de grado..."
-                                   value="{{ request.GET.q }}">
-                        </div>
+        <div class="news-divider"></div>
 
-                        <div>
-                            <label class="filter-label">Por fecha</label>
-                            <input type="text" 
-                                   name="fecha" 
-                                   class="filter-input" 
-                                   placeholder="dd / mm / aaaa"
-                                   value="{{ request.GET.fecha }}"
-                                   onfocus="this.type='date'"
-                                   onblur="if(!this.value) this.type='text'">
-                        </div>
+        <div class="news-content">
+          <!-- Descripción colapsable -->
+          <div class="news-desc-wrap">
+            <p class="news-description is-collapsed">{{ noticia.descripcion }}</p>
+            <div class="news-desc-fade"></div>
+          </div>
+          <button class="news-expand-btn" onclick="toggleDesc(this)">
+            <span class="btn-label">Ver más</span>
+            <span class="btn-arrow">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 3.5l3 3 3-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
 
-                        <button type="submit" class="btn-search">
-                            <i class="fas fa-search"></i>
-                            Buscar
-                        </button>
-
-                        <!-- BOTÓN DE LIMPIAR -->
-                        {% if request.GET.q or request.GET.fecha %}
-                        <button type="button" class="btn-clear" @click="clearFilters()">
-                            <i class="fas fa-times"></i>
-                            Limpiar filtros
-                        </button>
-                        {% endif %}
-                    </form>
-                </div>
+          <!-- Footer -->
+          <div class="news-footer">
+            <div class="news-meta-right">
+              <div class="news-meta-item">
+                <!-- Icono escuela -->
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M6 1L11 4v1H1V4L6 1z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+                  <rect x="2.5" y="5" width="2" height="3" stroke="currentColor" stroke-width="1.1"/>
+                  <rect x="7.5" y="5" width="2" height="3" stroke="currentColor" stroke-width="1.1"/>
+                  <rect x="4.5" y="5" width="3" height="4" stroke="currentColor" stroke-width="1.1"/>
+                  <path d="M1 8h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                </svg>
+                I.E. Suazapawa
+              </div>
+              <div class="news-meta-item">
+                <!-- Icono lugar -->
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M6 1C4.3 1 3 2.4 3 4c0 2.5 3 7 3 7s3-4.5 3-7c0-1.6-1.3-3-3-3z" stroke="currentColor" stroke-width="1.1"/>
+                  <circle cx="6" cy="4" r="1" stroke="currentColor" stroke-width="1.1"/>
+                </svg>
+                Nobsa, Boyacá
+              </div>
             </div>
+          </div>
 
-            <!-- Card de Ordenamiento -->
-            <div class="filters-card">
-                <div class="filters-header">
-                    <h4>
-                        <i class="fas fa-sort"></i>
-                        Ordenar por
-                    </h4>
-                </div>
-                <div class="filters-body">
-                    <div class="flex flex-col gap-3">
-                        <a href="?orden=reciente" class="btn-order {% if request.GET.orden == 'reciente' %}active{% endif %}">
-                            <i class="fas fa-arrow-down mr-2"></i>
-                            Más recientes
-                        </a>
-                        <a href="?orden=antiguo" class="btn-order {% if request.GET.orden == 'antiguo' %}active{% endif %}">
-                            <i class="fas fa-arrow-up mr-2"></i>
-                            Más antiguas
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
+        </div>
+      </article>
+      {% empty %}
+      <div class="empty-state">
+        <i class="far fa-newspaper"></i>
+        <p>No hay noticias disponibles por ahora</p>
+        <button onclick="window.location.href='?'" class="btn-clear" style="width:auto;margin:1rem auto 0;padding:0.6rem 2rem;">
+          <i class="fas fa-redo-alt"></i> Limpiar filtros
+        </button>
+      </div>
+      {% endfor %}
     </div>
+
+    <!-- Sidebar -->
+    <aside class="sticky top-20 h-fit space-y-5">
+
+      <div class="filters-card">
+        <div class="filters-header">
+          <h4><i class="fas fa-search"></i> Buscar</h4>
+        </div>
+        <div class="filters-body">
+          <form id="filter-form" method="get" class="space-y-4">
+            <div>
+              <label class="filter-label">Por título</label>
+              <input type="text" name="q" class="filter-input" placeholder="Ej: graduación..." value="{{ request.GET.q }}">
+            </div>
+            <div>
+              <label class="filter-label">Por fecha</label>
+              <input type="text" name="fecha" class="filter-input" placeholder="dd / mm / aaaa"
+                     value="{{ request.GET.fecha }}"
+                     onfocus="this.type='date'"
+                     onblur="if(!this.value) this.type='text'">
+            </div>
+            <button type="submit" class="btn-search">
+              <i class="fas fa-search"></i> Buscar
+            </button>
+            {% if request.GET.q or request.GET.fecha %}
+            <button type="button" class="btn-clear" @click="clearFilters()">
+              <i class="fas fa-times"></i> Limpiar filtros
+            </button>
+            {% endif %}
+          </form>
+        </div>
+      </div>
+
+      <div class="filters-card">
+        <div class="filters-header">
+          <h4><i class="fas fa-sort"></i> Ordenar</h4>
+        </div>
+        <div class="filters-body">
+          <div class="flex flex-col gap-3">
+            <a href="?orden=reciente" class="btn-order {% if request.GET.orden == 'reciente' %}active{% endif %}">
+              <i class="fas fa-arrow-down"></i> Más recientes
+            </a>
+            <a href="?orden=antiguo" class="btn-order {% if request.GET.orden == 'antiguo' %}active{% endif %}">
+              <i class="fas fa-arrow-up"></i> Más antiguas
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
 
 </section>
+{% endblock %}
 
-<style>
-    [x-cloak] { display: none !important; }
-    
-    /* Estilo para botón activo */
-    .btn-order.active {
-        border-color: #D0021B;
-        color: #D0021B;
-        background: white;
-    }
-</style>
-
+{% block extra_js %}
 <script>
-    document.addEventListener('alpine:init', () => {
-        // Si hay filtros activos, mostrar el contador
-        console.log('Filtros activos:', {
-            q: '{{ request.GET.q|default:"" }}',
-            fecha: '{{ request.GET.fecha|default:"" }}'
-        });
-    });
-</script>
+// Inicializa cada tarjeta: muestra botón solo si el texto desborda 2 líneas
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.news-desc-wrap').forEach(function (wrap) {
+    var desc = wrap.querySelector('.news-description');
+    var btn  = wrap.parentElement.querySelector('.news-expand-btn');
+    if (!desc || !btn) return;
 
+    // Medir si hay overflow: comparar scrollHeight vs clientHeight con clamp
+    var collapsed   = desc.scrollHeight;  // altura real del contenido
+    var lineHeight  = parseFloat(getComputedStyle(desc).lineHeight) || 28;
+    var twoLines    = lineHeight * 2 + 4; // 2 líneas + margen
+
+    if (collapsed > twoLines + 4) {
+      btn.classList.add('show'); // hay más texto → mostrar botón
+    }
+  });
+});
+
+function toggleDesc(btn) {
+  var wrap = btn.previousElementSibling; // .news-desc-wrap
+  var desc = wrap.querySelector('.news-description');
+  var isCollapsed = desc.classList.contains('is-collapsed');
+
+  if (isCollapsed) {
+    // Expandir
+    desc.classList.remove('is-collapsed');
+    btn.classList.add('expanded');
+    btn.querySelector('.btn-label').textContent = 'Ver menos';
+  } else {
+    // Colapsar
+    desc.classList.add('is-collapsed');
+    btn.classList.remove('expanded');
+    btn.querySelector('.btn-label').textContent = 'Ver más';
+  }
+}
+</script>
 {% endblock %}

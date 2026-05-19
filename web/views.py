@@ -7,6 +7,8 @@ from noticias.models import *
 from eventos.models import Evento
 from .models import ImagenGaleria
 from .forms import ImagenGaleriaForm
+from AmbienteEescolar.models import AmbienteCategoria
+import json
 
 # --------------------
 # 📦 Páginas públicas
@@ -27,6 +29,32 @@ class HomeView(TemplateView):
         ctx['eventos']  = Evento.objects.order_by('-fecha')[:3]
         ctx['noticias'] = Noticia.objects.order_by('-fecha')[:6]
         ctx['imagenes_galeria'] = ImagenGaleria.objects.filter(publicada=True)
+
+        categorias_qs = AmbienteCategoria.objects.filter(publicada=True).order_by('orden')
+        ambiente_cats = []
+        for cat in categorias_qs:
+            fotos_qs = cat.imagenes.filter(publicada=True).order_by('orden', '-fecha_subida')
+            fotos = [
+                {
+                    'url': foto.imagen.url,
+                    'title': foto.titulo,
+                    'tag': foto.descripcion or cat.nombre,
+                }
+                for foto in fotos_qs
+            ]
+            if not fotos:
+                continue
+            ambiente_cats.append({
+                'label': cat.titulo_html or cat.nombre,
+                'desc': cat.descripcion,
+                'icon': cat.icono or '🌿',
+                'bar': cat.barra,
+                'photos': fotos,
+            })
+
+        ctx['ambiente_cats'] = ambiente_cats
+        ctx['ambiente_first'] = ambiente_cats[0] if ambiente_cats else None
+        ctx['ambiente_cats_json'] = json.dumps(ambiente_cats)
         return ctx
 
 

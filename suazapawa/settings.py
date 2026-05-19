@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'bienvenida.apps.BienvenidaConfig',
     'perfil.apps.PerfilConfig',
     'login.apps.LoginConfig',
+    'AmbienteEescolar.apps.AmbienteeescolarConfig',
     'axes',
     'widget_tweaks',
     'comunicaciones',

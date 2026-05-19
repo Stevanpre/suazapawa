@@ -7,6 +7,8 @@ from eventos.models import *
 from eventos.forms import EventoForm
 from web.models import ImagenGaleria
 from web.forms import ImagenGaleriaForm
+from AmbienteEescolar.models import AmbienteCategoria, AmbienteImagen
+from AmbienteEescolar.forms import AmbienteCategoriaForm, AmbienteImagenForm
 
 # --------------------
 # 🧭 Vista Principal del Panel Administrativo
@@ -26,6 +28,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             'calendario': 'admin/modulos/eventos.html',
             'noticias': 'admin/modulos/noticias.html',
             'galeria': 'admin/modulos/galeria.html',
+            'ambiente_escolar': 'admin/modulos/ambiente_escolar.html',
         }
         self.template_name = plantilla_map.get(modulo, 'admin/modulos/bienvenida.html')
         return super().dispatch(request, *args, **kwargs)
@@ -74,9 +77,35 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         else:
             context['galeria_form'] = ImagenGaleriaForm()
 
+        # Ambiente Escolar
+        categorias = AmbienteCategoria.objects.all().order_by('orden')
+        context['categorias_ambiente'] = categorias
+        categoria_id = self.request.GET.get('edit_cat')
+        if categoria_id:
+            categoria = get_object_or_404(AmbienteCategoria, id=categoria_id)
+            context['ambiente_cat_form'] = AmbienteCategoriaForm(instance=categoria)
+            context['modo_edicion_cat'] = True
+            context['categoria_id'] = categoria.id
+            context['selected_module'] = 'ambiente_escolar'
+        else:
+            context['ambiente_cat_form'] = AmbienteCategoriaForm()
+
+        imagenes_ambiente = AmbienteImagen.objects.select_related('categoria').all()
+        context['imagenes_ambiente'] = imagenes_ambiente
+        imagen_amb_id = self.request.GET.get('edit_amb_img')
+        if imagen_amb_id:
+            imagen_amb = get_object_or_404(AmbienteImagen, id=imagen_amb_id)
+            context['ambiente_img_form'] = AmbienteImagenForm(instance=imagen_amb)
+            context['modo_edicion_amb_img'] = True
+            context['imagen_amb_id'] = imagen_amb.id
+            context['selected_module'] = 'ambiente_escolar'
+        else:
+            context['ambiente_img_form'] = AmbienteImagenForm()
+
         # Métricas
         context['num_eventos'] = eventos.count()
         context['num_noticias'] = noticias.count()
         context['num_imagenes'] = imagenes.filter(publicada=True).count()
+        context['num_ambiente'] = imagenes_ambiente.filter(publicada=True).count()
         context['ingresos_usuario'] = 80
         return context

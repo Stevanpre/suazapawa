@@ -59,6 +59,8 @@ path('adminweb/', include('web.urls')),
     path('adminperfil/', include('perfil.urls')),
 #------------bienvenida---------------
     path('adminbienvenida/', include('bienvenida.urls')),
+#------------ambiente escolar---------------
+    path('adminambiente/', include('AmbienteEescolar.urls')),
 #------------comunicaciones (envío de formularios)---------------
     path('comunicaciones/', include('comunicaciones.urls')),
 ]
