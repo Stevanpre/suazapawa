@@ -1,6 +1,7 @@
 from django.shortcuts import  get_object_or_404
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from noticias.models import *
 from noticias.forms import NoticiaForm
 from eventos.models import *
@@ -65,8 +66,17 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             context['noticia_form'] = NoticiaForm()
 
         # Galería
-        imagenes = ImagenGaleria.objects.all()
-        context['imagenes_galeria'] = imagenes
+        imagenes = ImagenGaleria.objects.all().order_by('orden', '-fecha_subida')
+        paginator = Paginator(imagenes, 5)
+        page_number = self.request.GET.get('page_gal', 1)
+        try:
+            imagenes_page = paginator.page(page_number)
+        except PageNotAnInteger:
+            imagenes_page = paginator.page(1)
+        except EmptyPage:
+            imagenes_page = paginator.page(paginator.num_pages)
+        context['imagenes_galeria'] = imagenes_page
+        context['imagenes_galeria_total'] = imagenes.count()
         imagen_id = self.request.GET.get('edit_imagen')
         if imagen_id:
             imagen = get_object_or_404(ImagenGaleria, id=imagen_id)

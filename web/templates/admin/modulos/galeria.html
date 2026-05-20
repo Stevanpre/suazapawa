@@ -20,13 +20,13 @@
         </div>
         <h1 class="text-2xl sm:text-3xl font-bold text-white">Galería Suazapawa</h1>
         <p class="text-white text-sm mt-1 opacity-80">
-          {{ imagenes_galeria|length }} imagen{{ imagenes_galeria|length|pluralize:"es" }} en total ·
-          {{ imagenes_galeria.filter.publicada|default:"0" }} publicadas
+          {{ imagenes_galeria_total }} imagen{{ imagenes_galeria_total|pluralize:"es" }} en total ·
+          {{ num_imagenes|default:"0" }} publicadas
         </p>
       </div>
       <div class="flex gap-3">
         <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-5 py-3 text-center">
-          <p class="text-2xl font-bold text-white">{{ imagenes_galeria|length }}</p>
+          <p class="text-2xl font-bold text-white">{{ imagenes_galeria_total }}</p>
           <p class="text-white text-xs opacity-80">Total</p>
         </div>
         <div class="bg-white/10 backdrop-blur-sm border border-white/15 rounded-2xl px-5 py-3 text-center">
@@ -155,13 +155,13 @@
             <p class="text-xs text-slate-400 mt-0.5">Ordenadas por posición · menor orden primero</p>
           </div>
           <span class="text-xs bg-pink-100 text-pink-700 font-bold px-2.5 py-1 rounded-full">
-            {{ imagenes_galeria|length }} total
+            {{ imagenes_galeria_total }} total
           </span>
         </div>
 
         <div class="gallery-list-scroll divide-y divide-slate-50">
           {% for img in imagenes_galeria %}
-          <div class="gallery-card">
+          <div class="gallery-card flex flex-wrap sm:flex-nowrap gap-3 sm:gap-2">
             <!-- Miniatura -->
             <img src="{{ img.imagen.url }}" alt="{{ img.titulo }}" class="gallery-thumb">
 
@@ -176,7 +176,7 @@
                 {% endif %}
               </div>
               {% if img.descripcion %}
-              <p class="text-xs text-slate-500 mt-1 truncate">{{ img.descripcion }}</p>
+              <p class="text-xs text-slate-500 mt-1 whitespace-normal break-words">{{ img.descripcion }}</p>
               {% endif %}
               <div class="flex items-center gap-3 mt-1">
                 <span class="text-[10px] text-slate-400"><i class="fas fa-sort-numeric-up text-[9px] mr-0.5"></i>Orden: {{ img.orden }}</span>
@@ -185,23 +185,26 @@
             </div>
 
             <!-- Acciones -->
-            <div class="gallery-card-actions">
-              <a href="?m=galeria&edit_imagen={{ img.id }}" class="action-btn action-edit">
+            <div class="gallery-card-actions flex flex-col sm:flex-row gap-2 sm:gap-1 items-stretch sm:items-center w-full sm:w-auto sm:ml-auto">
+              <a href="?m=galeria&edit_imagen={{ img.id }}" class="action-btn action-edit w-full sm:w-auto justify-center">
                 <i class="fas fa-pen text-[11px]"></i>
                 <span class="hidden sm:inline">Editar</span>
+                <span class="sm:hidden">Editar</span>
               </a>
-              <form method="POST" action="{% url 'toggle_publicar_imagen' img.id %}">
+              <form method="POST" action="{% url 'toggle_publicar_imagen' img.id %}" class="w-full sm:w-auto">
                 {% csrf_token %}
-                <button type="submit" class="action-btn {% if img.publicada %}action-toggle-on{% else %}action-toggle-off{% endif %} w-full justify-center">
+                <button type="submit" class="action-btn {% if img.publicada %}action-toggle-on{% else %}action-toggle-off{% endif %} w-full sm:w-auto justify-center">
                   <i class="fas {% if img.publicada %}fa-eye-slash{% else %}fa-eye{% endif %} text-[11px]"></i>
                   <span class="hidden sm:inline">{% if img.publicada %}Ocultar{% else %}Publicar{% endif %}</span>
+                  <span class="sm:hidden">{% if img.publicada %}Ocultar{% else %}Publicar{% endif %}</span>
                 </button>
               </form>
-              <form method="POST" action="{% url 'eliminar_imagen_galeria' img.id %}" class="form-eliminar-imagen">
+              <form method="POST" action="{% url 'eliminar_imagen_galeria' img.id %}" class="form-eliminar-imagen w-full sm:w-auto">
                 {% csrf_token %}
-                <button type="submit" class="action-btn action-delete w-full justify-center">
+                <button type="submit" class="action-btn action-delete w-full sm:w-auto justify-center">
                   <i class="fas fa-trash text-[11px]"></i>
                   <span class="hidden sm:inline">Eliminar</span>
+                  <span class="sm:hidden">Eliminar</span>
                 </button>
               </form>
             </div>
@@ -217,6 +220,23 @@
           </div>
           {% endfor %}
         </div>
+        {% if imagenes_galeria.paginator.num_pages > 1 %}
+        <div class="px-4 py-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+          <div>Página {{ imagenes_galeria.number }} de {{ imagenes_galeria.paginator.num_pages }}</div>
+          <div class="flex gap-2">
+            {% if imagenes_galeria.has_previous %}
+              <a class="action-btn bg-slate-100 text-slate-600" href="?m=galeria&page_gal={{ imagenes_galeria.previous_page_number }}">Anterior</a>
+            {% else %}
+              <span class="action-btn bg-slate-100 text-slate-400 opacity-50">Anterior</span>
+            {% endif %}
+            {% if imagenes_galeria.has_next %}
+              <a class="action-btn bg-slate-100 text-slate-600" href="?m=galeria&page_gal={{ imagenes_galeria.next_page_number }}">Siguiente</a>
+            {% else %}
+              <span class="action-btn bg-slate-100 text-slate-400 opacity-50">Siguiente</span>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
 
